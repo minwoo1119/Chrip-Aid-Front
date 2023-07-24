@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("test");
     return MaterialApp(
       title: 'Chrip Aid',
       theme: ThemeData(
