@@ -46,6 +46,13 @@ dependencies:
   # Validator
   validators: ^3.0.0
 
+  # Percent indicator 추가
+  percent_indicator: ^4.0.1
+  step_progress_indicator: ^1.0.2
+  sleek_circular_slider: ^2.0.1
+  progress_indicators: ^1.0.0
+  liquid_progress_indicator: ^0.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -63,4 +70,6 @@ flutter:
 
   assets:
     - assets/image/
+    - assets/image/pajukids_house.jpg
+    - assets/image/choco_pie.jpg
     - .env
