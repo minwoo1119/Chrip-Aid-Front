@@ -21,8 +21,11 @@ class CustomColor {
   static const Color textReverseColor = Color(0xffffffff);
   static const Color textReverseDisabledColor = Color(0x88ffffff);
 
+
   static const Color backgroundMainColor = Color(0xfffdfaf7);
   static const Color backGroundSubColor = Color(0xffffffff);
 
   static const Color pointColor = Color(0xffec255a);
+
+  static const Color ContentSubColor = Color(0xff808080);
 }

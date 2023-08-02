@@ -34,6 +34,14 @@ const TextStyle kTextMainStyleMiddle = TextStyle(
   height: kTextHeight,
 );
 
+const TextStyle kTextMainStyleMedium = TextStyle(
+  color: CustomColor.textMainColor,
+  fontSize: kTextMediumSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
+);
+
 const TextStyle kTextPointStyleMiddle = TextStyle(
   color: CustomColor.pointColor,
   fontSize: kTextMiddleSize,
@@ -86,6 +94,21 @@ const TextStyle kTextReverseStyleMini = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
+);
+
+const TextStyle kTextContentStyleSmall = TextStyle(
+  color: Colors.black,
+  fontSize: kTextSmallSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
+const TextStyle kTextSubContentStyleSmall = TextStyle(
+  color: CustomColor.ContentSubColor,
+  fontSize: kTextMiniSize,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
