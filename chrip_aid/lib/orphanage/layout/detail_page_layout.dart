@@ -4,6 +4,7 @@ class DetailPageLayout extends StatelessWidget {
   final String? title;
   final Color backgroundColor;
   final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
   final Widget child;
 
   const DetailPageLayout({
@@ -11,6 +12,7 @@ class DetailPageLayout extends StatelessWidget {
     this.title,
     this.backgroundColor = Colors.white,
     this.bottomNavigationBar,
+    this.floatingActionButton,
     required this.child,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class DetailPageLayout extends StatelessWidget {
         child: child,
       ),
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 

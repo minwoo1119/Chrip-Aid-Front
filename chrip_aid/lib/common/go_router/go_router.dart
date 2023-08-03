@@ -2,7 +2,7 @@ import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
-import 'package:chrip_aid/orphanage/orphanage_detail_page.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,8 +28,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/detailPage',
-        name: OrphanageDetailPage.routeName,
-        builder: (context, state) => const OrphanageDetailPage(),
+        name: OrphanageDetailScreen.routeName,
+        builder: (context, state) => const OrphanageDetailScreen(),
       ),
     ],
     refreshListenable: provider,

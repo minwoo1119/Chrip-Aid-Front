@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,10 +15,11 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(routerProvider);
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false, // 디버그 표시 지우기
-      title: 'Kumoh42 Futsal Reservation System',
-      routerConfig: route,
-    );
+    return const MaterialApp(home: OrphanageDetailScreen());
+    // return MaterialApp.router(
+    //   debugShowCheckedModeBanner: false, // 디버그 표시 지우기
+    //   title: 'Kumoh42 Futsal Reservation System',
+    //   routerConfig: route,
+    // );
   }
 }
