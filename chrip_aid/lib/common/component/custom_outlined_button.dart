@@ -25,7 +25,7 @@ class CustomOutlinedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
         minimumSize: kOutlinedButtonSize,
-        side: const BorderSide(color: Colors.white, width: 1),
+        side: const BorderSide(color: Colors.white, width: 2),
       ),
       child: Text(
         text,

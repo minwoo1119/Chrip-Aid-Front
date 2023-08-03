@@ -23,7 +23,7 @@ class LoginScreen extends ConsumerWidget {
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
-          padding: const EdgeInsets.all(kPaddingLargeSize).copyWith(top: 0),
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingSmallSize),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -41,7 +41,7 @@ class LoginScreen extends ConsumerWidget {
                 validator: (value) => validateEmail(value),
                 controller: viewModel.idTextController,
               ),
-              const SizedBox(height: kPaddingLargeSize),
+              const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
                 labelText: "비밀번호",
                 hintText: "Password",
@@ -50,11 +50,11 @@ class LoginScreen extends ConsumerWidget {
                 validator: (value) => validatePassword(value),
                 controller: viewModel.passwordTextController,
               ),
-              const SizedBox(height: kPaddingXLargeSize),
+              const SizedBox(height: kPaddingMiddleSize),
               if (viewModel.state is LoadingState)
                 const Center(
                   child: CircularProgressIndicator(
-                    color: CustomColor.buttonSubColor,
+                    color: CustomColor.backGroundSubColor,
                   ),
                 )
               else
@@ -64,6 +64,7 @@ class LoginScreen extends ConsumerWidget {
                       onPressed: viewModel.login,
                       text: '로그인',
                     ),
+                    const SizedBox(height: kPaddingMiddleSize),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -73,7 +74,7 @@ class LoginScreen extends ConsumerWidget {
                             text: 'ID / PW 찾기',
                           ),
                         ),
-                        const SizedBox(height: kPaddingSmallSize),
+                        const SizedBox(width: kPaddingMiddleSize),
                         Expanded(
                           child: CustomTextButton(
                             onPressed: () {},

@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      backgroundColor: CustomColor.buttonSubColor,
+      backgroundColor: CustomColor.mainColor,
       child: SizedBox.expand(
         child: Center(
           child: Column(

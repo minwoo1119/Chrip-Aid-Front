@@ -32,25 +32,25 @@ class CustomTextFormField extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(kPaddingMiddleSize),
-                child: Icon(
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kPaddingSmallSize,
+              vertical: kPaddingMiniSize,
+            ).copyWith(bottom: kPaddingMiniSize),
+            child: Row(
+              children: [
+                Icon(
                   prefixIcon,
-                  size: kIconMiddleSize,
+                  size: kIconMiniSize,
                   color: CustomColor.mainColor,
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: kPaddingMiddleSize),
-                child: Text(
+                const SizedBox(width: kPaddingMiniSize),
+                Text(
                   labelText ?? "",
-                  style: kTextMainStyleSmall,
+                  style: kTextMainStyleMini,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           TextFormField(
             controller: controller,
@@ -62,14 +62,21 @@ class CustomTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.only(
-                left: kPaddingMiddleSize,
-                bottom: kPaddingMiddleSize,
+                left: kPaddingSmallSize,
+                bottom: kPaddingSmallSize,
               ),
               hintText: hintText,
-              hintStyle: kTextMainStyleMiddle,
+              hintStyle: kTextMainStyleMiddle.copyWith(
+                color: CustomColor.mainColor.withOpacity(0.5),
+              ),
               filled: true,
               fillColor: CustomColor.backGroundSubColor,
-              border: InputBorder.none,
+              border: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(kBorderRadiusSize),
+                ),
+              ),
             ),
           ),
         ],
