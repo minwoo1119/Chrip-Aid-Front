@@ -1,3 +1,4 @@
+import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chrip_aid/auth/model/entity/login_response_entity.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
@@ -8,15 +9,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final authServiceProvider =
     StateNotifierProvider<AuthService, AuthState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
+  final fcmRepository = ref.watch(fcmRepositoryProvider);
   final storage = ref.watch(localStorageProvider);
-  return AuthService(authRepository, storage);
+  return AuthService(authRepository, fcmRepository, storage);
 });
 
 class AuthService extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
+  final FcmRepository fcmRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository, this.storage) : super(AuthStateLoading()) {
+  AuthService(
+    this.authRepository,
+    this.fcmRepository,
+    this.storage,
+  ) : super(AuthStateLoading()) {
     _getUserInfo();
   }
 
@@ -32,6 +39,8 @@ class AuthService extends StateNotifier<AuthState> {
     try {
       final resp = await authRepository.login(id, password);
       await _saveToken(resp);
+      final fcmToken = await fcmRepository.getFcmToken();
+      print(fcmToken);
       await _getUserInfo();
     } catch (e) {
       state = AuthStateError(e.toString());
