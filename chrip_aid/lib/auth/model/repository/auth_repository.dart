@@ -1,29 +1,29 @@
-import 'package:dio/dio.dart';
+import 'package:chrip_aid/auth/dto/login_request_dto.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/auth/model/entity/login_response_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/http.dart';
+
+part 'auth_repository.g.dart';
 
 final authRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
   return AuthRepository(dio);
 });
 
-class AuthRepository {
-  final Dio dio;
+@RestApi()
+abstract class AuthRepository {
+  factory AuthRepository(Dio dio, {String? baseUrl}) = _AuthRepository;
 
-  AuthRepository(this.dio);
+  @POST('/auth/users')
+  Future login(@Body() LoginRequestDto loginRequestDto);
 
-  Future<LoginResponseEntity> login(String id, String password) async {
-    return LoginResponseEntity(
-      accessToken: 'accessToken',
-      refreshToken: 'refreshToken',
-    );
-  }
+  @POST('/auth/users')
+  @Headers({'accessToken' : 'true'})
+  Future saveToken(@Header('fcm-token') String fcmToken);
 
-  Future logout() async {}
-
-  Future<UserEntity> getUserInfo() async {
-    return UserEntity();
-  }
+  @GET('/user')
+  @Headers({'accessToken' : 'true'})
+  Future<UserEntity> getUserInfo();
 }

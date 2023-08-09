@@ -1,3 +1,5 @@
+import 'package:chrip_aid/common/state/state.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
@@ -18,7 +20,7 @@ class LoginViewModel extends ChangeNotifier {
     ref.listen<AuthState>(authServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
-        print(state.toString());
+        if(state is ErrorState) SnackBarUtil.showError((state as ErrorState).message);
         notifyListeners();
       }
     });

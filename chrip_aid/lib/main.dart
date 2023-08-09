@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   WidgetsFlutterBinding.ensureInitialized();
-//  await Firebase.initializeApp();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -105,6 +105,7 @@ class MyApp extends ConsumerWidget {
     final route = ref.watch(routerProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false, // 디버그 표시 지우기
+      scaffoldMessengerKey: SnackBarUtil.key,
       title: 'Kumoh42 Futsal Reservation System',
       routerConfig: route,
     );

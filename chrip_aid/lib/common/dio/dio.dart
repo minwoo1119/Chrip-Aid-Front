@@ -3,14 +3,20 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:chrip_aid/common/utils/data_utils.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dioProvider = Provider((ref) {
   final dio = Dio();
   final storage = ref.watch(localStorageProvider);
   dio.interceptors.add(CustomInterceptor(storage: storage, ref: ref));
+  dio.options = options;
   return dio;
 });
+
+final options = BaseOptions(
+  baseUrl: dotenv.get("IP"),
+);
 
 class CustomInterceptor extends Interceptor {
   final LocalStorage storage;
@@ -21,9 +27,9 @@ class CustomInterceptor extends Interceptor {
   // 1) 요청을 보낼때
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
-    print('[REQ] [${options.method}] ${options.uri}');
-
+      RequestOptions options,
+      RequestInterceptorHandler handler,
+      ) async {
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
@@ -45,19 +51,23 @@ class CustomInterceptor extends Interceptor {
 
   // 2) 응답을 받을때
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print(
-        '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+  void onResponse(Response response, ResponseInterceptorHandler handler) async {
+    if (response.requestOptions.path == '/auth') {
+      try {
+        await _saveToken(response);
+      } on DioException catch (e) {
+        return handler.reject(e);
+      }
+    }
+
     super.onResponse(response, handler);
   }
 
   // 3) 에러가 났을떄
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    print('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}');
-
     final refreshToken =
-        await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
+    await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
     if (refreshToken == null) return handler.reject(err);
 
@@ -68,33 +78,60 @@ class CustomInterceptor extends Interceptor {
       final dio = Dio();
 
       try {
-        final resp = await dio.post(
+        final refreshResponse = await dio.post(
           DataUtils.pathToUrl('/auth/token'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),
         );
 
-        final accessToken = resp.data['accessToken'];
+        await _saveToken(refreshResponse);
 
-        await storage.write(
-          key: dotenv.get('REFRESH_TOKEN_KEY'),
-          value: accessToken,
-        );
-
+        final token = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
         final options = err.requestOptions;
         options.headers.addAll({
-          'authorization': 'Bearer $accessToken',
+          'authorization': 'Bearer $token',
         });
 
         final response = await dio.fetch(options);
         handler.resolve(response);
       } on DioException catch (e) {
         ref.read(authProvider.notifier).logout();
+        SnackBarUtil.showError("로그인 인증이 만료되었습니다. 다시 로그인 해 주세요");
         return handler.reject(e);
       }
     }
-
     super.onError(err, handler);
+  }
+
+  Future _saveToken(Response response) async {
+    final accessToken = response.headers.value(dotenv.get('ACCESS_TOKEN_KEY'));
+    final refreshToken = response.headers.value(
+      dotenv.get('REFRESH_TOKEN_KEY'),
+    );
+
+    if (accessToken == null || refreshToken == null) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        type: DioExceptionType.badResponse,
+        message: "토큰 정보를 가져오지 못했습니다.",
+        response: response,
+      );
+    }
+
+    try {
+      Future.wait([
+        storage.write(
+          key: dotenv.get('ACCESS_TOKEN_KEY'),
+          value: accessToken.replaceFirst("Bearer ", ""),
+        ),
+        storage.write(
+          key: dotenv.get('REFRESH_TOKEN_KEY'),
+          value: refreshToken.replaceFirst("Bearer ", ""),
+        ),
+      ]);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

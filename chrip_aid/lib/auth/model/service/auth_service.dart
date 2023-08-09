@@ -1,6 +1,7 @@
+import 'package:chrip_aid/auth/dto/login_request_dto.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:chrip_aid/auth/model/entity/login_response_entity.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
@@ -27,51 +28,55 @@ class AuthService extends StateNotifier<AuthState> {
     _getUserInfo();
   }
 
-  Future login({
-    required String id,
-    required String password,
-  }) async {
+  Future login({required String id, required String password}) async {
     state = AuthStateLoading();
-
-    // TODO : remove delay for test
-    await Future.delayed(const Duration(seconds: 3));
-
     try {
-      final resp = await authRepository.login(id, password);
-      await _saveToken(resp);
+      await authRepository.login(LoginRequestDto(id: id, password: password));
       final fcmToken = await fcmRepository.getFcmToken();
-      print(fcmToken);
+      await authRepository.saveToken(fcmToken);
       await _getUserInfo();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        return state = AuthStateError("id 또는 password가 틀렸습니다.");
+      }
+      if (e.response?.statusCode == 200) {
+        return state = AuthStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      state = AuthStateError("서버와 연결할 수 없습니다.");
     } catch (e) {
-      state = AuthStateError(e.toString());
+      state = AuthStateError("알 수 없는 에러가 발생했습니다.");
     }
   }
 
   Future logout() async {
     state = AuthStateLoading();
-    await authRepository.logout();
     await _removeToken();
     state = AuthStateNone();
   }
 
   Future _getUserInfo() async {
     final accessToken = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
-    final refreshToken =
-        await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
+    final refreshToken = await storage.read(
+      key: dotenv.get('REFRESH_TOKEN_KEY'),
+    );
 
     if (accessToken == null || refreshToken == null) {
       state = AuthStateNone();
       return;
     }
 
-    // TODO : remove delay for test
-    await Future.delayed(const Duration(seconds: 3));
-
     try {
       final data = await authRepository.getUserInfo();
       state = AuthStateSuccess(data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 400) {
+        state = AuthStateError(
+          e.response!.data["message"] ?? "알 수 없는 에러가 발생했습니다.",
+        );
+      }
+      state = AuthStateError("사용자 정보를 가져올 수 없습니다.");
     } catch (e) {
-      state = AuthStateError(e.toString());
+      state = AuthStateError("알 수 없는 에러가 발생했습니다.");
     }
   }
 
@@ -79,19 +84,6 @@ class AuthService extends StateNotifier<AuthState> {
     Future.wait([
       storage.delete(key: dotenv.get('ACCESS_TOKEN_KEY')),
       storage.delete(key: dotenv.get('REFRESH_TOKEN_KEY')),
-    ]);
-  }
-
-  Future _saveToken(LoginResponseEntity entity) async {
-    Future.wait([
-      storage.write(
-        key: dotenv.get('ACCESS_TOKEN_KEY'),
-        value: entity.accessToken,
-      ),
-      storage.write(
-        key: dotenv.get('REFRESH_TOKEN_KEY'),
-        value: entity.refreshToken,
-      ),
     ]);
   }
 }
