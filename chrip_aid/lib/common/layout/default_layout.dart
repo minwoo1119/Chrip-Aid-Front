@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:flutter/services.dart';
 
 class DefaultLayout extends StatelessWidget {
   final String? title;
@@ -27,6 +28,10 @@ class DefaultLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: appbarColor ?? CustomColor.mainColor,
+    ));
+
     return Scaffold(
       appBar: _appBar(),
       backgroundColor: backgroundColor,
@@ -45,10 +50,7 @@ class DefaultLayout extends StatelessWidget {
           leading: leading,
           leadingWidth: leadingWidth,
           elevation: 0,
-          title: Text(
-            title!,
-            style: kTextReverseStyleLarge,
-          ),
+          title: Text(title!, style: kTextReverseStyleLarge),
           foregroundColor: Colors.black,
         );
 }
