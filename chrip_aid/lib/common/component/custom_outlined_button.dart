@@ -8,11 +8,18 @@ class CustomOutlinedButton extends StatelessWidget {
 
   final Color color;
 
+  final double? elevation;
+  final bool hasSide;
+  final Size? fixedSize;
+
   const CustomOutlinedButton({
     Key? key,
     required this.onPressed,
     required this.text,
     this.color = CustomColor.buttonMainColor,
+    this.elevation,
+    this.hasSide = true,
+    this.fixedSize,
   }) : super(key: key);
 
   @override
@@ -25,11 +32,17 @@ class CustomOutlinedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
         minimumSize: kOutlinedButtonSize,
-        side: const BorderSide(color: Colors.white, width: 2),
+        fixedSize: fixedSize,
+        side: BorderSide(
+          color: hasSide ? Colors.white : CustomColor.buttonMainColor,
+          width: kBorderWidth,
+        ),
+        elevation: elevation,
       ),
       child: Text(
         text,
         style: kTextReverseStyleMiddle,
+        textAlign: TextAlign.center,
       ),
     );
   }

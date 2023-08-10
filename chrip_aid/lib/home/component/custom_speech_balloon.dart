@@ -21,7 +21,7 @@ class _SpeechBalloonPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint borderPaint = Paint()
       ..color = CustomColor.mainColor
-      ..strokeWidth = kLineMiddleSize
+      ..strokeWidth = kBorderWidth
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
@@ -32,7 +32,7 @@ class _SpeechBalloonPainter extends CustomPainter {
 
     final Paint removePaint = Paint()
       ..color = CustomColor.backGroundSubColor
-      ..strokeWidth = kLineMiddleSize
+      ..strokeWidth = kBorderWidth
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.butt;
 
@@ -42,10 +42,9 @@ class _SpeechBalloonPainter extends CustomPainter {
     final double nipWidth = width * 0.08 < 29 ? 29 : width * 0.08;
     final double nipHeight = height * 0.18 < 36 ? 36 : height * 0.18;
 
-    final double triangleWOffset = width / 1.2;
+    final double triangleWOffset = width / 1.25;
 
     const Color shadowColor = Colors.black;
-    const double elevation = 7.0;
 
     final BorderRadius borderRadius = BorderRadius.circular(kBorderRadiusSize);
     final Rect rect = Rect.fromLTRB(0, 0, width, height);
@@ -78,8 +77,8 @@ class _SpeechBalloonPainter extends CustomPainter {
         height,
       );
 
-    canvas.drawShadow(balloonPath, shadowColor, elevation, false);
-    canvas.drawShadow(nipPath, shadowColor, elevation, false);
+    canvas.drawShadow(balloonPath, shadowColor, kElevationSize, false);
+    canvas.drawShadow(nipPath, shadowColor, kElevationSize, false);
     canvas.drawPath(balloonPath, backgroundPaint);
     canvas.drawPath(balloonPath, borderPaint);
     canvas.drawPath(removePath, removePaint);

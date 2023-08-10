@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 const double kBorderRadiusSize = 12.0;
+const double kBorderWidth = 3.0;
 
+const double kElevationSize = 7.0;
+
+const Size kOutlinedButtonLargeSize = Size.fromHeight(150);
 const Size kOutlinedButtonSize = Size.fromHeight(kTextLargeSize * 2);
 const Size kOutlinedSmallButtonSize = Size(kTextMiddleSize, kTextMiddleSize);
 const Size kTextButtonSize = Size.fromHeight(kTextSmallSize);

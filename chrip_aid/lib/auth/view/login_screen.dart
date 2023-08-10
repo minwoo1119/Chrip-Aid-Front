@@ -27,12 +27,14 @@ class LoginScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: kPaddingXLargeSize),
               Center(
                 child: Image.asset(
                   'assets/image/logo.png',
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height / 3,
                 ),
               ),
+              const SizedBox(height: kPaddingXLargeSize),
               CustomTextFormField(
                 labelText: "이메일",
                 hintText: "Email",

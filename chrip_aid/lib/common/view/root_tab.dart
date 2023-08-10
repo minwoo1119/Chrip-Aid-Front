@@ -1,3 +1,4 @@
+import 'package:chrip_aid/home/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
@@ -72,7 +73,11 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
               controller: controller,
               physics: const NeverScrollableScrollPhysics(),
               // TODO : Add Tab Screen
-              children: TABS.map((e) => Center(child: Icon(e.icon))).toList(),
+              children: [
+                HomeScreen(),
+                HomeScreen(),
+                HomeScreen(),
+              ],
             ),
           ),
         ],
