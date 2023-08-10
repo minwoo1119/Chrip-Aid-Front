@@ -1,4 +1,7 @@
 import 'package:chrip_aid/common/dio/dio.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_add_product_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_check_product_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,16 +13,85 @@ final orphanageRepositoryProvider =
 
 class OrphanageRepository {
   final Dio dio;
+  final List<OrphanageAddProductEntity> _savedProducts = [];
+  final List<OrphanageCheckProductEntity> _products = [];
+  final List<RequestItemEntity> products = [
+    RequestItemEntity(
+      productPhoto: 'assets/image/choco_pie.jpg',
+      productName: "초코파이",
+      message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+      price: 8630.0,
+      requestCount: 30,
+      supportCount: 21,
+      requestId: '1',
+    ),
+    RequestItemEntity(
+      productPhoto: 'assets/image/choco_pie.jpg',
+      productName: "초코파이",
+      message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+      price: 8630.0,
+      requestCount: 30,
+      supportCount: 21,
+      requestId: '2',
+    ),
+    RequestItemEntity(
+      productPhoto: 'assets/image/choco_pie.jpg',
+      productName: "초코파이",
+      message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+      price: 8630.0,
+      requestCount: 30,
+      supportCount: 21,
+      requestId: '3',
+    ),
+    RequestItemEntity(
+      productPhoto: 'assets/image/choco_pie.jpg',
+      productName: "초코파이",
+      message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+      price: 8630.0,
+      requestCount: 30,
+      supportCount: 21,
+      requestId: '4',
+    ),
+  ];
 
   OrphanageRepository(this.dio);
+
+  // 방문신청 포스트
+  Future<OrphanageVisitEntity> post(String data, String purpose) async {
+    print(data);
+    print(purpose);
+    return OrphanageVisitEntity(
+      date: data,
+      purpose: purpose,
+    );
+  }
+
+  // 플로팅 액션 장바구니 버튼 클릭
+  Future<List<OrphanageCheckProductEntity>> checkCart() async {
+    for (int i = 0; i < _products.length; i++) {
+      print("요청 아이디 ${_products[i].product.requestId}, 개수 ${_products[i].count}");
+    }
+    return _products;
+  }
+
+  // 컴포넌트 장바구니 아이콘 클릭
+  void addItem(String requestId, int count) {
+    print(requestId);
+    _savedProducts
+        .add(OrphanageAddProductEntity(requestId: requestId, count: count));
+    print("요청 아이디 : ${requestId}");
+    print("개수 : ${count}");
+    OrphanageCheckProductEntity item = OrphanageCheckProductEntity(product: products.firstWhere((product) =>
+    product.requestId == requestId), count: count);
+    _products.add(item);
+  }
 
   Future<OrphanageDetailEntity> getOrphanageDetail(String orphanageId) async {
 /*    final Response response = await dio.get('/orphanages/{$orphanageId}');
     Map<String, dynamic> body = response.data;
     return OrphanageDetailEntity.fromJson(body);*/
 
-  await Future.delayed(Duration(seconds: 3));
-
+    await Future.delayed(Duration(seconds: 3));
     return OrphanageDetailEntity(
       orphanageName: '파주 보육원',
       address: '경기도 파주시 법원읍 술이홀로907번길 139',
@@ -46,7 +118,7 @@ class OrphanageRepository {
           price: 8630.0,
           requestCount: 30,
           supportCount: 21,
-          requestId: '1',
+          requestId: '2',
         ),
         RequestItemEntity(
           productPhoto: 'assets/image/choco_pie.jpg',
@@ -55,7 +127,7 @@ class OrphanageRepository {
           price: 8630.0,
           requestCount: 30,
           supportCount: 21,
-          requestId: '1',
+          requestId: '3',
         ),
         RequestItemEntity(
           productPhoto: 'assets/image/choco_pie.jpg',
@@ -64,7 +136,7 @@ class OrphanageRepository {
           price: 8630.0,
           requestCount: 30,
           supportCount: 21,
-          requestId: '1',
+          requestId: '4',
         ),
       ],
     );

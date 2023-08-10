@@ -12,6 +12,7 @@ class CustomProductBox extends ConsumerWidget {
   final int requestCount;
   final int supportCount;
   final double progress;
+  final VoidCallback? onPressed;
 
   const CustomProductBox(
       {required this.photo,
@@ -21,6 +22,7 @@ class CustomProductBox extends ConsumerWidget {
       required this.requestCount,
       required this.supportCount,
       required this.progress,
+      required this.onPressed,
       Key? key})
       : super(key: key);
 
@@ -91,7 +93,7 @@ class CustomProductBox extends ConsumerWidget {
                         constraints: const BoxConstraints(),
                         icon: const Icon(Icons.shopping_cart,
                             size: kIconXSmallSize),
-                        onPressed: () {},
+                        onPressed: onPressed,
                       ),
                       const SizedBox(
                         height: 48.0,

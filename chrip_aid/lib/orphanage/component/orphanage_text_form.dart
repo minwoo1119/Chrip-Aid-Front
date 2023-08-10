@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class OrphanageTextForm extends StatelessWidget {
   final String title;
   final IconData iconData;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final EdgeInsetsGeometry margin;
 
   const OrphanageTextForm({
     super.key,
     required this.title,
     required this.iconData,
-    this.controller,
+    required this.controller,
     this.margin = const EdgeInsets.symmetric(horizontal: 16.0),
   });
 
