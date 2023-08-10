@@ -15,7 +15,7 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   late TabController controller;
-  int index = 0;
+  int index = 1;
 
   @override
   void initState() {
@@ -24,6 +24,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
       length: TABS.length,
       animationDuration: Duration.zero,
       vsync: this,
+      initialIndex: 1,
     );
     controller.addListener(tabListener);
   }
@@ -39,41 +40,51 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      bottomNavigationBar: MediaQuery.of(context).size.width > 700 ? null : BottomNavigationBar(
-        backgroundColor: CustomColor.mainColor,
-        selectedItemColor: CustomColor.backGroundSubColor,
-        unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
-        type: BottomNavigationBarType.fixed,
-        onTap: (int index) => setState(() => controller.animateTo(index)),
-        currentIndex: index,
-        items: TABS
-            .map((e) => BottomNavigationBarItem(
-          icon: Icon(e.icon),
-          label: e.label,
-        ))
-            .toList(),
-      ),
+      bottomNavigationBar: MediaQuery.of(context).size.width > 700
+          ? null
+          : BottomNavigationBar(
+              backgroundColor: CustomColor.mainColor,
+              selectedItemColor: CustomColor.backGroundSubColor,
+              unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
+              type: BottomNavigationBarType.fixed,
+              onTap: (int index) => setState(() => controller.animateTo(index)),
+              currentIndex: index,
+              items: TABS
+                  .map((e) => BottomNavigationBarItem(
+                        icon: Icon(e.icon),
+                        label: e.label,
+                      ))
+                  .toList(),
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+            ),
       child: Row(
         children: [
-          if(MediaQuery.of(context).size.width > 700) NavigationRail(
-            backgroundColor: CustomColor.mainColor,
-            labelType: NavigationRailLabelType.all,
-            useIndicator: true,
-            indicatorColor: CustomColor.backGroundSubColor,
-            selectedLabelTextStyle: const TextStyle(color: CustomColor.backGroundSubColor),
-            unselectedLabelTextStyle: TextStyle(color: CustomColor.disabledColor.withOpacity(0.5)),
-            selectedIconTheme: const IconThemeData(color: CustomColor.mainColor),
-            unselectedIconTheme: IconThemeData(color: CustomColor.disabledColor.withOpacity(0.5)),
-            destinations: TABS.map((e) => _destination(e)).toList(),
-            selectedIndex: index,
-            onDestinationSelected: controller.animateTo,
-          ),
+          if (MediaQuery.of(context).size.width > 700)
+            NavigationRail(
+              backgroundColor: CustomColor.mainColor,
+              labelType: NavigationRailLabelType.all,
+              useIndicator: true,
+              indicatorColor: CustomColor.backGroundSubColor,
+              selectedLabelTextStyle:
+                  const TextStyle(color: CustomColor.backGroundSubColor),
+              unselectedLabelTextStyle:
+                  TextStyle(color: CustomColor.disabledColor.withOpacity(0.5)),
+              selectedIconTheme:
+                  const IconThemeData(color: CustomColor.mainColor),
+              unselectedIconTheme: IconThemeData(
+                  color: CustomColor.disabledColor.withOpacity(0.5)),
+              destinations: TABS.map((e) => _destination(e)).toList(),
+              selectedIndex: index,
+              onDestinationSelected: controller.animateTo,
+              extended: true,
+            ),
           Expanded(
             child: TabBarView(
               controller: controller,
               physics: const NeverScrollableScrollPhysics(),
               // TODO : Add Tab Screen
-              children: [
+              children: const [
                 HomeScreen(),
                 HomeScreen(),
                 HomeScreen(),
