@@ -51,6 +51,10 @@ dependencies:
   firebase_core: ^2.15.0
   flutter_local_notifications: ^15.1.0+1
 
+  # Google Map
+  google_maps_flutter: ^2.5.0
+  flutter_google_places: ^0.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

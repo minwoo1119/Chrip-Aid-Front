@@ -1,5 +1,7 @@
 import 'package:chrip_aid/auth/dto/login_request_dto.dart';
+import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
+import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
@@ -31,10 +33,20 @@ class AuthService extends StateNotifier<AuthState> {
   Future login({required String id, required String password}) async {
     state = AuthStateLoading();
     try {
-      await authRepository.login(LoginRequestDto(id: id, password: password));
-      final fcmToken = await fcmRepository.getFcmToken();
-      await authRepository.saveToken(fcmToken);
-      await _getUserInfo();
+      // await authRepository.login(LoginRequestDto(id: id, password: password));
+      // final fcmToken = await fcmRepository.getFcmToken();
+      // await authRepository.saveToken(fcmToken);
+      // await _getUserInfo();
+      state = AuthStateSuccess(UserEntity(
+        email: '',
+        password: '',
+        name: '',
+        age: 1,
+        sex: Sex.man,
+        region: '',
+        phone: '',
+        profileUrl: '',
+      ));
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
         return state = AuthStateError("id 또는 password가 틀렸습니다.");

@@ -58,39 +58,14 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
               showUnselectedLabels: false,
               showSelectedLabels: false,
             ),
-      child: Row(
-        children: [
-          if (MediaQuery.of(context).size.width > 700)
-            NavigationRail(
-              backgroundColor: CustomColor.mainColor,
-              labelType: NavigationRailLabelType.all,
-              useIndicator: true,
-              indicatorColor: CustomColor.backGroundSubColor,
-              selectedLabelTextStyle:
-                  const TextStyle(color: CustomColor.backGroundSubColor),
-              unselectedLabelTextStyle:
-                  TextStyle(color: CustomColor.disabledColor.withOpacity(0.5)),
-              selectedIconTheme:
-                  const IconThemeData(color: CustomColor.mainColor),
-              unselectedIconTheme: IconThemeData(
-                  color: CustomColor.disabledColor.withOpacity(0.5)),
-              destinations: TABS.map((e) => _destination(e)).toList(),
-              selectedIndex: index,
-              onDestinationSelected: controller.animateTo,
-              extended: true,
-            ),
-          Expanded(
-            child: TabBarView(
-              controller: controller,
-              physics: const NeverScrollableScrollPhysics(),
-              // TODO : Add Tab Screen
-              children: const [
-                HomeScreen(),
-                HomeScreen(),
-                HomeScreen(),
-              ],
-            ),
-          ),
+      child: TabBarView(
+        controller: controller,
+        physics: const NeverScrollableScrollPhysics(),
+        // TODO : Add Tab Screen
+        children: const [
+          HomeScreen(),
+          HomeScreen(),
+          HomeScreen(),
         ],
       ),
     );
