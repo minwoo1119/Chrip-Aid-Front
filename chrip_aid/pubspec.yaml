@@ -52,8 +52,20 @@ dependencies:
   flutter_local_notifications: ^15.1.0+1
 
   # Google Map
-  google_maps_flutter: ^2.5.0
+  google_maps_flutter: ^2.2.1
   flutter_google_places: ^0.3.0
+  google_maps_flutter_android: ^2.5.1
+  google_maps_flutter_platform_interface: ^2.4.1
+  google_maps_webservice: ^0.0.19
+  google_api_headers:
+  google_geocoding: ^0.2.0
+
+  # Percent indicator 추가
+  percent_indicator: ^4.2.3
+  step_progress_indicator: ^1.0.2
+  sleek_circular_slider: ^2.0.1
+  progress_indicators: ^1.0.0
+  liquid_progress_indicator: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -72,4 +84,6 @@ flutter:
 
   assets:
     - assets/image/
+    - assets/image/pajukids_house.jpg
+    - assets/image/choco_pie.jpg
     - .env

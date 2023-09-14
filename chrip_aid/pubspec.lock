@@ -449,13 +449,21 @@ packages:
     source: hosted
     version: "9.1.1"
   google_api_headers:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_api_headers
       sha256: b27a55935d5c51cedda8a925f5df8388cc327c94a47fef5a4335e8707e089878
       url: "https://pub.dev"
     source: hosted
     version: "1.6.0"
+  google_geocoding:
+    dependency: "direct main"
+    description:
+      name: google_geocoding
+      sha256: b138a42d846d9d4dd4e51908959118fb06c5f9bb2bf5575e5c86362c2c418e90
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   google_maps:
     dependency: transitive
     description:
@@ -473,7 +481,7 @@ packages:
     source: hosted
     version: "2.5.0"
   google_maps_flutter_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_maps_flutter_android
       sha256: e6cb018169e49332f88d23b1d2119b09e8ab4e7d3a1b889a1b7b3fd113e034ba
@@ -489,7 +497,7 @@ packages:
     source: hosted
     version: "2.3.1"
   google_maps_flutter_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_maps_flutter_platform_interface
       sha256: a3e9e6896501e566d902c6c69f010834d410ef4b7b5c18b90c77e871c86b7907
@@ -505,7 +513,7 @@ packages:
     source: hosted
     version: "0.5.4+1"
   google_maps_webservice:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_maps_webservice
       sha256: d0ae4e4508afd74a3f051565261a3cdbae59db29448f9b6e6beb5674545e1eb7
@@ -608,6 +616,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  liquid_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: liquid_progress_indicator
+      sha256: ffd7eca3995e03ce0bd0e1f10ce11da3d8877c51e1270d1e8b9556dbbbbe6689
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   logger:
     dependency: "direct main"
     description:
@@ -688,6 +704,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: c37099ad833a883c9d71782321cb65c3a848c21b6939b6185f0ff6640d05814c
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.3"
   petitparser:
     dependency: transitive
     description:
@@ -712,6 +736,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  progress_indicators:
+    dependency: "direct main"
+    description:
+      name: progress_indicators
+      sha256: "28cba16c2c1f37b14f3551c406e0d9b156fb2f3205d7b4e4153823b3abc9d56c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   pub_semver:
     dependency: transitive
     description:
@@ -797,6 +829,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sleek_circular_slider:
+    dependency: "direct main"
+    description:
+      name: sleek_circular_slider
+      sha256: "8844d036269a13e60dda4e16534d30d27cacaff8d2f10d042d9d61d111468b13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   source_gen:
     dependency: transitive
     description:
@@ -837,6 +877,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2+1"
+  step_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: step_progress_indicator
+      sha256: b51bb1fcfc78454359f0658c5a2c21548c3825ebf76e826308e9ca10f383bbb8
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   stream_channel:
     dependency: transitive
     description:

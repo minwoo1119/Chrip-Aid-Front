@@ -43,6 +43,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: LoginScreen.routeName,
         builder: (context, state) => const LoginScreen(),
       ),
+      GoRoute(
+        path: '/detailPage',
+        name: OrphanageDetailScreen.routeName,
+        builder: (context, state) => const OrphanageDetailScreen(),
+      ),
     ],
     refreshListenable: provider,
     redirect: provider.redirectLogic,

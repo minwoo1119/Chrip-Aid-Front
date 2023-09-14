@@ -1,12 +1,17 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
-import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/firebase_options.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+
+
+AndroidMapRenderer mapRenderer = AndroidMapRenderer.platformDefault;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
@@ -71,6 +76,14 @@ void main() async {
     sound: true,
   );
 
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    WidgetsFlutterBinding.ensureInitialized();
+    mapRenderer = await mapsImplementation
+        .initializeWithRenderer(AndroidMapRenderer.platformDefault);
+  }
+
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -103,11 +116,12 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(routerProvider);
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false, // 디버그 표시 지우기
-      scaffoldMessengerKey: SnackBarUtil.key,
-      title: 'Kumoh42 Futsal Reservation System',
-      routerConfig: route,
-    );
+    return const MaterialApp(home: SafeArea(child: OrphanageSearchScreen()));
+    // return MaterialApp.router(
+    //   debugShowCheckedModeBanner: false, // 디버그 표시 지우기
+    //   scaffoldMessengerKey: SnackBarUtil.key,
+    //   title: 'Kumoh42 Futsal Reservation System',
+    //   routerConfig: route,
+    // );
   }
 }
