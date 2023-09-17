@@ -1,7 +1,10 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 
-abstract class OrphanageState {}
+abstract class OrphanageState {
+  static List<OrphanageEntity> list = [];
+}
 
 class OrphanageStateNone extends NoneState implements OrphanageState {}
 

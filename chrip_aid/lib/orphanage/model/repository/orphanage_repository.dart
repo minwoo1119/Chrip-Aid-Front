@@ -1,6 +1,7 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_add_product_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_check_product_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:dio/dio.dart';
@@ -140,5 +141,50 @@ class OrphanageRepository {
         ),
       ],
     );
+  }
+
+  Future<List<OrphanageEntity>> getOrphanageList() async {
+    return [
+      OrphanageEntity(
+        orphanageId: '1',
+        orphanageName: '파주 보육원',
+        address: '경기도 파주시 법원읍 술이홀로907번길 139',
+        phoneNumber: '031)958-7176',
+        photo: 'assets/image/pajukids_house.jpg',
+        name: '윤하경',
+      ),
+      OrphanageEntity(
+        orphanageId: '1',
+        orphanageName: '파주 보육원',
+        address: '경기도 파주시 법원읍 술이홀로907번길 139',
+        phoneNumber: '031)958-7176',
+        photo: 'assets/image/pajukids_house.jpg',
+        name: '윤하경',
+      ),
+      OrphanageEntity(
+        orphanageId: '1',
+        orphanageName: '파주 보육원',
+        address: '경기도 파주시 법원읍 술이홀로907번길 139',
+        phoneNumber: '031)958-7176',
+        photo: 'assets/image/pajukids_house.jpg',
+        name: '윤하경',
+      ),
+      OrphanageEntity(
+        orphanageId: '1',
+        orphanageName: '파주 보육원',
+        address: '경기도 파주시 법원읍 술이홀로907번길 139',
+        phoneNumber: '031)958-7176',
+        photo: 'assets/image/pajukids_house.jpg',
+        name: '윤하경',
+      ),
+      OrphanageEntity(
+        orphanageId: '1',
+        orphanageName: '파주 보육원',
+        address: '경기도 파주시 법원읍 술이홀로907번길 139',
+        phoneNumber: '031)958-7176',
+        photo: 'assets/image/pajukids_house.jpg',
+        name: '윤하경',
+      ),
+    ];
   }
 }

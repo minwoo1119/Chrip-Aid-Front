@@ -9,7 +9,9 @@ class HomeViewModel extends ChangeNotifier {
     context.push("/orphanage/search");
   }
 
-  Future navigateToFavoriteScreen(BuildContext context) async {}
+  Future navigateToFavoriteScreen(BuildContext context) async {
+    context.pushNamed("/orphanage");
+  }
 
   Future navigateToCertificationScreen(BuildContext context) async {}
 }

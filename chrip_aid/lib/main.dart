@@ -1,15 +1,15 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/firebase_options.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
-
 
 AndroidMapRenderer mapRenderer = AndroidMapRenderer.platformDefault;
 
@@ -31,12 +31,12 @@ void main() async {
     'high_importance_channel', // id
     'High Importance Notifications', // title
     description:
-    'This channel is used for important notifications.', // description
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 
   var initializationSettingsAndroid =
-  const AndroidInitializationSettings('@mipmap/ic_launcher');
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
 
   var initializationSettingsIOS = const DarwinInitializationSettings(
     requestSoundPermission: true,
@@ -48,7 +48,7 @@ void main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   var initializationSettings = InitializationSettings(
@@ -116,12 +116,15 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(routerProvider);
-    return const MaterialApp(home: SafeArea(child: OrphanageSearchScreen()));
-    // return MaterialApp.router(
-    //   debugShowCheckedModeBanner: false, // 디버그 표시 지우기
-    //   scaffoldMessengerKey: SnackBarUtil.key,
-    //   title: 'Kumoh42 Futsal Reservation System',
-    //   routerConfig: route,
-    // );
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+    ));
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false, // 디버그 표시 지우기
+      scaffoldMessengerKey: SnackBarUtil.key,
+      title: 'Kumoh42 Futsal Reservation System',
+      routerConfig: route,
+    );
   }
 }

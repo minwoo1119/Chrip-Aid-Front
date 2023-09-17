@@ -67,6 +67,9 @@ dependencies:
   progress_indicators: ^1.0.0
   liquid_progress_indicator: ^0.4.0
 
+  # Sliding Up Panel
+  flutter_sliding_up_panel: ^2.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

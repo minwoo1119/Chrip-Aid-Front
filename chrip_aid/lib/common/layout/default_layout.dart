@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:flutter/services.dart';
 
 class DefaultLayout extends StatelessWidget {
   final String? title;
   final Widget? leading;
   final double? leadingWidth;
   final double? appbarHeight;
-  final Color? appbarColor;
+  final Color appbarColor;
   final Widget? drawer;
   final Color backgroundColor;
   final Widget? bottomNavigationBar;
   final Widget child;
+  final Widget? floatingActionButton;
 
   const DefaultLayout({
     Key? key,
@@ -19,24 +19,22 @@ class DefaultLayout extends StatelessWidget {
     this.leading,
     this.leadingWidth,
     this.appbarHeight,
-    this.appbarColor,
+    this.appbarColor = Colors.transparent,
     this.drawer,
     this.backgroundColor = Colors.white,
     this.bottomNavigationBar,
     required this.child,
+    this.floatingActionButton,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: appbarColor ?? CustomColor.mainColor,
-    ));
-
     return Scaffold(
       appBar: _appBar(),
       backgroundColor: backgroundColor,
       drawer: drawer,
-      body: SafeArea(child: child),
+      floatingActionButton: floatingActionButton,
+      body: child,
       bottomNavigationBar: bottomNavigationBar,
     );
   }
@@ -46,7 +44,7 @@ class DefaultLayout extends StatelessWidget {
       : AppBar(
           toolbarHeight: appbarHeight,
           centerTitle: true,
-          backgroundColor: appbarColor ?? CustomColor.mainColor,
+          backgroundColor: appbarColor,
           leading: leading,
           leadingWidth: leadingWidth,
           elevation: 0,

@@ -16,6 +16,7 @@ class HomeScreen extends ConsumerWidget {
     final viewmodel = ref.watch(homeViewModelProvider);
     return DefaultLayout(
       title: "Chirp Aid",
+      appbarColor: CustomColor.mainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       child: Padding(
         padding: const EdgeInsets.all(kPaddingSmallSize),
