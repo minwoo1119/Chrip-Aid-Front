@@ -22,29 +22,54 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
 
-  final dropdownController = CustomDropdownButtonController(
-    ["aadfadsf", "badsfasdf", "cadfasdf"],
-  );
+  late final CustomDropdownButtonController locationDropdownController;
+
+  late final CustomDropdownButtonController sortDropdownController;
 
   final panelController = SlidingUpPanelController();
+  final searchTextController = TextEditingController();
 
   late OrphanageState state;
 
   OrphanageEntity? orphanage;
 
+  List<OrphanageEntity> get orphanageList => OrphanageState.list
+      .where((e) =>
+          e.address.contains(locationDropdownController.selected) &&
+          e.orphanageName.contains(searchTextController.text))
+      .toList();
+
   OrphanageSearchViewModel(this.ref) {
+    locationDropdownController = CustomDropdownButtonController(
+      ["구미", "대구", "경산", "파주"],
+      onChanged: (_) => notifyListeners(),
+    );
+    sortDropdownController = CustomDropdownButtonController(
+      ["최신순", "오래된순"],
+      onChanged: (_) => notifyListeners(),
+    );
     state = ref.read(orphanageServiceProvider);
     ref.listen(orphanageServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
-        if(state is NoneState) _initMarker();
+        if (state is NoneState) _initMarker();
         notifyListeners();
       }
     });
   }
-  
+
+  void navigateToSearchPage(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    context.push("/orphanage/search").then((value) {
+      if (value != null) moveCameraToMarker(value.toString());
+    });
+  }
+
   void navigateToDetailPage(BuildContext context) {
-    ref.read(orphanageServiceProvider.notifier).getOrphanageDetail(orphanage!.orphanageId);
+    ref
+        .read(orphanageServiceProvider.notifier)
+        .getOrphanageDetail(orphanage!.orphanageId);
+    FocusManager.instance.primaryFocus?.unfocus();
     context.pushNamed("detailPage");
   }
 
@@ -69,7 +94,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
 
   void _addMarkerByAddress(OrphanageEntity entity) async {
     var googleGeocoding = GoogleGeocoding(dotenv.get('GOOGLE_MAP_KEY'));
-    GeocodingResponse? p = await googleGeocoding.geocoding.get(entity.address, []);
+    GeocodingResponse? p =
+        await googleGeocoding.geocoding.get(entity.address, []);
 
     if (p == null) return;
 

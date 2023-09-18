@@ -88,9 +88,9 @@ class CustomDropdownButtonController<T> extends ChangeNotifier {
     _selected = items[initIndex];
     this.onChanged = (T? value) {
       if (value == null) return;
-      if (onChanged != null) onChanged(value);
       _selected = value;
       notifyListeners();
+      if (onChanged != null) onChanged(value);
     };
   }
 }

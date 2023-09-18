@@ -6,7 +6,7 @@ final homeViewModelProvider = ChangeNotifierProvider((ref) => HomeViewModel());
 
 class HomeViewModel extends ChangeNotifier {
   Future navigateToSearchScreen(BuildContext context) async {
-    context.push("/orphanage/search");
+    context.push("/orphanage/map");
   }
 
   Future navigateToFavoriteScreen(BuildContext context) async {

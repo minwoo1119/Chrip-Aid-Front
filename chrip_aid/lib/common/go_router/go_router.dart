@@ -3,6 +3,7 @@ import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'orphanage',
             builder: (context, state) => const SplashScreen(),
             routes: [
+              GoRoute(
+                path: 'map',
+                builder: (context, state) => const OrphanageMapScreen(),
+              ),
               GoRoute(
                 path: 'search',
                 builder: (context, state) => const OrphanageSearchScreen(),

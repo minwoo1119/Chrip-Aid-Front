@@ -92,7 +92,7 @@ class OrphanageRepository {
     Map<String, dynamic> body = response.data;
     return OrphanageDetailEntity.fromJson(body);*/
 
-    await Future.delayed(Duration(seconds: 3));
+//    await Future.delayed(Duration(seconds: 3));
     return OrphanageDetailEntity(
       orphanageName: '파주 보육원',
       address: '경기도 파주시 법원읍 술이홀로907번길 139',

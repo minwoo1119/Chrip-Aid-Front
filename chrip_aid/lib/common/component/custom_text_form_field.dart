@@ -55,7 +55,7 @@ class CustomTextFormField extends StatelessWidget {
           TextFormField(
             controller: controller,
             validator: validator,
-            cursorColor: CustomColor.backGroundSubColor,
+            cursorColor: CustomColor.mainColor,
             keyboardType: keyboardType,
             obscureText: keyboardType == TextInputType.visiblePassword,
             style: kTextMainStyleMiddle,

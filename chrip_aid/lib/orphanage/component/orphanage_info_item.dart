@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
@@ -17,9 +18,18 @@ class OrphanageInfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
+          color: CustomColor.backGroundSubColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ]
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,11 +38,18 @@ class OrphanageInfoItem extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(kBorderRadiusSize),
               ),
-              child: Image.asset(entity.photo, fit: BoxFit.cover),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 215,
+                child: Image.asset(
+                  entity.photo,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
+                horizontal: kLayoutGutter,
                 vertical: kPaddingMiniSize,
               ),
               child: Column(
