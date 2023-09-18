@@ -1,134 +1,98 @@
-import 'package:chrip_aid/auth/util/google_map_util.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
+import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/orphanage/component/custom_text_field_bar.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_info_item.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_search_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:go_router/go_router.dart';
 
-class OrphanageSearchScreen extends ConsumerStatefulWidget {
+class OrphanageSearchScreen extends ConsumerWidget {
   const OrphanageSearchScreen({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<OrphanageSearchScreen> createState() =>
-      _OrphanageSearchScreenState();
-}
-
-class _OrphanageSearchScreenState extends ConsumerState<OrphanageSearchScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = ref.watch(orphanageSearchViewModelProvider);
-    return DefaultLayout(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => viewModel.moveCameraToMarker("1"),
-      ),
-      child: Stack(
-        children: [
-          GoogleMap(
-            initialCameraPosition: initialPosition,
-            mapType: MapType.normal,
-            onMapCreated: (controller) => viewModel.mapController = controller,
-            zoomControlsEnabled: false,
-            mapToolbarEnabled: false,
-            markers: viewModel.markers,
-          ),
-          const _OrphanageSearchUI(),
-          SlidingUpPanelWidget(
-            anchor: 0.43,
-            elevation: 8.0,
-            controlHeight: 25.0,
-            panelController: viewModel.panelController,
-            enableOnTap: viewModel.orphanage != null,
-            onStatusChanged: (status) {
-              if (status == SlidingUpPanelStatus.expanded) {
-                viewModel.navigateToDetailPage(context);
-                viewModel.panelController.anchor();
-              }
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kBorderRadiusSize),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: kLayoutGutter),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        Container(
-                          height: 5,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              kBorderRadiusSize,
-                            ),
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        if (viewModel.orphanage != null)
-                          OrphanageInfoItem(
-                            entity: viewModel.orphanage!,
-                            onTap: () => viewModel.navigateToDetailPage(
-                              context,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _OrphanageSearchUI extends ConsumerWidget {
-  const _OrphanageSearchUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(orphanageSearchViewModelProvider);
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: kLayoutGutter),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: CustomDropdownButton(
-                    viewModel.dropdownController,
-                    leading: Icons.location_on,
+    return DefaultLayout(
+      child: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: kLayoutMargin),
+          child: Column(
+            children: [
+              const SizedBox(height: kPaddingMiddleSize),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: context.pop,
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: CustomColor.mainColor,
+                      size: kIconMainSize,
+                    ),
+                    splashRadius: kIconMainSize / 2,
+                    padding: const EdgeInsets.only(right: kPaddingSmallSize),
+                    constraints: const BoxConstraints(),
                   ),
-                ),
-                const SizedBox(width: kLayoutMargin),
-                Expanded(
-                  flex: 4,
-                  child: SizedBox(
-                    height: 30.0,
-                    child: CustomDropdownButton(
-                      viewModel.dropdownController,
-                      action: Icons.arrow_drop_down,
+                  const SizedBox(width: kPaddingSmallSize),
+                  Expanded(
+                    child: Hero(
+                      tag: "Search Bar",
+                      child: Material(
+                        child: CustomTextFieldBar(
+                          controller: viewModel.searchTextController,
+                          onChanged: (_) => viewModel.notifyListeners(),
+                        ),
+                      ),
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      height: kTextMediumSize * 2,
+                      child: CustomDropdownButton(
+                        viewModel.locationDropdownController,
+                        leading: Icons.location_on,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: kLayoutGutter),
+                  Expanded(
+                    flex: 4,
+                    child: SizedBox(
+                      height: kTextMediumSize * 2,
+                      child: CustomDropdownButton(
+                        viewModel.sortDropdownController,
+                        action: Icons.arrow_drop_down,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: viewModel.orphanageList.length,
+                  itemBuilder: (context, i) => OrphanageInfoItem(
+                    entity: viewModel.orphanageList[i],
+                    onTap: () => context.pop(
+                      viewModel.orphanageList[i].orphanageId,
+                    ),
+                  ),
+                  separatorBuilder: (_, __) => const SizedBox(
+                    height: kPaddingMiddleSize,
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const Spacer(),
-        ],
+        ),
       ),
     );
   }
