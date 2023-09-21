@@ -12,6 +12,8 @@ import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrphanageMapScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'mapPage';
+
   const OrphanageMapScreen({Key? key}) : super(key: key);
 
   @override
@@ -103,8 +105,7 @@ class _SlidingUpPanel extends ConsumerWidget {
       enableOnTap: viewModel.orphanage != null,
       onStatusChanged: (status) {
         if (status == SlidingUpPanelStatus.expanded) {
-          viewModel.navigateToDetailPage(context);
-          viewModel.panelController.anchor();
+          viewModel.onPanelExpanded(context);
         }
       },
       child: Container(

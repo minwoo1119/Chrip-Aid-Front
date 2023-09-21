@@ -79,7 +79,7 @@ class LoginScreen extends ConsumerWidget {
                         const SizedBox(width: kPaddingMiddleSize),
                         Expanded(
                           child: CustomTextButton(
-                            onPressed: () {},
+                            onPressed: () => viewModel.navigateToSignupPage(context),
                             text: '회원이 아니신가요?',
                           ),
                         ),

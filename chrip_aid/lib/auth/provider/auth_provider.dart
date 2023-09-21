@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/common/state/state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,10 +20,10 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     final AuthState authState = ref.read(authServiceProvider);
-    final isLoginScreen = state.location == '/login';
+    final isLoginScreen = state.location.contains('/auth');
 
     if(authState is NoneState) {
-      return isLoginScreen ? null : '/login';
+      return isLoginScreen ? null : '/auth';
     }
 
     if(authState is SuccessState) {
@@ -31,7 +31,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     if(authState is ErrorState) {
-      return !isLoginScreen ? '/login' : null;
+      return !isLoginScreen ? '/auth' : null;
     }
 
     return null;

@@ -1,9 +1,10 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
+import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:chrip_aid/common/utils/data_utils.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dioProvider = Provider((ref) {
@@ -20,16 +21,23 @@ final options = BaseOptions(
 
 class CustomInterceptor extends Interceptor {
   final LocalStorage storage;
+  late AuthorityType authorityType;
   final Ref ref;
 
-  CustomInterceptor({required this.storage, required this.ref});
+  CustomInterceptor({required this.storage, required this.ref}) {
+    authorityType = ref.watch(authorityProvider);
+  }
 
   // 1) 요청을 보낼때
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    if (options.path.contains('authorityType')) {
+      options.path.replaceFirst('authorityType', authorityType.toString());
+    }
+
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
@@ -52,7 +60,7 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.requestOptions.path == '/auth') {
+    if (response.requestOptions.path == '/auth/$authorityType') {
       try {
         await _saveToken(response);
       } on DioException catch (e) {
@@ -67,7 +75,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken =
-    await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
+        await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
     if (refreshToken == null) return handler.reject(err);
 
@@ -79,7 +87,7 @@ class CustomInterceptor extends Interceptor {
 
       try {
         final refreshResponse = await dio.get(
-          DataUtils.pathToUrl('/auth/users/fcm'),
+          DataUtils.pathToUrl('/auth/$authorityType/fcm'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),

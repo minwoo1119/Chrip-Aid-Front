@@ -6,6 +6,7 @@ class CustomDropdownButton<T> extends ConsumerWidget {
   late final ChangeNotifierProvider<CustomDropdownButtonController<T>>
       _controller;
   final Color buttonColor;
+  final Color boarderColor;
   final TextStyle textStyle;
   final IconData? leading;
   final IconData? action;
@@ -14,6 +15,7 @@ class CustomDropdownButton<T> extends ConsumerWidget {
     CustomDropdownButtonController<T> controller, {
     Key? key,
     this.buttonColor = CustomColor.mainColor,
+    this.boarderColor = CustomColor.mainColor,
     this.textStyle = kTextReverseStyleMiddle,
     this.leading,
     this.action,
@@ -45,6 +47,7 @@ class CustomDropdownButton<T> extends ConsumerWidget {
             (e) => Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(kBorderRadiusSize),
+                border: Border.all(color: boarderColor, width: 3.0),
                 color: buttonColor,
               ),
               padding: const EdgeInsets.symmetric(

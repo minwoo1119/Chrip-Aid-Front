@@ -3,6 +3,8 @@ import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,10 +60,23 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     });
   }
 
+  void onTextChange() => notifyListeners();
+
+  void onPanelExpanded(BuildContext context) {
+    panelController.collapse();
+    if (orphanage == null) {
+      navigateToSearchPage(context);
+    } else {
+      navigateToDetailPage(context);
+    }
+  }
+
   void navigateToSearchPage(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
-    context.push("/orphanage/search").then((value) {
-      if (value != null) moveCameraToMarker(value.toString());
+    context.pushNamed(OrphanageSearchScreen.routeName).then((value) {
+      if (value != null) {
+        moveCameraToMarker(value.toString());
+      }
     });
   }
 
@@ -70,7 +85,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
         .read(orphanageServiceProvider.notifier)
         .getOrphanageDetail(orphanage!.orphanageId);
     FocusManager.instance.primaryFocus?.unfocus();
-    context.pushNamed("detailPage");
+    context.pushNamed(OrphanageDetailScreen.routeName);
   }
 
   void moveCameraToMarker(String id) {

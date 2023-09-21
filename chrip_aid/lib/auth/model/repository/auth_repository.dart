@@ -16,14 +16,14 @@ final authRepositoryProvider = Provider((ref) {
 abstract class AuthRepository {
   factory AuthRepository(Dio dio, {String? baseUrl}) = _AuthRepository;
 
-  @POST('/auth/users')
+  @POST('/auth/authorityType')
   Future login(@Body() LoginRequestDto loginRequestDto);
 
-  @GET('/auth/users/fcm')
+  @POST('/auth/authorityType/fcm')
   @Headers({'accessToken' : 'true'})
   Future saveToken(@Header('fcm-token') String fcmToken);
 
-  @GET('/user')
+  @GET('/authorityType/info')
   @Headers({'accessToken' : 'true'})
   Future<UserEntity> getUserInfo();
 }

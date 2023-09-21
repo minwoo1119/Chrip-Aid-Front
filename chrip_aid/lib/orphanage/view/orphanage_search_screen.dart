@@ -10,6 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class OrphanageSearchScreen extends ConsumerWidget {
+  static String get routeName => 'searchPage';
+
   const OrphanageSearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                   IconButton(
                     onPressed: context.pop,
                     icon: const Icon(
-                      Icons.arrow_back,
+                      Icons.navigate_before,
                       color: CustomColor.mainColor,
                       size: kIconMainSize,
                     ),
@@ -42,7 +44,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: Material(
                         child: CustomTextFieldBar(
                           controller: viewModel.searchTextController,
-                          onChanged: (_) => viewModel.notifyListeners(),
+                          onChanged: (_) => viewModel.onTextChange(),
                         ),
                       ),
                     ),

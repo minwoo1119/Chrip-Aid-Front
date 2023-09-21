@@ -107,7 +107,7 @@ const TextStyle kTextContentStyleSmall = TextStyle(
 );
 
 const TextStyle kTextSubContentStyleSmall = TextStyle(
-  color: CustomColor.ContentSubColor,
+  color: CustomColor.contentSubColor,
   fontSize: kTextMiniSize,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,

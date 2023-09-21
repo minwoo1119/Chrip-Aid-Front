@@ -1,9 +1,11 @@
+import 'package:chrip_aid/auth/model/service/auth_service.dart';
+import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
-import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 final loginViewModelProvider =
     ChangeNotifierProvider((ref) => LoginViewModel(ref));
@@ -35,5 +37,9 @@ class LoginViewModel extends ChangeNotifier {
 
   Future logout() async {
     await ref.read(authServiceProvider.notifier).logout();
+  }
+
+  void navigateToSignupPage(BuildContext context) {
+    context.pushNamed(SignUpScreen.routeName);
   }
 }
