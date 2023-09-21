@@ -19,7 +19,7 @@ abstract class AuthRepository {
   @POST('/auth/users')
   Future login(@Body() LoginRequestDto loginRequestDto);
 
-  @POST('/auth/users')
+  @GET('/auth/users/fcm')
   @Headers({'accessToken' : 'true'})
   Future saveToken(@Header('fcm-token') String fcmToken);
 
