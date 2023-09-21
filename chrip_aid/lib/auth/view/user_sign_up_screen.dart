@@ -1,5 +1,5 @@
 import 'package:chrip_aid/auth/util/validators.dart';
-import 'package:chrip_aid/auth/viewmodel/sign_up_viewmodel.dart';
+import 'package:chrip_aid/auth/viewmodel/user_sign_up_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpScreen extends ConsumerWidget {
-  static String get routeName => 'signup';
+class UserSignUpScreen extends ConsumerWidget {
+  static String get routeName => 'userSignup';
 
-  const SignUpScreen({Key? key}) : super(key: key);
+  const UserSignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(signUpViewModelProvider);
+    final viewModel = ref.watch(userSignUpViewModelProvider);
     return DefaultLayout(
       backgroundColor: CustomColor.mainColor,
       title: "Chirp Aid",
@@ -37,6 +37,15 @@ class SignUpScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: kPaddingMiddleSize),
+              CustomTextFormField(
+                labelText: "이름",
+                hintText: "Name",
+                prefixIcon: Icons.person,
+                keyboardType: TextInputType.name,
+                validator: (value) => validateName(value),
+                controller: viewModel.nameTextController,
+              ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
                 labelText: "이메일",

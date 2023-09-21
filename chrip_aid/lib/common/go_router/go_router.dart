@@ -1,6 +1,8 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
+import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
-import 'package:chrip_aid/auth/view/sign_up_screen.dart';
+import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
+import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
@@ -10,7 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final provider = ref.watch(authProvider);
+  final auth = ref.watch(authProvider);
+  final authority = ref.watch(authorityProvider);
   return GoRouter(
     initialLocation: '/splash',
     routes: [
@@ -49,18 +52,41 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/auth',
-        name: LoginScreen.routeName,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => const SplashScreen(),
+        redirect: (context, state) {
+          if(state.location.contains('signup')) return null;
+          return '/auth/login';
+        },
         routes: [
           GoRoute(
+            path: 'login',
+            name: LoginScreen.routeName,
+            builder: (context, state) => const LoginScreen(),
+          ),
+          GoRoute(
             path: 'signup',
-            name: SignUpScreen.routeName,
-            builder: (context, state) => const SignUpScreen(),
+            name: 'signup',
+            builder: (context, state) => const SplashScreen(),
+            redirect: (context, state) => authority == AuthorityType.user
+                ? '/auth/signup/user'
+                : '/auth/signup/orphanage',
+            routes: [
+              GoRoute(
+                path: 'user',
+                name: UserSignUpScreen.routeName,
+                builder: (context, state) => const UserSignUpScreen(),
+              ),
+              GoRoute(
+                path: 'orphanage',
+                name: OrphanageSignUpScreen.routeName,
+                builder: (context, state) => const OrphanageSignUpScreen(),
+              ),
+            ],
           ),
         ],
       ),
     ],
-    refreshListenable: provider,
-    redirect: provider.redirectLogic,
+    refreshListenable: auth,
+    redirect: auth.redirectLogic,
   );
 });

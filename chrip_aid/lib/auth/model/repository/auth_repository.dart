@@ -1,7 +1,8 @@
 import 'package:chrip_aid/auth/dto/login_request_dto.dart';
-import 'package:dio/dio.dart' hide Headers;
+import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
@@ -19,11 +20,14 @@ abstract class AuthRepository {
   @POST('/auth/authorityType')
   Future login(@Body() LoginRequestDto loginRequestDto);
 
+  @POST('/members/new/authorityType')
+  Future signup(@Body() SignupRequestDto signupRequestDto);
+
   @POST('/auth/authorityType/fcm')
   @Headers({'accessToken' : 'true'})
   Future saveToken(@Header('fcm-token') String fcmToken);
 
-  @GET('/authorityType/info')
+  @GET('/members/authorityType/info')
   @Headers({'accessToken' : 'true'})
   Future<UserEntity> getUserInfo();
 }

@@ -32,7 +32,30 @@ class _AuthRepository implements AuthRepository {
     )
         .compose(
           _dio.options,
-          '/auth/users',
+          '/auth/authorityType',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> signup(SignupRequestDto signupRequestDto) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(signupRequestDto.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/members/new/authorityType',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -58,7 +81,7 @@ class _AuthRepository implements AuthRepository {
     )
         .compose(
           _dio.options,
-          '/auth/users',
+          '/auth/authorityType/fcm',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -82,7 +105,7 @@ class _AuthRepository implements AuthRepository {
     )
             .compose(
               _dio.options,
-              '/user',
+              '/members/authorityType/info',
               queryParameters: queryParameters,
               data: _data,
             )
