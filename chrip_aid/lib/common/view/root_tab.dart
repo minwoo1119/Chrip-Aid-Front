@@ -1,8 +1,7 @@
-import 'package:chrip_aid/home/view/home_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
+import 'package:flutter/material.dart';
 
 class RootTab extends StatefulWidget {
   static String get routeName => 'home';
@@ -40,42 +39,29 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      bottomNavigationBar: MediaQuery.of(context).size.width > 700
-          ? null
-          : BottomNavigationBar(
-              backgroundColor: CustomColor.mainColor,
-              selectedItemColor: CustomColor.backGroundSubColor,
-              unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
-              type: BottomNavigationBarType.fixed,
-              onTap: (int index) => setState(() => controller.animateTo(index)),
-              currentIndex: index,
-              items: TABS
-                  .map((e) => BottomNavigationBarItem(
-                        icon: Icon(e.icon),
-                        label: e.label,
-                      ))
-                  .toList(),
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-            ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: TABS[controller.index].tab.mainColor,
+        selectedItemColor: CustomColor.backGroundSubColor,
+        unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
+        type: BottomNavigationBarType.fixed,
+        onTap: (int index) => setState(() => controller.animateTo(index)),
+        currentIndex: index,
+        items: TABS
+            .map(
+              (e) => BottomNavigationBarItem(
+                icon: Icon(e.icon),
+                label: e.label,
+              ),
+            )
+            .toList(),
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+      ),
       child: TabBarView(
         controller: controller,
         physics: const NeverScrollableScrollPhysics(),
-        // TODO : Add Tab Screen
-        children: const [
-          HomeScreen(),
-          HomeScreen(),
-          HomeScreen(),
-        ],
+        children: TABS.map((e) => e.tab).toList(),
       ),
-    );
-  }
-
-  NavigationRailDestination _destination(TabInfo info) {
-    return NavigationRailDestination(
-      indicatorShape: const RoundedRectangleBorder(),
-      icon: Icon(info.icon),
-      label: Text(info.label),
     );
   }
 }

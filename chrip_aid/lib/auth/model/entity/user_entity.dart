@@ -7,10 +7,10 @@ part 'user_entity.g.dart';
 class UserEntity {
   @JsonKey(name: 'email')
   final String email;
-  @JsonKey(name: 'password')
-  final String password;
   @JsonKey(name: 'name')
   final String name;
+  @JsonKey(name: 'nick_name')
+  final String nickName;
   @JsonKey(name: 'age')
   final int age;
   @JsonKey(name: 'sex', fromJson: _sexFromString, toJson: _sexToString)
@@ -27,8 +27,8 @@ class UserEntity {
 
   UserEntity({
     required this.email,
-    required this.password,
     required this.name,
+    required this.nickName,
     required this.age,
     required this.sex,
     required this.region,

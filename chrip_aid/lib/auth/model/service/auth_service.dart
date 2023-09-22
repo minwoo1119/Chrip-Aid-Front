@@ -38,13 +38,13 @@ class AuthService extends StateNotifier<AuthState> {
       // await authRepository.saveToken(fcmToken);
       // await _getUserInfo();
       state = AuthStateSuccess(UserEntity(
-        email: '',
-        password: '',
-        name: '',
-        age: 1,
+        email: 'johnjames12@naver.com',
+        name: '박준식',
+        nickName: '키다리 아저씨',
+        age: 25,
         sex: Sex.man,
-        region: '',
-        phone: '',
+        region: '대구 수성구 달구벌대로 522길 33 108동 1302호',
+        phone: '01026304097',
         profileUrl: '',
       ));
     } on DioException catch (e) {

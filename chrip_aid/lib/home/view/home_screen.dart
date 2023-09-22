@@ -3,12 +3,13 @@ import 'package:chrip_aid/common/component/shadow_image.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/component/custom_speech_balloon.dart';
 import 'package:chrip_aid/home/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends TabScreen {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

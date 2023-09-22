@@ -16,18 +16,20 @@ class CustomTextField extends StatelessWidget {
     this.textSize = kTextSmallSize,
     this.color = Colors.black,
     this.verticalMargin = kPaddingMiniMiniSize,
-    this.horizontalMargin = kPaddingMiniMiniSize
+    this.horizontalMargin = kPaddingMiniMiniSize,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
+      margin: EdgeInsets.symmetric(
+          vertical: verticalMargin, horizontal: horizontalMargin),
       // decoration: BoxDecoration(
       //   border: Border.all(color: Colors.grey),
       //   borderRadius: BorderRadius.circular(8.0),
       // ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (iconData != null)
             Icon(
@@ -40,8 +42,10 @@ class CustomTextField extends StatelessWidget {
             child: Text(
               text,
               style: kTextPointStyleSmall.copyWith(
-                  color: color, fontSize: textSize),
-              //maxLines: 100,
+                color: color,
+                fontSize: textSize,
+              ),
+              overflow: TextOverflow.fade,
             ),
           ),
         ],

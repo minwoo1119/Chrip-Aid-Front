@@ -8,8 +8,8 @@ part of 'user_entity.dart';
 
 UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
       email: json['email'] as String,
-      password: json['password'] as String,
       name: json['name'] as String,
+      nickName: json['nick_name'] as String,
       age: json['age'] as int,
       sex: UserEntity._sexFromString(json['sex'] as String),
       region: json['region'] as String,
@@ -20,8 +20,8 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
 Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
     <String, dynamic>{
       'email': instance.email,
-      'password': instance.password,
       'name': instance.name,
+      'nick_name': instance.nickName,
       'age': instance.age,
       'sex': UserEntity._sexToString(instance.sex),
       'region': instance.region,

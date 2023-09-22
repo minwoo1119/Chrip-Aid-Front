@@ -1,6 +1,7 @@
 import 'package:chrip_aid/auth/dto/user_signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +35,7 @@ class UserSignUpViewModel extends ChangeNotifier {
     });
 
     sexDropdownController = CustomDropdownButtonController(
-      ["남", "여"],
+      Sex.values,
       onChanged: (_) => notifyListeners(),
     );
     locationDropdownController = CustomDropdownButtonController(
