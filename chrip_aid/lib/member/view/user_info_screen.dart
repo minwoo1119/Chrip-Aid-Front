@@ -57,7 +57,7 @@ class UserInfoScreen extends TabScreen {
                                   title: "${viewmodel.userInfo!.nickName}님",
                                   actions: [
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () => viewmodel.navigateToEditUserInfoPage(context),
                                       icon: const Icon(Icons.edit),
                                       iconSize: kIconSmallSize,
                                       padding: const EdgeInsets.symmetric(

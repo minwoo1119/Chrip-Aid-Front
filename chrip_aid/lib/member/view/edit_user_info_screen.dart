@@ -19,7 +19,7 @@ class EditUserInfoScreen extends ConsumerWidget {
     final viewModel = ref.watch(editUserInfoViewModelProvider);
     return DefaultLayout(
       backgroundColor: CustomColor.mainColor,
-      title: "Chirp Aid",
+      title: "회원 정보 수정",
       leading: IconButton(
         onPressed: context.pop,
         icon: const Icon(
@@ -46,33 +46,6 @@ class EditUserInfoScreen extends ConsumerWidget {
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
-                labelText: "이메일",
-                hintText: "Email",
-                prefixIcon: Icons.email,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) => validateEmail(value),
-                controller: viewModel.idTextController,
-              ),
-              const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "비밀번호",
-                hintText: "Password",
-                prefixIcon: Icons.lock,
-                keyboardType: TextInputType.visiblePassword,
-                validator: (value) => validatePassword(value),
-                controller: viewModel.passwordTextController,
-              ),
-              const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "비밀번호 확인",
-                hintText: "Check Password",
-                prefixIcon: Icons.password,
-                keyboardType: TextInputType.visiblePassword,
-                validator: (value) => validatePassword(value),
-                controller: viewModel.checkPasswordTextController,
-              ),
-              const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
                 labelText: "닉네임",
                 hintText: "Nickname",
                 prefixIcon: Icons.person,
@@ -84,9 +57,33 @@ class EditUserInfoScreen extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
+                    flex: 2,
+                    child: CustomTextFormField(
+                      labelText: "나이",
+                      hintText: "Age",
+                      prefixIcon: Icons.calendar_today,
+                      keyboardType: TextInputType.number,
+                      validator: (value) => validateName(value),
+                      controller: viewModel.ageTextController,
+                    ),
+                  ),
+                  const SizedBox(width: kPaddingMiddleSize),
+                  Expanded(
                     child: CustomDropdownButton(
                       viewModel.sexDropdownController,
                       leading: Icons.wc,
+                      action: Icons.arrow_drop_down,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomDropdownButton(
+                      viewModel.majorRegionDropdownController,
+                      leading: Icons.location_on,
                       action: Icons.arrow_drop_down,
                       boarderColor: CustomColor.backgroundMainColor,
                     ),
@@ -94,8 +91,8 @@ class EditUserInfoScreen extends ConsumerWidget {
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
                     child: CustomDropdownButton(
-                      viewModel.majorRegionDropdownController,
-                      leading: Icons.location_on,
+                      viewModel.subRegionDropdownController,
+                      leading: Icons.location_on_outlined,
                       action: Icons.arrow_drop_down,
                       boarderColor: CustomColor.backgroundMainColor,
                     ),
@@ -112,7 +109,7 @@ class EditUserInfoScreen extends ConsumerWidget {
                 controller: viewModel.phoneTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.state is LoadingState)
+              if (viewModel.authState is LoadingState)
                 const Center(
                   child: CircularProgressIndicator(
                     color: CustomColor.backGroundSubColor,
@@ -121,7 +118,7 @@ class EditUserInfoScreen extends ConsumerWidget {
               else
                 CustomOutlinedButton(
                   onPressed: () => viewModel.editUserInfo(context),
-                  text: '회원가입',
+                  text: '정보 수정',
                 ),
               const SizedBox(height: kPaddingXLargeSize),
             ],

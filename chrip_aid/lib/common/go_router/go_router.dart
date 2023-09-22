@@ -5,6 +5,7 @@ import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
+import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
@@ -43,6 +44,37 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          GoRoute(
+            path: 'member',
+            redirect: (context, state) {
+              if (state.location.contains('edit')) return null;
+              return '/member/edit';
+            },
+            builder: (context, state) => const SplashScreen(),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: 'editMember',
+                redirect: (context, state) {
+                  if (authority == AuthorityType.user) {
+                    return '/member/edit/user';
+                  }
+                  return '/member/edit/orphanage';
+                },
+                builder: (context, state) => const SplashScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'user',
+                    builder: (context, state) => const EditUserInfoScreen(),
+                  ),
+                  GoRoute(
+                    path: 'orphanage',
+                    builder: (context, state) => const EditUserInfoScreen(),
+                  ),
+                ],
+              )
+            ],
+          ),
         ],
       ),
       GoRoute(
@@ -54,7 +86,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/auth',
         builder: (context, state) => const SplashScreen(),
         redirect: (context, state) {
-          if(state.location.contains('signup')) return null;
+          if (state.location.contains('signup')) return null;
           return '/auth/login';
         },
         routes: [

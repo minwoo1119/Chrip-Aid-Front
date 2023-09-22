@@ -28,7 +28,7 @@ class AuthService extends StateNotifier<AuthState> {
     this.fcmRepository,
     this.storage,
   ) : super(AuthStateLoading()) {
-    _getUserInfo();
+    getUserInfo();
   }
 
   Future login({required String id, required String password}) async {
@@ -37,17 +37,19 @@ class AuthService extends StateNotifier<AuthState> {
       // await authRepository.login(LoginRequestDto(id: id, password: password));
       // final fcmToken = await fcmRepository.getFcmToken();
       // await authRepository.saveToken(fcmToken);
-      // await _getUserInfo();
-      state = AuthStateSuccess(UserEntity(
-        email: 'johnjames12@naver.com',
-        name: '박준식',
-        nickName: '키다리 아저씨',
-        age: 25,
-        sex: Sex.man,
-        region: Gyeonggi.pajusi,
-        phone: '01026304097',
-        profileUrl: '',
-      ));
+      // await getUserInfo();
+      state = AuthStateSuccess(
+        UserEntity(
+          email: 'johnjames12@naver.com',
+          name: '박준식',
+          nickName: '키다리 아저씨',
+          age: 25,
+          sex: Sex.man,
+          region: Gyeonggi.pajusi,
+          phone: '01026304097',
+          profileUrl: '',
+        ),
+      );
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
         return state = AuthStateError("id 또는 password가 틀렸습니다.");
@@ -67,7 +69,7 @@ class AuthService extends StateNotifier<AuthState> {
     state = AuthStateNone();
   }
 
-  Future _getUserInfo() async {
+  Future getUserInfo() async {
     final accessToken = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
     final refreshToken = await storage.read(
       key: dotenv.get('REFRESH_TOKEN_KEY'),
