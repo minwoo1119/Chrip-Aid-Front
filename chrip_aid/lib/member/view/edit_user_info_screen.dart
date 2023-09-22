@@ -1,5 +1,4 @@
 import 'package:chrip_aid/auth/util/validators.dart';
-import 'package:chrip_aid/auth/viewmodel/user_sign_up_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
@@ -7,18 +6,17 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/member/viewmodel/edit_user_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class UserSignUpScreen extends ConsumerWidget {
-  static String get routeName => 'userSignup';
-
-  const UserSignUpScreen({Key? key}) : super(key: key);
+class EditUserInfoScreen extends ConsumerWidget {
+  const EditUserInfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(userSignUpViewModelProvider);
+    final viewModel = ref.watch(editUserInfoViewModelProvider);
     return DefaultLayout(
       backgroundColor: CustomColor.mainColor,
       title: "Chirp Aid",
@@ -37,6 +35,15 @@ class UserSignUpScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: kPaddingMiddleSize),
+              CustomTextFormField(
+                labelText: "이름",
+                hintText: "Name",
+                prefixIcon: Icons.person,
+                keyboardType: TextInputType.name,
+                validator: (value) => validateName(value),
+                controller: viewModel.nameTextController,
+              ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
                 labelText: "이메일",
@@ -66,15 +73,6 @@ class UserSignUpScreen extends ConsumerWidget {
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
-                labelText: "이름",
-                hintText: "Name",
-                prefixIcon: Icons.person,
-                keyboardType: TextInputType.name,
-                validator: (value) => validateName(value),
-                controller: viewModel.nameTextController,
-              ),
-              const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
                 labelText: "닉네임",
                 hintText: "Nickname",
                 prefixIcon: Icons.person,
@@ -86,33 +84,9 @@ class UserSignUpScreen extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: 2,
-                    child: CustomTextFormField(
-                      labelText: "나이",
-                      hintText: "Age",
-                      prefixIcon: Icons.calendar_today,
-                      keyboardType: TextInputType.number,
-                      validator: (value) => validateName(value),
-                      controller: viewModel.ageTextController,
-                    ),
-                  ),
-                  const SizedBox(width: kPaddingMiddleSize),
-                  Expanded(
                     child: CustomDropdownButton(
                       viewModel.sexDropdownController,
                       leading: Icons.wc,
-                      action: Icons.arrow_drop_down,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: kPaddingMiddleSize),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomDropdownButton(
-                      viewModel.majorRegionDropdownController,
-                      leading: Icons.location_on,
                       action: Icons.arrow_drop_down,
                       boarderColor: CustomColor.backgroundMainColor,
                     ),
@@ -120,8 +94,8 @@ class UserSignUpScreen extends ConsumerWidget {
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
                     child: CustomDropdownButton(
-                      viewModel.subRegionDropdownController,
-                      leading: Icons.location_on_outlined,
+                      viewModel.majorRegionDropdownController,
+                      leading: Icons.location_on,
                       action: Icons.arrow_drop_down,
                       boarderColor: CustomColor.backgroundMainColor,
                     ),
@@ -146,7 +120,7 @@ class UserSignUpScreen extends ConsumerWidget {
                 )
               else
                 CustomOutlinedButton(
-                  onPressed: () => viewModel.signup(context),
+                  onPressed: () => viewModel.editUserInfo(context),
                   text: '회원가입',
                 ),
               const SizedBox(height: kPaddingXLargeSize),

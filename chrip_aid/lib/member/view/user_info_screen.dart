@@ -76,8 +76,13 @@ class UserInfoScreen extends TabScreen {
                                 ),
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(
-                                  iconData: Icons.phone,
-                                  text: viewmodel.userInfo!.region,
+                                  iconData: Icons.calendar_today,
+                                  text: "${viewmodel.userInfo!.age.toString()}세",
+                                ),
+                                const SizedBox(height: kPaddingMiniSize),
+                                CustomTextField(
+                                  iconData: Icons.location_on,
+                                  text: viewmodel.userInfo!.region.toJson(),
                                 ),
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(

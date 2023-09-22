@@ -1,4 +1,8 @@
-enum Busan {
+import 'package:chrip_aid/auth/model/type/region.dart';
+
+import 'sub_region.dart';
+
+enum Busan implements SubRegion {
   junggu('중구'),
   seogu('서구'),
   donggu('동구'),
@@ -16,9 +20,16 @@ enum Busan {
   sasanggu('사상구'),
   gijanggun("기장군");
 
+  @override
   final String value;
 
+  @override
+  MajorRegion get majorRegion => MajorRegion.busan;
+
   const Busan(this.value);
+
+  @override
+  String toJson() => "${majorRegion.value} ($value)";
 
   @override
   String toString() => value;

@@ -1,4 +1,7 @@
-enum Seoul {
+import 'package:chrip_aid/auth/model/type/region.dart';
+import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
+
+enum Seoul implements SubRegion {
   jongrogu('종로구'),
   junggu('중구'),
   yongsangu('용산구'),
@@ -25,9 +28,16 @@ enum Seoul {
   songpagu('송파구'),
   gangdonggu('강동구');
 
+  @override
   final String value;
 
+  @override
+  MajorRegion get majorRegion => MajorRegion.seoul;
+
   const Seoul(this.value);
+
+  @override
+  String toJson() => "${majorRegion.value} ($value)";
 
   @override
   String toString() => value;

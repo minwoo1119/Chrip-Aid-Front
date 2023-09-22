@@ -1,4 +1,8 @@
-enum Gyeonggi {
+import 'package:chrip_aid/auth/model/type/region.dart';
+
+import 'sub_region.dart';
+
+enum Gyeonggi implements SubRegion {
   suwonsi('수원시'),
   seongnamsi('성남시'),
   uijeongbusi('의정부시'),
@@ -14,23 +18,30 @@ enum Gyeonggi {
   namyangjusi("남양주시"),
   osansi("오산시"),
   siheungsi("시흥시"),
-  gunposi ("군포시"),
-  uiwangsi ("의왕시"),
-  hanamsi ('하남시'),
-  yonginsi ('용인시'),
-  pajusi ('파주시'),
-  icheonsi ('이천시'),
-  anseongsi ('안성시'),
-  gimposi ('김포시'),
-  hwaseongsi ('화성시'),
-  gwangjusi ('광주시'),
-  yangjusi ('양주시'),
-  pocheonsi ("포천시"),
-  yeojusi ("여주시");
+  gunposi("군포시"),
+  uiwangsi("의왕시"),
+  hanamsi('하남시'),
+  yonginsi('용인시'),
+  pajusi('파주시'),
+  icheonsi('이천시'),
+  anseongsi('안성시'),
+  gimposi('김포시'),
+  hwaseongsi('화성시'),
+  gwangjusi('광주시'),
+  yangjusi('양주시'),
+  pocheonsi("포천시"),
+  yeojusi("여주시");
 
+  @override
   final String value;
 
+  @override
+  MajorRegion get majorRegion => MajorRegion.gyeonggi;
+
   const Gyeonggi(this.value);
+
+  @override
+  String toJson() => "${majorRegion.value} ($value)";
 
   @override
   String toString() => value;

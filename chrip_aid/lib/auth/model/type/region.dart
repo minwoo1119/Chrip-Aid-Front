@@ -13,10 +13,11 @@ import 'package:chrip_aid/auth/model/type/region/jeju.dart';
 import 'package:chrip_aid/auth/model/type/region/jeonbuk.dart';
 import 'package:chrip_aid/auth/model/type/region/jeonnam.dart';
 import 'package:chrip_aid/auth/model/type/region/seoul.dart';
+import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/region/ulsan.dart';
 
 
-enum Region<T> {
+enum MajorRegion {
   seoul("서울", Seoul.values),
   busan("부산", Busan.values),
   daegu("대구", Daegu.values),
@@ -35,10 +36,13 @@ enum Region<T> {
   jeju("제주", Jeju.values);
 
   final String value;
-  final List<T> subTypes;
+  final List<SubRegion> subTypes;
 
-  const Region(this.value, this.subTypes);
+  const MajorRegion(this.value, this.subTypes);
 
   @override
   String toString() => value;
+
+  factory MajorRegion.fromString(String value) =>
+      MajorRegion.values.firstWhere((element) => element.value == value);
 }

@@ -1,6 +1,8 @@
 import 'package:chrip_aid/auth/dto/user_signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/model/type/region.dart';
+import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +20,14 @@ class UserSignUpViewModel extends ChangeNotifier {
   final passwordTextController = TextEditingController(text: '');
   final checkPasswordTextController = TextEditingController(text: '');
   final nicknameTextController = TextEditingController(text: '');
+  final ageTextController = TextEditingController(text: '');
   final phoneTextController = TextEditingController(text: '');
 
-  late final CustomDropdownButtonController sexDropdownController;
-  late final CustomDropdownButtonController locationDropdownController;
+  late final CustomDropdownButtonController<Sex> sexDropdownController;
+  late final CustomDropdownButtonController<MajorRegion>
+      majorRegionDropdownController;
+  late final CustomDropdownButtonController<SubRegion>
+      subRegionDropdownController;
 
   late AuthState state;
 
@@ -38,8 +44,16 @@ class UserSignUpViewModel extends ChangeNotifier {
       Sex.values,
       onChanged: (_) => notifyListeners(),
     );
-    locationDropdownController = CustomDropdownButtonController(
-      ["구미", "대구", "경산", "파주"],
+    majorRegionDropdownController = CustomDropdownButtonController(
+      MajorRegion.values,
+      onChanged: (_) {
+        subRegionDropdownController.items =
+            majorRegionDropdownController.selected.subTypes;
+        notifyListeners();
+      },
+    );
+    subRegionDropdownController = CustomDropdownButtonController(
+      majorRegionDropdownController.selected.subTypes,
       onChanged: (_) => notifyListeners(),
     );
   }
@@ -50,9 +64,10 @@ class UserSignUpViewModel extends ChangeNotifier {
             name: nameTextController.text,
             email: idTextController.text,
             password: passwordTextController.text,
-            sex: sexDropdownController.selected,
+            sex: sexDropdownController.selected.value,
+            age: int.parse(ageTextController.text),
             nickname: nicknameTextController.text,
-            region: locationDropdownController.selected,
+            region: subRegionDropdownController.selected.toJson(),
             phoneNumber: phoneTextController.text,
             profilePhoto: '',
           ),

@@ -1,3 +1,8 @@
+import 'package:chrip_aid/auth/model/entity/user_entity.dart';
+import 'package:chrip_aid/auth/model/service/auth_service.dart';
+import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/model/type/region.dart';
+import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
@@ -21,46 +26,77 @@ final orphanageSearchViewModelProvider =
 
 class OrphanageSearchViewModel extends ChangeNotifier {
   Ref ref;
+
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
 
-  late final CustomDropdownButtonController locationDropdownController;
+  late final CustomDropdownButtonController<MajorRegion>
+      majorRegionDropdownController;
+  late final CustomDropdownButtonController<SubRegion>
+      subRegionDropdownController;
 
   late final CustomDropdownButtonController sortDropdownController;
 
   final panelController = SlidingUpPanelController();
   final searchTextController = TextEditingController();
 
-  late OrphanageState state;
+  late AuthState authState;
+
+  UserEntity? get userInfo => authState is AuthStateSuccess
+      ? (authState as AuthStateSuccess).data
+      : null;
+
+  late OrphanageState orphanageState;
 
   OrphanageEntity? orphanage;
 
   List<OrphanageEntity> get orphanageList => OrphanageState.list
       .where((e) =>
-          e.address.contains(locationDropdownController.selected) &&
+          e.address.contains(subRegionDropdownController.selected.value) &&
+          e.address.contains(majorRegionDropdownController.selected.value) &&
           e.orphanageName.contains(searchTextController.text))
       .toList();
 
   OrphanageSearchViewModel(this.ref) {
-    locationDropdownController = CustomDropdownButtonController(
-      ["구미", "대구", "경산", "파주"],
+    orphanageState = ref.read(orphanageServiceProvider);
+    ref.listen(orphanageServiceProvider, (previous, next) {
+      if (previous != next) {
+        orphanageState = next;
+        if (orphanageState is NoneState) _initMarker();
+        notifyListeners();
+      }
+    });
+    authState = ref.read(authServiceProvider);
+    ref.listen(authServiceProvider, (previous, next) {
+      if (previous != next) {
+        authState = next;
+        notifyListeners();
+      }
+    });
+
+    majorRegionDropdownController = CustomDropdownButtonController(
+      MajorRegion.values,
+      initIndex: MajorRegion.values.indexOf(userInfo!.region.majorRegion),
+      onChanged: (_) {
+        subRegionDropdownController.items =
+            majorRegionDropdownController.selected.subTypes;
+        notifyListeners();
+      },
+    );
+    subRegionDropdownController = CustomDropdownButtonController(
+      majorRegionDropdownController.selected.subTypes,
+      initIndex: userInfo!.region.majorRegion.subTypes.indexOf(
+        userInfo!.region,
+      ),
       onChanged: (_) => notifyListeners(),
     );
     sortDropdownController = CustomDropdownButtonController(
       ["최신순", "오래된순"],
       onChanged: (_) => notifyListeners(),
     );
-    state = ref.read(orphanageServiceProvider);
-    ref.listen(orphanageServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        if (state is NoneState) _initMarker();
-        notifyListeners();
-      }
-    });
   }
 
-  void onTextChange() => notifyListeners();
+  void onValueChange() => notifyListeners();
 
   void onPanelExpanded(BuildContext context) {
     panelController.collapse();

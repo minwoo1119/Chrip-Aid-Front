@@ -11,6 +11,7 @@ class UserSignupRequestDto implements SignupRequestDto {
   String email;
   @override
   String password;
+  int age;
   String sex;
   String nickname;
   String region;
@@ -23,6 +24,7 @@ class UserSignupRequestDto implements SignupRequestDto {
     required this.name,
     required this.email,
     required this.password,
+    required this.age,
     required this.sex,
     required this.nickname,
     required this.region,

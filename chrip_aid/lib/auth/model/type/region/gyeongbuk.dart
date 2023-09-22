@@ -1,4 +1,8 @@
-enum Gyeongbuk {
+import 'package:chrip_aid/auth/model/type/region.dart';
+
+import 'sub_region.dart';
+
+enum Gyeongbuk implements SubRegion {
   pohangsi('포항시'),
   gyeongjusi('경주시'),
   gimcheonsi('김천시'),
@@ -10,9 +14,16 @@ enum Gyeongbuk {
   mungyeongsi("문경시"),
   gyeongsansi("경산시");
 
+  @override
   final String value;
 
+  @override
+  MajorRegion get majorRegion => MajorRegion.gyeongbuk;
+
   const Gyeongbuk(this.value);
+
+  @override
+  String toJson() => "${majorRegion.value} ($value)";
 
   @override
   String toString() => value;

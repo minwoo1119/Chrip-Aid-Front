@@ -63,9 +63,12 @@ class _OrphanageSearchUI extends ConsumerWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: CustomDropdownButton(
-                    viewModel.locationDropdownController,
-                    leading: Icons.location_on,
+                  child: InkWell(
+                    onTap: () => viewModel.navigateToSearchPage(context),
+                    child: CustomDropdownButtonItem(
+                      viewModel.majorRegionDropdownController.selected.value,
+                      leading: Icons.location_on,
+                    ),
                   ),
                 ),
                 const SizedBox(width: kLayoutMargin),

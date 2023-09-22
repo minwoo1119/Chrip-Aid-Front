@@ -1,3 +1,4 @@
+import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,17 +14,20 @@ class UserEntity {
   final String nickName;
   @JsonKey(name: 'age')
   final int age;
-  @JsonKey(name: 'sex', fromJson: _sexFromString, toJson: _sexToString)
+  @JsonKey(name: 'sex', fromJson: _sexFromJson, toJson: _sexToJson)
   final Sex sex;
-  @JsonKey(name: 'region')
-  final String region;
+  @JsonKey(name: 'region', fromJson: _regionFromJson, toJson: _regionToJson,)
+  final SubRegion region;
   @JsonKey(name: 'phone_number')
   final String phone;
   @JsonKey(name: 'profile_photo')
   final String profileUrl;
 
-  static Sex _sexFromString(String sex) => Sex.fromString(sex);
-  static String _sexToString(Sex sex) => sex.value;
+  static Sex _sexFromJson(String sex) => Sex.fromString(sex);
+  static String _sexToJson(Sex sex) => sex.value;
+
+  static SubRegion _regionFromJson(String region) => SubRegion.fromString(region);
+  static String _regionToJson(SubRegion region) => region.toJson();
 
   UserEntity({
     required this.email,

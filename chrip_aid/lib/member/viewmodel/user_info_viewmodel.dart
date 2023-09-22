@@ -17,5 +17,8 @@ class UserInfoViewmodel extends ChangeNotifier {
 
   UserInfoViewmodel(this.ref) {
     state = ref.read(authServiceProvider);
+    ref.listen(authServiceProvider, (previous, next) {
+      if(previous != next) state = next;
+    });
   }
 }

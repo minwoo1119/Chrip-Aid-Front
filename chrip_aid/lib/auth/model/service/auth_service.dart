@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/model/type/region/gyeonggi.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:dio/dio.dart';
@@ -43,7 +44,7 @@ class AuthService extends StateNotifier<AuthState> {
         nickName: '키다리 아저씨',
         age: 25,
         sex: Sex.man,
-        region: '대구 수성구 달구벌대로 522길 33 108동 1302호',
+        region: Gyeonggi.pajusi,
         phone: '01026304097',
         profileUrl: '',
       ));

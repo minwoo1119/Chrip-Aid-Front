@@ -10,10 +10,12 @@ class CustomDropdownButton<T> extends ConsumerWidget {
   final TextStyle textStyle;
   final IconData? leading;
   final IconData? action;
+  final double itemHeight;
 
   CustomDropdownButton(
     CustomDropdownButtonController<T> controller, {
     Key? key,
+    this.itemHeight = 48.0,
     this.buttonColor = CustomColor.mainColor,
     this.boarderColor = CustomColor.mainColor,
     this.textStyle = kTextReverseStyleMiddle,
@@ -27,7 +29,7 @@ class CustomDropdownButton<T> extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(_controller);
     return DropdownButton<T>(
-      itemHeight: 48.0,
+      itemHeight: itemHeight,
       isExpanded: true,
       dropdownColor: buttonColor,
       icon: const SizedBox.shrink(),
@@ -43,40 +45,82 @@ class CustomDropdownButton<T> extends ConsumerWidget {
       onChanged: controller.onChanged,
       value: controller.selected,
       selectedItemBuilder: (context) => controller.items
-          .map(
-            (e) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kBorderRadiusSize),
-                border: Border.all(color: boarderColor, width: 3.0),
-                color: buttonColor,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: kPaddingSmallSize,
-              ),
-              child: Row(
-                children: [
-                  if (leading != null) Icon(leading, color: textStyle.color),
-                  const SizedBox(width: kPaddingSmallSize),
-                  Expanded(
-                    child: Text(
-                      e.toString(),
-                      style: kTextReverseStyleMiddle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(width: kPaddingSmallSize),
-                  if (action != null) Icon(action, color: textStyle.color),
-                ],
-              ),
-            ),
-          )
+          .map((e) => CustomDropdownButtonItem(
+                e.toString(),
+                buttonColor: buttonColor,
+                boarderColor: boarderColor,
+                textStyle: textStyle,
+                leading: leading,
+                action: action,
+                itemHeight: itemHeight,
+              ))
           .toList(),
     );
   }
 }
 
+class CustomDropdownButtonItem extends StatelessWidget {
+  final Color buttonColor;
+  final Color boarderColor;
+  final TextStyle textStyle;
+  final IconData? leading;
+  final IconData? action;
+  final double itemHeight;
+  final String text;
+
+  const CustomDropdownButtonItem(
+    this.text, {
+    Key? key,
+    this.buttonColor = CustomColor.mainColor,
+    this.boarderColor = CustomColor.mainColor,
+    this.textStyle = kTextReverseStyleMiddle,
+    this.itemHeight = 48.0,
+    this.leading,
+    this.action,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: itemHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(kBorderRadiusSize),
+        border: Border.all(color: boarderColor, width: 3.0),
+        color: buttonColor,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kPaddingSmallSize,
+      ),
+      child: Row(
+        children: [
+          if (leading != null) Icon(leading, color: textStyle.color),
+          const SizedBox(width: kPaddingSmallSize),
+          Expanded(
+            child: Text(
+              text,
+              style: kTextReverseStyleMiddle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: kPaddingSmallSize),
+          if (action != null) Icon(action, color: textStyle.color),
+        ],
+      ),
+    );
+  }
+}
+
 class CustomDropdownButtonController<T> extends ChangeNotifier {
-  final List<T> items;
+  List<T> _items;
+
+  List<T> get items => _items;
+
+  set items(List<T> items) {
+    _items = items;
+    _selected = _items[0];
+    notifyListeners();
+  }
+
   late final void Function(T? value) onChanged;
 
   late T _selected;
@@ -84,11 +128,11 @@ class CustomDropdownButtonController<T> extends ChangeNotifier {
   T get selected => _selected;
 
   CustomDropdownButtonController(
-    this.items, {
+    this._items, {
     int initIndex = 0,
     Function(T value)? onChanged,
-  }) : assert(initIndex < items.length && initIndex >= 0) {
-    _selected = items[initIndex];
+  }) : assert(initIndex < _items.length && initIndex >= 0) {
+    _selected = _items[initIndex];
     this.onChanged = (T? value) {
       if (value == null) return;
       _selected = value;

@@ -44,7 +44,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: Material(
                         child: CustomTextFieldBar(
                           controller: viewModel.searchTextController,
-                          onChanged: (_) => viewModel.onTextChange(),
+                          onChanged: (_) => viewModel.onValueChange(),
                         ),
                       ),
                     ),
@@ -59,14 +59,25 @@ class OrphanageSearchScreen extends ConsumerWidget {
                     child: SizedBox(
                       height: kTextMediumSize * 2,
                       child: CustomDropdownButton(
-                        viewModel.locationDropdownController,
+                        viewModel.majorRegionDropdownController,
                         leading: Icons.location_on,
                       ),
                     ),
                   ),
                   const SizedBox(width: kLayoutGutter),
                   Expanded(
-                    flex: 4,
+                    flex: 2,
+                    child: SizedBox(
+                      height: kTextMediumSize * 2,
+                      child: CustomDropdownButton(
+                        viewModel.subRegionDropdownController,
+                        leading: Icons.location_on_outlined,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: kLayoutGutter),
+                  Expanded(
+                    flex: 2,
                     child: SizedBox(
                       height: kTextMediumSize * 2,
                       child: CustomDropdownButton(
