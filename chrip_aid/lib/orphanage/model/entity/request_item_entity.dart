@@ -1,7 +1,7 @@
 class RequestItemEntity {
   final String requestId;
   final String productName;
-  final double price;
+  final int price;
   final int requestCount;
   final int supportCount;
   final String message;

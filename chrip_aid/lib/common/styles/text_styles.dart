@@ -106,6 +106,14 @@ const TextStyle kTextContentStyleSmall = TextStyle(
   height: kTextHeight,
 );
 
+const TextStyle kTextContentStyleMedium = TextStyle(
+  color: Colors.black,
+  fontSize: kTextMediumSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
 const TextStyle kTextSubContentStyleSmall = TextStyle(
   color: CustomColor.ContentSubColor,
   fontSize: kTextMiniSize,

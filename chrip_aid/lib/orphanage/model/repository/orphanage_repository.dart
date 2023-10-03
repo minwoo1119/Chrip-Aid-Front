@@ -20,7 +20,7 @@ class OrphanageRepository {
       productPhoto: 'assets/image/choco_pie.jpg',
       productName: "초코파이",
       message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-      price: 8630.0,
+      price: 8630,
       requestCount: 30,
       supportCount: 21,
       requestId: '1',
@@ -29,7 +29,7 @@ class OrphanageRepository {
       productPhoto: 'assets/image/choco_pie.jpg',
       productName: "초코파이",
       message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-      price: 8630.0,
+      price: 8630,
       requestCount: 30,
       supportCount: 21,
       requestId: '2',
@@ -38,7 +38,7 @@ class OrphanageRepository {
       productPhoto: 'assets/image/choco_pie.jpg',
       productName: "초코파이",
       message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-      price: 8630.0,
+      price: 8630,
       requestCount: 30,
       supportCount: 21,
       requestId: '3',
@@ -47,7 +47,7 @@ class OrphanageRepository {
       productPhoto: 'assets/image/choco_pie.jpg',
       productName: "초코파이",
       message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-      price: 8630.0,
+      price: 8630,
       requestCount: 30,
       supportCount: 21,
       requestId: '4',
@@ -76,7 +76,6 @@ class OrphanageRepository {
 
   // 컴포넌트 장바구니 아이콘 클릭
   void addItem(String requestId, int count) {
-    print(requestId);
     _savedProducts
         .add(OrphanageAddProductEntity(requestId: requestId, count: count));
     print("요청 아이디 : ${requestId}");
@@ -106,7 +105,7 @@ class OrphanageRepository {
           productPhoto: 'assets/image/choco_pie.jpg',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-          price: 8630.0,
+          price: 8630,
           requestCount: 30,
           supportCount: 21,
           requestId: '1',
@@ -115,7 +114,7 @@ class OrphanageRepository {
           productPhoto: 'assets/image/choco_pie.jpg',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-          price: 8630.0,
+          price: 8630,
           requestCount: 30,
           supportCount: 21,
           requestId: '2',
@@ -124,7 +123,7 @@ class OrphanageRepository {
           productPhoto: 'assets/image/choco_pie.jpg',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-          price: 8630.0,
+          price: 8630,
           requestCount: 30,
           supportCount: 21,
           requestId: '3',
@@ -133,7 +132,7 @@ class OrphanageRepository {
           productPhoto: 'assets/image/choco_pie.jpg',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
-          price: 8630.0,
+          price: 8630,
           requestCount: 30,
           supportCount: 21,
           requestId: '4',

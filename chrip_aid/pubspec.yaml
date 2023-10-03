@@ -53,6 +53,9 @@ dependencies:
   progress_indicators: ^1.0.0
   liquid_progress_indicator: ^0.4.0
 
+  # Get 패키지 사용
+  get: ^4.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

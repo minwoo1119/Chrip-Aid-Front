@@ -37,6 +37,7 @@ class OrphanageTextForm extends StatelessWidget {
               ),
               const SizedBox(width: 5.0),
               Text(
+
                 title,
                 style: const TextStyle(
                   fontSize: kTextXSmallSize,

@@ -8,7 +8,8 @@ final orphanageProductServiceProvider = StateNotifierProvider<OrphanageProductSe
 class OrphanageProductService extends StateNotifier<OrphanageState> {
   final OrphanageRepository repository;
 
-  OrphanageProductService(this.repository) : super(OrphanageStateNone());
+
+  OrphanageProductService(this.repository) : super(OrphanageProductStateNone());
 
   Future add({
     required String requestId,

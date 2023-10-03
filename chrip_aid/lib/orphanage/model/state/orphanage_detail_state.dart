@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/state/state.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_basket_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 
 abstract class OrphanageState {}
@@ -13,6 +14,21 @@ class OrphanageStateSuccess extends SuccessState<OrphanageDetailEntity> implemen
 
 class OrphanageStateError extends ErrorState implements OrphanageState {
   OrphanageStateError(super.message);
+}
+
+//장바구니
+
+class OrphanageBasketStateNone extends NoneState implements OrphanageState {}
+
+class OrphanageBasketStateLoading extends LoadingState implements OrphanageState {}
+
+class OrphanageBasketStateSuccess extends SuccessState<OrphanageBasketEntity> implements OrphanageState {
+  OrphanageBasketStateSuccess(super.data);
+}
+
+
+class OrphanageBasketStateError extends ErrorState implements OrphanageState {
+  OrphanageBasketStateError(super.message);
 }
 
 class OrphanageProductStateNone extends NoneState implements OrphanageState {}

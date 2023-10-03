@@ -41,7 +41,6 @@ class CustomTextField extends StatelessWidget {
               text,
               style: kTextPointStyleSmall.copyWith(
                   color: color, fontSize: textSize),
-              //maxLines: 100,
             ),
           ),
         ],
