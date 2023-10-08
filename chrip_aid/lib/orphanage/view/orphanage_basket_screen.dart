@@ -1,9 +1,11 @@
+import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_basket_product_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class OrphanageBasketScreen extends ConsumerStatefulWidget {
   static String get routeName => 'Basket';
@@ -19,73 +21,82 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(orphanageBasketViewModelProvider);
     return DetailPageLayout(
-        title: "장바구니",
-        child: Column(
-          children: [
-            CustomBasketProductBox(
-                basketProductId: viewModel.entity.basketProductId,
-                productName: viewModel.entity.productName,
-                count: viewModel.entity.count,
-                price: viewModel.entity.price,
-                orphanageName: viewModel.entity.orphanageName),
-            CustomBasketProductBox(
-                basketProductId: viewModel.entity.basketProductId,
-                productName: viewModel.entity.productName,
-                count: viewModel.entity.count,
-                price: viewModel.entity.price,
-                orphanageName: viewModel.entity.orphanageName),
-            CustomBasketProductBox(
-                basketProductId: viewModel.entity.basketProductId,
-                productName: viewModel.entity.productName,
-                count: viewModel.entity.count,
-                price: viewModel.entity.price,
-                orphanageName: viewModel.entity.orphanageName),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(kPaddingMiddleSize),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Row(
+      title: "장바구니",
+      child: viewModel.state is SuccessState
+          ? Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: viewModel.entity.length,
+                    itemBuilder: (context, index) {
+                      final item = viewModel.entity[index];
+                      return CustomBasketProductBox(
+                          basketProductId: item.basketProductId,
+                          productName: item.productName,
+                          count: item.count,
+                          price: item.price,
+                          orphanageName: item.orphanageName,
+                          onCountUpdate: (int updatedCount) {
+                            viewModel.updateBasket(
+                                updatedCount, item.requestId);
+                          },
+                          deleteBasket: () {
+                            print("d");
+                            viewModel.deleteBasket(item.requestId);
+                          });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(kPaddingMiddleSize),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          "합계",
-                          style: kTextContentStyleMedium,
-                        ),
-                        Expanded(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        Row(
                           children: [
-                            Text(
-                              "원",
+                            const Text(
+                              "합계",
                               style: kTextContentStyleMedium,
-                            )
+                            ),
+                            Expanded(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "${NumberFormat.decimalPattern().format(viewModel.total)} 원",
+                                  style: kTextContentStyleMedium,
+                                )
+                              ],
+                            ))
                           ],
-                        ))
+                        ),
+                        const SizedBox(
+                          height: kPaddingMiddleSize,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: Colors.black,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: kPaddingMiddleSize)),
+                                    child: const Text(
+                                      "구매하기",
+                                      style: kTextReverseStyleMiddle,
+                                    ))),
+                          ],
+                        )
                       ],
                     ),
-                    const SizedBox(height: kPaddingMiddleSize,),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: Colors.black,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: kPaddingMiddleSize)),
-                                child: const Text(
-                                  "구매하기",
-                                  style: kTextReverseStyleMiddle,
-                                ))),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+                  ),
+                )
+              ],
             )
-          ],
-        ));
+          : const Center(child: CircularProgressIndicator()),
+    );
   }
 }

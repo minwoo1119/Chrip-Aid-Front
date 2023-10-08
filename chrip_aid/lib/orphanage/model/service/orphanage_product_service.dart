@@ -11,22 +11,4 @@ class OrphanageProductService extends StateNotifier<OrphanageState> {
 
   OrphanageProductService(this.repository) : super(OrphanageProductStateNone());
 
-  Future add({
-    required String requestId,
-    required int count,
-  }) async {
-    state = OrphanageProductStateLoading();
-    // TODO : remove delay for test
-    await Future.delayed(const Duration(seconds: 1));
-
-    try {
-      repository.addItem(requestId, count);
-    } catch (e) {
-      state = OrphanageProductStateError(e.toString());
-    }
-  }
-
-  Future checkCart() async {
-    repository.checkCart();
-  }
 }

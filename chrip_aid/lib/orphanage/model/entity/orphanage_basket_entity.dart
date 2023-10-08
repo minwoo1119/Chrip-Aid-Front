@@ -1,12 +1,13 @@
-
 class OrphanageBasketEntity {
+  final int requestId;
   final int basketProductId;
   final String productName;
   final int count;
   final int price;
   final String orphanageName;
 
-  OrphanageBasketEntity({
+  OrphanageBasketEntity( {
+    required this.requestId,
     required this.basketProductId,
     required this.productName,
     required this.count,
@@ -15,7 +16,8 @@ class OrphanageBasketEntity {
   });
 
   OrphanageBasketEntity.fromJson(Map<String, dynamic> json)
-      : basketProductId = json["basket_product_id"],
+      : requestId = json["request_id"],
+        basketProductId = json["basket_product_id"],
         productName = json["product_name"],
         count = json["count"],
         price = json["price"],

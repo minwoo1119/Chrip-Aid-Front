@@ -10,14 +10,15 @@ class Product {
   final int count;
   final int price;
   final String orphanageName;
+  final Function(int) onCountUpdate;
 
-  Product({
-    required this.basketProductId,
-    required this.productName,
-    required this.count,
-    required this.price,
-    required this.orphanageName,
-  });
+  Product(
+      {required this.basketProductId,
+      required this.productName,
+      required this.count,
+      required this.price,
+      required this.orphanageName,
+      required this.onCountUpdate});
 }
 
 class CustomBasketProductBox extends ConsumerStatefulWidget {
@@ -26,6 +27,8 @@ class CustomBasketProductBox extends ConsumerStatefulWidget {
   final int count;
   final int price;
   final String orphanageName;
+  final Function(int) onCountUpdate;
+  final Function deleteBasket;
 
   const CustomBasketProductBox(
       {required this.basketProductId,
@@ -33,6 +36,8 @@ class CustomBasketProductBox extends ConsumerStatefulWidget {
       required this.count,
       required this.price,
       required this.orphanageName,
+      required this.onCountUpdate,
+      required this.deleteBasket,
       super.key});
 
   @override
@@ -41,18 +46,16 @@ class CustomBasketProductBox extends ConsumerStatefulWidget {
 
 class CustomBasketProductBoxState
     extends ConsumerState<CustomBasketProductBox> {
-  int counter = 1;
-
   @override
   Widget build(BuildContext context) {
     const String photo = 'assets/image/choco_pie.jpg';
     final product = Product(
-      basketProductId: widget.basketProductId,
-      productName: widget.productName,
-      count: widget.count,
-      price: widget.price,
-      orphanageName: widget.orphanageName,
-    );
+        basketProductId: widget.basketProductId,
+        productName: widget.productName,
+        count: widget.count,
+        price: widget.price,
+        orphanageName: widget.orphanageName,
+        onCountUpdate: widget.onCountUpdate);
     return Container(
       padding: const EdgeInsets.symmetric(
           horizontal: kPaddingMiddleSize, vertical: kPaddingSmallSize),
@@ -98,12 +101,10 @@ class CustomBasketProductBoxState
                   children: [
                     /** 수량 감소 버튼 **/
                     RawMaterialButton(
-                      onPressed: counter == 1
+                      onPressed: product.count == 1
                           ? null
                           : () {
-                              setState(() {
-                                counter--;
-                              });
+                              widget.onCountUpdate(product.count - 1);
                             },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
@@ -113,28 +114,27 @@ class CustomBasketProductBoxState
                       elevation: 0.0,
                       highlightElevation: 0.0,
                       fillColor:
-                          counter == 1 ? CustomColor.disabledColor : null,
+                          product.count == 1 ? CustomColor.disabledColor : null,
                       constraints: const BoxConstraints(
                         minWidth: 45.0,
                         minHeight: 45.0,
                       ),
                       child: Icon(
                         Icons.remove,
-                        color: counter == 1 ? Colors.grey : Colors.black,
+                        color: product.count == 1 ? Colors.grey : Colors.black,
                       ),
                     ),
                     /** 수량 **/
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kPaddingSmallSize),
-                      child: Text('$counter', style: kTextContentStyleMedium),
+                      child: Text('${product.count}',
+                          style: kTextContentStyleMedium),
                     ),
                     /** 수량 증가 버튼 **/
                     RawMaterialButton(
                       onPressed: () {
-                        setState(() {
-                          counter++;
-                        });
+                        widget.onCountUpdate(product.count + 1);
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
@@ -158,7 +158,7 @@ class CustomBasketProductBoxState
                             padding:
                                 const EdgeInsets.only(right: kPaddingMiniSize),
                             child: Text(
-                              "${NumberFormat.decimalPattern().format(counter * product.price)}원",
+                              "${NumberFormat.decimalPattern().format(product.count * product.price)}원",
                               style: kTextContentStyleMedium.copyWith(
                                   //color: CustomColor.ContentSubColor
                                   ),
@@ -177,7 +177,7 @@ class CustomBasketProductBoxState
             children: [
               InkWell(
                 onTap: () {
-                  // 버튼을 눌렀을 때 수행할 동작
+                  widget.deleteBasket();
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(0.0), // 여백 없애기

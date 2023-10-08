@@ -1,5 +1,6 @@
 import 'package:chrip_aid/orphanage/component/custom_field_padding.dart';
 import 'package:chrip_aid/orphanage/component/custom_percent_indicator.dart';
+import 'package:chrip_aid/orphanage/viewmodel/orphanage_basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
@@ -7,7 +8,7 @@ import 'package:intl/intl.dart';
 import '../viewmodel/orphange_detail_viewmodel.dart';
 
 class Product {
-  final String requiredId;
+  final int requiredId;
   final String photo;
   final String name;
   final String description;
@@ -29,7 +30,7 @@ class Product {
 }
 
 class CustomProductBox extends ConsumerWidget {
-  final String requiredId;
+  final int requiredId;
   final String photo;
   final String name;
   final String description;
@@ -136,7 +137,7 @@ class CustomProductBox extends ConsumerWidget {
 
 class CustomBottomSheet extends ConsumerStatefulWidget {
   final String name;
-  final String requestId;
+  final int requestId;
   final int price;
 
   const CustomBottomSheet(
@@ -155,7 +156,7 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(orphanageDetailViewModelProvider);
+    final viewModel = ref.watch(orphanageBasketViewModelProvider);
     final String name = widget.name;
     final int price = widget.price;
     return IconButton(
@@ -298,7 +299,7 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    viewModel.addProduct(
+                                    viewModel.addOrUpdateBasket(
                                         widget.requestId, _counter);
                                     setState(() {
                                       _counter = 1; // _counter 변수를 1로 초기화

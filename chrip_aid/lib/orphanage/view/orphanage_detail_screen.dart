@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/const/tabs.dart';
-
 import '../component/custom_date_picker.dart';
 
 class OrphanageDetailScreen extends ConsumerStatefulWidget {
@@ -33,15 +32,11 @@ class OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
     tabController = TabController(length: TABS.length, vsync: this);
     tabController.addListener(() {
       setState(() {
-        if (tabController.index == 0) {
-          fabIcon = Icons.shopping_cart;
-          tabColor = Colors.white;
-          tabTextColor = Colors.black;
-        } else {
-          fabIcon = Icons.edit_document;
-          tabColor = CustomColor.mainColor;
-          tabTextColor = Colors.white;
-        }
+        fabIcon = tabController.index == 0
+            ? Icons.shopping_cart
+            : Icons.edit_document;
+        tabColor = tabController.index == 0 ? Colors.white : CustomColor.mainColor;
+        tabTextColor = tabController.index == 0 ? Colors.black : Colors.white;
       });
     });
   }
@@ -51,7 +46,6 @@ class OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
     final viewModel = ref.watch(orphanageDetailViewModelProvider);
     final tabs = [0, 1];
     return GestureDetector(
-        // 사용자 탭 감지
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
         },
@@ -65,7 +59,8 @@ class OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
               shape: const CircleBorder(
                 side: BorderSide(color: CustomColor.mainColor, width: 2.0),
               ),
-              onPressed: () => viewModel.postOrCheck(tabController.index, context),
+              onPressed: () =>
+                  viewModel.postOrGoBasket(tabController.index, context),
               child: Icon(
                 fabIcon,
                 size: kIconLargeSize,
@@ -75,7 +70,6 @@ class OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
           child: viewModel.state is SuccessState
               ? SingleChildScrollView(
                   child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                         children: [
@@ -171,155 +165,31 @@ class OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                   controller: tabController,
                                   //physics: NeverScrollableScrollPhysics(),
                                   children: [
-                                    ListView(
-                                      children: [
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[0].requestId,
-                                          photo: viewModel
-                                              .entity.requests[0].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[0].productName,
-                                          description: viewModel
-                                              .entity.requests[0].message,
-                                          price: viewModel
-                                              .entity.requests[0].price,
-                                          requestCount: viewModel
-                                              .entity.requests[0].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[0].supportCount,
-                                          progress: viewModel.entity.requests[0]
-                                              .supportCount /
-                                              viewModel.entity.requests[0]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[1].requestId,
-                                          photo: viewModel
-                                              .entity.requests[0].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[0].productName,
-                                          description: viewModel
-                                              .entity.requests[0].message,
-                                          price: viewModel
-                                              .entity.requests[0].price,
-                                          requestCount: viewModel
-                                              .entity.requests[0].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[0].supportCount,
-                                          progress: viewModel.entity.requests[0]
-                                                  .supportCount /
-                                              viewModel.entity.requests[0]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[2].requestId,
-                                          photo: viewModel
-                                              .entity.requests[0].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[0].productName,
-                                          description: viewModel
-                                              .entity.requests[0].message,
-                                          price: viewModel
-                                              .entity.requests[0].price,
-                                          requestCount: viewModel
-                                              .entity.requests[0].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[0].supportCount,
-                                          progress: viewModel.entity.requests[0]
-                                                  .supportCount /
-                                              viewModel.entity.requests[0]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[0].requestId,
-                                          photo: viewModel
-                                              .entity.requests[0].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[0].productName,
-                                          description: viewModel
-                                              .entity.requests[0].message,
-                                          price: viewModel
-                                              .entity.requests[0].price,
-                                          requestCount: viewModel
-                                              .entity.requests[0].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[0].supportCount,
-                                          progress: viewModel.entity.requests[0]
-                                                  .supportCount /
-                                              viewModel.entity.requests[0]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[1].requestId,
-                                          photo: viewModel
-                                              .entity.requests[1].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[1].productName,
-                                          description: viewModel
-                                              .entity.requests[1].message,
-                                          price: viewModel
-                                              .entity.requests[1].price,
-                                          requestCount: viewModel
-                                              .entity.requests[1].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[1].supportCount,
-                                          progress: viewModel.entity.requests[1]
-                                                  .supportCount /
-                                              viewModel.entity.requests[1]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[2].requestId,
-                                          photo: viewModel
-                                              .entity.requests[2].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[2].productName,
-                                          description: viewModel
-                                              .entity.requests[2].message,
-                                          price: viewModel
-                                              .entity.requests[2].price,
-                                          requestCount: viewModel
-                                              .entity.requests[2].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[2].supportCount,
-                                          progress: viewModel.entity.requests[2]
-                                                  .supportCount /
-                                              viewModel.entity.requests[2]
-                                                  .requestCount,
-                                        ),
-                                        CustomProductBox(
-                                          requiredId: viewModel
-                                              .entity.requests[3].requestId,
-                                          photo: viewModel
-                                              .entity.requests[3].productPhoto,
-                                          name: viewModel
-                                              .entity.requests[3].productName,
-                                          description: viewModel
-                                              .entity.requests[3].message,
-                                          price: viewModel
-                                              .entity.requests[3].price,
-                                          requestCount: viewModel
-                                              .entity.requests[3].requestCount,
-                                          supportCount: viewModel
-                                              .entity.requests[3].supportCount,
-                                          progress: viewModel.entity.requests[3]
-                                                  .supportCount /
-                                              viewModel.entity.requests[3]
-                                                  .requestCount,
-                                        ),
-                                      ],
+                                    ListView.builder(
+                                      itemCount:
+                                          viewModel.entity.requests.length,
+                                      itemBuilder: (context, index) {
+                                        final item =
+                                            viewModel.entity.requests[index];
+                                        return CustomProductBox(
+                                          requiredId: item.requestId,
+                                          photo: item.productPhoto,
+                                          name: item.productName,
+                                          description: item.message,
+                                          price: item.price,
+                                          requestCount: item.requestCount,
+                                          supportCount: item.supportCount,
+                                          progress: item.supportCount /
+                                              item.requestCount,
+                                        );
+                                      },
+                                      padding:
+                                          const EdgeInsets.only(bottom: 100),
                                     ),
                                     Container(
                                       color: CustomColor.mainColor,
                                       child: Column(
                                         children: [
-
                                           const SizedBox(
                                             height: kPaddingMiddleSize,
                                           ),

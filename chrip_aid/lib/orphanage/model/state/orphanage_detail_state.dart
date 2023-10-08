@@ -22,7 +22,7 @@ class OrphanageBasketStateNone extends NoneState implements OrphanageState {}
 
 class OrphanageBasketStateLoading extends LoadingState implements OrphanageState {}
 
-class OrphanageBasketStateSuccess extends SuccessState<OrphanageBasketEntity> implements OrphanageState {
+class OrphanageBasketStateSuccess extends SuccessState<List<OrphanageBasketEntity>> implements OrphanageState {
   OrphanageBasketStateSuccess(super.data);
 }
 

@@ -1,11 +1,11 @@
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/orphanage_product_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_visit_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../view/orphanage_basket_screen.dart';
 
 final orphanageDetailViewModelProvider =
     ChangeNotifierProvider((ref) => OrphanageDetailViewModel(ref));
@@ -29,7 +29,7 @@ class OrphanageDetailViewModel extends ChangeNotifier {
     });
   }
 
-  void post() {
+  void postVisitReservation() {
     ref.read(orphanageVisitServiceProvider.notifier).post(
           date: dateTextController.text,
           purpose: purposeTextController.text,
@@ -37,22 +37,16 @@ class OrphanageDetailViewModel extends ChangeNotifier {
         );
   }
 
-  void addProduct(String requestId, int count) {
-    ref
-        .read(orphanageProductServiceProvider.notifier)
-        .add(requestId: requestId, count: count);
+  void goBasket(BuildContext context) {
+    Navigator.pushNamed(context, '/detailPage/Basket'); // 라우트 이름을 사용하여 이동
   }
 
-  Future<Object?> checkCart(BuildContext context) {
-    //ref.read(orphanageProductServiceProvider.notifier).checkCart();
-    return context.push("/first");
-  }
 
-  void postOrCheck(int num, BuildContext context) {
+  void postOrGoBasket(int num, BuildContext context) {
     if (num % 2 == 0) {
-      checkCart(context);
+      goBasket(context);
     } else {
-      post();
+      postVisitReservation();
     }
   }
 }

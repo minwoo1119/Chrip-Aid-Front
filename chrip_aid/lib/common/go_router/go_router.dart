@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 final routerProvider = Provider<GoRouter>((ref) {
   final provider = ref.read(authProvider);
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/detailPage',
     routes: [
       GoRoute(
         path: '/',
@@ -33,7 +33,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OrphanageDetailScreen(),
       ),
       GoRoute(
-        path: '/Cart',
+        path: '/detailPage/Basket',
         name: OrphanageBasketScreen.routeName,
         builder: (context, state) => const OrphanageBasketScreen(),
       ),
