@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class DetailPageLayout extends StatelessWidget {
   final String? title;
+  final Color? appBarBackgroundColor;
   final Color backgroundColor;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
+  final PreferredSizeWidget? bottom;
   final Widget child;
 
   const DetailPageLayout({
@@ -14,6 +16,8 @@ class DetailPageLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     required this.child,
+    this.bottom,
+    this.appBarBackgroundColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -33,7 +37,7 @@ class DetailPageLayout extends StatelessWidget {
       ? null
       : AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: appBarBackgroundColor,
           elevation: 0,
           title: Text(
             title!,
@@ -46,5 +50,6 @@ class DetailPageLayout extends StatelessWidget {
             },
           ),
           foregroundColor: Colors.black,
+          bottom: bottom,
         );
 }

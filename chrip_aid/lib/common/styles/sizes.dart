@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 const double kLayoutGutter = 10.0;
 const double kLayoutMargin = 12.0;
 
+const double kBorderRadiusLargeSize = 36.0;
 const double kBorderRadiusSize = 12.0;
 const double kBorderWidth = 3.0;
+const double kBorderRadiusMiniSize = 6.0;
 
 const double kElevationSize = 7.0;
 

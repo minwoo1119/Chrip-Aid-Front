@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  font_awesome_flutter: ^10.6.0
+
   cupertino_icons: ^1.0.2
 
   # Navigator
@@ -69,6 +71,9 @@ dependencies:
 
   # Sliding Up Panel
   flutter_sliding_up_panel: ^2.1.1
+
+  # Get 패키지 사용
+  get: ^4.1.4
 
 dev_dependencies:
   flutter_test:

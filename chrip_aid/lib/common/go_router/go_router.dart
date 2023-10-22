@@ -117,6 +117,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(
+        path: '/detailPage/Basket',
+        name: OrphanageBasketScreen.routeName,
+        builder: (context, state) => const OrphanageBasketScreen(),
+      ),
     ],
     refreshListenable: auth,
     redirect: auth.redirectLogic,

@@ -28,4 +28,6 @@ class CustomColor {
   static const Color pointColor = Color(0xffec255a);
 
   static const Color contentSubColor = Color(0xff808080);
+
+  static const Color darkThirdColor = Color(0xffffc400);
 }
