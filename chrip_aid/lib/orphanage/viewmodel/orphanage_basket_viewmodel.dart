@@ -43,7 +43,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
   }
 
   void deleteBasket(int requestId) {
-    ref.read(orphanageBasketServiceProvider.notifier).deleteOrphanageBasket(requestId: requestId);
+    ref.read(orphanageBasketServiceProvider.notifier).deleteOrphanageBasket(requestId);
   }
 
   void addOrUpdateBasket(int requestId, int count) {

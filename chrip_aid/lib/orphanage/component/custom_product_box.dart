@@ -98,16 +98,16 @@ class CustomProductBox extends ConsumerWidget {
                         ),
                         CustomFieldPadding(
                           text: product.description,
-                          color: CustomColor.ContentSubColor,
+                          color: CustomColor.contentSubColor,
                         ),
                         CustomFieldPadding(
                           text: "가격 : ${product.price}원",
-                          color: CustomColor.ContentSubColor,
+                          color: CustomColor.contentSubColor,
                         ),
                         CustomFieldPadding(
                           text:
                               '요청 개수: ${product.requestCount}개  후원 개수: ${product.supportCount}개',
-                          color: CustomColor.ContentSubColor,
+                          color: CustomColor.contentSubColor,
                         ),
                       ],
                     ),

@@ -1,10 +1,8 @@
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_check_product_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../entity/request_item_entity.dart';
 
 final orphanageRepositoryProvider =
@@ -14,16 +12,6 @@ class OrphanageRepository {
   final Dio dio;
 
   OrphanageRepository(this.dio);
-
-  // 방문신청 포스트
-  Future<OrphanageVisitEntity> post(String data, String purpose) async {
-    print(data);
-    print(purpose);
-    return OrphanageVisitEntity(
-      date: data,
-      purpose: purpose,
-    );
-  }
 
   Future<OrphanageDetailEntity> getOrphanageDetail(String orphanageId) async {
 /*    final Response response = await dio.get('/orphanages/{$orphanageId}');

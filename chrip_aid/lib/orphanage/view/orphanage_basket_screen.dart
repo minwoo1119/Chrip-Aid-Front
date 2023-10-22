@@ -47,8 +47,7 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                     },
                   ),
                 ),
-                Expanded(
-                  child: Container(
+                Container(
                     margin: const EdgeInsets.all(kPaddingMiddleSize),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -93,7 +92,7 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                       ],
                     ),
                   ),
-                )
+
               ],
             )
           : const Center(child: CircularProgressIndicator()),

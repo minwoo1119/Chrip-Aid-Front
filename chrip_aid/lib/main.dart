@@ -1,6 +1,10 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_donate_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_reservation_screen.dart';
+import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +21,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(routerProvider);
     //return const MaterialApp(home: OrphanageDetailScreen());
-    return const MaterialApp(home: OrphanageBasketScreen());
+    return const MaterialApp(home: OrphanageDonateScreen());
     // return MaterialApp.router(
     //   debugShowCheckedModeBanner: false, // 디버그 표시 지우기
     //   title: 'Kumoh42 Futsal Reservation System',

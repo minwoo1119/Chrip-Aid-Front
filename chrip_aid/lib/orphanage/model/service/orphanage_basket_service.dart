@@ -33,14 +33,15 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
     getOrphanageBasket();
   }
 
-  Future deleteOrphanageBasket({required int requestId}) async {
+  Future deleteOrphanageBasket(int requestId) async {
     await repository.deleteBasket(requestId);
     getOrphanageBasket();
   }
 
   Future addOrphanageBasket({required AddBasketItemEntity entity}) async {
     try {
-      repository.addBasket(entity);
+      await repository.addBasket(entity);
+      getOrphanageBasket();
     } catch (e) {
       state = OrphanageProductStateError(e.toString());
     }

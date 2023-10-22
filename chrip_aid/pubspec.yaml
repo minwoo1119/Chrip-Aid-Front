@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  font_awesome_flutter: ^10.6.0
+
   cupertino_icons: ^1.0.2
 
   # Navigator
