@@ -6,7 +6,6 @@ class RequestItemEntity {
   final int supportCount;
   final String message;
   final String productPhoto;
-  final String state;
 
   RequestItemEntity({
     required this.requestId,
@@ -16,6 +15,5 @@ class RequestItemEntity {
     required this.supportCount,
     required this.message,
     required this.productPhoto,
-    required this.state
   });
 }

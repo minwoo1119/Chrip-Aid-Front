@@ -6,6 +6,7 @@ import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
