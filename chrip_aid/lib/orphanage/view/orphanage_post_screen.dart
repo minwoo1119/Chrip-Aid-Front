@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrphanagePostScreen extends ConsumerWidget {
-  static String get routeName => 'Post';
+  static String get routeName => 'post';
 
   const OrphanagePostScreen({super.key});
 

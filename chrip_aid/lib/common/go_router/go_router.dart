@@ -9,6 +9,7 @@ import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,18 +40,23 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const OrphanageSearchScreen(),
               ),
               GoRoute(
-                path: 'detail',
-                name: OrphanageDetailScreen.routeName,
-                builder: (context, state) => const OrphanageDetailScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'basket',
-                    name: OrphanageBasketScreen.routeName,
-                    builder: (context, state) => const OrphanageBasketScreen(),
-                  ),
-                ]
-              ),
+                  path: 'detail',
+                  name: OrphanageDetailScreen.routeName,
+                  builder: (context, state) => const OrphanageDetailScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'basket',
+                      name: OrphanageBasketScreen.routeName,
+                      builder: (context, state) =>
+                          const OrphanageBasketScreen(),
+                    ),
+                  ]),
             ],
+          ),
+          GoRoute(
+            path: 'post',
+            name: OrphanagePostScreen.routeName,
+            builder: (_, __) => const OrphanagePostScreen(),
           ),
           GoRoute(
             path: 'member',
