@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DetailPageLayout extends StatelessWidget {
   final String? title;
   final Color? appBarBackgroundColor;
   final Color backgroundColor;
+  final Color? leadingColor;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
   final PreferredSizeWidget? bottom;
@@ -16,8 +18,9 @@ class DetailPageLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     required this.child,
+    this.leadingColor,
     this.bottom,
-    this.appBarBackgroundColor = Colors.white,
+    this.appBarBackgroundColor = Colors.transparent,
   }) : super(key: key);
 
   @override
@@ -25,31 +28,29 @@ class DetailPageLayout extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: child,
-      ),
+      extendBodyBehindAppBar: true,
+      body: child,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
     );
   }
 
-  AppBar? _appBar(BuildContext context) => title == null
-      ? null
-      : AppBar(
-          centerTitle: true,
-          backgroundColor: appBarBackgroundColor,
-          elevation: 0,
-          title: Text(
-            title!,
-            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          foregroundColor: Colors.black,
-          bottom: bottom,
-        );
+  AppBar? _appBar(BuildContext context) => AppBar(
+        centerTitle: true,
+        backgroundColor: appBarBackgroundColor,
+        elevation: 0,
+        title: title == null
+            ? null
+            : Text(
+                title!,
+                style: const TextStyle(
+                    fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: leadingColor),
+          onPressed: context.pop,
+        ),
+        foregroundColor: Colors.black,
+        bottom: bottom,
+      );
 }

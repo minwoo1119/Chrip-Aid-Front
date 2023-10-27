@@ -42,6 +42,13 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'detail',
                 name: OrphanageDetailScreen.routeName,
                 builder: (context, state) => const OrphanageDetailScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'basket',
+                    name: OrphanageBasketScreen.routeName,
+                    builder: (context, state) => const OrphanageBasketScreen(),
+                  ),
+                ]
               ),
             ],
           ),
@@ -117,11 +124,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
-      ),
-      GoRoute(
-        path: '/detailPage/Basket',
-        name: OrphanageBasketScreen.routeName,
-        builder: (context, state) => const OrphanageBasketScreen(),
       ),
     ],
     refreshListenable: auth,

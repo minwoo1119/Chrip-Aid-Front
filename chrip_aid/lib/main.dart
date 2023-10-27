@@ -1,6 +1,11 @@
 import 'package:chrip_aid/common/go_router/go_router.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/firebase_options.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_donate_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_reservation_screen.dart';
+import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

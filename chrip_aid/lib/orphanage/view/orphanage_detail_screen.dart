@@ -50,6 +50,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
           FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
         },
         child: DetailPageLayout(
+          leadingColor: CustomColor.textReverseColor,
           floatingActionButton: SizedBox(
             height: 70,
             width: 70,

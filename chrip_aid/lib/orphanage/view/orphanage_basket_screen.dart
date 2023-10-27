@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class OrphanageBasketScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'Basket';
+  static String get routeName => 'basket';
 
   const OrphanageBasketScreen({super.key});
 
