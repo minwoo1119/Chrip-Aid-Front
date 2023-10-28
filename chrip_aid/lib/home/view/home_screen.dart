@@ -76,7 +76,7 @@ class HomeScreen extends TabScreen {
                       onPressed: () => viewmodel.navigateToFavoriteScreen(
                         context,
                       ),
-                      text: "즐겨찾는 보육원",
+                      text: "방문 신청 내역",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
                       hasSide: false,

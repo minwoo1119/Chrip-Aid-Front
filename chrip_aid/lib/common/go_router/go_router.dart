@@ -2,21 +2,36 @@ import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
+import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
+import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_reservation_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
+import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
   final authority = ref.watch(authorityProvider);
+
+  String redirectionByAuth(
+    BuildContext context,
+    GoRouterState state,
+    String path,
+  ) {
+    if (authority == AuthorityType.user) return '$path/user';
+    return '$path/orphanage';
+  }
+
   return GoRouter(
     initialLocation: '/splash',
     routes: [
@@ -40,23 +55,50 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const OrphanageSearchScreen(),
               ),
               GoRoute(
-                  path: 'detail',
-                  name: OrphanageDetailScreen.routeName,
-                  builder: (context, state) => const OrphanageDetailScreen(),
-                  routes: [
-                    GoRoute(
-                      path: 'basket',
-                      name: OrphanageBasketScreen.routeName,
-                      builder: (context, state) =>
-                          const OrphanageBasketScreen(),
-                    ),
-                  ]),
+                path: 'detail',
+                name: OrphanageDetailScreen.routeName,
+                builder: (context, state) => const OrphanageDetailScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'basket',
+                    name: OrphanageBasketScreen.routeName,
+                    builder: (context, state) => const OrphanageBasketScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'reservation',
+            name: 'reservation',
+            redirect: (context, state) =>
+                redirectionByAuth(context, state, "/reservation"),
+            routes: [
+              GoRoute(
+                path: 'user',
+                builder: (_, __) => const ReservationScreen(),
+              ),
+              GoRoute(
+                path: 'orphanage',
+                builder: (_, __) => const OrphanageReservationScreen(),
+              ),
             ],
           ),
           GoRoute(
             path: 'post',
             name: OrphanagePostScreen.routeName,
             builder: (_, __) => const OrphanagePostScreen(),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                redirect: (context, state) {
+                  if (authority == AuthorityType.user) return '/post';
+                  return null;
+                },
+                // TODO : Create Write Post Screen
+                builder: (_, __) => const OrphanagePostScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: 'member',
@@ -64,18 +106,12 @@ final routerProvider = Provider<GoRouter>((ref) {
               if (state.location.contains('edit')) return null;
               return '/member/edit';
             },
-            builder: (context, state) => const SplashScreen(),
             routes: [
               GoRoute(
                 path: 'edit',
-                name: 'editMember',
-                redirect: (context, state) {
-                  if (authority == AuthorityType.user) {
-                    return '/member/edit/user';
-                  }
-                  return '/member/edit/orphanage';
-                },
-                builder: (context, state) => const SplashScreen(),
+                name: EditMemberInfoScreen.routeName,
+                redirect: (context, state) =>
+                    redirectionByAuth(context, state, "/member/edit"),
                 routes: [
                   GoRoute(
                     path: 'user',
@@ -83,6 +119,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                   GoRoute(
                     path: 'orphanage',
+                    // TODO : Create Edit Orphanage Info Screen
                     builder: (context, state) => const EditUserInfoScreen(),
                   ),
                 ],
@@ -98,7 +135,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/auth',
-        builder: (context, state) => const SplashScreen(),
         redirect: (context, state) {
           if (state.location.contains('signup')) return null;
           return '/auth/login';
@@ -111,20 +147,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'signup',
-            name: 'signup',
-            builder: (context, state) => const SplashScreen(),
-            redirect: (context, state) => authority == AuthorityType.user
-                ? '/auth/signup/user'
-                : '/auth/signup/orphanage',
+            name: SignUpScreen.routeName,
+            redirect: (context, state) =>
+                redirectionByAuth(context, state, "/auth/signup"),
             routes: [
               GoRoute(
                 path: 'user',
-                name: UserSignUpScreen.routeName,
                 builder: (context, state) => const UserSignUpScreen(),
               ),
               GoRoute(
                 path: 'orphanage',
-                name: OrphanageSignUpScreen.routeName,
                 builder: (context, state) => const OrphanageSignUpScreen(),
               ),
             ],

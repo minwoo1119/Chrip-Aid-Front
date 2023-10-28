@@ -1,6 +1,7 @@
 import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,6 @@ class UserInfoViewmodel extends ChangeNotifier {
   }
 
   void navigateToEditUserInfoPage(BuildContext context) {
-    context.pushNamed('editMember');
+    context.pushNamed(EditMemberInfoScreen.routeName);
   }
 }

@@ -11,7 +11,9 @@ class HomeViewModel extends ChangeNotifier {
     context.pushNamed(OrphanageMapScreen.routeName);
   }
 
-  Future navigateToFavoriteScreen(BuildContext context) async {}
+  Future navigateToFavoriteScreen(BuildContext context) async {
+    context.pushNamed('reservation');
+  }
 
   Future navigateToCertificationScreen(BuildContext context) async {
     context.pushNamed(OrphanagePostScreen.routeName);

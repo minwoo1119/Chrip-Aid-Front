@@ -1,4 +1,5 @@
 import 'package:chrip_aid/auth/util/validators.dart';
+import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/viewmodel/user_sign_up_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
@@ -11,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class UserSignUpScreen extends ConsumerWidget {
-  static String get routeName => 'userSignup';
-
+class UserSignUpScreen extends SignUpScreen {
   const UserSignUpScreen({Key? key}) : super(key: key);
 
   @override

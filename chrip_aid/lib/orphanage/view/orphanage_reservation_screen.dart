@@ -1,17 +1,13 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:chrip_aid/orphanage/component/custom_reservation_box.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_reservation_box.dart';
 import 'package:chrip_aid/orphanage/const/tabs.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_reservation_viewmodel.dart';
-import 'package:chrip_aid/orphanage/viewmodel/reservation_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrphanageReservationScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'Basket';
-
   const OrphanageReservationScreen({super.key});
 
   @override

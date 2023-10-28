@@ -6,12 +6,13 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/viewmodel/edit_user_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class EditUserInfoScreen extends ConsumerWidget {
+class EditUserInfoScreen extends EditMemberInfoScreen {
   const EditUserInfoScreen({Key? key}) : super(key: key);
 
   @override

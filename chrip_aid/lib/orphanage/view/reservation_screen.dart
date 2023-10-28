@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ReservationScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'Basket';
-
   const ReservationScreen({super.key});
 
   @override

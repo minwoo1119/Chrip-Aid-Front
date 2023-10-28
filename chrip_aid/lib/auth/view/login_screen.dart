@@ -53,6 +53,7 @@ class LoginScreen extends ConsumerWidget {
                 controller: viewModel.passwordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
+              // TODO : Create Member Type Select Button
               if (viewModel.state is LoadingState)
                 const Center(
                   child: CircularProgressIndicator(

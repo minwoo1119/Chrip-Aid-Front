@@ -1,4 +1,5 @@
 import 'package:chrip_aid/auth/util/validators.dart';
+import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/viewmodel/orphanage_sign_up_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
@@ -10,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class OrphanageSignUpScreen extends ConsumerWidget {
-  static String get routeName => 'orphanageSignup';
-
+class OrphanageSignUpScreen extends SignUpScreen {
   const OrphanageSignUpScreen({Key? key}) : super(key: key);
 
   @override
