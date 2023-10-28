@@ -1,24 +1,22 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:chrip_aid/orphanage/component/orphanage_reservation_box.dart';
+import 'package:chrip_aid/orphanage/component/custom_reservation_box.dart';
 import 'package:chrip_aid/orphanage/const/tabs.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
-import 'package:chrip_aid/orphanage/viewmodel/orphanage_reservation_viewmodel.dart';
+import 'package:chrip_aid/orphanage/viewmodel/user_reservation_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OrphanageReservationScreen extends ConsumerStatefulWidget
+class UserReservationScreen extends ConsumerStatefulWidget
     implements ReservationScreen {
-  const OrphanageReservationScreen({super.key});
+  const UserReservationScreen({super.key});
 
   @override
-  OrphanageReservationScreenState createState() =>
-      OrphanageReservationScreenState();
+  UserReservationScreenState createState() => UserReservationScreenState();
 }
 
-class OrphanageReservationScreenState
-    extends ConsumerState<OrphanageReservationScreen>
+class UserReservationScreenState extends ConsumerState<UserReservationScreen>
     with TickerProviderStateMixin {
   late final TabController tabController;
 
@@ -37,7 +35,7 @@ class OrphanageReservationScreenState
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(orphanageReservationViewModelProvider);
+    final viewModel = ref.watch(reservationViewModelProvider);
     return DetailPageLayout(
       appBarBackgroundColor: CustomColor.backgroundMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
@@ -55,26 +53,25 @@ class OrphanageReservationScreenState
                     viewModel.changeSelectedTab(index);
                   },
                 ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Expanded(
                     child: viewModel.filteredEntity.isEmpty
-                        ? Container(
-                            width: double.infinity,
-                            color: CustomColor.disabledColor,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  color: Colors.white.withOpacity(0.5),
-                                  size: 90,
-                                ),
-                                Text(
-                                  "내역이 존재하지 않습니다",
-                                  style: kTextReverseStyleSmall.copyWith(
-                                      color: Colors.white.withOpacity(0.5)),
-                                ),
-                              ],
-                            ),
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.white.withOpacity(0.5),
+                                size: 90,
+                              ),
+                              Text(
+                                "내역이 존재하지 않습니다",
+                                style: kTextReverseStyleSmall.copyWith(
+                                    color: Colors.white.withOpacity(0.5)),
+                              ),
+                            ],
                           )
                         : Container(
                             color: CustomColor.disabledColor,
@@ -82,12 +79,8 @@ class OrphanageReservationScreenState
                               itemCount: viewModel.filteredEntity.length,
                               itemBuilder: (context, index) {
                                 final item = viewModel.filteredEntity[index];
-                                return OrphanageReservationBox(
-                                    name: item.name,
-                                    age: item.age,
-                                    sex: item.sex,
-                                    region: item.region,
-                                    phoneNumber: item.phoneNumber,
+                                return CustomReservationBox(
+                                    orphanageName: item.orphanageName,
                                     writeDate: item.writeDate,
                                     visitDate: item.visitDate,
                                     reason: item.reason,
@@ -95,7 +88,7 @@ class OrphanageReservationScreenState
                                     rejectReason: item.rejectReason);
                               },
                             ),
-                          )),
+                          ))
               ],
             )
           : const Center(child: CircularProgressIndicator()),

@@ -41,7 +41,7 @@ class LoginScreen extends ConsumerWidget {
                 prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => validateEmail(value),
-                controller: viewModel.idTextController,
+                textController: viewModel.idTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
@@ -50,7 +50,7 @@ class LoginScreen extends ConsumerWidget {
                 prefixIcon: Icons.lock,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) => validatePassword(value),
-                controller: viewModel.passwordTextController,
+                textController: viewModel.passwordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               // TODO : Create Member Type Select Button

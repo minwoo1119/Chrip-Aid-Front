@@ -10,11 +10,13 @@ import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_reservation_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
+import 'package:chrip_aid/orphanage/view/user_reservation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,13 +72,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'reservation',
-            name: 'reservation',
+            name: ReservationScreen.routeName,
             redirect: (context, state) =>
                 redirectionByAuth(context, state, "/reservation"),
             routes: [
               GoRoute(
                 path: 'user',
-                builder: (_, __) => const ReservationScreen(),
+                builder: (_, __) => const UserReservationScreen(),
               ),
               GoRoute(
                 path: 'orphanage',
@@ -91,12 +93,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: 'edit',
+                name: OrphanageEditPostScreen.routeName,
                 redirect: (context, state) {
                   if (authority == AuthorityType.user) return '/post';
                   return null;
                 },
-                // TODO : Create Write Post Screen
-                builder: (_, __) => const OrphanagePostScreen(),
+                builder: (_, __) => const OrphanageEditPostScreen(),
               ),
             ],
           ),

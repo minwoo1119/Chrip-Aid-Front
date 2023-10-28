@@ -1,33 +1,69 @@
-import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String? labelText;
   final String? hintText;
+  final String? headText;
+  final String? tailText;
 
   final IconData? prefixIcon;
 
   final TextInputType keyboardType;
 
+  final void Function(String?)? onChange;
   final String? Function(String?)? validator;
-  final TextEditingController? controller;
+  final TextEditingController? textController;
 
-  const CustomTextFormField({
+  final TextStyle? textStyle;
+  final TextStyle decorationStyle;
+  late final double contentPadding;
+  final Color? backgroundColor;
+  final Color? fieldColor;
+
+  final bool? enabled;
+
+  final List<FilteringTextInputFormatter>? inputFormatters;
+
+  late final InputBorder inputBorder;
+
+  CustomTextFormField({
     Key? key,
-    required this.labelText,
-    required this.hintText,
-    required this.prefixIcon,
-    required this.keyboardType,
-    required this.validator,
-    required this.controller,
-  }) : super(key: key);
+    this.labelText,
+    this.hintText,
+    this.headText,
+    this.tailText,
+    this.prefixIcon,
+    this.keyboardType = TextInputType.text,
+    this.onChange,
+    this.validator,
+    this.textController,
+    this.textStyle,
+    this.decorationStyle = kTextMainStyleSmall,
+    this.inputFormatters,
+    this.enabled,
+    InputBorder? inputBorder,
+    double? contentPadding,
+    this.backgroundColor,
+    this.fieldColor,
+  }) : super(key: key) {
+    this.contentPadding = contentPadding ?? kPaddingMiddleSize;
+    this.inputBorder = inputBorder ??
+        const OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(kBorderRadiusSize),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: CustomColor.backGroundSubColor,
-        borderRadius: BorderRadius.circular(kBorderRadiusSize),
+        color: backgroundColor ?? CustomColor.backgroundMainColor,
+        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadiusSize)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,45 +75,72 @@ class CustomTextFormField extends StatelessWidget {
             ).copyWith(bottom: kPaddingMiniSize),
             child: Row(
               children: [
-                Icon(
-                  prefixIcon,
-                  size: kIconMiniSize,
-                  color: CustomColor.mainColor,
-                ),
-                const SizedBox(width: kPaddingMiniSize),
-                Text(
-                  labelText ?? "",
-                  style: kTextMainStyleMini,
-                ),
+                if (prefixIcon != null) ...[
+                  Icon(
+                    prefixIcon,
+                    size: kIconSmallSize,
+                    color: decorationStyle.color,
+                  ),
+                  const SizedBox(width: kPaddingSmallSize),
+                ],
+                if (labelText != null)
+                  Text(
+                    labelText!,
+                    style: decorationStyle,
+                  ),
               ],
             ),
           ),
-          TextFormField(
-            controller: controller,
-            validator: validator,
-            cursorColor: CustomColor.mainColor,
-            keyboardType: keyboardType,
-            obscureText: keyboardType == TextInputType.visiblePassword,
-            style: kTextMainStyleMiddle,
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: const EdgeInsets.only(
-                left: kPaddingSmallSize,
-                bottom: kPaddingSmallSize,
-              ),
-              hintText: hintText,
-              hintStyle: kTextMainStyleMiddle.copyWith(
-                color: CustomColor.mainColor.withOpacity(0.5),
-              ),
-              filled: true,
-              fillColor: CustomColor.backGroundSubColor,
-              border: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(kBorderRadiusSize),
+          Row(
+            children: [
+              if (headText != null) ...[
+                Text(
+                  headText!,
+                  style: decorationStyle,
+                ),
+                const SizedBox(width: kPaddingSmallSize),
+              ],
+              Expanded(
+                child: TextFormField(
+                  enabled: enabled,
+                  controller: textController,
+                  validator: validator,
+                  cursorColor: CustomColor.textMainColor,
+                  keyboardType: keyboardType,
+                  obscureText: keyboardType == TextInputType.visiblePassword,
+                  style: textStyle ?? kTextMainStyleMiddle,
+                  inputFormatters: inputFormatters,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.only(
+                      left: kPaddingSmallSize,
+                      bottom: kPaddingSmallSize,
+                    ),
+                    hintText: hintText,
+                    border: inputBorder,
+                    disabledBorder: inputBorder,
+                    enabledBorder: inputBorder,
+                    focusedBorder: inputBorder,
+                    hintStyle: textStyle?.copyWith(
+                          color: CustomColor.textMainColor.withOpacity(0.5),
+                        ) ??
+                        kTextMainStyleMiddle.copyWith(
+                          color: CustomColor.textMainColor.withOpacity(0.5),
+                        ),
+                    filled: true,
+                    fillColor: fieldColor ?? CustomColor.backgroundMainColor,
+                  ),
+                  onChanged: onChange,
                 ),
               ),
-            ),
+              if (tailText != null) ...[
+                const SizedBox(width: kPaddingSmallSize),
+                Text(
+                  tailText!,
+                  style: decorationStyle,
+                ),
+              ],
+            ],
           ),
         ],
       ),

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class EditUserInfoScreen extends EditMemberInfoScreen {
+class EditUserInfoScreen extends ConsumerWidget implements EditMemberInfoScreen {
   const EditUserInfoScreen({Key? key}) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class EditUserInfoScreen extends EditMemberInfoScreen {
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.name,
                 validator: (value) => validateName(value),
-                controller: viewModel.nameTextController,
+                textController: viewModel.nameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
@@ -52,7 +52,7 @@ class EditUserInfoScreen extends EditMemberInfoScreen {
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.text,
                 validator: (value) => validateName(value),
-                controller: viewModel.nicknameTextController,
+                textController: viewModel.nicknameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               Row(
@@ -65,7 +65,7 @@ class EditUserInfoScreen extends EditMemberInfoScreen {
                       prefixIcon: Icons.calendar_today,
                       keyboardType: TextInputType.number,
                       validator: (value) => validateName(value),
-                      controller: viewModel.ageTextController,
+                      textController: viewModel.ageTextController,
                     ),
                   ),
                   const SizedBox(width: kPaddingMiddleSize),
@@ -107,7 +107,7 @@ class EditUserInfoScreen extends EditMemberInfoScreen {
                 prefixIcon: Icons.phone,
                 keyboardType: TextInputType.phone,
                 validator: (value) => validateName(value),
-                controller: viewModel.phoneTextController,
+                textController: viewModel.phoneTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               if (viewModel.authState is LoadingState)
