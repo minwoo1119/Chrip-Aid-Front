@@ -27,14 +27,15 @@ class OrphanagePostScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final item = viewModel.entity[index];
                       return CustomPostBox(
-                          reviewId: item.reviewId,
-                          title: item.title,
-                          content: item.content,
-                          photo: item.photo,
-                          date: item.date,
-                          name: item.name,
-                          orphanageName: item.orphanageName,
-                          productNames: item.productNames);
+                        reviewId: item.reviewId,
+                        title: item.title,
+                        content: item.content,
+                        photo: item.photo,
+                        date: item.date,
+                        name: item.name,
+                        orphanageName: item.orphanageName,
+                        productNames: item.productNames,
+                      );
                     },
                   ),
                 ),

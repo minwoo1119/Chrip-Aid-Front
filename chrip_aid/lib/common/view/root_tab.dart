@@ -2,25 +2,29 @@ import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RootTab extends StatefulWidget {
+class RootTab extends ConsumerStatefulWidget {
   static String get routeName => 'home';
 
   const RootTab({Key? key}) : super(key: key);
 
   @override
-  State<RootTab> createState() => _RootTabState();
+  ConsumerState<RootTab> createState() => _RootTabState();
 }
 
-class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
+class _RootTabState extends ConsumerState<RootTab>
+    with TickerProviderStateMixin {
   late TabController controller;
   int index = 1;
+  late final List<TabInfo> tabs;
 
   @override
   void initState() {
     super.initState();
+    tabs = ref.read(tabProvider);
     controller = TabController(
-      length: TABS.length,
+      length: tabs.length,
       animationDuration: Duration.zero,
       vsync: this,
       initialIndex: 1,
@@ -40,13 +44,13 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return DefaultLayout(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: TABS[controller.index].tab.mainColor,
+        backgroundColor: tabs[controller.index].tab.mainColor,
         selectedItemColor: CustomColor.backGroundSubColor,
         unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
         type: BottomNavigationBarType.fixed,
         onTap: (int index) => setState(() => controller.animateTo(index)),
         currentIndex: index,
-        items: TABS
+        items: tabs
             .map(
               (e) => BottomNavigationBarItem(
                 icon: Icon(e.icon),
@@ -60,7 +64,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
       child: TabBarView(
         controller: controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: TABS.map((e) => e.tab).toList(),
+        children: tabs.map((e) => e.tab).toList(),
       ),
     );
   }

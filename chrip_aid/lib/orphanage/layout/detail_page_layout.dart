@@ -10,6 +10,7 @@ class DetailPageLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final PreferredSizeWidget? bottom;
   final Widget child;
+  final List<Widget>? actions;
 
   const DetailPageLayout({
     Key? key,
@@ -21,6 +22,7 @@ class DetailPageLayout extends StatelessWidget {
     this.leadingColor,
     this.bottom,
     this.appBarBackgroundColor = Colors.transparent,
+    this.actions,
   }) : super(key: key);
 
   @override
@@ -50,6 +52,7 @@ class DetailPageLayout extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: leadingColor),
           onPressed: context.pop,
         ),
+        actions: actions,
         foregroundColor: Colors.black,
         bottom: bottom,
       );

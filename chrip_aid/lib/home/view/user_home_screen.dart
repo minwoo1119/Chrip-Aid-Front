@@ -5,16 +5,16 @@ import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/component/custom_speech_balloon.dart';
-import 'package:chrip_aid/home/viewmodel/home_viewmodel.dart';
+import 'package:chrip_aid/home/viewmodel/user_home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends TabScreen {
-  const HomeScreen({Key? key}) : super(key: key);
+class UserHomeScreen extends TabScreen {
+  const UserHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.watch(homeViewModelProvider);
+    final viewmodel = ref.watch(userHomeViewModelProvider);
     return DefaultLayout(
       title: "Chirp Aid",
       appbarColor: CustomColor.mainColor,
