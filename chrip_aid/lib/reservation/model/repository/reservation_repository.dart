@@ -1,16 +1,16 @@
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_visit_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/reservation_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/orphanage_visit_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final orphanageVisitReservationRepositoryProvider = Provider(
-    (ref) => OrphanageVisitReservationRepository(ref.watch(dioProvider)));
+final reservationRepositoryProvider = Provider(
+    (ref) => ReservationRepository(ref.watch(dioProvider)));
 
-class OrphanageVisitReservationRepository {
+class ReservationRepository {
   final Dio dio;
 
-  OrphanageVisitReservationRepository(this.dio);
+  ReservationRepository(this.dio);
 
   // 시간 생략? visit
   List<ReservationEntity> visitOrphanageList = [

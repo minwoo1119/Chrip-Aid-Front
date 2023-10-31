@@ -1,6 +1,6 @@
-import 'package:chrip_aid/orphanage/view/orphanage_edit_post_screen.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
-import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +9,7 @@ final orphanageHomeViewModelProvider = ChangeNotifierProvider((ref) => HomeViewM
 
 class HomeViewModel extends ChangeNotifier {
   Future navigateToSearchScreen(BuildContext context) async {
+    // TODO : Orphanage Manage Screen
     context.pushNamed(OrphanageEditPostScreen.routeName);
   }
 

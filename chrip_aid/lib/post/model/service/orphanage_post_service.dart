@@ -1,7 +1,6 @@
-import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/get_posts_entity.dart';
-import 'package:chrip_aid/orphanage/model/repository/orphanage_post_repository.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
+import 'package:chrip_aid/post/model/repository/orphanage_post_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanagePostServiceProvider =

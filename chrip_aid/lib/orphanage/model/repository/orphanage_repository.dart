@@ -1,8 +1,7 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_check_product_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

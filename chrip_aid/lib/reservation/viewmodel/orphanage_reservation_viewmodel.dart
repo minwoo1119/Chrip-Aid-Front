@@ -1,24 +1,24 @@
-import 'package:chrip_aid/orphanage/model/entity/reservation_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/reservation_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
+import 'package:chrip_aid/reservation/model/service/orphanage_reservation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final reservationViewModelProvider =
-    ChangeNotifierProvider((ref) => ReservationViewModel(ref));
+final orphanageReservationViewModelProvider =
+ChangeNotifierProvider((ref) => OrphanageReservationViewModel(ref));
 
-class ReservationViewModel extends ChangeNotifier {
+class OrphanageReservationViewModel extends ChangeNotifier {
   Ref ref;
 
   late OrphanageState state;
   String? selectedTabIndex;
-  List<ReservationEntity> listAll = [];
-  List<ReservationEntity> listEnd = [];
-  List<ReservationEntity> listPending = [];
-  List<ReservationEntity> listApprove = [];
+  List<OrphanageReservationEntity> listAll = [];
+  List<OrphanageReservationEntity> listEnd = [];
+  List<OrphanageReservationEntity> listPending = [];
+  List<OrphanageReservationEntity> listApprove = [];
 
-  // List<ReservationEntity> get entity =>
-  //     (state as OrphanageReservationStateSuccess<ReservationEntity>).data;
+  // List<OrphanageReservationEntity> get entity =>
+  //     (state as OrphanageReservationStateSuccess).data;
 
   // List<ReservationEntity> get filteredEntity {
   //   return (state as OrphanageReservationStateSuccess)
@@ -31,26 +31,26 @@ class ReservationViewModel extends ChangeNotifier {
   //       .toList();
   // }
 
-  List<ReservationEntity> get filteredEntity {
+  List<OrphanageReservationEntity> get filteredEntity {
     return selectedTabIndex == null
         ? listAll
         : selectedTabIndex == "APPROVED"
-            ? listApprove
-            : selectedTabIndex == "PENDING"
-                ? listPending
-                : listEnd;
+        ? listApprove
+        : selectedTabIndex == "PENDING"
+        ? listPending
+        : listEnd;
   }
 
   void divisionSortList() {
-    listApprove = (state as ReservationStateSuccess)
+    listApprove = (state as OrphanageReservationStateSuccess)
         .data
         .where((item) => item.state == "APPROVED")
         .toList();
-    listPending = (state as ReservationStateSuccess)
+    listPending = (state as OrphanageReservationStateSuccess)
         .data
         .where((item) => item.state == "PENDING")
         .toList();
-    listEnd = (state as ReservationStateSuccess)
+    listEnd = (state as OrphanageReservationStateSuccess)
         .data
         .where((item) => item.state == "REJECTED" || item.state == "COMPLETED")
         .toList();
@@ -71,9 +71,9 @@ class ReservationViewModel extends ChangeNotifier {
     }
   }
 
-  ReservationViewModel(this.ref) {
-    state = ref.read(reservationServiceProvider);
-    ref.listen(reservationServiceProvider, (previous, next) {
+  OrphanageReservationViewModel(this.ref) {
+    state = ref.read(orphanageReservationServiceProvider);
+    ref.listen(orphanageReservationServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
         divisionSortList();
@@ -82,13 +82,13 @@ class ReservationViewModel extends ChangeNotifier {
     });
   }
 
-  // late TabController tabController;
-  //
-  // void initTabController(int length, TickerProvider vsync) {
-  //   tabController = TabController(length: length, vsync: vsync);
-  //   tabController.addListener(() {
-  //     changeSelectedTab(tabController.index);
-  //     notifyListeners();
-  //   });
-  // }
+// late TabController tabController;
+//
+// void initTabController(int length, TickerProvider vsync) {
+//   tabController = TabController(length: length, vsync: vsync);
+//   tabController.addListener(() {
+//     changeSelectedTab(tabController.index);
+//     notifyListeners();
+//   });
+// }
 }

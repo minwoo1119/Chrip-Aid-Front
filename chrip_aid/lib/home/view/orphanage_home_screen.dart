@@ -37,7 +37,7 @@ class OrphanageHomeScreen extends TabScreen {
                     child: CustomOutlinedButton(
                       onPressed: () =>
                           viewmodel.navigateToSearchScreen(context),
-                      text: "후원 인증글\n 작성하기",
+                      text: "보육원 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
                       hasSide: false,
@@ -64,7 +64,7 @@ class OrphanageHomeScreen extends TabScreen {
                       onPressed: () => viewmodel.navigateToCertificationScreen(
                         context,
                       ),
-                      text: "후원 인증글",
+                      text: "후원 인증글 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
                       hasSide: false,
@@ -76,7 +76,7 @@ class OrphanageHomeScreen extends TabScreen {
                       onPressed: () => viewmodel.navigateToFavoriteScreen(
                         context,
                       ),
-                      text: "방문 신청 확인",
+                      text: "방문 신청 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
                       hasSide: false,

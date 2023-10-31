@@ -1,15 +1,15 @@
-import 'package:chrip_aid/orphanage/model/entity/reservation_entity.dart';
-import 'package:chrip_aid/orphanage/model/repository/orphanage_visit_reservation_repository.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
+import 'package:chrip_aid/reservation/model/repository/reservation_repository.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanageReservationServiceProvider =
 StateNotifierProvider<OrphanageReservationService, OrphanageState>((ref) =>
     OrphanageReservationService(
-        ref.watch(orphanageVisitReservationRepositoryProvider)));
+        ref.watch(reservationRepositoryProvider)));
 
 class OrphanageReservationService extends StateNotifier<OrphanageState> {
-  final OrphanageVisitReservationRepository repository;
+  final ReservationRepository repository;
 
   OrphanageReservationService(this.repository) : super(OrphanageReservationStateLoading()) {
     getOrphanageVisitReservation();

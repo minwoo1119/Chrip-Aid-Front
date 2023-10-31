@@ -1,10 +1,10 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/get_posts_entity.dart';
+import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_basket_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/reservation_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 
 abstract class OrphanageState {
   static List<OrphanageEntity> list = [];

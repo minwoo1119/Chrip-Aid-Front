@@ -1,5 +1,5 @@
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/orphanage/model/entity/get_posts_entity.dart';
+import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

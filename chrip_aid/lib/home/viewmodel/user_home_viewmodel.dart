@@ -1,6 +1,6 @@
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
-import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

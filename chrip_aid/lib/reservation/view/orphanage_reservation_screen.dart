@@ -3,8 +3,8 @@ import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_reservation_box.dart';
 import 'package:chrip_aid/orphanage/const/tabs.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
-import 'package:chrip_aid/orphanage/viewmodel/orphanage_reservation_viewmodel.dart';
+import 'package:chrip_aid/reservation/viewmodel/orphanage_reservation_viewmodel.dart';
+import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,25 +1,24 @@
-import 'package:chrip_aid/orphanage/model/entity/reservation_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/orphanage_reservation_service.dart';
-import 'package:chrip_aid/orphanage/model/service/reservation_service.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
+import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final orphanageReservationViewModelProvider =
-ChangeNotifierProvider((ref) => OrphanageReservationViewModel(ref));
+final reservationViewModelProvider =
+    ChangeNotifierProvider((ref) => ReservationViewModel(ref));
 
-class OrphanageReservationViewModel extends ChangeNotifier {
+class ReservationViewModel extends ChangeNotifier {
   Ref ref;
 
   late OrphanageState state;
   String? selectedTabIndex;
-  List<OrphanageReservationEntity> listAll = [];
-  List<OrphanageReservationEntity> listEnd = [];
-  List<OrphanageReservationEntity> listPending = [];
-  List<OrphanageReservationEntity> listApprove = [];
+  List<ReservationEntity> listAll = [];
+  List<ReservationEntity> listEnd = [];
+  List<ReservationEntity> listPending = [];
+  List<ReservationEntity> listApprove = [];
 
-  // List<OrphanageReservationEntity> get entity =>
-  //     (state as OrphanageReservationStateSuccess).data;
+  // List<ReservationEntity> get entity =>
+  //     (state as OrphanageReservationStateSuccess<ReservationEntity>).data;
 
   // List<ReservationEntity> get filteredEntity {
   //   return (state as OrphanageReservationStateSuccess)
@@ -32,26 +31,26 @@ class OrphanageReservationViewModel extends ChangeNotifier {
   //       .toList();
   // }
 
-  List<OrphanageReservationEntity> get filteredEntity {
+  List<ReservationEntity> get filteredEntity {
     return selectedTabIndex == null
         ? listAll
         : selectedTabIndex == "APPROVED"
-        ? listApprove
-        : selectedTabIndex == "PENDING"
-        ? listPending
-        : listEnd;
+            ? listApprove
+            : selectedTabIndex == "PENDING"
+                ? listPending
+                : listEnd;
   }
 
   void divisionSortList() {
-    listApprove = (state as OrphanageReservationStateSuccess)
+    listApprove = (state as ReservationStateSuccess)
         .data
         .where((item) => item.state == "APPROVED")
         .toList();
-    listPending = (state as OrphanageReservationStateSuccess)
+    listPending = (state as ReservationStateSuccess)
         .data
         .where((item) => item.state == "PENDING")
         .toList();
-    listEnd = (state as OrphanageReservationStateSuccess)
+    listEnd = (state as ReservationStateSuccess)
         .data
         .where((item) => item.state == "REJECTED" || item.state == "COMPLETED")
         .toList();
@@ -72,9 +71,9 @@ class OrphanageReservationViewModel extends ChangeNotifier {
     }
   }
 
-  OrphanageReservationViewModel(this.ref) {
-    state = ref.read(orphanageReservationServiceProvider);
-    ref.listen(orphanageReservationServiceProvider, (previous, next) {
+  ReservationViewModel(this.ref) {
+    state = ref.read(reservationServiceProvider);
+    ref.listen(reservationServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
         divisionSortList();
@@ -83,13 +82,13 @@ class OrphanageReservationViewModel extends ChangeNotifier {
     });
   }
 
-// late TabController tabController;
-//
-// void initTabController(int length, TickerProvider vsync) {
-//   tabController = TabController(length: length, vsync: vsync);
-//   tabController.addListener(() {
-//     changeSelectedTab(tabController.index);
-//     notifyListeners();
-//   });
-// }
+  // late TabController tabController;
+  //
+  // void initTabController(int length, TickerProvider vsync) {
+  //   tabController = TabController(length: length, vsync: vsync);
+  //   tabController.addListener(() {
+  //     changeSelectedTab(tabController.index);
+  //     notifyListeners();
+  //   });
+  // }
 }
