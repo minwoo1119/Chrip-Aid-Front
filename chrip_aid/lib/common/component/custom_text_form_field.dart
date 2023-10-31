@@ -18,9 +18,12 @@ class CustomTextFormField extends StatelessWidget {
 
   final TextStyle? textStyle;
   final TextStyle decorationStyle;
-  late final double contentPadding;
+  final EdgeInsets contentPadding;
   final Color? backgroundColor;
   final Color? fieldColor;
+  final int? minLine;
+
+  final BorderRadiusGeometry borderRadius;
 
   final bool? enabled;
 
@@ -44,11 +47,13 @@ class CustomTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.enabled,
     InputBorder? inputBorder,
-    double? contentPadding,
+    this.borderRadius =
+        const BorderRadius.all(Radius.circular(kBorderRadiusSize)),
     this.backgroundColor,
     this.fieldColor,
+    this.minLine,
+    this.contentPadding = EdgeInsets.zero,
   }) : super(key: key) {
-    this.contentPadding = contentPadding ?? kPaddingMiddleSize;
     this.inputBorder = inputBorder ??
         const OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -63,34 +68,30 @@ class CustomTextFormField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? CustomColor.backgroundMainColor,
-        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadiusSize)),
+        borderRadius: borderRadius,
       ),
+      padding: const EdgeInsets.all(kPaddingSmallSize),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kPaddingSmallSize,
-              vertical: kPaddingMiniSize,
-            ).copyWith(bottom: kPaddingMiniSize),
-            child: Row(
-              children: [
-                if (prefixIcon != null) ...[
-                  Icon(
-                    prefixIcon,
-                    size: kIconSmallSize,
-                    color: decorationStyle.color,
-                  ),
-                  const SizedBox(width: kPaddingSmallSize),
-                ],
-                if (labelText != null)
-                  Text(
-                    labelText!,
-                    style: decorationStyle,
-                  ),
+          Row(
+            children: [
+              if (prefixIcon != null) ...[
+                Icon(
+                  prefixIcon,
+                  size: kIconSmallSize,
+                  color: decorationStyle.color,
+                ),
+                const SizedBox(width: kPaddingSmallSize),
               ],
-            ),
+              if (labelText != null)
+                Text(
+                  labelText!,
+                  style: decorationStyle,
+                ),
+            ],
           ),
+          const SizedBox(height: kPaddingSmallSize),
           Row(
             children: [
               if (headText != null) ...[
@@ -102,20 +103,19 @@ class CustomTextFormField extends StatelessWidget {
               ],
               Expanded(
                 child: TextFormField(
+                  minLines: minLine,
+                  maxLines: minLine ?? 1,
                   enabled: enabled,
                   controller: textController,
                   validator: validator,
-                  cursorColor: CustomColor.textMainColor,
+                  cursorColor: textStyle?.color,
                   keyboardType: keyboardType,
                   obscureText: keyboardType == TextInputType.visiblePassword,
                   style: textStyle ?? kTextMainStyleMiddle,
                   inputFormatters: inputFormatters,
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(
-                      left: kPaddingSmallSize,
-                      bottom: kPaddingSmallSize,
-                    ),
+                    contentPadding: contentPadding,
                     hintText: hintText,
                     border: inputBorder,
                     disabledBorder: inputBorder,

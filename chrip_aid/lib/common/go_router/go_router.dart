@@ -92,12 +92,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'post',
             name: PostScreen.routeName,
             redirect: (context, state) {
-              String path = redirectionByAuth(context, state, "/post");
-              if (path.contains('orphanage') &&
-                  state.location.contains('edit')) {
-                return '/post/orphanage/edit';
-              }
-              return path;
+              if (state.location.contains('edit')) return null;
+              return redirectionByAuth(context, state, "/post");
             },
             routes: [
               GoRoute(

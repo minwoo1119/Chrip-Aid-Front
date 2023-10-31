@@ -75,6 +75,10 @@ dependencies:
   # Get 패키지 사용
   get: ^4.1.4
 
+  # Image
+  image_picker: ^1.0.4
+  card_swiper: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -132,7 +132,7 @@ const TextStyle kTextContentStyleMedium = TextStyle(
 
 const TextStyle kTextSubContentStyleSmall = TextStyle(
   color: CustomColor.contentSubColor,
-  fontSize: kTextMiniSize,
+  fontSize: kTextSmallSize,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
