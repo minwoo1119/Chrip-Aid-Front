@@ -14,6 +14,8 @@ import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
+import 'package:chrip_aid/post/view/post_screen.dart';
+import 'package:chrip_aid/post/view/user_post_screen.dart';
 import 'package:chrip_aid/reservation/view/orphanage_reservation_screen.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:chrip_aid/reservation/view/user_reservation_screen.dart';
@@ -88,17 +90,34 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'post',
-            name: OrphanagePostScreen.routeName,
-            builder: (_, __) => const OrphanagePostScreen(),
+            name: PostScreen.routeName,
+            redirect: (context, state) {
+              String path = redirectionByAuth(context, state, "/post");
+              if (path.contains('orphanage') &&
+                  state.location.contains('edit')) {
+                return '/post/orphanage/edit';
+              }
+              return path;
+            },
             routes: [
               GoRoute(
-                path: 'edit',
-                name: OrphanageEditPostScreen.routeName,
-                redirect: (context, state) {
-                  if (authority == AuthorityType.user) return '/post';
-                  return null;
-                },
-                builder: (_, __) => const OrphanageEditPostScreen(),
+                path: 'user',
+                builder: (_, __) => const UserPostScreen(),
+              ),
+              GoRoute(
+                path: 'orphanage',
+                builder: (_, __) => const OrphanagePostScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    name: OrphanageEditPostScreen.routeName,
+                    redirect: (context, state) {
+                      if (authority == AuthorityType.user) return '/post';
+                      return null;
+                    },
+                    builder: (_, __) => const OrphanageEditPostScreen(),
+                  ),
+                ],
               ),
             ],
           ),
