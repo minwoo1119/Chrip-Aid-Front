@@ -11,6 +11,7 @@ final orphanageEditPostsViewModelProvider =
 class OrphanageEditPostsViewModel extends ChangeNotifier {
   Ref ref;
 
+  final List<String> tags = ["초코파이", "초코파이", "초코파이", "초코파이"];
   final ImagePicker _imagePicker = ImagePicker();
   final List<File> images = [];
 
@@ -27,7 +28,7 @@ class OrphanageEditPostsViewModel extends ChangeNotifier {
 
   void pickImage() async {
     XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if(image == null) return;
+    if (image == null) return;
     images.add(File(image.path.toString()));
     notifyListeners();
   }

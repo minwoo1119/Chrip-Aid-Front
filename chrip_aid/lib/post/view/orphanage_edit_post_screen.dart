@@ -5,6 +5,7 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
+import 'package:chrip_aid/post/component/tag_list.dart';
 import 'package:chrip_aid/post/viewmodel/orphanage_edit_post_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,9 +42,15 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                       textStyle: kTextContentStyleMedium.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
+                      contentPadding: const EdgeInsets.only(
+                        bottom: kPaddingMiniSize,
+                      ),
                     ),
                     const SizedBox(height: kPaddingMiddleSize),
+                    TagList(tags: viewModel.tags),
+                    const SizedBox(height: kPaddingMiddleSize),
                     CustomTextFormField(
+                      keyboardType: TextInputType.multiline,
                       textController: viewModel.contentController,
                       fieldColor: CustomColor.backGroundSubColor,
                       backgroundColor: CustomColor.backGroundSubColor,
@@ -92,6 +99,9 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                           ? BoxDecoration(border: Border.all())
                           : null,
                       width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: kPaddingSmallSize,
+                      ),
                       height: 250,
                       child: viewModel.images.isEmpty
                           ? IconButton(

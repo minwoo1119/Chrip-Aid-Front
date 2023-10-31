@@ -12,10 +12,10 @@ class OrphanagePostService extends StateNotifier<OrphanageState> {
 
   OrphanagePostService(this.repository)
       : super(OrphanagePostStateLoading()) {
-    getOrphanageDonate();
+    getOrphanagePosts();
   }
 
-  Future getOrphanageDonate() async {
+  Future getOrphanagePosts() async {
     try {
       state = OrphanagePostStateLoading();
       List<GetPostsEntity> data = await repository.getOrphanagePosts();
