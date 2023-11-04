@@ -9,6 +9,8 @@ import 'package:chrip_aid/post/component/tag_list.dart';
 import 'package:chrip_aid/post/viewmodel/orphanage_edit_post_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:photo_view/photo_view.dart';
 
 class OrphanageEditPostScreen extends ConsumerWidget {
   static String get routeName => 'editPost';
@@ -83,8 +85,10 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                           if (viewModel.images.isNotEmpty)
                             IconButton(
                               onPressed: viewModel.removeImage,
-                              icon: const Icon(Icons.delete,
-                                  size: kIconSmallSize),
+                              icon: const Icon(
+                                Icons.delete,
+                                size: kIconSmallSize,
+                              ),
                               splashRadius: kIconSmallSize,
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
@@ -122,8 +126,50 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                             )
                           : _DesignedSwiper(
                               itemCount: viewModel.images.length,
-                              itemBuilder: (_, index) => Image.file(
-                                viewModel.images[index],
+                              itemBuilder: (_, index) => InkWell(
+                                onTap: () => showDialog(
+                                  useRootNavigator: true,
+                                  context: context,
+                                  builder: (context) => DefaultLayout(
+                                    extendBodyBehindAppBar: true,
+                                    appbarColor: Colors.transparent,
+                                    leading: IconButton(
+                                      onPressed: context.pop,
+                                      icon: const Icon(Icons.close),
+                                      color: CustomColor.textReverseColor,
+                                      splashRadius: kIconSmallSize,
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints(),
+                                    ),
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          viewModel.removeImage();
+                                          context.pop();
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          size: kIconSmallSize,
+                                        ),
+                                        color: CustomColor.textReverseColor,
+                                        splashRadius: kIconSmallSize,
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                      ),
+                                      const SizedBox(width: kPaddingMiddleSize),
+                                    ],
+                                    title: "",
+                                    child: PhotoView(
+                                      imageProvider: FileImage(
+                                        viewModel.images[index],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: Image.file(
+                                  viewModel.images[index],
+                                  fit: BoxFit.fitWidth,
+                                ),
                               ),
                               controller: viewModel.swiperController,
                             ),
@@ -135,7 +181,8 @@ class OrphanageEditPostScreen extends ConsumerWidget {
             const SizedBox(height: kPaddingMiddleSize),
             CustomOutlinedButton(
               onPressed: () => viewModel.post(context),
-              text: 'Post',
+              text: 'POST',
+              textStyle: kTextReverseStyleMiddle,
             ),
             const SizedBox(height: kPaddingMiddleSize),
           ],
@@ -161,5 +208,6 @@ class _DesignedSwiper extends Swiper {
             ),
           ),
           control: const SwiperControl(color: Colors.black),
+          loop: false,
         );
 }

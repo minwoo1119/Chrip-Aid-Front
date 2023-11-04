@@ -8,6 +8,8 @@ class CustomOutlinedButton extends StatelessWidget {
 
   final Color color;
 
+  final TextStyle? textStyle;
+
   final double? elevation;
   final bool hasSide;
   final Size? fixedSize;
@@ -20,6 +22,7 @@ class CustomOutlinedButton extends StatelessWidget {
     this.elevation,
     this.hasSide = true,
     this.fixedSize,
+    this.textStyle,
   }) : super(key: key);
 
   @override
@@ -41,7 +44,8 @@ class CustomOutlinedButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: kTextReverseStyleMiddle.copyWith(fontWeight: FontWeight.bold),
+        style: textStyle ??
+            kTextReverseStyleMiddle.copyWith(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
     );

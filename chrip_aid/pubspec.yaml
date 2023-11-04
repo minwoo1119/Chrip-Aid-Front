@@ -78,6 +78,9 @@ dependencies:
   # Image
   image_picker: ^1.0.4
   card_swiper: ^3.0.1
+  photo_view: ^0.14.0
+
+  # collection
   collection: ^1.17.1
 
 dev_dependencies:
