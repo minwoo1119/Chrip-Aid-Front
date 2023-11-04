@@ -78,6 +78,7 @@ dependencies:
   # Image
   image_picker: ^1.0.4
   card_swiper: ^3.0.1
+  collection: ^1.17.1
 
 dev_dependencies:
   flutter_test:

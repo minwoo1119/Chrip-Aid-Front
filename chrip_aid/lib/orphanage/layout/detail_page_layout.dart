@@ -46,7 +46,7 @@ class DetailPageLayout extends StatelessWidget {
             : Text(
                 title!,
                 style: const TextStyle(
-                    fontSize: 16.0, fontWeight: FontWeight.bold),
+                    fontSize: 16.0, fontWeight: FontWeight.w400),
               ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: leadingColor),

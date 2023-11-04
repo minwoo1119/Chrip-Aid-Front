@@ -3,7 +3,7 @@ import 'package:chrip_aid/common/styles/styles.dart';
 
 class DefaultLayout extends StatelessWidget {
   final String? title;
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
   final Widget? leading;
   final double? leadingWidth;
   final double? appbarHeight;
@@ -22,7 +22,7 @@ class DefaultLayout extends StatelessWidget {
     this.appbarHeight,
     this.appbarColor = Colors.transparent,
     this.drawer,
-    this.titleStyle = kTextReverseStyleLarge,
+    this.titleStyle,
     this.backgroundColor = Colors.white,
     this.bottomNavigationBar,
     required this.child,
@@ -50,7 +50,11 @@ class DefaultLayout extends StatelessWidget {
           leading: leading,
           leadingWidth: leadingWidth,
           elevation: 0,
-          title: Text(title!, style: titleStyle),
+          title: Text(
+            title!,
+            style: titleStyle ??
+                kTextReverseStyleLarge.copyWith(fontWeight: FontWeight.bold),
+          ),
           foregroundColor: Colors.black,
         );
 }

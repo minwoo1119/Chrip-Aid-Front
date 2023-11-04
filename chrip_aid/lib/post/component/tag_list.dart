@@ -1,21 +1,41 @@
 import 'package:chrip_aid/post/component/tag_item.dart';
+import 'package:chrip_aid/post/model/entity/tag_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
-class TagList extends StatefulWidget {
-  final List<String> tags;
-  const TagList({Key? key, required this.tags}) : super(key: key);
+class TagList extends StatelessWidget {
+  final TagListController controller;
 
-  @override
-  State<TagList> createState() => _TagListState();
-}
+  const TagList({Key? key, required this.controller}) : super(key: key);
 
-class _TagListState extends State<TagList> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8.0,
       runSpacing: 4.0,
-      children: widget.tags.map((e) => TagItem(e, isChecked: false,)).toList(),
+      alignment: WrapAlignment.start,
+      runAlignment: WrapAlignment.start,
+      children: controller.tags
+          .mapIndexed(
+            (i, e) => TagItem(
+              e.name,
+              isChecked: e.isSelected,
+              onTap: (checked) => controller.onTap(i, checked),
+            ),
+          )
+          .toList(),
     );
   }
+}
+
+class TagListController extends ChangeNotifier {
+  final List<TagEntity> tags;
+
+  TagListController(this.tags);
+
+  void onTap(int index, bool checked) {
+    tags[index].isSelected = checked;
+  }
+
+  List<TagEntity> get selectedList => tags.where((e) => e.isSelected).toList();
 }

@@ -30,6 +30,7 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextFormField(
                       textController: viewModel.titleController,
@@ -40,14 +41,19 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                       labelText: "제목",
                       decorationStyle: kTextSubContentStyleSmall,
                       textStyle: kTextContentStyleMedium.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                       ),
                       contentPadding: const EdgeInsets.only(
                         bottom: kPaddingMiniSize,
                       ),
                     ),
                     const SizedBox(height: kPaddingMiddleSize),
-                    TagList(tags: viewModel.tags),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kPaddingSmallSize,
+                      ),
+                      child: TagList(controller: viewModel.tagListController),
+                    ),
                     const SizedBox(height: kPaddingMiddleSize),
                     CustomTextFormField(
                       keyboardType: TextInputType.multiline,
@@ -60,7 +66,7 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                       decorationStyle: kTextSubContentStyleSmall,
                       minLine: 12,
                       textStyle: kTextContentStyleMedium.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                       ),
                       contentPadding: const EdgeInsets.all(kPaddingSmallSize),
                     ),
@@ -119,7 +125,7 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                               itemBuilder: (_, index) => Image.file(
                                 viewModel.images[index],
                               ),
-                              controller: viewModel.controller,
+                              controller: viewModel.swiperController,
                             ),
                     ),
                   ],
@@ -127,7 +133,10 @@ class OrphanageEditPostScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: kPaddingMiddleSize),
-            CustomOutlinedButton(onPressed: viewModel.post, text: 'Post'),
+            CustomOutlinedButton(
+              onPressed: () => viewModel.post(context),
+              text: 'Post',
+            ),
             const SizedBox(height: kPaddingMiddleSize),
           ],
         ),

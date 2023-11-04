@@ -41,7 +41,7 @@ class CustomOutlinedButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: kTextReverseStyleMiddle,
+        style: kTextReverseStyleMiddle.copyWith(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
     );
