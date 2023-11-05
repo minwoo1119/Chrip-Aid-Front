@@ -1,5 +1,6 @@
 import 'package:chrip_aid/auth/dto/login_request_dto.dart';
 import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
+import 'package:chrip_aid/auth/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -27,7 +28,13 @@ abstract class AuthRepository {
   @Headers({'accessToken' : 'true'})
   Future saveToken(@Header('fcm-token') String fcmToken);
 
-  @GET('/members/authorityType/info')
+  // TODO : change function (get user info need Authority Type)
+
+  @GET('/members/users/info')
   @Headers({'accessToken' : 'true'})
   Future<UserEntity> getUserInfo();
+
+  @GET('/members/orphanages/info')
+  @Headers({'accessToken' : 'true'})
+  Future<OrphanageMemberEntity> getOrphanageMemberInfo();
 }

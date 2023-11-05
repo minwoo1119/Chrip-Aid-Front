@@ -1,13 +1,25 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'request_item_entity.dart';
 
+part 'orphanage_detail_entity.g.dart';
+
+@JsonSerializable()
 class OrphanageDetailEntity {
+  @JsonKey(name: 'orphanage_name')
   final String orphanageName;
+  @JsonKey(name: 'address')
   final String address;
+  @JsonKey(name: 'phone_number')
   final String phoneNumber;
+  @JsonKey(name: 'photo')
   final String photo;
+  @JsonKey(name: 'homepage_link')
   final String homepageLink;
+  @JsonKey(name: 'name')
   final String name;
+  @JsonKey(name: 'description')
   final String description;
+  @JsonKey(name: 'requests')
   final List<RequestItemEntity> requests;
 
   OrphanageDetailEntity({
@@ -21,13 +33,8 @@ class OrphanageDetailEntity {
     required this.requests,
   });
 
-  OrphanageDetailEntity.fromJson(Map<String, dynamic> json)
-      : orphanageName = json["orphanage_name"],
-        address = json["address"],
-        phoneNumber = json["phone_number"],
-        photo = json["photo"],
-        homepageLink = json["homepage_link"],
-        name = json["name"],
-        description = json["description"],
-        requests = json["requests"];
+  Map<String, dynamic> toJson() => _$OrphanageDetailEntityToJson(this);
+
+  factory OrphanageDetailEntity.fromJson(Map<String, dynamic> json) =>
+      _$OrphanageDetailEntityFromJson(json);
 }
