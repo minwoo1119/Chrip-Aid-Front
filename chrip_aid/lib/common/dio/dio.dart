@@ -60,8 +60,8 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.requestOptions.path ==
-        '/auth/${ref.read(authorityProvider)}') {
+    final authority = ref.read(authorityProvider);
+    if (response.requestOptions.path == '/auth/$authority') {
       try {
         await _saveToken(response);
       } on DioException catch (e) {

@@ -190,6 +190,35 @@ class UserInfoScreen extends TabScreen {
                               ),
                             ),
                           ),
+                          Divider(
+                            color: mainColor,
+                            thickness: kBorderWidth,
+                            height: 0,
+                          ),
+                          InkWell(
+                            onTap: viewmodel.logout,
+                            child: const Padding(
+                              padding: EdgeInsets.all(kPaddingSmallSize),
+                              child: DesignedContainerTitleBar(
+                                title: '로그아웃',
+                                leading: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: kPaddingSmallSize,
+                                  ),
+                                  child: Icon(
+                                    Icons.logout,
+                                    size: kIconSmallSize,
+                                  ),
+                                ),
+                                actions: [
+                                  Icon(
+                                    Icons.navigate_next,
+                                    size: kIconSmallSize,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

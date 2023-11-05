@@ -7,8 +7,6 @@ import 'package:chrip_aid/common/component/custom_text_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/state/state.dart';
-import 'package:chrip_aid/common/styles/colors.dart';
-import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,24 +54,41 @@ class LoginScreen extends ConsumerWidget {
               ),
               const SizedBox(height: kPaddingMiddleSize),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Expanded(child: SizedBox()),
-                  SizedBox(
-                    width: kIconSmallSize,
-                    height: kIconSmallSize,
-                    child: Checkbox(
-                      value: viewModel.authority == AuthorityType.orphanage,
-                      onChanged: viewModel.toggleAuthorityType,
-                      activeColor: CustomColor.mainColor,
-                      side: const BorderSide(
-                        color: CustomColor.textReverseColor,
-                        width: 1.5,
-                      ),
+                  InkWell(
+                    onTap: () => viewModel.toggleAuthorityType(
+                      viewModel.authority != AuthorityType.orphanage,
+                    ),
+                    splashColor: Colors.transparent,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: kIconSmallSize,
+                          height: kIconSmallSize,
+                          child: Checkbox(
+                            value:
+                                viewModel.authority == AuthorityType.orphanage,
+                            onChanged: viewModel.toggleAuthorityType,
+                            activeColor: CustomColor.mainColor,
+                            side: const BorderSide(
+                              color: CustomColor.textReverseColor,
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: kPaddingSmallSize),
+                        Text(
+                          "보육원장 이신가요?",
+                          style: kTextReverseStyleSmall.copyWith(
+                            height: kIconMiniSize / kTextSmallSize,
+                          ),
+                        ),
+                        const SizedBox(width: kPaddingMiniSize),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: kPaddingSmallSize),
-                  const Text("보육원장 이신가요?", style: kTextReverseStyleSmall),
-                  const SizedBox(width: kPaddingMiniSize),
                 ],
               ),
               const SizedBox(height: kPaddingMiddleSize),
