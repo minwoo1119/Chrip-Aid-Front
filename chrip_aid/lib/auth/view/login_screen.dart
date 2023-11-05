@@ -109,9 +109,9 @@ class LoginScreen extends ConsumerWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: CustomTextButton(
-                            onPressed: () {},
+                            onPressed: null,
                             text: 'ID / PW 찾기',
                           ),
                         ),

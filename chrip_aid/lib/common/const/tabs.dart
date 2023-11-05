@@ -29,7 +29,7 @@ final tabProvider = Provider((ref) {
         // TODO : Create Alarm Screen
         TabInfo(OrphanageHomeScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
         TabInfo(OrphanageHomeScreen(), icon: Icons.home, label: '예약 설정'),
-        // TODO : Create Orphanage Info Screen
+        // TODO : Create Orphanage Member Info Screen
         TabInfo(UserInfoScreen(), icon: Icons.person, label: "사용자 설정"),
       ];
   }

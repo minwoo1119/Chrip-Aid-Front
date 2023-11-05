@@ -109,6 +109,7 @@ class UserInfoScreen extends TabScreen {
                       child: Column(
                         children: [
                           InkWell(
+                            // TODO : add function (navigate to donate list page)
                             onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
@@ -138,7 +139,8 @@ class UserInfoScreen extends TabScreen {
                             height: 0,
                           ),
                           InkWell(
-                            onTap: () {},
+                            // TODO : add function (navigate to credit page)
+                          onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
                               child: DesignedContainerTitleBar(
@@ -167,7 +169,8 @@ class UserInfoScreen extends TabScreen {
                             height: 0,
                           ),
                           InkWell(
-                            onTap: () {},
+                            // TODO : add function (navigate to setting page)
+                          onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
                               child: DesignedContainerTitleBar(
