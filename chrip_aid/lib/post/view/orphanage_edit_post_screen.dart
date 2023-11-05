@@ -105,9 +105,6 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                       ),
                     ),
                     Container(
-                      decoration: viewModel.images.isEmpty
-                          ? BoxDecoration(border: Border.all())
-                          : null,
                       width: double.infinity,
                       margin: const EdgeInsets.symmetric(
                         horizontal: kPaddingSmallSize,
@@ -119,6 +116,7 @@ class OrphanageEditPostScreen extends ConsumerWidget {
                               icon: const Icon(
                                 Icons.add_photo_alternate_outlined,
                                 size: 75,
+                                color: CustomColor.contentSubColor,
                               ),
                               splashRadius: 75,
                               padding: EdgeInsets.zero,
@@ -193,21 +191,21 @@ class OrphanageEditPostScreen extends ConsumerWidget {
 }
 
 class _DesignedSwiper extends Swiper {
+  static const Color _color = CustomColor.textReverseColor;
+  static const Color _disableColor =  Color(0x55ffffff);
+
   const _DesignedSwiper({
     required super.itemCount,
     super.itemBuilder,
     super.controller,
   }) : super(
-          viewportFraction: 0.8,
-          scale: 0.9,
           pagination: const SwiperPagination(
             alignment: Alignment.bottomCenter,
             builder: DotSwiperPaginationBuilder(
-              color: Colors.grey,
-              activeColor: Colors.black,
+              color: _disableColor,
+              activeColor: _color,
             ),
           ),
-          control: const SwiperControl(color: Colors.black),
           loop: false,
         );
 }

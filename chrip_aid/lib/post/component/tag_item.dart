@@ -52,12 +52,13 @@ class _TagItemState extends State<TagItem> {
               : CustomColor.backgroundMainColor,
         ),
         child: Text(
-          widget.tag,
+          "# ${widget.tag}",
           style: kTextContentStyleSmall.copyWith(
-              color: isChecked
-                  ? CustomColor.textReverseColor
-                  : CustomColor.textSubColor,
-              fontWeight: FontWeight.w400),
+            color: isChecked
+                ? CustomColor.textReverseColor
+                : CustomColor.textSubColor,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );
