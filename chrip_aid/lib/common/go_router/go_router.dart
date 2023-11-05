@@ -62,7 +62,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'edit',
                 name: OrphanageManagementScreen.routeName,
                 redirect: (context, state) {
-                  if (authority == AuthorityType.orphanage) return null;
+                  if (ref.read(authorityProvider) == AuthorityType.orphanage) {
+                    return null;
+                  }
                   return "/orphanage/map";
                 },
                 builder: (context, state) => const OrphanageManagementScreen(),
