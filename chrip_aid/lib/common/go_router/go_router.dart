@@ -10,6 +10,7 @@ import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
@@ -57,6 +58,15 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'search',
                 name: OrphanageSearchScreen.routeName,
                 builder: (context, state) => const OrphanageSearchScreen(),
+              ),
+              GoRoute(
+                path: 'edit',
+                name: OrphanageManagementScreen.routeName,
+                redirect: (context, state) {
+                  if (authority == AuthorityType.orphanage) return null;
+                  return "/orphanage/map";
+                },
+                builder: (context, state) => const OrphanageManagementScreen(),
               ),
               GoRoute(
                 path: 'detail',

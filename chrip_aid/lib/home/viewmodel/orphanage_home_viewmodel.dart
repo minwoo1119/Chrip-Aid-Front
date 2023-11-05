@@ -1,16 +1,25 @@
-import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
+import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final orphanageHomeViewModelProvider = ChangeNotifierProvider((ref) => HomeViewModel());
+final orphanageHomeViewModelProvider =
+    ChangeNotifierProvider((ref) => HomeViewModel(ref));
 
 class HomeViewModel extends ChangeNotifier {
+  Ref ref;
+
+  HomeViewModel(this.ref);
+
   Future navigateToOrphanageScreen(BuildContext context) async {
-    // TODO : Orphanage Manage Screen
-    context.pushNamed(OrphanageEditPostScreen.routeName);
+    // TODO : change function (get orphanage detail need orphanage id)
+    ref
+        .read(orphanageServiceProvider.notifier)
+        .getOrphanageDetail("1");
+    context.pushNamed(OrphanageManagementScreen.routeName);
   }
 
   Future navigateToReservationScreen(BuildContext context) async {

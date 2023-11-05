@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,11 +47,20 @@ class DetailPageLayout extends StatelessWidget {
             : Text(
                 title!,
                 style: const TextStyle(
-                    fontSize: 16.0, fontWeight: FontWeight.w400),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: leadingColor),
+          icon: Icon(
+            Icons.arrow_back,
+            color: leadingColor,
+            size: kIconSmallSize,
+          ),
           onPressed: context.pop,
+          splashRadius: kIconSmallSize,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
         ),
         actions: actions,
         foregroundColor: Colors.black,
