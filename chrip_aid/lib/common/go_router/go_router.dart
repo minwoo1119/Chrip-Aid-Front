@@ -25,14 +25,13 @@ import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
-  final authority = ref.watch(authorityProvider);
 
   String redirectionByAuth(
     BuildContext context,
     GoRouterState state,
     String path,
   ) {
-    if (authority == AuthorityType.user) return '$path/user';
+    if (ref.read(authorityProvider) == AuthorityType.user) return '$path/user';
     return '$path/orphanage';
   }
 
@@ -108,7 +107,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'edit',
                     name: OrphanageEditPostScreen.routeName,
                     redirect: (context, state) {
-                      if (authority == AuthorityType.user) return '/post';
+                      if (ref.read(authorityProvider) == AuthorityType.user) {
+                        return '/post';
+                      }
                       return null;
                     },
                     builder: (_, __) => const OrphanageEditPostScreen(),
