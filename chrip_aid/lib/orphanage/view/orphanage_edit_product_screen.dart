@@ -5,7 +5,7 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
-import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_edit_product_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,13 +14,12 @@ import 'package:photo_view/photo_view.dart';
 
 class OrphanageEditProductScreen extends ConsumerWidget {
   static String get routeName => 'editProduct';
-  final OrphanageProductAddRequestDTO? entity;
+  final AddOrphanageProductRequestDTO? entity;
 
   const OrphanageEditProductScreen({Key? key, this.entity}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(orphanageEditProductViewModelProvider).initEntity(entity);
     final viewModel = ref.watch(orphanageEditProductViewModelProvider);
     return DefaultLayout(
       title: "물품 요청글 작성",

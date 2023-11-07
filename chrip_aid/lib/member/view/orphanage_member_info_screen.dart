@@ -24,7 +24,7 @@ class OrphanageMemberInfoScreen extends TabScreen {
       child: Padding(
         padding: const EdgeInsets.all(kPaddingSmallSize),
         child: SingleChildScrollView(
-          child: viewmodel.userInfo == null
+          child: viewmodel.userInfo == null || viewmodel.orphanageInfo == null
               ? Container()
               : Column(
                   children: [
@@ -55,7 +55,7 @@ class OrphanageMemberInfoScreen extends TabScreen {
                               children: [
                                 DesignedContainerTitleBar(
                                   title: viewmodel
-                                      .userInfo!.orphanage.orphanageName,
+                                      .orphanageInfo!.orphanageName,
                                   actions: [
                                     IconButton(
                                       onPressed: () => viewmodel
@@ -83,12 +83,12 @@ class OrphanageMemberInfoScreen extends TabScreen {
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(
                                   iconData: Icons.phone,
-                                  text: viewmodel.userInfo!.orphanage.phoneNumber,
+                                  text: viewmodel.orphanageInfo!.phoneNumber,
                                 ),
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(
                                   iconData: Icons.location_on,
-                                  text: viewmodel.userInfo!.orphanage.address,
+                                  text: viewmodel.orphanageInfo!.address,
                                 ),
                               ],
                             ),

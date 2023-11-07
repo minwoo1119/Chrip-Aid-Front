@@ -12,13 +12,13 @@ class OrphanageMemberEntity implements MemberEntity {
   @override
   @JsonKey(name: 'name')
   String name;
-  @JsonKey(name: 'orphanage')
-  OrphanageDetailEntity orphanage;
+  @JsonKey(name: 'orphanage_id')
+  int orphanageId;
 
   OrphanageMemberEntity({
     required this.email,
     required this.name,
-    required this.orphanage,
+    required this.orphanageId,
   });
 
   @override

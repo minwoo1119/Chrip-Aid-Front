@@ -24,7 +24,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
       actions: [
         IconButton(
           // TODO : add function (navigate to edit orphanage info page)
-        onPressed: () {},
+          onPressed: () {},
           icon: const Icon(Icons.edit, size: kIconSmallSize),
           color: CustomColor.textReverseColor,
           splashRadius: kIconSmallSize,
@@ -33,7 +33,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
         ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
-      child: viewModel.state is SuccessState
+      child: viewModel.managementState is SuccessState
           ? SingleChildScrollView(
               child: Column(
                 children: [
@@ -43,7 +43,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
                         width: MediaQuery.of(context).size.width,
                         height: 150,
                         child: Image.asset(
-                          viewModel.entity.photo,
+                          viewModel.entity!.photo,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -54,24 +54,24 @@ class OrphanageManagementScreen extends ConsumerWidget {
                         child: Column(
                           children: [
                             CustomTextField(
-                              text: viewModel.entity.orphanageName,
+                              text: viewModel.entity!.orphanageName,
                               textSize: kTextMediumSize,
                             ),
                             CustomTextField(
                               iconData: Icons.location_on,
-                              text: viewModel.entity.address,
+                              text: viewModel.entity!.address,
                             ),
                             CustomTextField(
                               iconData: Icons.phone,
-                              text: viewModel.entity.phoneNumber,
+                              text: viewModel.entity!.phoneNumber,
                             ),
                             CustomTextField(
                               iconData: Icons.person,
-                              text: viewModel.entity.name,
+                              text: viewModel.entity!.name,
                             ),
                             CustomTextField(
                               iconData: Icons.monitor,
-                              text: viewModel.entity.homepageLink,
+                              text: viewModel.entity!.homepageLink,
                             ),
                           ],
                         ),
@@ -96,7 +96,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
                           text: "소개글",
                         ),
                         Text(
-                          viewModel.entity.description,
+                          viewModel.entity!.description,
                           style: kTextContentStyleSmall,
                         ),
                       ],
@@ -120,7 +120,8 @@ class OrphanageManagementScreen extends ConsumerWidget {
                         ),
                         const Expanded(child: SizedBox()),
                         IconButton(
-                          onPressed: () => viewModel.navigateToAddProductScreen(context),
+                          onPressed: () =>
+                              viewModel.navigateToAddProductScreen(context),
                           icon: const Icon(
                             Icons.add,
                             size: kIconSmallSize,
@@ -136,11 +137,11 @@ class OrphanageManagementScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: kPaddingMiniSize),
                   ListView.builder(
-                    itemCount: viewModel.entity.requests.length,
+                    itemCount: viewModel.entity!.requests.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity.requests[index];
+                      final item = viewModel.entity!.requests[index];
                       return CustomProductBox2(
                         requiredId: item.requestId,
                         photo: item.productPhoto,

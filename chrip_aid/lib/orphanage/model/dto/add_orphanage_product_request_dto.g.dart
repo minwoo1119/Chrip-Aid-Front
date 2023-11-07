@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orphanage_product_add_request_dto.dart';
+part of 'add_orphanage_product_request_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrphanageProductAddRequestDTO _$OrphanageProductAddRequestDTOFromJson(
+AddOrphanageProductRequestDTO _$AddOrphanageProductRequestDTOFromJson(
         Map<String, dynamic> json) =>
-    OrphanageProductAddRequestDTO(
-      productName: json['product_name'] as String,
+    AddOrphanageProductRequestDTO(
+      id: json['id'] as String,
       count: json['count'] as int,
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$OrphanageProductAddRequestDTOToJson(
-        OrphanageProductAddRequestDTO instance) =>
+Map<String, dynamic> _$AddOrphanageProductRequestDTOToJson(
+        AddOrphanageProductRequestDTO instance) =>
     <String, dynamic>{
-      'product_name': instance.productName,
+      'id': instance.id,
       'count': instance.count,
       'message': instance.message,
     };

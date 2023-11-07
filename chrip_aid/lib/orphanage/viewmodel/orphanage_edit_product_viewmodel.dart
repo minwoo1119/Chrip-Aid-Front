@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:card_swiper/card_swiper.dart';
-import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,8 +13,6 @@ ChangeNotifierProvider((ref) => OrphanageEditProductViewModel(ref));
 class OrphanageEditProductViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageProductAddRequestDTO? entity;
-
   final ImagePicker _imagePicker = ImagePicker();
   final List<File> images = [];
 
@@ -23,12 +21,6 @@ class OrphanageEditProductViewModel extends ChangeNotifier {
   SwiperController swiperController = SwiperController();
 
   OrphanageEditProductViewModel(this.ref);
-
-  void initEntity(OrphanageProductAddRequestDTO? entity) {
-    this.entity = entity;
-    if(this.entity == null) return;
-    titleController.text = entity!.productName;
-  }
 
   void removeImage() async {
     images.removeAt(swiperController.index);

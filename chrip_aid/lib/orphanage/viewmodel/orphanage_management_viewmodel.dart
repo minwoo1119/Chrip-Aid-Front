@@ -2,7 +2,10 @@ import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
+import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
+import 'package:chrip_aid/orphanage/model/service/orphanage_management_service.dart';
+import 'package:chrip_aid/orphanage/model/state/orphanage_management_state.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_edit_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,17 +17,20 @@ final orphanageManagementViewModelProvider =
 class OrphanageEditViewModel extends ChangeNotifier {
   Ref ref;
 
-  late MemberInfoState state;
+  late OrphanageManagementState managementState;
 
-  OrphanageDetailEntity get entity =>
-      ((state as MemberInfoStateSuccess).data as OrphanageMemberEntity)
-          .orphanage;
+  OrphanageDetailEntity? get entity =>
+      managementState is OrphanageManagementStateSuccess
+          ? (managementState as OrphanageManagementStateSuccess).data
+          : null;
+
+  List<ProductEntity> get products => OrphanageManagementState.productList;
 
   OrphanageEditViewModel(this.ref) {
-    state = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
+    managementState = ref.read(orphanageManagementServiceProvider);
+    ref.listen(orphanageManagementServiceProvider, (previous, next) {
       if (previous != next) {
-        state = next;
+        managementState = next;
         notifyListeners();
       }
     });
@@ -32,7 +38,7 @@ class OrphanageEditViewModel extends ChangeNotifier {
 
   void navigateToAddProductScreen(
     BuildContext context, {
-    OrphanageProductAddRequestDTO? entity,
+    AddOrphanageProductRequestDTO? entity,
   }) {
     context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity);
   }

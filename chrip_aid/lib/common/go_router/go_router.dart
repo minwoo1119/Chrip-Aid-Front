@@ -9,7 +9,7 @@ import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_orphanage_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
-import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_edit_product_screen.dart';
@@ -76,7 +76,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'product',
                     name: OrphanageEditProductScreen.routeName,
                     builder: (context, state) => OrphanageEditProductScreen(
-                      entity: state.extra as OrphanageProductAddRequestDTO?,
+                      entity: state.extra as AddOrphanageProductRequestDTO?,
                     ),
                   ),
                 ],
