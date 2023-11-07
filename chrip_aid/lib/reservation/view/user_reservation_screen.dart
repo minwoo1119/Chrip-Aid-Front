@@ -25,7 +25,7 @@ class UserReservationScreenState extends ConsumerState<UserReservationScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: tabReservation.length, vsync: this);
     tabController.addListener(() {
       setState(() {
         // viewModel.changeSelectedTab(tabController.index);
@@ -38,6 +38,7 @@ class UserReservationScreenState extends ConsumerState<UserReservationScreen>
     // TODO : Fix Layout Error
     final viewModel = ref.watch(reservationViewModelProvider);
     return DetailPageLayout(
+      extendBodyBehindAppBar: false,
       appBarBackgroundColor: CustomColor.backgroundMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       title: "방문예약 확인",
@@ -54,10 +55,10 @@ class UserReservationScreenState extends ConsumerState<UserReservationScreen>
                     viewModel.changeSelectedTab(index);
                   },
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
                 Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    color: CustomColor.disabledColor,
                     child: viewModel.filteredEntity.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -70,26 +71,28 @@ class UserReservationScreenState extends ConsumerState<UserReservationScreen>
                               Text(
                                 "내역이 존재하지 않습니다",
                                 style: kTextReverseStyleSmall.copyWith(
-                                    color: Colors.white.withOpacity(0.5)),
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
                               ),
                             ],
                           )
-                        : Container(
-                            color: CustomColor.disabledColor,
-                            child: ListView.builder(
-                              itemCount: viewModel.filteredEntity.length,
-                              itemBuilder: (context, index) {
-                                final item = viewModel.filteredEntity[index];
-                                return CustomReservationBox(
-                                    orphanageName: item.orphanageName,
-                                    writeDate: item.writeDate,
-                                    visitDate: item.visitDate,
-                                    reason: item.reason,
-                                    state: item.state,
-                                    rejectReason: item.rejectReason);
-                              },
-                            ),
-                          ))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: viewModel.filteredEntity.length,
+                            itemBuilder: (context, index) {
+                              final item = viewModel.filteredEntity[index];
+                              return CustomReservationBox(
+                                orphanageName: item.orphanageName,
+                                writeDate: item.writeDate,
+                                visitDate: item.visitDate,
+                                reason: item.reason,
+                                state: item.state,
+                                rejectReason: item.rejectReason,
+                              );
+                            },
+                          ),
+                  ),
+                ),
               ],
             )
           : const Center(child: CircularProgressIndicator()),

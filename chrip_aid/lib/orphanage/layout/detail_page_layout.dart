@@ -12,6 +12,7 @@ class DetailPageLayout extends StatelessWidget {
   final PreferredSizeWidget? bottom;
   final Widget child;
   final List<Widget>? actions;
+  final bool extendBodyBehindAppBar;
 
   const DetailPageLayout({
     Key? key,
@@ -19,6 +20,7 @@ class DetailPageLayout extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.bottomNavigationBar,
     this.floatingActionButton,
+    this.extendBodyBehindAppBar = true,
     required this.child,
     this.leadingColor,
     this.bottom,
@@ -31,7 +33,7 @@ class DetailPageLayout extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       backgroundColor: backgroundColor,
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
       body: child,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,

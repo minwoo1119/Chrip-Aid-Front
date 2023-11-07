@@ -22,16 +22,12 @@ class OrphanageReservationScreenState
     with TickerProviderStateMixin {
   late final TabController tabController;
 
-  // late final OrphanageReservationViewModel viewModel;
-
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
-      setState(() {
-        // viewModel.changeSelectedTab(tabController.index);
-      });
+      setState(() {});
     });
   }
 
@@ -39,6 +35,7 @@ class OrphanageReservationScreenState
   Widget build(BuildContext context) {
     final viewModel = ref.watch(orphanageReservationViewModelProvider);
     return DetailPageLayout(
+      extendBodyBehindAppBar: false,
       appBarBackgroundColor: CustomColor.backgroundMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       title: "방문예약 확인",
@@ -56,46 +53,49 @@ class OrphanageReservationScreenState
                   },
                 ),
                 Expanded(
-                    child: viewModel.filteredEntity.isEmpty
-                        ? Container(
-                            width: double.infinity,
-                            color: CustomColor.disabledColor,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search,
+                  child: viewModel.filteredEntity.isEmpty
+                      ? Container(
+                          width: double.infinity,
+                          color: CustomColor.disabledColor,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.white.withOpacity(0.5),
+                                size: 90,
+                              ),
+                              Text(
+                                "내역이 존재하지 않습니다",
+                                style: kTextReverseStyleSmall.copyWith(
                                   color: Colors.white.withOpacity(0.5),
-                                  size: 90,
                                 ),
-                                Text(
-                                  "내역이 존재하지 않습니다",
-                                  style: kTextReverseStyleSmall.copyWith(
-                                      color: Colors.white.withOpacity(0.5)),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Container(
-                            color: CustomColor.disabledColor,
-                            child: ListView.builder(
-                              itemCount: viewModel.filteredEntity.length,
-                              itemBuilder: (context, index) {
-                                final item = viewModel.filteredEntity[index];
-                                return OrphanageReservationBox(
-                                    name: item.name,
-                                    age: item.age,
-                                    sex: item.sex,
-                                    region: item.region,
-                                    phoneNumber: item.phoneNumber,
-                                    writeDate: item.writeDate,
-                                    visitDate: item.visitDate,
-                                    reason: item.reason,
-                                    state: item.state,
-                                    rejectReason: item.rejectReason);
-                              },
-                            ),
-                          )),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          color: CustomColor.disabledColor,
+                          child: ListView.builder(
+                            itemCount: viewModel.filteredEntity.length,
+                            itemBuilder: (context, index) {
+                              final item = viewModel.filteredEntity[index];
+                              return OrphanageReservationBox(
+                                name: item.name,
+                                age: item.age,
+                                sex: item.sex,
+                                region: item.region,
+                                phoneNumber: item.phoneNumber,
+                                writeDate: item.writeDate,
+                                visitDate: item.visitDate,
+                                reason: item.reason,
+                                state: item.state,
+                                rejectReason: item.rejectReason,
+                              );
+                            },
+                          ),
+                        ),
+                ),
               ],
             )
           : const Center(child: CircularProgressIndicator()),
