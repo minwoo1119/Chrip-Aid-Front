@@ -1,13 +1,11 @@
-import 'package:chrip_aid/auth/model/entity/user_entity.dart';
-import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/member/model/dto/edit_user_info_request_dto.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/service/user_info_service.dart';
-import 'package:chrip_aid/member/model/state/user_info_state.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -29,19 +27,13 @@ class EditUserInfoViewModel extends ChangeNotifier {
   late final CustomDropdownButtonController<SubRegion>
       subRegionDropdownController;
 
-  late AuthState authState;
-  late UserInfoState userInfoState;
+  late MemberInfoState userInfoState;
 
-  UserEntity? get userInfo => authState is AuthStateSuccess
-      ? (authState as AuthStateSuccess).data
+  UserEntity? get userInfo => userInfoState is MemberInfoStateSuccess
+      ? (userInfoState as MemberInfoStateSuccess).data as UserEntity
       : null;
 
   EditUserInfoViewModel(this.ref) {
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) authState = next;
-    });
-
     userInfoState = ref.read(userInfoServiceProvider);
     ref.listen(userInfoServiceProvider, (previous, next) {
       if (previous != next) userInfoState = next;
@@ -83,7 +75,6 @@ class EditUserInfoViewModel extends ChangeNotifier {
             profileUrl: '',
           ),
         );
-    await ref.read(authServiceProvider.notifier).getUserInfo();
     if (context.mounted) context.pop();
   }
 }

@@ -1,13 +1,16 @@
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
+import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_entity.g.dart';
 
 @JsonSerializable()
-class UserEntity {
+class UserEntity implements MemberEntity {
+  @override
   @JsonKey(name: 'email')
   final String email;
+  @override
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'nick_name')
@@ -40,6 +43,7 @@ class UserEntity {
     required this.profileUrl,
   });
 
+  @override
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>

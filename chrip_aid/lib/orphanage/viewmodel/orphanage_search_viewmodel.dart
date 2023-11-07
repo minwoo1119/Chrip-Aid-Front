@@ -1,10 +1,10 @@
-import 'package:chrip_aid/auth/model/entity/user_entity.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/state/state.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -43,7 +43,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   late AuthState authState;
 
   UserEntity? get userInfo => authState is AuthStateSuccess
-      ? (authState as AuthStateSuccess).data
+      ? (authState as AuthStateSuccess).data as UserEntity
       : null;
 
   late OrphanageState orphanageState;
