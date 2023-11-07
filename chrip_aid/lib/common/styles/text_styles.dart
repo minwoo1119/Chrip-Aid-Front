@@ -122,6 +122,14 @@ const TextStyle kTextContentStyleSmall = TextStyle(
   height: kTextHeight,
 );
 
+const TextStyle kTextContentStyleMiddle= TextStyle(
+  color: Colors.black,
+  fontSize: kTextMiddleSize,
+  fontWeight: FontWeight.w400,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
 const TextStyle kTextContentStyleMedium = TextStyle(
   color: Colors.black,
   fontSize: kTextMediumSize,

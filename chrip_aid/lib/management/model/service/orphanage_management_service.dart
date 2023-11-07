@@ -1,13 +1,13 @@
+import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
-import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
-import 'package:chrip_aid/orphanage/model/dto/edit_orphanage_info_request_dto.dart';
+import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/request_item_entity.dart';
-import 'package:chrip_aid/orphanage/model/repository/orphanage_management_repository.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_management_state.dart';
+import 'package:chrip_aid/management/model/repository/orphanage_management_repository.dart';
+import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanageManagementServiceProvider =
@@ -115,16 +115,18 @@ class OrphanageManagementService
   }
 
   Future getProductList() async {
-    return [
-      ProductEntity(id: 1, productName: "productName", price: 0, image: "image"),
-      ProductEntity(id: 1, productName: "productName", price: 0, image: "image"),
-      ProductEntity(id: 1, productName: "productName", price: 0, image: "image"),
-      ProductEntity(id: 1, productName: "productName", price: 0, image: "image"),
-      ProductEntity(id: 1, productName: "productName", price: 0, image: "image"),
+    OrphanageManagementState.productList = [
+      ProductEntity(id: 1, productName: "초코파이", price: 5000, image: "assets/image/choco_pie.jpg"),
+      ProductEntity(id: 1, productName: "초코파이", price: 5000, image: "assets/image/choco_pie.jpg"),
+      ProductEntity(id: 1, productName: "초코파이", price: 5000, image: "assets/image/choco_pie.jpg"),
+      ProductEntity(id: 1, productName: "초코파이", price: 5000, image: "assets/image/choco_pie.jpg"),
+      ProductEntity(id: 1, productName: "초코파이", price: 5000, image: "assets/image/choco_pie.jpg"),
     ];
+    return OrphanageManagementStateNone();
     try {
       List<ProductEntity> data = await repository.getProducts();
       OrphanageManagementState.productList = data;
+      state = OrphanageManagementStateNone();
     } catch (e) {
       state = OrphanageManagementStateError(e.toString());
     }

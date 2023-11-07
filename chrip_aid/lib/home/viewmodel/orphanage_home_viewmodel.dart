@@ -1,4 +1,4 @@
-import 'package:chrip_aid/orphanage/view/orphanage_management_screen.dart';
+import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';

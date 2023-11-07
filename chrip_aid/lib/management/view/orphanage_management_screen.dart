@@ -5,7 +5,7 @@ import 'package:chrip_aid/common/styles/text_styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_product_box_2.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import 'package:chrip_aid/orphanage/viewmodel/orphanage_management_viewmodel.dart';
+import 'package:chrip_aid/management/viewmodel/orphanage_management_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

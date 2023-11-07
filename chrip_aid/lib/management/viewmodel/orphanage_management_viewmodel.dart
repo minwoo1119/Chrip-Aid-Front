@@ -1,12 +1,9 @@
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/service/member_info_service.dart';
-import 'package:chrip_aid/member/model/state/member_info_state.dart';
+import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
+import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
+import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/orphanage_management_service.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_management_state.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_edit_product_screen.dart';
+import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

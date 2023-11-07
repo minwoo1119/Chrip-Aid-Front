@@ -5,7 +5,7 @@ part 'add_orphanage_product_request_dto.g.dart';
 @JsonSerializable()
 class AddOrphanageProductRequestDTO {
   @JsonKey(name: "id")
-  String id;
+  int id;
   @JsonKey(name: "count")
   int count;
   @JsonKey(name: "message")
