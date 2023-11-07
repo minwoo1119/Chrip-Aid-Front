@@ -1,13 +1,18 @@
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
+import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'edit_user_info_request_dto.g.dart';
 
 @JsonSerializable()
-class EditUserInfoRequestDto {
+class EditUserInfoRequestDto implements EditMemberInfoRequestDto {
+  @override
   @JsonKey(name: 'name')
   final String name;
+  @override
+  @JsonKey(name: 'password')
+  final String password;
   @JsonKey(name: 'nick_name')
   final String nickName;
   @JsonKey(name: 'age')
@@ -23,6 +28,7 @@ class EditUserInfoRequestDto {
 
   EditUserInfoRequestDto({
     required this.name,
+    required this.password,
     required this.nickName,
     required this.age,
     required this.sex,
@@ -40,6 +46,7 @@ class EditUserInfoRequestDto {
 
   static String _regionToJson(SubRegion region) => region.toJson();
 
+  @override
   Map<String, dynamic> toJson() => _$EditUserInfoRequestDtoToJson(this);
 
   factory EditUserInfoRequestDto.fromJson(Map<String, dynamic> json) =>

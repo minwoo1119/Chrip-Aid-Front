@@ -1,5 +1,5 @@
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/service/user_info_service.dart';
+import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:flutter/material.dart';

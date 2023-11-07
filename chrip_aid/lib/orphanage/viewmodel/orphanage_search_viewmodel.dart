@@ -1,10 +1,10 @@
-import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
+import 'package:chrip_aid/member/model/service/member_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -15,11 +15,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_geocoding/google_geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 
 final orphanageSearchViewModelProvider =
     ChangeNotifierProvider((ref) => OrphanageSearchViewModel(ref));
@@ -40,10 +39,10 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   final panelController = SlidingUpPanelController();
   final searchTextController = TextEditingController();
 
-  late AuthState authState;
+  late MemberInfoState authState;
 
-  UserEntity? get userInfo => authState is AuthStateSuccess
-      ? (authState as AuthStateSuccess).data as UserEntity
+  UserEntity? get userInfo => authState is MemberInfoStateSuccess
+      ? (authState as MemberInfoStateSuccess).data as UserEntity
       : null;
 
   late OrphanageState orphanageState;
@@ -66,8 +65,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
+    authState = ref.read(memberInfoServiceProvider);
+    ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) {
         authState = next;
         notifyListeners();

@@ -10,6 +10,7 @@ EditUserInfoRequestDto _$EditUserInfoRequestDtoFromJson(
         Map<String, dynamic> json) =>
     EditUserInfoRequestDto(
       name: json['name'] as String,
+      password: json['password'] as String,
       nickName: json['nick_name'] as String,
       age: json['age'] as int,
       sex: EditUserInfoRequestDto._sexFromJson(json['sex'] as String),
@@ -22,6 +23,7 @@ Map<String, dynamic> _$EditUserInfoRequestDtoToJson(
         EditUserInfoRequestDto instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'password': instance.password,
       'nick_name': instance.nickName,
       'age': instance.age,
       'sex': EditUserInfoRequestDto._sexToJson(instance.sex),

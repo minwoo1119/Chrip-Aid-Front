@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'orphanage_member_entity.g.dart';
 
 @JsonSerializable()
-class OrphanageMemberEntity implements MemberEntity{
+class OrphanageMemberEntity implements MemberEntity {
   @override
   @JsonKey(name: 'email')
   String email;
@@ -21,6 +21,7 @@ class OrphanageMemberEntity implements MemberEntity{
     required this.orphanage,
   });
 
+  @override
   Map<String, dynamic> toJson() => _$OrphanageMemberEntityToJson(this);
 
   factory OrphanageMemberEntity.fromJson(Map<String, dynamic> json) =>

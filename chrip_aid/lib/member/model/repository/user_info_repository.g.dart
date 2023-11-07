@@ -8,8 +8,8 @@ part of 'user_info_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UserInfoRepository implements MemberInfoRepository {
-  _UserInfoRepository(
+class _MemberInfoRepository implements MemberInfoRepository {
+  _MemberInfoRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,7 +19,7 @@ class _UserInfoRepository implements MemberInfoRepository {
   String? baseUrl;
 
   @override
-  Future<dynamic> editUserInfo(EditUserInfoRequestDto entity) async {
+  Future<dynamic> editUserInfo(EditMemberInfoRequestDto entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

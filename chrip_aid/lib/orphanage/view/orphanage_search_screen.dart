@@ -2,6 +2,7 @@ import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field_bar.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_info_item.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_search_viewmodel.dart';
@@ -61,6 +62,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: CustomDropdownButton(
                         viewModel.majorRegionDropdownController,
                         leading: Icons.location_on,
+                        textStyle: kTextReverseStyleSmall,
                       ),
                     ),
                   ),
@@ -72,6 +74,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: CustomDropdownButton(
                         viewModel.subRegionDropdownController,
                         leading: Icons.location_on_outlined,
+                        textStyle: kTextReverseStyleSmall,
                       ),
                     ),
                   ),
@@ -83,6 +86,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: CustomDropdownButton(
                         viewModel.sortDropdownController,
                         action: Icons.arrow_drop_down,
+                        textStyle: kTextReverseStyleSmall,
                       ),
                     ),
                   ),
