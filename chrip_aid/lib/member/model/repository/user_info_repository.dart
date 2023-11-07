@@ -1,19 +1,25 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/member/model/dto/edit_user_info_request_dto.dart';
-import 'package:dio/dio.dart';
+import 'package:chrip_aid/member/model/entity/member_entity.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/http.dart';
+
+part 'user_info_repository.g.dart';
 
 final userInfoRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
   return UserInfoRepository(dio);
 });
 
-class UserInfoRepository {
-  final Dio dio;
+@RestApi()
+abstract class UserInfoRepository {
+  factory UserInfoRepository(Dio dio, {String? baseUrl}) = _UserInfoRepository;
 
-  UserInfoRepository(this.dio);
+  @PUT('/members/users/info')
+  Future editUserInfo(EditUserInfoRequestDto entity);
 
-  Future editUserInfo(EditUserInfoRequestDto entity) async {
-
-  }
+  @GET('/members/users/info')
+  @Headers({'accessToken' : 'true'})
+  Future<MemberEntity> getUserInfo();
 }

@@ -1,7 +1,7 @@
-import 'package:chrip_aid/auth/model/entity/user_entity.dart';
-import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
+import 'package:chrip_aid/member/model/service/user_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,15 +13,16 @@ final userInfoViewmodelProvider =
 class UserInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
-  late AuthState state;
+  late MemberInfoState state;
 
-  UserEntity? get userInfo =>
-      state is AuthStateSuccess ? (state as AuthStateSuccess).data : null;
+  UserEntity? get userInfo => state is MemberInfoStateSuccess
+      ? (state as MemberInfoStateSuccess).data as UserEntity
+      : null;
 
   UserInfoViewmodel(this.ref) {
-    state = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if(previous != next) state = next;
+    state = ref.read(userInfoServiceProvider);
+    ref.listen(userInfoServiceProvider, (previous, next) {
+      if (previous != next) state = next;
     });
   }
 

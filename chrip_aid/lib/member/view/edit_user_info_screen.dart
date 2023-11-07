@@ -110,7 +110,7 @@ class EditUserInfoScreen extends ConsumerWidget implements EditMemberInfoScreen 
                 textController: viewModel.phoneTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.authState is LoadingState)
+              if (viewModel.userInfoState is LoadingState)
                 const Center(
                   child: CircularProgressIndicator(
                     color: CustomColor.backGroundSubColor,
