@@ -20,8 +20,8 @@ class UserInfoViewmodel extends ChangeNotifier {
       : null;
 
   UserInfoViewmodel(this.ref) {
-    state = ref.read(userInfoServiceProvider);
-    ref.listen(userInfoServiceProvider, (previous, next) {
+    state = ref.read(memberInfoServiceProvider);
+    ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) state = next;
     });
   }

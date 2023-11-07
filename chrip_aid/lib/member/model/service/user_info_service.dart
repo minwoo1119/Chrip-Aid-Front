@@ -7,24 +7,24 @@ import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userInfoServiceProvider =
-    StateNotifierProvider<UserInfoService, MemberInfoState>((ref) {
+final memberInfoServiceProvider =
+    StateNotifierProvider<MemberInfoService, MemberInfoState>((ref) {
   final userInfoRepository = ref.watch(userInfoRepositoryProvider);
-  return UserInfoService(userInfoRepository);
+  return MemberInfoService(userInfoRepository);
 });
 
-class UserInfoService extends StateNotifier<MemberInfoState> {
-  final UserInfoRepository userInfoRepository;
+class MemberInfoService extends StateNotifier<MemberInfoState> {
+  final MemberInfoRepository userInfoRepository;
 
-  UserInfoService(this.userInfoRepository) : super(MemberInfoStateNone()) {
-    getUserInfo();
+  MemberInfoService(this.userInfoRepository) : super(MemberInfoStateNone()) {
+    getMemberInfo();
   }
 
-  Future editUserInfo(EditUserInfoRequestDto user) async {
+  Future editMemberInfo(EditUserInfoRequestDto user) async {
     state = MemberInfoStateLoading();
     try {
       await userInfoRepository.editUserInfo(user);
-      await getUserInfo();
+      await getMemberInfo();
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return state = MemberInfoStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
@@ -35,7 +35,7 @@ class UserInfoService extends StateNotifier<MemberInfoState> {
     }
   }
 
-  Future getUserInfo() async {
+  Future getMemberInfo() async {
     return state = MemberInfoStateSuccess(
       UserEntity(
         email: "email",

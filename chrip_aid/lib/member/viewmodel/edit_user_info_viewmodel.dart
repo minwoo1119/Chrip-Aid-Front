@@ -34,8 +34,8 @@ class EditUserInfoViewModel extends ChangeNotifier {
       : null;
 
   EditUserInfoViewModel(this.ref) {
-    userInfoState = ref.read(userInfoServiceProvider);
-    ref.listen(userInfoServiceProvider, (previous, next) {
+    userInfoState = ref.read(memberInfoServiceProvider);
+    ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) userInfoState = next;
     });
 
@@ -64,7 +64,7 @@ class EditUserInfoViewModel extends ChangeNotifier {
   }
 
   void editUserInfo(BuildContext context) async {
-    await ref.read(userInfoServiceProvider.notifier).editUserInfo(
+    await ref.read(memberInfoServiceProvider.notifier).editMemberInfo(
           EditUserInfoRequestDto(
             name: nameTextController.text,
             nickName: nicknameTextController.text,

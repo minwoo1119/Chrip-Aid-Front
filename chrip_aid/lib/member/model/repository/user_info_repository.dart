@@ -9,12 +9,12 @@ part 'user_info_repository.g.dart';
 
 final userInfoRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  return UserInfoRepository(dio);
+  return MemberInfoRepository(dio);
 });
 
 @RestApi()
-abstract class UserInfoRepository {
-  factory UserInfoRepository(Dio dio, {String? baseUrl}) = _UserInfoRepository;
+abstract class MemberInfoRepository {
+  factory MemberInfoRepository(Dio dio, {String? baseUrl}) = _UserInfoRepository;
 
   @PUT('/members/users/info')
   Future editUserInfo(EditUserInfoRequestDto entity);

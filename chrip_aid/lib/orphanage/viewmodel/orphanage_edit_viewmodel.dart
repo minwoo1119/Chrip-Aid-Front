@@ -1,6 +1,7 @@
+import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
+import 'package:chrip_aid/member/model/service/user_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,13 +11,15 @@ final orphanageEditViewModelProvider =
 class OrphanageEditViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageState state;
+  late MemberInfoState state;
 
-  OrphanageDetailEntity get entity => (state as OrphanageStateSuccess).data;
+  OrphanageDetailEntity get entity =>
+      ((state as MemberInfoStateSuccess).data as OrphanageMemberEntity)
+          .orphanage;
 
   OrphanageEditViewModel(this.ref) {
-    state = ref.read(orphanageServiceProvider);
-    ref.listen(orphanageServiceProvider, (previous, next) {
+    state = ref.read(memberInfoServiceProvider);
+    ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
         notifyListeners();
