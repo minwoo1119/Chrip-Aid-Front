@@ -167,6 +167,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                   //physics: NeverScrollableScrollPhysics(),
                                   children: [
                                     ListView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount:
                                           viewModel.entity.requests.length,
                                       itemBuilder: (context, index) {

@@ -2,10 +2,13 @@ import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_edit_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-final orphanageEditViewModelProvider =
+final orphanageManagementViewModelProvider =
     ChangeNotifierProvider((ref) => OrphanageEditViewModel(ref));
 
 class OrphanageEditViewModel extends ChangeNotifier {
@@ -25,5 +28,12 @@ class OrphanageEditViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void navigateToAddProductScreen(
+    BuildContext context, {
+    OrphanageProductAddRequestDTO? entity,
+  }) {
+    context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity);
   }
 }

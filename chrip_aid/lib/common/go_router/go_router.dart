@@ -9,13 +9,15 @@ import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_orphanage_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
+import 'package:chrip_aid/orphanage/model/dto/orphanage_product_add_request_dto.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_edit_product_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_management_screen.dart';
-import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
-import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/post/view/user_post_screen.dart';
 import 'package:chrip_aid/reservation/view/orphanage_reservation_screen.dart';
@@ -60,7 +62,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const OrphanageSearchScreen(),
               ),
               GoRoute(
-                path: 'edit',
+                path: 'management',
                 name: OrphanageManagementScreen.routeName,
                 redirect: (context, state) {
                   if (ref.read(authorityProvider) == AuthorityType.orphanage) {
@@ -69,6 +71,15 @@ final routerProvider = Provider<GoRouter>((ref) {
                   return "/orphanage/map";
                 },
                 builder: (context, state) => const OrphanageManagementScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'product',
+                    name: OrphanageEditProductScreen.routeName,
+                    builder: (context, state) => OrphanageEditProductScreen(
+                      entity: state.extra as OrphanageProductAddRequestDTO?,
+                    ),
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'detail',
@@ -150,7 +161,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                   GoRoute(
                     path: 'orphanage',
-                    builder: (context, state) => const EditOrphanageMemberInfoScreen(),
+                    builder: (context, state) =>
+                        const EditOrphanageMemberInfoScreen(),
                   ),
                 ],
               )

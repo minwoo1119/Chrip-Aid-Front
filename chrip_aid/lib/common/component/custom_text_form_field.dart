@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final Color? fieldColor;
   final int? minLine;
+  final int? maxLine;
 
   final BorderRadiusGeometry borderRadius;
 
@@ -52,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
     this.backgroundColor,
     this.fieldColor,
     this.minLine,
+    this.maxLine,
     this.contentPadding = EdgeInsets.zero,
   }) : super(key: key) {
     this.inputBorder = inputBorder ??
@@ -104,7 +106,7 @@ class CustomTextFormField extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   minLines: minLine,
-                  maxLines: minLine ?? 1,
+                  maxLines: maxLine ?? minLine ?? 1,
                   enabled: enabled,
                   controller: textController,
                   validator: validator,

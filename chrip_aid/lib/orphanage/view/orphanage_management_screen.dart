@@ -2,10 +2,10 @@ import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
-import 'package:chrip_aid/orphanage/component/custom_product_box.dart';
+import 'package:chrip_aid/orphanage/component/custom_product_box_2.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import 'package:chrip_aid/orphanage/viewmodel/orphanage_edit_viewmodel.dart';
+import 'package:chrip_aid/orphanage/viewmodel/orphanage_management_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,7 +16,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(orphanageEditViewModelProvider);
+    final viewModel = ref.watch(orphanageManagementViewModelProvider);
     return DetailPageLayout(
       appBarBackgroundColor: Colors.transparent,
       backgroundColor: CustomColor.backgroundMainColor,
@@ -120,8 +120,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
                         ),
                         const Expanded(child: SizedBox()),
                         IconButton(
-                          // TODO : add product info function
-                          onPressed: () {},
+                          onPressed: () => viewModel.navigateToAddProductScreen(context),
                           icon: const Icon(
                             Icons.add,
                             size: kIconSmallSize,
@@ -136,26 +135,24 @@ class OrphanageManagementScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: kPaddingMiniSize),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: ListView.builder(
-                      itemCount: viewModel.entity.requests.length,
-                      itemBuilder: (context, index) {
-                        final item = viewModel.entity.requests[index];
-                        // TODO : change component (edit product info box)
-                        return CustomProductBox(
-                          requiredId: item.requestId,
-                          photo: item.productPhoto,
-                          name: item.productName,
-                          description: item.message,
-                          price: item.price,
-                          requestCount: item.requestCount,
-                          supportCount: item.supportCount,
-                          progress: item.supportCount / item.requestCount,
-                        );
-                      },
-                      padding: EdgeInsets.zero,
-                    ),
+                  ListView.builder(
+                    itemCount: viewModel.entity.requests.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final item = viewModel.entity.requests[index];
+                      return CustomProductBox2(
+                        requiredId: item.requestId,
+                        photo: item.productPhoto,
+                        name: item.productName,
+                        description: item.message,
+                        price: item.price,
+                        requestCount: item.requestCount,
+                        supportCount: item.supportCount,
+                        progress: item.supportCount / item.requestCount,
+                      );
+                    },
+                    padding: EdgeInsets.zero,
                   ),
                 ],
               ),

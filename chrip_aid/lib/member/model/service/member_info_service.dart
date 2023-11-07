@@ -1,9 +1,12 @@
 import 'package:chrip_aid/auth/model/type/region/gyeonggi.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/repository/user_info_repository.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/request_item_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +40,7 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
 
   Future getMemberInfo() async {
     return state = MemberInfoStateSuccess(
-      UserEntity(
+/*      UserEntity(
         email: "email",
         name: "name",
         nickName: "nickName",
@@ -46,8 +49,8 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
         region: Gyeonggi.pajusi,
         phone: "01000000000",
         profileUrl: "",
-      )
-/*      OrphanageMemberEntity(
+      )*/
+      OrphanageMemberEntity(
         email: 'email',
         name: '윤하경',
         orphanage: OrphanageDetailEntity(
@@ -96,9 +99,36 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
               supportCount: 21,
               requestId: 4,
             ),
+            RequestItemEntity(
+              productPhoto: 'assets/image/choco_pie.jpg',
+              productName: "초코파이",
+              message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+              price: 8630,
+              requestCount: 30,
+              supportCount: 21,
+              requestId: 4,
+            ),
+            RequestItemEntity(
+              productPhoto: 'assets/image/choco_pie.jpg',
+              productName: "초코파이",
+              message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+              price: 8630,
+              requestCount: 30,
+              supportCount: 21,
+              requestId: 4,
+            ),
+            RequestItemEntity(
+              productPhoto: 'assets/image/choco_pie.jpg',
+              productName: "초코파이",
+              message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
+              price: 8630,
+              requestCount: 30,
+              supportCount: 21,
+              requestId: 4,
+            ),
           ],
         ),
-      )*/
+      )
       ,
     );
     try {

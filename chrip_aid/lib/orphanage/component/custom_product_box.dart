@@ -1,11 +1,10 @@
+import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_field_padding.dart';
 import 'package:chrip_aid/orphanage/component/custom_percent_indicator.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:intl/intl.dart';
-import '../viewmodel/orphange_detail_viewmodel.dart';
 
 class Product {
   final int requiredId;
@@ -39,17 +38,17 @@ class CustomProductBox extends ConsumerWidget {
   final int supportCount;
   final double progress;
 
-  const CustomProductBox(
-      {required this.requiredId,
-      required this.photo,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.requestCount,
-      required this.supportCount,
-      required this.progress,
-      Key? key})
-      : super(key: key);
+  const CustomProductBox({
+    required this.requiredId,
+    required this.photo,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.requestCount,
+    required this.supportCount,
+    required this.progress,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,22 +65,25 @@ class CustomProductBox extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: kPaddingMiddleSize, vertical: kPaddingSmallSize),
+        horizontal: kPaddingMiddleSize,
+        vertical: kPaddingSmallSize,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
             child: Container(
-                width: 90,
-                height: 90,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                child: Image.asset(
-                  product.photo,
-                  fit: BoxFit.cover,
-                )),
+              width: 90,
+              height: 90,
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+              ),
+              child: Image.asset(
+                product.photo,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           const SizedBox(width: 5),
           Expanded(
@@ -178,7 +180,9 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
                     height: 230,
                     child: Container(
                       margin: const EdgeInsets.only(
-                          bottom: kPaddingSmallSize, left: kPaddingLargeSize, right: kPaddingLargeSize),
+                          bottom: kPaddingSmallSize,
+                          left: kPaddingLargeSize,
+                          right: kPaddingLargeSize),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -278,7 +282,8 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: kPaddingMiniSize),
+                                        padding: const EdgeInsets.only(
+                                            right: kPaddingMiniSize),
                                         child: Text(
                                           "${NumberFormat.decimalPattern().format(_counter * price)}원",
                                           style: kTextContentStyleMedium,
