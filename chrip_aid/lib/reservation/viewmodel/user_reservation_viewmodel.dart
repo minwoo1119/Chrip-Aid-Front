@@ -17,20 +17,6 @@ class ReservationViewModel extends ChangeNotifier {
   List<ReservationEntity> listPending = [];
   List<ReservationEntity> listApprove = [];
 
-  // List<ReservationEntity> get entity =>
-  //     (state as OrphanageReservationStateSuccess<ReservationEntity>).data;
-
-  // List<ReservationEntity> get filteredEntity {
-  //   return (state as OrphanageReservationStateSuccess)
-  //       .data
-  //       .where((item) =>
-  //           selectedTabIndex == null ||
-  //           item.state == selectedTabIndex ||
-  //           (selectedTabIndex == "ENDED" &&
-  //               (item.state == "REJECTED" || item.state == "COMPLETED")))
-  //       .toList();
-  // }
-
   List<ReservationEntity> get filteredEntity {
     return selectedTabIndex == null
         ? listAll
@@ -81,14 +67,4 @@ class ReservationViewModel extends ChangeNotifier {
       }
     });
   }
-
-  // late TabController tabController;
-  //
-  // void initTabController(int length, TickerProvider vsync) {
-  //   tabController = TabController(length: length, vsync: vsync);
-  //   tabController.addListener(() {
-  //     changeSelectedTab(tabController.index);
-  //     notifyListeners();
-  //   });
-  // }
 }
