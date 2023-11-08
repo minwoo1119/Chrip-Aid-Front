@@ -1,13 +1,12 @@
-import 'package:chrip_aid/auth/model/entity/user_entity.dart';
-import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/member/model/dto/edit_user_info_request_dto.dart';
-import 'package:chrip_aid/member/model/service/user_info_service.dart';
-import 'package:chrip_aid/member/model/state/user_info_state.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
+import 'package:chrip_aid/member/model/service/member_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +18,8 @@ class EditUserInfoViewModel extends ChangeNotifier {
   final Ref ref;
 
   late final TextEditingController nameTextController;
+  late final TextEditingController passwordTextController;
+  late final TextEditingController checkPasswordTextController;
   late final TextEditingController nicknameTextController;
   late final TextEditingController ageTextController;
   late final TextEditingController phoneTextController;
@@ -29,25 +30,21 @@ class EditUserInfoViewModel extends ChangeNotifier {
   late final CustomDropdownButtonController<SubRegion>
       subRegionDropdownController;
 
-  late AuthState authState;
-  late UserInfoState userInfoState;
+  late MemberInfoState userInfoState;
 
-  UserEntity? get userInfo => authState is AuthStateSuccess
-      ? (authState as AuthStateSuccess).data
+  UserEntity? get userInfo => userInfoState is MemberInfoStateSuccess
+      ? (userInfoState as MemberInfoStateSuccess).data as UserEntity
       : null;
 
   EditUserInfoViewModel(this.ref) {
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) authState = next;
-    });
-
-    userInfoState = ref.read(userInfoServiceProvider);
-    ref.listen(userInfoServiceProvider, (previous, next) {
+    userInfoState = ref.read(memberInfoServiceProvider);
+    ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) userInfoState = next;
     });
 
     nameTextController = TextEditingController(text: userInfo!.name);
+    passwordTextController = TextEditingController();
+    checkPasswordTextController = TextEditingController();
     nicknameTextController = TextEditingController(text: userInfo!.nickName);
     ageTextController = TextEditingController(text: userInfo!.age.toString());
     phoneTextController = TextEditingController(text: userInfo!.phone);
@@ -72,9 +69,13 @@ class EditUserInfoViewModel extends ChangeNotifier {
   }
 
   void editUserInfo(BuildContext context) async {
-    await ref.read(userInfoServiceProvider.notifier).editUserInfo(
+    if (passwordTextController.text != checkPasswordTextController.text) {
+      return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
+    }
+    await ref.read(memberInfoServiceProvider.notifier).editMemberInfo(
           EditUserInfoRequestDto(
             name: nameTextController.text,
+            password: passwordTextController.text,
             nickName: nicknameTextController.text,
             age: int.parse(ageTextController.text),
             sex: sexDropdownController.selected,
@@ -83,7 +84,6 @@ class EditUserInfoViewModel extends ChangeNotifier {
             profileUrl: '',
           ),
         );
-    await ref.read(authServiceProvider.notifier).getUserInfo();
     if (context.mounted) context.pop();
   }
 }

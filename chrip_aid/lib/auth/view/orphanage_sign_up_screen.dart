@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class OrphanageSignUpScreen extends SignUpScreen {
+class OrphanageSignUpScreen extends ConsumerWidget implements SignUpScreen {
   const OrphanageSignUpScreen({Key? key}) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class OrphanageSignUpScreen extends SignUpScreen {
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.name,
                 validator: (value) => validateName(value),
-                controller: viewModel.nameTextController,
+                textController: viewModel.nameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
@@ -51,7 +51,7 @@ class OrphanageSignUpScreen extends SignUpScreen {
                 prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => validateEmail(value),
-                controller: viewModel.idTextController,
+                textController: viewModel.idTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
@@ -60,16 +60,25 @@ class OrphanageSignUpScreen extends SignUpScreen {
                 prefixIcon: Icons.lock,
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) => validatePassword(value),
-                controller: viewModel.passwordTextController,
+                textController: viewModel.passwordTextController,
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              CustomTextFormField(
+                labelText: "비밀번호 확인",
+                hintText: "Check Password",
+                prefixIcon: Icons.password,
+                keyboardType: TextInputType.visiblePassword,
+                validator: (value) => validatePassword(value),
+                textController: viewModel.checkPasswordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               CustomTextFormField(
                 labelText: "보육원명 ",
                 hintText: "Orphanage Name",
-                prefixIcon: Icons.phone,
+                prefixIcon: Icons.house,
                 keyboardType: TextInputType.name,
                 validator: (value) => validateName(value),
-                controller: viewModel.orphanageNameTextController,
+                textController: viewModel.orphanageNameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
               if (viewModel.state is LoadingState)

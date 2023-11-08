@@ -5,6 +5,7 @@ import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +60,9 @@ class UserSignUpViewModel extends ChangeNotifier {
   }
 
   void signup(BuildContext context) async {
+    if(passwordTextController.text != checkPasswordTextController.text) {
+      return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
+    }
     await ref.read(authServiceProvider.notifier).signup(
           UserSignupRequestDto(
             name: nameTextController.text,

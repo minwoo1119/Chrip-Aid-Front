@@ -1,5 +1,5 @@
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/service/reservation_service.dart';
+import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';

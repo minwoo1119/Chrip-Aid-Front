@@ -21,12 +21,9 @@ final options = BaseOptions(
 
 class CustomInterceptor extends Interceptor {
   final LocalStorage storage;
-  late AuthorityType authorityType;
   final Ref ref;
 
-  CustomInterceptor({required this.storage, required this.ref}) {
-    authorityType = ref.watch(authorityProvider);
-  }
+  CustomInterceptor({required this.storage, required this.ref});
 
   // 1) 요청을 보낼때
   @override
@@ -35,7 +32,10 @@ class CustomInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (options.path.contains('authorityType')) {
-      options.path.replaceFirst('authorityType', authorityType.toString());
+      options.path.replaceFirst(
+        'authorityType',
+        ref.read(authorityProvider).toString(),
+      );
     }
 
     if (options.headers['accessToken'] == 'true') {
@@ -60,7 +60,8 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.requestOptions.path == '/auth/$authorityType') {
+    final authority = ref.read(authorityProvider);
+    if (response.requestOptions.path == '/auth/$authority') {
       try {
         await _saveToken(response);
       } on DioException catch (e) {
@@ -87,7 +88,7 @@ class CustomInterceptor extends Interceptor {
 
       try {
         final refreshResponse = await dio.get(
-          DataUtils.pathToUrl('/auth/$authorityType/fcm'),
+          DataUtils.pathToUrl('/auth/${ref.read(authorityProvider)}/fcm'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),

@@ -16,23 +16,27 @@ const TABS = [
 
 const tabReservation = [
   Tab(
-    child: Text('전체',
-        style:
-            TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold,)),
+    child: Text(
+      '전체',
+      style: TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold),
+    ),
   ),
   Tab(
-    child: Text('승인',
-        style:
-            TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold)),
+    child: Text(
+      '승인',
+      style: TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold),
+    ),
   ),
   Tab(
-    child: Text('대기',
-        style:
-            TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold)),
+    child: Text(
+      '대기',
+      style: TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold),
+    ),
   ),
   Tab(
-    child: Text('종료',
-        style:
-            TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold)),
+    child: Text(
+      '종료',
+      style: TextStyle(fontSize: kTextMediumSize, fontWeight: FontWeight.bold),
+    ),
   ),
 ];

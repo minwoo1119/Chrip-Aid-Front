@@ -22,7 +22,7 @@ class DesignedContainerTitleBar extends StatelessWidget {
         Expanded(
           child: CustomTextField(
             text: title,
-            textSize: kTextMiddleSize,
+            textSize: kTextMediumSize,
           ),
         ),
         ...actions ?? [],

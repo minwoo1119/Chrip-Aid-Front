@@ -48,51 +48,53 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                   ),
                 ),
                 Container(
-                    margin: const EdgeInsets.all(kPaddingMiddleSize),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "합계",
-                              style: kTextContentStyleMedium,
+                  margin: const EdgeInsets.all(kPaddingMiddleSize),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            "합계",
+                            style: kTextContentStyleMedium,
+                          ),
+                          Expanded(
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "${NumberFormat.decimalPattern().format(viewModel.total)} 원",
+                                style: kTextContentStyleMedium,
+                              )
+                            ],
+                          ))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: kPaddingMiddleSize,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              // TODO : add function (navigate to payment page)
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.black,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: kPaddingMiddleSize)),
+                              child: const Text(
+                                "구매하기",
+                                style: kTextReverseStyleMiddle,
+                              ),
                             ),
-                            Expanded(
-                                child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "${NumberFormat.decimalPattern().format(viewModel.total)} 원",
-                                  style: kTextContentStyleMedium,
-                                )
-                              ],
-                            ))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: kPaddingMiddleSize,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Colors.black,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: kPaddingMiddleSize)),
-                                    child: const Text(
-                                      "구매하기",
-                                      style: kTextReverseStyleMiddle,
-                                    ))),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-
+                ),
               ],
             )
           : const Center(child: CircularProgressIndicator()),

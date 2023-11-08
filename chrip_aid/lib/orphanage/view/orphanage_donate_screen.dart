@@ -8,15 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class OrphanageDonateScreen extends ConsumerWidget {
-  //static String get routeName => 'Basket';
-
   const OrphanageDonateScreen({super.key});
 
-  // @override
-  // OrphanageDonateScreenState createState() => OrphanageDonateScreenState();
-// }
-//
-// class OrphanageDonateScreenState extends ConsumerState<OrphanageDonateScreen> {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(orphanageDonateViewModelProvider);

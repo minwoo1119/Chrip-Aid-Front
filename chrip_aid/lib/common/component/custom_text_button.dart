@@ -21,12 +21,16 @@ class CustomTextButton extends StatelessWidget {
       style: TextButton.styleFrom(
         alignment: textAlign,
         minimumSize: kTextButtonSize,
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.all(kPaddingSmallSize),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text(
         text,
-        style: kTextReverseStyleSmall,
+        style: onPressed == null
+            ? kTextReverseStyleSmall.copyWith(
+                color: CustomColor.textReverseColor.withOpacity(0.5),
+              )
+            : kTextReverseStyleSmall,
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +11,8 @@ class DetailPageLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final PreferredSizeWidget? bottom;
   final Widget child;
+  final List<Widget>? actions;
+  final bool extendBodyBehindAppBar;
 
   const DetailPageLayout({
     Key? key,
@@ -17,10 +20,12 @@ class DetailPageLayout extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.bottomNavigationBar,
     this.floatingActionButton,
+    this.extendBodyBehindAppBar = true,
     required this.child,
     this.leadingColor,
     this.bottom,
     this.appBarBackgroundColor = Colors.transparent,
+    this.actions,
   }) : super(key: key);
 
   @override
@@ -28,7 +33,7 @@ class DetailPageLayout extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       backgroundColor: backgroundColor,
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
       body: child,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
@@ -44,12 +49,22 @@ class DetailPageLayout extends StatelessWidget {
             : Text(
                 title!,
                 style: const TextStyle(
-                    fontSize: 16.0, fontWeight: FontWeight.bold),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: leadingColor),
+          icon: Icon(
+            Icons.arrow_back,
+            color: leadingColor,
+            size: kIconSmallSize,
+          ),
           onPressed: context.pop,
+          splashRadius: kIconSmallSize,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
         ),
+        actions: actions,
         foregroundColor: Colors.black,
         bottom: bottom,
       );

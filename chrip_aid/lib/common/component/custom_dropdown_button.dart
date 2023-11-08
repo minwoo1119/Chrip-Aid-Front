@@ -39,7 +39,7 @@ class CustomDropdownButton<T> extends ConsumerWidget {
               value: e,
               child: Text(
                 e.toString(),
-                style: kTextReverseStyleMiddle,
+                style: textStyle,
               )))
           .toList(),
       onChanged: controller.onChanged,
@@ -98,7 +98,7 @@ class CustomDropdownButtonItem extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: kTextReverseStyleMiddle,
+              style: textStyle,
               textAlign: TextAlign.center,
             ),
           ),

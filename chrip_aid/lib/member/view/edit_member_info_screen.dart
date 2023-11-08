@@ -1,6 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract class EditMemberInfoScreen extends ConsumerWidget {
+abstract class EditMemberInfoScreen {
   static String get routeName => 'editMember';
-  const EditMemberInfoScreen({super.key});
 }

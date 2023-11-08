@@ -23,10 +23,10 @@ class UserInfoScreen extends TabScreen {
       backgroundColor: CustomColor.backgroundMainColor,
       child: Padding(
         padding: const EdgeInsets.all(kPaddingSmallSize),
-        child: SingleChildScrollView(
-          child: viewmodel.userInfo == null
-              ? Container()
-              : Column(
+        child: viewmodel.userInfo == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -43,8 +43,8 @@ class UserInfoScreen extends TabScreen {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: Image.asset(
-                              'assets/image/logo.png',
+                            child: Image.network(
+                              viewmodel.userInfo!.profileUrl,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -57,7 +57,8 @@ class UserInfoScreen extends TabScreen {
                                   title: "${viewmodel.userInfo!.nickName}님",
                                   actions: [
                                     IconButton(
-                                      onPressed: () => viewmodel.navigateToEditUserInfoPage(context),
+                                      onPressed: () => viewmodel
+                                          .navigateToEditUserInfoPage(context),
                                       icon: const Icon(Icons.edit),
                                       iconSize: kIconSmallSize,
                                       padding: const EdgeInsets.symmetric(
@@ -77,7 +78,8 @@ class UserInfoScreen extends TabScreen {
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(
                                   iconData: Icons.calendar_today,
-                                  text: "${viewmodel.userInfo!.age.toString()}세",
+                                  text:
+                                      "${viewmodel.userInfo!.age.toString()}세",
                                 ),
                                 const SizedBox(height: kPaddingMiniSize),
                                 CustomTextField(
@@ -109,6 +111,7 @@ class UserInfoScreen extends TabScreen {
                       child: Column(
                         children: [
                           InkWell(
+                            // TODO : add function (navigate to donate list page)
                             onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
@@ -138,6 +141,7 @@ class UserInfoScreen extends TabScreen {
                             height: 0,
                           ),
                           InkWell(
+                            // TODO : add function (navigate to credit page)
                             onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
@@ -167,6 +171,7 @@ class UserInfoScreen extends TabScreen {
                             height: 0,
                           ),
                           InkWell(
+                            // TODO : add function (navigate to setting page)
                             onTap: () {},
                             child: const Padding(
                               padding: EdgeInsets.all(kPaddingSmallSize),
@@ -190,12 +195,41 @@ class UserInfoScreen extends TabScreen {
                               ),
                             ),
                           ),
+                          Divider(
+                            color: mainColor,
+                            thickness: kBorderWidth,
+                            height: 0,
+                          ),
+                          InkWell(
+                            onTap: viewmodel.logout,
+                            child: const Padding(
+                              padding: EdgeInsets.all(kPaddingSmallSize),
+                              child: DesignedContainerTitleBar(
+                                title: '로그아웃',
+                                leading: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: kPaddingSmallSize,
+                                  ),
+                                  child: Icon(
+                                    Icons.logout,
+                                    size: kIconSmallSize,
+                                  ),
+                                ),
+                                actions: [
+                                  Icon(
+                                    Icons.navigate_next,
+                                    size: kIconSmallSize,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-        ),
+              ),
       ),
     );
   }

@@ -6,29 +6,37 @@ import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/common/view/root_tab.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
+import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
+import 'package:chrip_aid/management/view/orphanage_edit_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
+import 'package:chrip_aid/member/view/edit_orphanage_member_info_screen.dart';
 import 'package:chrip_aid/member/view/edit_user_info_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
+import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
+import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_post_screen.dart';
-import 'package:chrip_aid/orphanage/view/orphanage_reservation_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
-import 'package:chrip_aid/orphanage/view/reservation_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
+import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/post/view/post_screen.dart';
+import 'package:chrip_aid/post/view/user_post_screen.dart';
+import 'package:chrip_aid/reservation/view/orphanage_reservation_screen.dart';
+import 'package:chrip_aid/reservation/view/reservation_screen.dart';
+import 'package:chrip_aid/reservation/view/user_reservation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
-  final authority = ref.watch(authorityProvider);
 
   String redirectionByAuth(
     BuildContext context,
     GoRouterState state,
     String path,
   ) {
-    if (authority == AuthorityType.user) return '$path/user';
+    if (ref.read(authorityProvider) == AuthorityType.user) return '$path/user';
     return '$path/orphanage';
   }
 
@@ -55,6 +63,31 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const OrphanageSearchScreen(),
               ),
               GoRoute(
+                path: 'management',
+                name: OrphanageManagementScreen.routeName,
+                redirect: (context, state) {
+                  if (ref.read(authorityProvider) == AuthorityType.orphanage) {
+                    return null;
+                  }
+                  return "/orphanage/map";
+                },
+                builder: (context, state) => const OrphanageManagementScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'product',
+                    name: OrphanageEditProductScreen.routeName,
+                    builder: (context, state) => OrphanageEditProductScreen(
+                      entity: state.extra as AddOrphanageProductRequestDTO?,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'info',
+                    name: OrphanageEditInfoScreen.routeName,
+                    builder: (_, __) => const OrphanageEditInfoScreen(),
+                  ),
+                ],
+              ),
+              GoRoute(
                 path: 'detail',
                 name: OrphanageDetailScreen.routeName,
                 builder: (context, state) => const OrphanageDetailScreen(),
@@ -70,13 +103,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'reservation',
-            name: 'reservation',
+            name: ReservationScreen.routeName,
             redirect: (context, state) =>
                 redirectionByAuth(context, state, "/reservation"),
             routes: [
               GoRoute(
                 path: 'user',
-                builder: (_, __) => const ReservationScreen(),
+                builder: (_, __) => const UserReservationScreen(),
               ),
               GoRoute(
                 path: 'orphanage',
@@ -86,17 +119,32 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'post',
-            name: OrphanagePostScreen.routeName,
-            builder: (_, __) => const OrphanagePostScreen(),
+            name: PostScreen.routeName,
+            redirect: (context, state) {
+              if (state.location.contains('edit')) return null;
+              return redirectionByAuth(context, state, "/post");
+            },
             routes: [
               GoRoute(
-                path: 'edit',
-                redirect: (context, state) {
-                  if (authority == AuthorityType.user) return '/post';
-                  return null;
-                },
-                // TODO : Create Write Post Screen
+                path: 'user',
+                builder: (_, __) => const UserPostScreen(),
+              ),
+              GoRoute(
+                path: 'orphanage',
                 builder: (_, __) => const OrphanagePostScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    name: OrphanageEditPostScreen.routeName,
+                    redirect: (context, state) {
+                      if (ref.read(authorityProvider) == AuthorityType.user) {
+                        return '/post';
+                      }
+                      return null;
+                    },
+                    builder: (_, __) => const OrphanageEditPostScreen(),
+                  ),
+                ],
               ),
             ],
           ),
@@ -119,8 +167,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                   GoRoute(
                     path: 'orphanage',
-                    // TODO : Create Edit Orphanage Info Screen
-                    builder: (context, state) => const EditUserInfoScreen(),
+                    builder: (context, state) =>
+                        const EditOrphanageMemberInfoScreen(),
                   ),
                 ],
               )

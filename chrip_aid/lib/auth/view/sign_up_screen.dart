@@ -1,6 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract class SignUpScreen extends ConsumerWidget {
+abstract class SignUpScreen {
   static String get routeName => 'signup';
-  const SignUpScreen({super.key});
 }

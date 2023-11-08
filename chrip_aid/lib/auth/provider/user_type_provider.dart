@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authorityProvider = StateProvider((ref) => AuthorityType.user);
+final authorityProvider = StateProvider((ref) => AuthorityType.orphanage);
 
 enum AuthorityType {
   user,

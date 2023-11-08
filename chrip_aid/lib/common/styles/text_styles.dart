@@ -5,7 +5,7 @@ import 'colors.dart';
 const TextStyle kTextMainStyleLarge = TextStyle(
   color: CustomColor.textMainColor,
   fontSize: kTextLargeSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -13,7 +13,7 @@ const TextStyle kTextMainStyleLarge = TextStyle(
 const TextStyle kTextReverseStyleLarge = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextLargeSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -21,7 +21,7 @@ const TextStyle kTextReverseStyleLarge = TextStyle(
 const TextStyle kTextPointStyleLarge = TextStyle(
   color: CustomColor.pointColor,
   fontSize: kTextLargeSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -29,7 +29,7 @@ const TextStyle kTextPointStyleLarge = TextStyle(
 const TextStyle kTextMainStyleMiddle = TextStyle(
   color: CustomColor.textMainColor,
   fontSize: kTextMiddleSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -37,7 +37,7 @@ const TextStyle kTextMainStyleMiddle = TextStyle(
 const TextStyle kTextMainStyleMedium = TextStyle(
   color: CustomColor.textMainColor,
   fontSize: kTextMediumSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -45,7 +45,7 @@ const TextStyle kTextMainStyleMedium = TextStyle(
 const TextStyle kTextPointStyleMiddle = TextStyle(
   color: CustomColor.pointColor,
   fontSize: kTextMiddleSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -53,7 +53,7 @@ const TextStyle kTextPointStyleMiddle = TextStyle(
 const TextStyle kTextPointStyleSmall = TextStyle(
   color: CustomColor.pointColor,
   fontSize: kTextSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -61,7 +61,7 @@ const TextStyle kTextPointStyleSmall = TextStyle(
 const TextStyle kTextReverseStyleMiddle = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextMiddleSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -69,7 +69,7 @@ const TextStyle kTextReverseStyleMiddle = TextStyle(
 const TextStyle kTextMainStyleSmall = TextStyle(
   color: CustomColor.textMainColor,
   fontSize: kTextSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -77,7 +77,7 @@ const TextStyle kTextMainStyleSmall = TextStyle(
 const TextStyle kTextReverseStyleSmall = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -85,7 +85,7 @@ const TextStyle kTextReverseStyleSmall = TextStyle(
 const TextStyle kTextReverseStyleMedium = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: 16,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -93,7 +93,7 @@ const TextStyle kTextReverseStyleMedium = TextStyle(
 const TextStyle kTextMainStyleMini = TextStyle(
   color: CustomColor.textMainColor,
   fontSize: kTextMiniSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -101,7 +101,7 @@ const TextStyle kTextMainStyleMini = TextStyle(
 const TextStyle kTextReverseStyleMini = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextMiniSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
@@ -109,7 +109,7 @@ const TextStyle kTextReverseStyleMini = TextStyle(
 const TextStyle kTextSubStyleMiddle = TextStyle(
   color: CustomColor.textSubColor,
   fontSize: kTextMiddleSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
@@ -117,7 +117,15 @@ const TextStyle kTextSubStyleMiddle = TextStyle(
 const TextStyle kTextContentStyleSmall = TextStyle(
   color: Colors.black,
   fontSize: kTextSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
+const TextStyle kTextContentStyleMiddle= TextStyle(
+  color: Colors.black,
+  fontSize: kTextMiddleSize,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
@@ -125,14 +133,14 @@ const TextStyle kTextContentStyleSmall = TextStyle(
 const TextStyle kTextContentStyleMedium = TextStyle(
   color: Colors.black,
   fontSize: kTextMediumSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w400,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
 
 const TextStyle kTextSubContentStyleSmall = TextStyle(
   color: CustomColor.contentSubColor,
-  fontSize: kTextMiniSize,
+  fontSize: kTextSmallSize,
   overflow: TextOverflow.ellipsis,
   height: kTextHeight,
 );
