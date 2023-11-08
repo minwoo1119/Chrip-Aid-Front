@@ -47,6 +47,7 @@ class OrphanageEditProductScreen extends ConsumerWidget {
                               productName: viewModel.product!.productName,
                               count: viewModel.productCount,
                               price: viewModel.product!.price,
+                              photo: viewModel.product!.image,
                               onCountUpdate: viewModel.onCountUpdate,
                               onDelete: viewModel.onProductDelete,
                             )

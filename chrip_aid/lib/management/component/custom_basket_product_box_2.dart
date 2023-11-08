@@ -7,6 +7,7 @@ class CustomBasketProductBox2 extends StatefulWidget {
   final String productName;
   final int count;
   final int price;
+  final String photo;
   final Function(int) onCountUpdate;
   final Function() onDelete;
 
@@ -16,6 +17,7 @@ class CustomBasketProductBox2 extends StatefulWidget {
     required this.price,
     required this.onCountUpdate,
     required this.onDelete,
+    required this.photo,
     super.key,
   });
 
@@ -34,7 +36,6 @@ class CustomBasketProductBox2State extends State<CustomBasketProductBox2> {
 
   @override
   Widget build(BuildContext context) {
-    const String photo = 'assets/image/choco_pie.jpg';
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -44,7 +45,7 @@ class CustomBasketProductBox2State extends State<CustomBasketProductBox2> {
             width: 90,
             height: 90,
             decoration: const BoxDecoration(color: Colors.grey),
-            child: Image.asset(photo, fit: BoxFit.cover),
+            child: Image.network(widget.photo, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(width: kPaddingSmallSize),

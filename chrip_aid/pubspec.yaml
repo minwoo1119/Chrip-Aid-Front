@@ -86,9 +86,7 @@ dependencies:
 
   # AWS
   aws_s3_upload: ^1.5.0
-  amazon_cognito_identity_dart_2: ^1.0.5
-  path: ^1.8.3
-  recase: ^4.1.0
+  extended_image: ^8.0.2
 
 dev_dependencies:
   flutter_test:

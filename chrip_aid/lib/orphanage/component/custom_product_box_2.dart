@@ -77,10 +77,7 @@ class CustomProductBox2 extends ConsumerWidget {
               decoration: const BoxDecoration(
                 color: Colors.grey,
               ),
-              child: Image.asset(
-                product.photo,
-                fit: BoxFit.cover,
-              ),
+              child: Image.network(product.photo, fit: BoxFit.cover),
             ),
           ),
           const SizedBox(width: 5),
@@ -106,8 +103,10 @@ class CustomProductBox2 extends ConsumerWidget {
                               ),
                               IconButton(
                                 onPressed: () {},
-                                icon: const Icon(Icons.delete,
-                                    size: kIconXSmallSize),
+                                icon: const Icon(
+                                  Icons.delete,
+                                  size: kIconXSmallSize,
+                                ),
                                 splashRadius: kIconSmallSize,
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),

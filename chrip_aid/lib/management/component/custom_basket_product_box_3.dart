@@ -15,7 +15,7 @@ class CustomBasketProductBox3 extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
-          child: Image.asset(entity.image, fit: BoxFit.fitWidth),
+          child: Image.network(entity.image, fit: BoxFit.fitWidth),
         ),
         const SizedBox(height: kPaddingSmallSize),
         CustomFieldPadding(

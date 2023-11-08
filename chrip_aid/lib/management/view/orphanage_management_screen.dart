@@ -23,7 +23,6 @@ class OrphanageManagementScreen extends ConsumerWidget {
       leadingColor: CustomColor.textReverseColor,
       actions: [
         IconButton(
-          // TODO : add function (navigate to edit orphanage info page)
           onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
           icon: const Icon(Icons.edit, size: kIconSmallSize),
           color: CustomColor.textReverseColor,
@@ -42,15 +41,16 @@ class OrphanageManagementScreen extends ConsumerWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 150,
-                        child: Image.asset(
+                        child: Image.network(
                           viewModel.entity!.photo,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: kPaddingMiddleSize,
-                            vertical: kPaddingMiniSize),
+                          horizontal: kPaddingMiddleSize,
+                          vertical: kPaddingMiniSize,
+                        ),
                         child: Column(
                           children: [
                             CustomTextField(
