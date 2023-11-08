@@ -1,3 +1,4 @@
+import 'package:chrip_aid/auth/dto/login_request_dto.dart';
 import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
@@ -24,14 +25,14 @@ class AuthService extends StateNotifier<AuthState> {
     this.authRepository,
     this.fcmRepository,
     this.storage,
-  ) : super(AuthStateLoading()) {
+  ) : super(AuthStateNone()) {
     saveFcmToken();
   }
 
   Future login({required String id, required String password}) async {
     state = AuthStateLoading();
     try {
-      // await authRepository.login(LoginRequestDto(id: id, password: password));
+      await authRepository.login(LoginRequestDto(id: id, password: password));
       await saveFcmToken();
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
@@ -53,19 +54,7 @@ class AuthService extends StateNotifier<AuthState> {
   }
 
   Future saveFcmToken() async {
-    return state = AuthStateSuccess(true);
-
-    final accessToken = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
-    final refreshToken = await storage.read(
-      key: dotenv.get('REFRESH_TOKEN_KEY'),
-    );
-
-    if (accessToken == null || refreshToken == null) {
-      state = AuthStateNone();
-      return;
-    }
-
-    try {
+   try {
       final fcmToken = await fcmRepository.getFcmToken();
       await authRepository.saveToken(fcmToken);
       state = AuthStateSuccess(true);

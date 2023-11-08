@@ -20,17 +20,15 @@ class OrphanageManagementService
 
   OrphanageManagementService(this.ref) : super(OrphanageManagementStateNone()) {
     repository = ref.read(orphanageManagementRepositoryProvider);
-    getProductList();
-    getOrphanageInfo();
   }
 
   Future getOrphanageInfo() async {
     try {
+      state = OrphanageManagementStateLoading();
       final id = ((ref.read(memberInfoServiceProvider.notifier).state
                   as MemberInfoStateSuccess)
               .data as OrphanageMemberEntity)
           .orphanageId;
-      state = OrphanageManagementStateLoading();
       OrphanageDetailEntity data = await repository.getOrphanageData(id);
       state = OrphanageManagementStateSuccess(data);
     } catch (e) {

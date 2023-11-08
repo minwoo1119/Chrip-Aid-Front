@@ -1,27 +1,19 @@
-import 'package:chrip_aid/auth/model/type/region/gyeonggi.dart';
-import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/entity/user_entity.dart';
-import 'package:chrip_aid/member/model/repository/user_info_repository.dart';
+import 'package:chrip_aid/member/model/repository/member_info_repository.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/request_item_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final memberInfoServiceProvider =
     StateNotifierProvider<MemberInfoService, MemberInfoState>((ref) {
-  final userInfoRepository = ref.watch(userInfoRepositoryProvider);
+  final userInfoRepository = ref.watch(memberInfoRepositoryProvider);
   return MemberInfoService(userInfoRepository);
 });
 
 class MemberInfoService extends StateNotifier<MemberInfoState> {
   final MemberInfoRepository userInfoRepository;
 
-  MemberInfoService(this.userInfoRepository) : super(MemberInfoStateNone()) {
-    getMemberInfo();
-  }
+  MemberInfoService(this.userInfoRepository) : super(MemberInfoStateNone());
 
   Future editMemberInfo(EditMemberInfoRequestDto member) async {
     state = MemberInfoStateLoading();
@@ -39,23 +31,6 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
   }
 
   Future getMemberInfo() async {
-    return state = MemberInfoStateSuccess(
-/*      UserEntity(
-        email: "email",
-        name: "name",
-        nickName: "nickName",
-        age: 20,
-        sex: Sex.man,
-        region: Gyeonggi.pajusi,
-        phone: "01000000000",
-        profileUrl: "",
-      )*/
-      OrphanageMemberEntity(
-        email: 'email',
-        name: '윤하경',
-        orphanageId: 1,
-      ),
-    );
     try {
       final data = await userInfoRepository.getUserInfo();
       state = MemberInfoStateSuccess(data);

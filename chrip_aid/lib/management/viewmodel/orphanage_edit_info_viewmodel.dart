@@ -56,17 +56,7 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
     });
     memberState = ref.read(memberInfoServiceProvider);
     ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) {
-        memberState = next;
-        if (memberState is ErrorState) {
-          SnackBarUtil.showError((memberState as ErrorState).message);
-        }
-        if (memberState is SuccessState) {
-          ref
-              .read(orphanageManagementServiceProvider.notifier)
-              .getOrphanageInfo();
-        }
-      }
+      if (previous != next) memberState = next;
     });
     _initController();
   }

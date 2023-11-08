@@ -1,8 +1,10 @@
+import 'package:chrip_aid/auth/model/repository/fcm_repository.stub.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final fcmRepositoryProvider = Provider((ref) {
+  return FcmRepositoryStub();
   return FcmRepository();
 });
 

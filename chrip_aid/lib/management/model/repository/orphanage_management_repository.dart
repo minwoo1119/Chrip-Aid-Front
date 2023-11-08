@@ -1,6 +1,7 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
+import 'package:chrip_aid/management/model/repository/orphanage_management_repository.stub.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -11,6 +12,7 @@ part 'orphanage_management_repository.g.dart';
 
 final orphanageManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
+  return OrphanageManagementRepositoryStub();
   return OrphanageManagementRepository(dio);
 });
 

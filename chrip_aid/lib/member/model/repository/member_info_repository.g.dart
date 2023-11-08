@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_info_repository.dart';
+part of 'member_info_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator

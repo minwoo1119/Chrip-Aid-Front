@@ -32,7 +32,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
         ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
-      child: viewModel.managementState is SuccessState
+      child: viewModel.orphanageState is SuccessState
           ? SingleChildScrollView(
               child: Column(
                 children: [

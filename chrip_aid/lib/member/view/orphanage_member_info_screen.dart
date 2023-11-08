@@ -23,10 +23,10 @@ class OrphanageMemberInfoScreen extends TabScreen {
       backgroundColor: CustomColor.backgroundMainColor,
       child: Padding(
         padding: const EdgeInsets.all(kPaddingSmallSize),
-        child: SingleChildScrollView(
-          child: viewmodel.userInfo == null || viewmodel.orphanageInfo == null
-              ? Container()
-              : Column(
+        child: viewmodel.userInfo == null || viewmodel.orphanageInfo == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -54,8 +54,7 @@ class OrphanageMemberInfoScreen extends TabScreen {
                             child: Column(
                               children: [
                                 DesignedContainerTitleBar(
-                                  title: viewmodel
-                                      .orphanageInfo!.orphanageName,
+                                  title: viewmodel.orphanageInfo!.orphanageName,
                                   actions: [
                                     IconButton(
                                       onPressed: () => viewmodel
@@ -228,7 +227,7 @@ class OrphanageMemberInfoScreen extends TabScreen {
                     )
                   ],
                 ),
-        ),
+              ),
       ),
     );
   }

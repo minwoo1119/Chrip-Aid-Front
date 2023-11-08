@@ -1,4 +1,6 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
+import 'package:chrip_aid/common/state/state.dart';
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
@@ -13,16 +15,22 @@ final userInfoViewmodelProvider =
 class UserInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
-  late MemberInfoState state;
+  late MemberInfoState memberState;
 
-  UserEntity? get userInfo => state is MemberInfoStateSuccess
-      ? (state as MemberInfoStateSuccess).data as UserEntity
+  UserEntity? get userInfo => memberState is MemberInfoStateSuccess
+      ? (memberState as MemberInfoStateSuccess).data as UserEntity
       : null;
 
   UserInfoViewmodel(this.ref) {
-    state = ref.read(memberInfoServiceProvider);
+    memberState = ref.read(memberInfoServiceProvider);
     ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) state = next;
+      if (previous != next) {
+        memberState = next;
+        if(memberState is ErrorState) {
+          SnackBarUtil.showError((memberState as ErrorState).message);
+        }
+        notifyListeners();
+      }
     });
   }
 
