@@ -1,6 +1,7 @@
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
+import 'package:chrip_aid/management/view/orphanage_edit_info_screen.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
@@ -38,5 +39,9 @@ class OrphanageEditViewModel extends ChangeNotifier {
     AddOrphanageProductRequestDTO? entity,
   }) {
     context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity);
+  }
+  
+  void navigateToEditOrphanageScreen(BuildContext context) {
+    context.pushNamed(OrphanageEditInfoScreen.routeName);
   }
 }

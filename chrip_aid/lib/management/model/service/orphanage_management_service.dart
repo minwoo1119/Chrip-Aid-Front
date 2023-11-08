@@ -143,6 +143,7 @@ class OrphanageManagementService
   }
 
   Future editOrphanageInfo(EditOrphanageInfoRequestDTO dto) async {
+    return getOrphanageInfo();
     try {
       state = OrphanageManagementStateLoading();
       await repository.editOrphanageInfo(dto);

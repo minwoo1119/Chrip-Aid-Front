@@ -24,7 +24,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
       actions: [
         IconButton(
           // TODO : add function (navigate to edit orphanage info page)
-          onPressed: () {},
+          onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
           icon: const Icon(Icons.edit, size: kIconSmallSize),
           color: CustomColor.textReverseColor,
           splashRadius: kIconSmallSize,
