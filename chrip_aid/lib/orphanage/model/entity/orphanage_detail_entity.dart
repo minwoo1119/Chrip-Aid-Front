@@ -1,13 +1,23 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'request_item_entity.dart';
 
+@JsonSerializable()
 class OrphanageDetailEntity {
-  final String orphanageName;
-  final String address;
-  final String phoneNumber;
-  final String photo;
-  final String homepageLink;
+  @JsonKey(name: 'name')
   final String name;
+  @JsonKey(name: 'orphanage_name')
+  final String orphanageName;
+  @JsonKey(name: 'address')
+  final String address;
+  @JsonKey(name: 'homepage_link')
+  final String homepageLink;
+  @JsonKey(name: 'phone_number')
+  final String phoneNumber;
+  @JsonKey(name: 'description')
   final String description;
+  @JsonKey(name: 'photo')
+  final String photo;
+  @JsonKey(name: 'requests')
   final List<RequestItemEntity> requests;
 
   OrphanageDetailEntity({

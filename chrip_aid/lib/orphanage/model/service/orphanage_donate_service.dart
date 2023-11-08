@@ -18,7 +18,7 @@ class OrphanageDonateService extends StateNotifier<OrphanageState> {
   Future getOrphanageDonate() async {
     try {
       state = OrphanageDonateStateLoading();
-      List<DonateEntity> data = await repository.getOrphanageDonate();
+      List<DonateEntity> data = await repository.getOrphanageDonate('user');
       state = OrphanageDonateStateSuccess(data);
     } catch (e) {
       state = OrphanageDonateStateError(e.toString());

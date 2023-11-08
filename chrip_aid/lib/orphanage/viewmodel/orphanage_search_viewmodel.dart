@@ -125,7 +125,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void moveCameraToMarker(String id) {
-    orphanage = OrphanageState.list.where((e) => e.orphanageId == id).first;
+    orphanage = OrphanageState.list.where((e) => e.orphanageId.toString() == id).first;
     final marker = markers.where((e) => e.markerId.value == id).first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(
@@ -165,9 +165,9 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     );
 
     markers.add(Marker(
-      markerId: MarkerId(entity.orphanageId),
+      markerId: MarkerId(entity.orphanageId.toString()),
       position: position,
-      onTap: () => moveCameraToMarker(entity.orphanageId),
+      onTap: () => moveCameraToMarker(entity.orphanageId.toString()),
     ));
   }
 }

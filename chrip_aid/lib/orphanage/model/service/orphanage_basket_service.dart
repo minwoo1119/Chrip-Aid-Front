@@ -1,3 +1,4 @@
+import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -33,8 +34,8 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
     getOrphanageBasket();
   }
 
-  Future deleteOrphanageBasket(int requestId) async {
-    await repository.deleteBasket(requestId);
+  Future deleteOrphanageBasket(DonateDeleteDto dto) async {
+    await repository.deleteBasket(dto);
     getOrphanageBasket();
   }
 

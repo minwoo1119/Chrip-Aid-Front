@@ -12,7 +12,6 @@ class OrphanageVisitReservationRepository {
 
   OrphanageVisitReservationRepository(this.dio);
 
-  // 시간 생략? visit
   List<ReservationEntity> visitOrphanageList = [
     ReservationEntity(
         orphanageName: "파주보육원",
@@ -146,8 +145,9 @@ class OrphanageVisitReservationRepository {
     print(data);
     print(purpose);
     return OrphanageVisitEntity(
-      date: data,
-      purpose: purpose,
+      orphanageId: 1,
+      visitDate: data,
+      reason: purpose,
     );
   }
 }

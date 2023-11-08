@@ -1,5 +1,5 @@
 class OrphanageEntity {
-  final String orphanageId;
+  final int orphanageId;
   final String orphanageName;
   final String address;
   final String phoneNumber;

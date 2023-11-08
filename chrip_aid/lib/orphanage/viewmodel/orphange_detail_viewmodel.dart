@@ -29,8 +29,9 @@ class OrphanageDetailViewModel extends ChangeNotifier {
     });
   }
 
-  void postVisitReservation() {
+  void postVisitReservation(int orphanageId) {
     ref.read(reservationServiceProvider.notifier).postReservation(
+
           date: dateTextController.text,
           purpose: purposeTextController.text,
         );
@@ -45,7 +46,7 @@ class OrphanageDetailViewModel extends ChangeNotifier {
     if (num % 2 == 0) {
       goBasket(context);
     } else {
-      postVisitReservation();
+      postVisitReservation(1);
     }
   }
 }

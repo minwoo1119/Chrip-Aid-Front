@@ -30,7 +30,7 @@ class OrphanagePostScreen extends ConsumerWidget {
                           reviewId: item.reviewId,
                           title: item.title,
                           content: item.content,
-                          photo: item.photo,
+                          photo: item.photo[0],
                           date: item.date,
                           name: item.name,
                           orphanageName: item.orphanageName,

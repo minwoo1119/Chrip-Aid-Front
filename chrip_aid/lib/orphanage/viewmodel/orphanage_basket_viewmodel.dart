@@ -1,3 +1,4 @@
+import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_basket_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
@@ -43,7 +44,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
   }
 
   void deleteBasket(int requestId) {
-    ref.read(orphanageBasketServiceProvider.notifier).deleteOrphanageBasket(requestId);
+    ref.read(orphanageBasketServiceProvider.notifier).deleteOrphanageBasket(DonateDeleteDto(basketProductId: requestId));
   }
 
   void addOrUpdateBasket(int requestId, int count) {

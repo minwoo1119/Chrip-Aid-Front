@@ -26,7 +26,7 @@ class OrphanageService extends StateNotifier<OrphanageState> {
     }
   }
 
-  Future getOrphanageDetail(String orphanageId) async {
+  Future getOrphanageDetail(int orphanageId) async {
     try {
       state = OrphanageStateLoading();
       OrphanageDetailEntity data =
