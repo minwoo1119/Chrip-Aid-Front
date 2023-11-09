@@ -10,15 +10,18 @@ class Product {
   final int count;
   final int price;
   final String orphanageName;
+  final String photo;
   final Function(int) onCountUpdate;
 
-  Product(
-      {required this.basketProductId,
-      required this.productName,
-      required this.count,
-      required this.price,
-      required this.orphanageName,
-      required this.onCountUpdate});
+  Product({
+    required this.basketProductId,
+    required this.productName,
+    required this.count,
+    required this.price,
+    required this.orphanageName,
+    required this.onCountUpdate,
+    required this.photo,
+  });
 }
 
 class CustomBasketProductBox extends ConsumerStatefulWidget {
@@ -29,16 +32,19 @@ class CustomBasketProductBox extends ConsumerStatefulWidget {
   final String orphanageName;
   final Function(int) onCountUpdate;
   final Function deleteBasket;
+  final String photo;
 
-  const CustomBasketProductBox(
-      {required this.basketProductId,
-      required this.productName,
-      required this.count,
-      required this.price,
-      required this.orphanageName,
-      required this.onCountUpdate,
-      required this.deleteBasket,
-      super.key});
+  const CustomBasketProductBox({
+    required this.basketProductId,
+    required this.productName,
+    required this.count,
+    required this.price,
+    required this.orphanageName,
+    required this.onCountUpdate,
+    required this.deleteBasket,
+    required this.photo,
+    super.key,
+  });
 
   @override
   CustomBasketProductBoxState createState() => CustomBasketProductBoxState();
@@ -48,14 +54,15 @@ class CustomBasketProductBoxState
     extends ConsumerState<CustomBasketProductBox> {
   @override
   Widget build(BuildContext context) {
-    const String photo = 'assets/image/choco_pie.jpg';
     final product = Product(
-        basketProductId: widget.basketProductId,
-        productName: widget.productName,
-        count: widget.count,
-        price: widget.price,
-        orphanageName: widget.orphanageName,
-        onCountUpdate: widget.onCountUpdate);
+      basketProductId: widget.basketProductId,
+      productName: widget.productName,
+      count: widget.count,
+      price: widget.price,
+      orphanageName: widget.orphanageName,
+      onCountUpdate: widget.onCountUpdate,
+      photo: widget.photo,
+    );
     return Container(
       padding: const EdgeInsets.symmetric(
           horizontal: kPaddingMiddleSize, vertical: kPaddingSmallSize),
@@ -70,8 +77,8 @@ class CustomBasketProductBoxState
                 decoration: const BoxDecoration(
                   color: Colors.grey,
                 ),
-                child: Image.asset(
-                  photo,
+                child: Image.network(
+                  product.photo,
                   fit: BoxFit.cover,
                 )),
           ),

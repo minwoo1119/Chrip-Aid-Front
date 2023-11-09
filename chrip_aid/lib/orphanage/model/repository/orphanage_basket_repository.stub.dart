@@ -39,26 +39,32 @@ class OrphanageBasketRepositoryStub implements OrphanageBasketRepository {
 
   List<OrphanageBasketEntity> list = [
     OrphanageBasketEntity(
-        requestId: 1,
-        basketProductId: 1,
-        productName: "초코파이",
-        count: 1,
-        price: 8630,
-        orphanageName: "파주보육원"),
+      requestId: 1,
+      basketProductId: 1,
+      productName: "초코파이",
+      count: 1,
+      price: 8630,
+      orphanageName: "파주보육원",
+      productPhoto: 'https://picsum.photos/300/300',
+    ),
     OrphanageBasketEntity(
-        requestId: 2,
-        basketProductId: 1,
-        productName: "초코파이",
-        count: 1,
-        price: 8630,
-        orphanageName: "파주보육원"),
+      requestId: 2,
+      basketProductId: 1,
+      productName: "초코파이",
+      count: 1,
+      price: 8630,
+      orphanageName: "파주보육원",
+      productPhoto: 'https://picsum.photos/300/300',
+    ),
     OrphanageBasketEntity(
-        requestId: 3,
-        basketProductId: 3,
-        productName: "초코파이",
-        count: 1,
-        price: 8630,
-        orphanageName: "파주보육원"),
+      requestId: 3,
+      basketProductId: 3,
+      productName: "초코파이",
+      count: 1,
+      price: 8630,
+      orphanageName: "파주보육원",
+      productPhoto: 'https://picsum.photos/300/300',
+    ),
   ];
 
   @override
@@ -69,13 +75,13 @@ class OrphanageBasketRepositoryStub implements OrphanageBasketRepository {
     list = list.map((e) {
       if (e.requestId == entity.requestId) {
         return OrphanageBasketEntity(
-          requestId: e.requestId,
-          basketProductId: e.basketProductId,
-          productName: e.productName,
-          count: entity.count,
-          price: e.price,
-          orphanageName: e.orphanageName,
-        );
+            requestId: e.requestId,
+            basketProductId: e.basketProductId,
+            productName: e.productName,
+            count: entity.count,
+            price: e.price,
+            orphanageName: e.orphanageName,
+            productPhoto: e.productPhoto);
       } else {
         return e;
       }

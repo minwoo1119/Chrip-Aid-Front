@@ -36,12 +36,12 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                           count: item.count,
                           price: item.price,
                           orphanageName: item.orphanageName,
+                          photo: item.productPhoto,
                           onCountUpdate: (int updatedCount) {
                             viewModel.updateBasket(
                                 updatedCount, item.requestId);
                           },
                           deleteBasket: () {
-                            print("d");
                             viewModel.deleteBasket(item.requestId);
                           });
                     },

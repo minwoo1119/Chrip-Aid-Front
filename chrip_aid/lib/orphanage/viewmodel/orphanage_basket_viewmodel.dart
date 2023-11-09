@@ -44,7 +44,9 @@ class OrphanageBasketViewModel extends ChangeNotifier {
   }
 
   void deleteBasket(int requestId) {
-    ref.read(orphanageBasketServiceProvider.notifier).deleteOrphanageBasket(DonateDeleteDto(basketProductId: requestId));
+    ref
+        .read(orphanageBasketServiceProvider.notifier)
+        .deleteOrphanageBasket(DonateDeleteDto(basketProductId: requestId));
   }
 
   void addOrUpdateBasket(int requestId, int count) {
@@ -53,15 +55,13 @@ class OrphanageBasketViewModel extends ChangeNotifier {
       if (entityItem.requestId == requestId) {
         updateBasket(count, requestId);
         isNewProduct = false;
-        print("업데이트");
         break;
       }
     }
     if (isNewProduct) {
       ref.read(orphanageBasketServiceProvider.notifier).addOrphanageBasket(
-          entity:
-              AddBasketItemEntity(requestId: requestId, count: count));
-      print("더하기");
+            entity: AddBasketItemEntity(requestId: requestId, count: count),
+          );
     }
   }
 }

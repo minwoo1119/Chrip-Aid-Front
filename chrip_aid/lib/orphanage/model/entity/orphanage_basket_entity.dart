@@ -15,23 +15,19 @@ class OrphanageBasketEntity {
   final int price;
   @JsonKey(name: 'orphanage_name')
   final String orphanageName;
+  @JsonKey(name: 'product_photo')
+  final String productPhoto;
 
-  OrphanageBasketEntity( {
+  OrphanageBasketEntity({
     required this.requestId,
     required this.basketProductId,
     required this.productName,
     required this.count,
     required this.price,
     required this.orphanageName,
+    required this.productPhoto,
   });
 
   factory OrphanageBasketEntity.fromJson(Map<String, dynamic> json) =>
       _$OrphanageBasketEntityFromJson(json);
-  // OrphanageBasketEntity.fromJson(Map<String, dynamic> json)
-  //     : requestId = json["request_id"],
-  //       basketProductId = json["basket_product_id"],
-  //       productName = json["product_name"],
-  //       count = json["count"],
-  //       price = json["price"],
-  //       orphanageName = json["orphanage_name"];
 }
