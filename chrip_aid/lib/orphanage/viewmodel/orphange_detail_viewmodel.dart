@@ -1,4 +1,5 @@
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -30,17 +31,18 @@ class OrphanageDetailViewModel extends ChangeNotifier {
   }
 
   void postVisitReservation(int orphanageId) {
-    ref.read(reservationServiceProvider.notifier).postReservation(
-
-          date: dateTextController.text,
-          purpose: purposeTextController.text,
-        );
+    ref
+        .read(reservationServiceProvider.notifier)
+        .postReservation(OrphanageVisitEntity(
+          orphanageId: orphanageId,
+          visitDate: dateTextController.text,
+          reason: purposeTextController.text,
+        ));
   }
 
   void goBasket(BuildContext context) {
     context.pushNamed(OrphanageBasketScreen.routeName);
   }
-
 
   void postOrGoBasket(int num, BuildContext context) {
     if (num % 2 == 0) {

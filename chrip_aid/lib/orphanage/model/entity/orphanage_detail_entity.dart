@@ -39,5 +39,7 @@ class OrphanageDetailEntity {
         homepageLink = json["homepage_link"],
         name = json["name"],
         description = json["description"],
-        requests = json["requests"];
+        requests = (json["requests"] as List<dynamic>)
+            .map((item) => RequestItemEntity.fromJson(item))
+            .toList();
 }

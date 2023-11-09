@@ -14,4 +14,12 @@ class OrphanageEntity {
     required this.photo,
     required this.name,
   });
+
+  OrphanageEntity.fromJson(Map<String, dynamic> json)
+      : orphanageId = json["orphanage_id"],
+        orphanageName = json["orphanage_name"],
+        address = json["address"],
+        phoneNumber = json["phone_number"],
+        photo = json["photo"],
+        name = json["name"];
 }

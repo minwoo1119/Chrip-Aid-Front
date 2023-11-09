@@ -18,7 +18,7 @@ class OrphanageReservationService extends StateNotifier<OrphanageState> {
   Future getOrphanageVisitReservation() async {
     try {
       state = OrphanageReservationStateLoading();
-      List<OrphanageReservationEntity> data = await repository.getOrphanageVisitReservation();
+      List<OrphanageReservationEntity> data = await repository.getOrphanageVisitReservation('orphanage');
       state = OrphanageReservationStateSuccess(data);
       print(data);
     } catch (e) {
