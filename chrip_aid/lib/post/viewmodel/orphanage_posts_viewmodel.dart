@@ -2,6 +2,7 @@ import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
+import 'package:chrip_aid/post/view/post_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,5 +29,9 @@ class OrphanagePostsViewModel extends ChangeNotifier {
 
   void navigateToEditScreen(BuildContext context) {
     context.pushNamed(OrphanageEditPostScreen.routeName);
+  }
+
+  void navigateToDetailScreen(BuildContext context, GetPostsEntity entity) {
+    context.pushNamed(PostDetailScreen.routeName, extra: entity);
   }
 }

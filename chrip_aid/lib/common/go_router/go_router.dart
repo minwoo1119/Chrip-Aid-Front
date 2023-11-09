@@ -17,8 +17,10 @@ import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
 import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
+import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/post/view/orphanage_post_screen.dart';
+import 'package:chrip_aid/post/view/post_detail_screen.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/post/view/user_post_screen.dart';
 import 'package:chrip_aid/reservation/view/orphanage_reservation_screen.dart';
@@ -122,6 +124,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             name: PostScreen.routeName,
             redirect: (context, state) {
               if (state.location.contains('edit')) return null;
+              if (state.location.contains('detail')) return null;
               return redirectionByAuth(context, state, "/post");
             },
             routes: [
@@ -145,6 +148,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                     builder: (_, __) => const OrphanageEditPostScreen(),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: 'detail',
+                name: PostDetailScreen.routeName,
+                builder: (_, state) =>
+                    PostDetailScreen(state.extra as GetPostsEntity),
               ),
             ],
           ),
