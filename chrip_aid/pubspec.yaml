@@ -87,6 +87,7 @@ dependencies:
   # AWS
   aws_s3_upload: ^1.5.0
   extended_image: ^8.0.2
+  android_intent_plus: ^4.0.3
 
 dev_dependencies:
   flutter_test:

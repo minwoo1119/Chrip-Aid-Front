@@ -15,6 +15,7 @@ OrphanageBasketEntity _$OrphanageBasketEntityFromJson(
       count: json['count'] as int,
       price: json['price'] as int,
       orphanageName: json['orphanage_name'] as String,
+      productPhoto: json['product_photo'] as String,
     );
 
 Map<String, dynamic> _$OrphanageBasketEntityToJson(
@@ -26,4 +27,5 @@ Map<String, dynamic> _$OrphanageBasketEntityToJson(
       'count': instance.count,
       'price': instance.price,
       'orphanage_name': instance.orphanageName,
+      'product_photo': instance.productPhoto,
     };

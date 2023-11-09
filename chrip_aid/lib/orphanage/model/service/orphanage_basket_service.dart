@@ -1,4 +1,5 @@
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -45,6 +46,16 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
       getOrphanageBasket();
     } catch (e) {
       state = OrphanageProductStateError(e.toString());
+    }
+  }
+
+  Future donate(DonateRequestDTO dto) async {
+    try {
+      state = OrphanageStateLoading();
+      await repository.donate(dto);
+      getOrphanageBasket();
+    } catch (e) {
+      state = OrphanageBasketStateError(e.toString());
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -39,4 +40,8 @@ abstract class OrphanageBasketRepository {
   @GET('/donate')
   @Headers({'accessToken' : 'true'})
   Future<List<DonateEntity>> getOrphanageDonate(@Query('account') String account);
+
+  @POST('/donate')
+  @Headers({'accessToken' : 'true'})
+  Future donate(@Body() DonateRequestDTO dto);
 }

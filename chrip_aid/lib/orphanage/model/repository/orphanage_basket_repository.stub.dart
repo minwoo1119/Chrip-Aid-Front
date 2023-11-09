@@ -1,4 +1,5 @@
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/repository/orphanage_basket_repository.dart';
@@ -100,9 +101,9 @@ class OrphanageBasketRepositoryStub implements OrphanageBasketRepository {
 
   @override
   Future<List<DonateEntity>> getOrphanageDonate(String type) async {
-/*    final Response response = await dio.get('/orphanages/{$orphanageId}');
-    Map<String, dynamic> body = response.data;
-    return OrphanageDetailEntity.fromJson(body);*/
     return donateList;
   }
+
+  @override
+  Future donate(DonateRequestDTO dto) async {}
 }

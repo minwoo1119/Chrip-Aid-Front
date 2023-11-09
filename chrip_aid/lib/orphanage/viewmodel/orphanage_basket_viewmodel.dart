@@ -1,4 +1,6 @@
+import 'package:chrip_aid/common/kakao/kakao_pay.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
+import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_basket_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/update_basket_item_entity.dart';
@@ -6,6 +8,7 @@ import 'package:chrip_aid/orphanage/model/service/orphanage_basket_service.dart'
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 final orphanageBasketViewModelProvider =
     ChangeNotifierProvider((ref) => OrphanageBasketViewModel(ref));
@@ -63,5 +66,22 @@ class OrphanageBasketViewModel extends ChangeNotifier {
             entity: AddBasketItemEntity(requestId: requestId, count: count),
           );
     }
+  }
+
+  void payment(BuildContext context) async {
+    await kakaoPayReady(
+      "${entity.first.productName} 등",
+      entity.map((e) => e.count).reduce((value, element) => value + element),
+      entity
+          .map((e) => e.count * e.price)
+          .reduce((value, element) => value + element),
+    );
+    await ref.read(orphanageBasketServiceProvider.notifier).donate(
+          DonateRequestDTO(
+            basketProductIds: entity.map((e) => e.basketProductId).toList(),
+            message: '',
+          ),
+        );
+    context.pop();
   }
 }

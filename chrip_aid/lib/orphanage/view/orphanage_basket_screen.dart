@@ -39,7 +39,9 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                           photo: item.productPhoto,
                           onCountUpdate: (int updatedCount) {
                             viewModel.updateBasket(
-                                updatedCount, item.requestId);
+                              updatedCount,
+                              item.requestId,
+                            );
                           },
                           deleteBasket: () {
                             viewModel.deleteBasket(item.requestId);
@@ -77,8 +79,7 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              // TODO : add function (navigate to payment page)
-                              onPressed: () {},
+                              onPressed: () => viewModel.payment(context),
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: Colors.black,

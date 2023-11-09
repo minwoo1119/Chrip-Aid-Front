@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repository/orphanage_basket_repository.dart';
 
 final orphanageDonateServiceProvider =
-StateNotifierProvider<OrphanageDonateService, OrphanageState>((ref) =>
-    OrphanageDonateService(ref.watch(orphanageBasketRepositoryProvider)));
+    StateNotifierProvider<OrphanageDonateService, OrphanageState>((ref) =>
+        OrphanageDonateService(ref.watch(orphanageBasketRepositoryProvider)));
 
 class OrphanageDonateService extends StateNotifier<OrphanageState> {
   final OrphanageBasketRepository repository;
@@ -24,6 +24,4 @@ class OrphanageDonateService extends StateNotifier<OrphanageState> {
       state = OrphanageDonateStateError(e.toString());
     }
   }
-
-
 }
