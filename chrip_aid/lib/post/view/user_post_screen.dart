@@ -1,14 +1,12 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
-import 'package:chrip_aid/orphanage/component/custom_post_box.dart';
+import 'package:chrip_aid/post/component/custom_post_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/post/viewmodel/orphanage_posts_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserPostScreen extends ConsumerWidget {
-  static String get routeName => 'post';
-
   const UserPostScreen({super.key});
 
   @override
@@ -26,7 +24,12 @@ class UserPostScreen extends ConsumerWidget {
                     itemCount: viewModel.entity.length,
                     itemBuilder: (context, index) {
                       final item = viewModel.entity[index];
-                      return CustomPostBox(
+                      return InkWell(
+                        onTap: () => viewModel.navigateToDetailScreen(
+                          context,
+                          item,
+                        ),
+                        child: CustomPostBox(
                           reviewId: item.reviewId,
                           title: item.title,
                           content: item.content,
@@ -34,7 +37,9 @@ class UserPostScreen extends ConsumerWidget {
                           date: item.date,
                           name: item.name,
                           orphanageName: item.orphanageName,
-                          productNames: item.productNames);
+                          productNames: item.productNames,
+                        ),
+                      );
                     },
                   ),
                 ),

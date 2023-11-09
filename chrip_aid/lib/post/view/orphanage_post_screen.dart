@@ -1,7 +1,7 @@
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
-import 'package:chrip_aid/orphanage/component/custom_post_box.dart';
+import 'package:chrip_aid/post/component/custom_post_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/post/viewmodel/orphanage_posts_viewmodel.dart';
@@ -35,16 +35,21 @@ class OrphanagePostScreen extends ConsumerWidget implements PostScreen {
                     itemCount: viewModel.entity.length,
                     itemBuilder: (context, index) {
                       final item = viewModel.entity[index];
-                      return CustomPostBox(
-                        reviewId: item.reviewId,
-                        title: item.title,
-                        content: item.content,
-                        // TODO : photo를 스와이프로
-                        photo: item.photo[0],
-                        date: item.date,
-                        name: item.name,
-                        orphanageName: item.orphanageName,
-                        productNames: item.productNames,
+                      return InkWell(
+                        onTap: () => viewModel.navigateToDetailScreen(
+                          context,
+                          item,
+                        ),
+                        child: CustomPostBox(
+                          reviewId: item.reviewId,
+                          title: item.title,
+                          content: item.content,
+                          photo: item.photo[0],
+                          date: item.date,
+                          name: item.name,
+                          orphanageName: item.orphanageName,
+                          productNames: item.productNames,
+                        ),
                       );
                     },
                   ),
