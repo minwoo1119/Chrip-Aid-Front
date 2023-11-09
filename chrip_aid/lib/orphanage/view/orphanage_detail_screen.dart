@@ -77,7 +77,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 150,
-                            child: Image.asset(
+                            child: Image.network(
                               viewModel.entity.photo,
                               fit: BoxFit.cover,
                             ),

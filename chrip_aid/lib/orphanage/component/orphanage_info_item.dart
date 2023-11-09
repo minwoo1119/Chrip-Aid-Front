@@ -41,7 +41,7 @@ class OrphanageInfoItem extends StatelessWidget {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 215,
-                child: Image.asset(
+                child: Image.network(
                   entity.photo,
                   fit: BoxFit.cover,
                 ),

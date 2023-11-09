@@ -12,14 +12,14 @@ class OrphanageRepositoryStub implements OrphanageRepository{
       orphanageName: '파주 보육원',
       address: '경기도 파주시 법원읍 술이홀로907번길 139',
       phoneNumber: '031)958-7176',
-      photo: 'assets/image/pajukids_house.jpg',
+      photo: 'https://picsum.photos/300/300',
       homepageLink: 'www.pajukids.com',
       name: '윤하경',
       description:
           '사시사철 웃음가득, 기쁨 가득 파주키즈 동산에 방문하신 여러분을 환영합니다! 아이들을 사랑하는 마음들이 모아져 여러분들과 함께 기쁨의 공간을 채우고 나누게 되어 매우 기쁘게 생각합니다.',
       requests: [
         RequestItemEntity(
-          productPhoto: 'assets/image/choco_pie.jpg',
+          productPhoto: 'https://picsum.photos/300/300',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
           price: 8630,
@@ -29,7 +29,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
           requestId: 1,
         ),
         RequestItemEntity(
-          productPhoto: 'assets/image/choco_pie.jpg',
+          productPhoto: 'https://picsum.photos/300/300',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
           price: 8630,
@@ -39,7 +39,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
           requestId: 2,
         ),
         RequestItemEntity(
-          productPhoto: 'assets/image/choco_pie.jpg',
+          productPhoto: 'https://picsum.photos/300/300',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
           price: 8630,
@@ -49,7 +49,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
           state: 'COMPLETED',
         ),
         RequestItemEntity(
-          productPhoto: 'assets/image/choco_pie.jpg',
+          productPhoto: 'https://picsum.photos/300/300',
           productName: "초코파이",
           message: "달달하고 맛있는 초코파이가 먹고 싶어요. 렌지에 약간 뎁혀 먹어도 맛있어요.",
           price: 8630,
@@ -70,7 +70,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
         orphanageName: '파주 보육원',
         address: '경기도 파주시 법원읍 술이홀로907번길 139',
         phoneNumber: '031)958-7176',
-        photo: 'assets/image/pajukids_house.jpg',
+        photo: 'https://picsum.photos/300/300',
         name: '윤하경',
       ),
       OrphanageEntity(
@@ -78,7 +78,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
         orphanageName: '파주 보육원',
         address: '경기도 파주시 법원읍 술이홀로907번길 139',
         phoneNumber: '031)958-7176',
-        photo: 'assets/image/pajukids_house.jpg',
+        photo: 'https://picsum.photos/300/300',
         name: '윤하경',
       ),
       OrphanageEntity(
@@ -86,7 +86,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
         orphanageName: '파주 보육원',
         address: '경기도 파주시 법원읍 술이홀로907번길 139',
         phoneNumber: '031)958-7176',
-        photo: 'assets/image/pajukids_house.jpg',
+        photo: 'https://picsum.photos/300/300',
         name: '윤하경',
       ),
       OrphanageEntity(
@@ -94,7 +94,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
         orphanageName: '파주 보육원',
         address: '경기도 파주시 법원읍 술이홀로907번길 139',
         phoneNumber: '031)958-7176',
-        photo: 'assets/image/pajukids_house.jpg',
+        photo: 'https://picsum.photos/300/300',
         name: '윤하경',
       ),
       OrphanageEntity(
@@ -102,7 +102,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
         orphanageName: '파주 보육원',
         address: '경기도 파주시 법원읍 술이홀로907번길 139',
         phoneNumber: '031)958-7176',
-        photo: 'assets/image/pajukids_house.jpg',
+        photo: 'https://picsum.photos/300/300',
         name: '윤하경',
       ),
     ];

@@ -79,7 +79,7 @@ class CustomProductBox extends ConsumerWidget {
               decoration: const BoxDecoration(
                 color: Colors.grey,
               ),
-              child: Image.asset(
+              child: Image.network(
                 product.photo,
                 fit: BoxFit.cover,
               ),
