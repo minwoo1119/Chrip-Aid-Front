@@ -80,10 +80,12 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                               // TODO : add function (navigate to payment page)
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.black,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: kPaddingMiddleSize)),
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.black,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: kPaddingMiddleSize,
+                                ),
+                              ),
                               child: const Text(
                                 "구매하기",
                                 style: kTextReverseStyleMiddle,
