@@ -1,6 +1,8 @@
 import 'package:chrip_aid/alarm/model/entity/alarm_entity.dart';
 import 'package:chrip_aid/alarm/model/service/alarm_service.dart';
 import 'package:chrip_aid/alarm/model/state/alarm_state.dart';
+import 'package:chrip_aid/auth/model/service/auth_service.dart';
+import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
@@ -16,16 +18,27 @@ class AlarmViewmodel extends ChangeNotifier {
   Ref ref;
 
   List<AlarmEntity> get entities =>
-      state is SuccessState ? (state as AlarmStateSuccess).data : [];
-  late AlarmState state;
+      alarmState is SuccessState ? (alarmState as AlarmStateSuccess).data : [];
+
+  late AuthState authState;
+  late AlarmState alarmState;
 
   AlarmViewmodel(this.ref) {
-    state = ref.read(alarmServiceProvider);
+    authState = ref.read(authServiceProvider);
+    ref.listen(authServiceProvider, (previous, next) {
+      if(previous != next) {
+        if(authState is SuccessState) {
+          ref.read(alarmServiceProvider.notifier).getAlarms();
+        }
+      }
+    });
+
+    alarmState = ref.read(alarmServiceProvider);
     ref.listen(alarmServiceProvider, (previous, next) {
       if (previous != next) {
-        state = next;
-        if (state is ErrorState) {
-          SnackBarUtil.showError((state as ErrorState).message);
+        alarmState = next;
+        if (alarmState is ErrorState) {
+          SnackBarUtil.showError((alarmState as ErrorState).message);
         }
         notifyListeners();
       }
