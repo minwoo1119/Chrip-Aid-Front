@@ -26,11 +26,10 @@ class SnackBarUtil {
   static SnackBar drawSnackBar(String message, Color color) {
     return SnackBar(
       backgroundColor: color,
-      content: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(message, textAlign: TextAlign.center, softWrap: false),
-        ],
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+        softWrap: false,
       ),
       behavior: SnackBarBehavior.floating,
       margin: const EdgeInsets.symmetric(

@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrphanageHomeScreen extends TabScreen {
+  @override
+  Color get mainColor => CustomColor.mainColor;
+
   const OrphanageHomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -17,7 +20,7 @@ class OrphanageHomeScreen extends TabScreen {
     final viewmodel = ref.watch(orphanageHomeViewModelProvider);
     return DefaultLayout(
       title: "Chirp Aid",
-      appbarColor: CustomColor.mainColor,
+      appbarColor: mainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       child: Padding(
         padding: const EdgeInsets.all(kPaddingSmallSize),

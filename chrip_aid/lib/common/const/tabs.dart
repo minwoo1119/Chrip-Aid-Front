@@ -1,3 +1,4 @@
+import 'package:chrip_aid/alarm/view/alarm_screen.dart';
 import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/view/orphanage_home_screen.dart';
@@ -21,14 +22,14 @@ final tabProvider = Provider((ref) {
     case AuthorityType.user:
       return const [
         // TODO : Create Alarm Screen
-        TabInfo(UserHomeScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
+        TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
         TabInfo(UserHomeScreen(), icon: Icons.home, label: '예약 설정'),
         TabInfo(UserInfoScreen(), icon: Icons.person, label: "사용자 설정"),
       ];
     case AuthorityType.orphanage:
       return const [
         // TODO : Create Alarm Screen
-        TabInfo(OrphanageHomeScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
+        TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
         TabInfo(OrphanageHomeScreen(), icon: Icons.home, label: '예약 설정'),
         TabInfo(OrphanageMemberInfoScreen(), icon: Icons.person, label: "사용자 설정"),
       ];

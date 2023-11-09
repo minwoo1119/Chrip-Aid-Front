@@ -1,11 +1,15 @@
+import 'package:chrip_aid/alarm/model/entity/alarm_entity.dart';
+import 'package:chrip_aid/alarm/model/service/alarm_service.dart';
+import 'package:chrip_aid/common/utils/date_utils.dart';
 import 'package:chrip_aid/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  saveAlarm(message);
 }
 
 late AndroidNotificationChannel channel;
@@ -17,10 +21,9 @@ Future initFCM() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   channel = const AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description:
-    'This channel is used for important notifications.', // description
+    'high_importance_channel',
+    'High Importance Notifications',
+    description: 'This channel is used for important notifications.',
     importance: Importance.high,
   );
 
@@ -37,7 +40,7 @@ Future initFCM() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   var initializationSettings = InitializationSettings(
@@ -68,14 +71,19 @@ Future initFCM() async {
 
 Future listenFCM(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
+
   var androidNotifyDetails = AndroidNotificationDetails(
     channel.id,
     channel.name,
     channelDescription: channel.description,
   );
   var iOSNotifyDetails = const DarwinNotificationDetails();
+
   var details = NotificationDetails(
-      android: androidNotifyDetails, iOS: iOSNotifyDetails);
+    android: androidNotifyDetails,
+    iOS: iOSNotifyDetails,
+  );
+
   if (notification != null) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -84,7 +92,16 @@ Future listenFCM(RemoteMessage message) async {
       details,
     );
 
-    message.data["title"] = notification.title;
-    message.data["body"] = notification.body;
+    saveAlarm(message);
   }
+}
+
+Future saveAlarm(RemoteMessage message) async {
+  message.data["title"] = message.notification?.title;
+  message.data["body"] = message.notification?.body;
+  message.data["time"] = alarmDateFormat.format(DateTime.now());
+
+  ProviderContainer().read(alarmServiceProvider.notifier).saveAlarm(
+    AlarmEntity.fromJson(message.data),
+  );
 }
