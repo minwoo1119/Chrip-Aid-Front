@@ -5,6 +5,7 @@ import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field_bar.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_info_item.dart';
+import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_search_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,7 @@ class OrphanageSearchScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(orphanageSearchViewModelProvider);
+    print("[Chrip Aid] ${OrphanageState.list}");
     return DefaultLayout(
       child: SafeArea(
         child: Container(

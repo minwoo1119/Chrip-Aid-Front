@@ -17,6 +17,7 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
 
   Future editMemberInfo(EditMemberInfoRequestDto member) async {
     state = MemberInfoStateLoading();
+    print(member.toJson().toString());
     try {
       await userInfoRepository.editUserInfo(member);
       await getMemberInfo();
@@ -32,6 +33,7 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
 
   Future getMemberInfo() async {
     try {
+      state = MemberInfoStateLoading();
       final data = await userInfoRepository.getUserInfo();
       state = MemberInfoStateSuccess(data);
     } on DioException catch (e) {

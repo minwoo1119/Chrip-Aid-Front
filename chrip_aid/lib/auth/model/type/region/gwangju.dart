@@ -10,16 +10,16 @@ enum Gwangju implements SubRegion {
   gwangsangu('광산구');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.gwangju;
 
-  const Gwangju(this.value);
+  const Gwangju(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

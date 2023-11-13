@@ -20,7 +20,7 @@ class OrphanageReservationService extends StateNotifier<OrphanageState> {
       state = OrphanageReservationStateLoading();
       List<OrphanageReservationEntity> data = await repository.getOrphanageVisitReservation('orphanage');
       state = OrphanageReservationStateSuccess(data);
-      print(data);
+      print("[Chrip Aid] ${data}");
     } catch (e) {
       state = OrphanageReservationStateError(e.toString());
     }

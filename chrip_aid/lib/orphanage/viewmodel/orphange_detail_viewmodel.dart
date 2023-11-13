@@ -48,7 +48,7 @@ class OrphanageDetailViewModel extends ChangeNotifier {
     if (num % 2 == 0) {
       goBasket(context);
     } else {
-      postVisitReservation(1);
+      postVisitReservation(entity.orphanageId);
     }
   }
 }

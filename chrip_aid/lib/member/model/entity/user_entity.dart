@@ -13,13 +13,17 @@ class UserEntity implements MemberEntity {
   @override
   @JsonKey(name: 'name')
   final String name;
-  @JsonKey(name: 'nick_name')
+  @JsonKey(name: 'nickname')
   final String nickName;
   @JsonKey(name: 'age')
   final int age;
   @JsonKey(name: 'sex', fromJson: _sexFromJson, toJson: _sexToJson)
   final Sex sex;
-  @JsonKey(name: 'region', fromJson: _regionFromJson, toJson: _regionToJson,)
+  @JsonKey(
+    name: 'region',
+    fromJson: _regionFromJson,
+    toJson: _regionToJson,
+  )
   final SubRegion region;
   @JsonKey(name: 'phone_number')
   final String phone;
@@ -27,9 +31,12 @@ class UserEntity implements MemberEntity {
   final String profileUrl;
 
   static Sex _sexFromJson(String sex) => Sex.fromString(sex);
+
   static String _sexToJson(Sex sex) => sex.value;
 
-  static SubRegion _regionFromJson(String region) => SubRegion.fromString(region);
+  static SubRegion _regionFromJson(String region) =>
+      SubRegion.fromString(region);
+
   static String _regionToJson(SubRegion region) => region.toJson();
 
   UserEntity({
@@ -46,6 +53,8 @@ class UserEntity implements MemberEntity {
   @override
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) {
+    print("[Chrip Aid] ${json.toString()}");
+    return _$UserEntityFromJson(json);
+  }
 }

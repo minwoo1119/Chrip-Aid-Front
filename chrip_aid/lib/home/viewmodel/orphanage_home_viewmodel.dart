@@ -1,5 +1,6 @@
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
@@ -32,15 +33,25 @@ class OrphanageHomeViewModel extends ChangeNotifier {
       }
     });
 
-    if (authState is SuccessState) {
-      ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
+    rootTabController.addListener(() {
+      if (rootTabController.index == 2 &&
+          ref.read(memberInfoServiceProvider) is! SuccessState) {
+        ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
+              (value) => ref
+                  .read(orphanageManagementServiceProvider.notifier)
+                  .getOrphanageInfo(),
+            );
+      }
+    });
+  }
+
+  Future navigateToOrphanageScreen(BuildContext context) async {
+    if (ref.read(memberInfoServiceProvider) is! SuccessState) {
+      await ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
           (value) => ref
               .read(orphanageManagementServiceProvider.notifier)
               .getOrphanageInfo());
     }
-  }
-
-  Future navigateToOrphanageScreen(BuildContext context) async {
     context.pushNamed(OrphanageManagementScreen.routeName);
   }
 

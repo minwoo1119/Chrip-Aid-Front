@@ -11,9 +11,7 @@ class OrphanageDonateService extends StateNotifier<OrphanageState> {
   final OrphanageBasketRepository repository;
 
   OrphanageDonateService(this.repository)
-      : super(OrphanageDonateStateLoading()) {
-    getOrphanageDonate();
-  }
+      : super(OrphanageDonateStateLoading());
 
   Future getOrphanageDonate() async {
     try {

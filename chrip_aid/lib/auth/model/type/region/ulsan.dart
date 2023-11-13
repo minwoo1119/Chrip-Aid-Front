@@ -10,16 +10,16 @@ enum Ulsan implements SubRegion {
   uljugun('울주군');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.ulsan;
 
-  const Ulsan(this.value);
+  const Ulsan(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

@@ -9,7 +9,7 @@ class CustomReservationBox extends StatelessWidget {
   final String visitDate;
   final String reason;
   final String state;
-  final String rejectReason;
+  final String? rejectReason;
 
   const CustomReservationBox({
     super.key,
@@ -111,7 +111,7 @@ class CustomReservationBox extends StatelessWidget {
                         thickness: 1.0,
                       ),
                     ),
-                    ReasonBox(reason: rejectReason, title: "거절 사유"),
+                    ReasonBox(reason: rejectReason!, title: "거절 사유"),
                   ],
                 )
               : Container(),

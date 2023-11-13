@@ -11,16 +11,16 @@ enum Jeonbuk implements SubRegion {
   gimjesi("김제시");
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.jeonbuk;
 
-  const Jeonbuk(this.value);
+  const Jeonbuk(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

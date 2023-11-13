@@ -10,10 +10,7 @@ final orphanageServiceProvider = StateNotifierProvider<OrphanageService, Orphana
 class OrphanageService extends StateNotifier<OrphanageState> {
   final OrphanageRepository repository;
 
-  OrphanageService(this.repository) : super(OrphanageStateNone()) {
-    getOrphanageList();
-//    getOrphanageDetail("1");
-  }
+  OrphanageService(this.repository) : super(OrphanageStateNone());
 
   Future getOrphanageList() async {
     try {

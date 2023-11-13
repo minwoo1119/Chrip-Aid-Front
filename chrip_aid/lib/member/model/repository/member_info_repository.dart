@@ -10,7 +10,7 @@ part 'member_info_repository.g.dart';
 
 final memberInfoRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  return MemberInfoRepositoryStub(ref);
+  // return MemberInfoRepositoryStub(ref);
   return MemberInfoRepository(dio);
 });
 
@@ -18,10 +18,11 @@ final memberInfoRepositoryProvider = Provider((ref) {
 abstract class MemberInfoRepository {
   factory MemberInfoRepository(Dio dio, {String? baseUrl}) = _MemberInfoRepository;
 
-  @PUT('/members/users/info')
-  Future editUserInfo(EditMemberInfoRequestDto entity);
+  @PATCH('/members/authorityType/info')
+  @Headers({'accessToken' : 'true'})
+  Future editUserInfo(@Body() EditMemberInfoRequestDto entity);
 
-  @GET('/members/users/info')
+  @GET('/members/authorityType/info')
   @Headers({'accessToken' : 'true'})
   Future<MemberEntity> getUserInfo();
 }

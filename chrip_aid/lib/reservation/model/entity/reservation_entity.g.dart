@@ -13,7 +13,7 @@ ReservationEntity _$ReservationEntityFromJson(Map<String, dynamic> json) =>
       visitDate: json['visit_date'] as String,
       reason: json['reason'] as String,
       state: json['state'] as String,
-      rejectReason: json['reject_reason'] as String,
+      rejectReason: json['reject_reason'] as String?,
     );
 
 Map<String, dynamic> _$ReservationEntityToJson(ReservationEntity instance) =>

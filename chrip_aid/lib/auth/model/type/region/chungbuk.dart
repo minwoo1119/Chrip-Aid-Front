@@ -7,16 +7,16 @@ enum Chungbuk implements SubRegion {
   jecheonsi('제천시');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.chungbuk;
 
-  const Chungbuk(this.value);
+  const Chungbuk(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

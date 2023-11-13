@@ -27,7 +27,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<OrphanageDetailEntity>(Options(
-      method: 'POST',
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )

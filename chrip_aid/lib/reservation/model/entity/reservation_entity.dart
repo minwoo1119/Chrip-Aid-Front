@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'reservation_entity.g.dart';
 
 @JsonSerializable()
@@ -14,8 +15,7 @@ class ReservationEntity {
   @JsonKey(name: 'state')
   final String state;
   @JsonKey(name: 'reject_reason')
-  final String rejectReason;
-
+  final String? rejectReason;
 
   ReservationEntity({
     required this.orphanageName,

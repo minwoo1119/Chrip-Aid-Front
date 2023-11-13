@@ -33,16 +33,16 @@ enum Gyeonggi implements SubRegion {
   yeojusi("여주시");
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.gyeonggi;
 
-  const Gyeonggi(this.value);
+  const Gyeonggi(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

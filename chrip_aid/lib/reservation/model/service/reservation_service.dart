@@ -12,9 +12,7 @@ final reservationServiceProvider =
 class ReservationService extends StateNotifier<OrphanageState> {
   final ReservationRepository repository;
 
-  ReservationService(this.repository) : super(ReservationStateLoading()) {
-    getOrphanageReservation();
-  }
+  ReservationService(this.repository) : super(ReservationStateNone());
 
   Future postReservation(OrphanageVisitEntity entity) async {
     try {
@@ -29,7 +27,6 @@ class ReservationService extends StateNotifier<OrphanageState> {
       state = ReservationStateLoading();
       List<ReservationEntity> data = await repository.getOrphanageReservation('user');
       state = ReservationStateSuccess(data);
-      print(data);
     } catch (e) {
       state = ReservationStateError(e.toString());
     }

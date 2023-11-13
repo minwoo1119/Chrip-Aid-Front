@@ -66,7 +66,7 @@ class _OrphanageSearchUI extends ConsumerWidget {
                   child: InkWell(
                     onTap: () => viewModel.navigateToSearchPage(context),
                     child: CustomDropdownButtonItem(
-                      viewModel.majorRegionDropdownController.selected.value,
+                      viewModel.majorRegionDropdownController.selected.name,
                       leading: Icons.location_on,
                     ),
                   ),

@@ -10,13 +10,13 @@ enum Jeju implements SubRegion {
   MajorRegion get majorRegion => MajorRegion.jeju;
 
   @override
-  final String value;
+  final String name;
 
-  const Jeju(this.value);
-
-  @override
-  String toJson() => "${majorRegion.value} ($value)";
+  const Jeju(this.name);
 
   @override
-  String toString() => value;
+  String toJson() => "${majorRegion.name} ($name)";
+
+  @override
+  String toString() => name;
 }

@@ -12,16 +12,16 @@ enum Gangwon implements SubRegion {
   samcheoksi('삼척시');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.gangwon;
 
-  const Gangwon(this.value);
+  const Gangwon(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

@@ -9,8 +9,8 @@ part 'reservation_repository.g.dart';
 
 final reservationRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  return ReservationRepositoryStub();
-  // return ReservationRepository(dio);
+  // return ReservationRepositoryStub();
+  return ReservationRepository(dio);
 });
 
 @RestApi()
@@ -26,7 +26,7 @@ abstract class ReservationRepository {
   @Headers({'accessToken' : 'true'})
   Future<List<OrphanageReservationEntity>> getOrphanageVisitReservation(@Query('account') String account);
 
-  @POST('reservations')
+  @POST('/reservations')
   @Headers({'accessToken' : 'true'})
   Future post(@Body() OrphanageVisitEntity entity);
 }

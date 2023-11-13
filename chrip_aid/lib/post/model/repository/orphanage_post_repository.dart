@@ -9,8 +9,8 @@ part 'orphanage_post_repository.g.dart';
 
 final orphanagePostRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  //return OrphanagePostRepository(dio);
-  return OrphanagePostRepositoryStub();
+  return OrphanagePostRepository(dio);
+  // return OrphanagePostRepositoryStub();
 });
 
 @RestApi()

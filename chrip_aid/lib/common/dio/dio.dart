@@ -32,7 +32,7 @@ class CustomInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (options.path.contains('authorityType')) {
-      options.path.replaceFirst(
+      options.path = options.path.replaceFirst(
         'authorityType',
         ref.read(authorityProvider).toString(),
       );
@@ -78,17 +78,20 @@ class CustomInterceptor extends Interceptor {
     final refreshToken =
         await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
+    print(
+        "[Chrip Aid] ERROR! ${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
+
     if (refreshToken == null) return handler.reject(err);
 
     final isStatus401 = err.response?.statusCode == 401;
-    final isPathRefresh = err.requestOptions.path == '/auth/token';
+    final isPathRefresh = err.requestOptions.path == '/auth/${ref.read(authorityProvider)}/refresh';
 
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
         final refreshResponse = await dio.get(
-          DataUtils.pathToUrl('/auth/${ref.read(authorityProvider)}/fcm'),
+          DataUtils.pathToUrl('/auth/${ref.read(authorityProvider)}/refresh'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),

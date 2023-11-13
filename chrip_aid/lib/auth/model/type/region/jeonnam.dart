@@ -10,16 +10,16 @@ enum Jeonnam implements SubRegion {
   gwangyangsi("광양시");
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.jeonnam;
 
-  const Jeonnam(this.value);
+  const Jeonnam(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

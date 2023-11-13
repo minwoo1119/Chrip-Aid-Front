@@ -33,3 +33,5 @@ final tabProvider = Provider((ref) {
       ];
   }
 });
+
+late TabController rootTabController;

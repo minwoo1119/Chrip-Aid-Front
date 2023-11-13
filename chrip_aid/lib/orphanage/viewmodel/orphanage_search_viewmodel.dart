@@ -39,10 +39,10 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   final panelController = SlidingUpPanelController();
   final searchTextController = TextEditingController();
 
-  late MemberInfoState authState;
+  late MemberInfoState memberState;
 
-  UserEntity? get userInfo => authState is MemberInfoStateSuccess
-      ? (authState as MemberInfoStateSuccess).data as UserEntity
+  UserEntity? get userInfo => memberState is MemberInfoStateSuccess
+      ? (memberState as MemberInfoStateSuccess).data as UserEntity
       : null;
 
   late OrphanageState orphanageState;
@@ -51,8 +51,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
 
   List<OrphanageEntity> get orphanageList => OrphanageState.list
       .where((e) =>
-          e.address.contains(subRegionDropdownController.selected.value) &&
-          e.address.contains(majorRegionDropdownController.selected.value) &&
+          e.address.contains(subRegionDropdownController.selected.name) &&
+          e.address.contains(majorRegionDropdownController.selected.fullName) &&
           e.orphanageName.contains(searchTextController.text))
       .toList();
 
@@ -65,10 +65,10 @@ class OrphanageSearchViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    authState = ref.read(memberInfoServiceProvider);
+    memberState = ref.read(memberInfoServiceProvider);
     ref.listen(memberInfoServiceProvider, (previous, next) {
       if (previous != next) {
-        authState = next;
+        memberState = next;
         notifyListeners();
       }
     });

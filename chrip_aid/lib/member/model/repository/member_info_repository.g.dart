@@ -22,16 +22,18 @@ class _MemberInfoRepository implements MemberInfoRepository {
   Future<dynamic> editUserInfo(EditMemberInfoRequestDto entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(entity.toJson());
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
-      method: 'PUT',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/members/users/info',
+          '/members/authorityType/info',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -55,7 +57,7 @@ class _MemberInfoRepository implements MemberInfoRepository {
     )
             .compose(
               _dio.options,
-              '/members/users/info',
+              '/members/authorityType/info',
               queryParameters: queryParameters,
               data: _data,
             )

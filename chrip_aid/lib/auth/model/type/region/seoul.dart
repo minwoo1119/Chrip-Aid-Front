@@ -29,16 +29,16 @@ enum Seoul implements SubRegion {
   gangdonggu('강동구');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.seoul;
 
-  const Seoul(this.value);
+  const Seoul(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

@@ -13,16 +13,16 @@ enum Gyeongnam implements SubRegion {
   yangsansi("양산시");
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.gyeongnam;
 
-  const Gyeongnam(this.value);
+  const Gyeongnam(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

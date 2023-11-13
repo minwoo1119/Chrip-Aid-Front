@@ -13,7 +13,7 @@ class EditUserInfoRequestDto implements EditMemberInfoRequestDto {
   @override
   @JsonKey(name: 'password')
   final String password;
-  @JsonKey(name: 'nick_name')
+  @JsonKey(name: 'nickname')
   final String nickName;
   @JsonKey(name: 'age')
   final int age;

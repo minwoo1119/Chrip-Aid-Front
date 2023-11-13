@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -62,7 +63,9 @@ class ReservationViewModel extends ChangeNotifier {
     ref.listen(reservationServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
-        divisionSortList();
+        if(state is SuccessState) {
+          divisionSortList();
+        }
         notifyListeners();
       }
     });

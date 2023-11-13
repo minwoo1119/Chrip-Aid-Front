@@ -73,7 +73,7 @@ class UserSignUpViewModel extends ChangeNotifier {
             nickname: nicknameTextController.text,
             region: subRegionDropdownController.selected.toJson(),
             phoneNumber: phoneTextController.text,
-            profilePhoto: '',
+            profilePhoto: 'https://picsum.photos/300/300',
           ),
         );
     if (context.mounted) context.pop();

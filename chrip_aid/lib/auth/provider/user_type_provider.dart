@@ -1,6 +1,8 @@
+import 'package:chrip_aid/common/local_storage/local_storage.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authorityProvider = StateProvider((ref) => AuthorityType.orphanage);
+final authorityProvider = StateProvider((ref) => AuthorityType.user);
 
 enum AuthorityType {
   user,
@@ -15,4 +17,8 @@ enum AuthorityType {
         return 'orphanages';
     }
   }
+
+  static AuthorityType fromString(String? value) =>
+      AuthorityType.values.firstWhereOrNull((e) => e.toString() == value) ??
+      AuthorityType.user;
 }

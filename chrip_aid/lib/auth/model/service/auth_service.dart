@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -32,7 +33,7 @@ class AuthService extends StateNotifier<AuthState> {
   Future login({required String id, required String password}) async {
     state = AuthStateLoading();
     try {
-      await authRepository.login(LoginRequestDto(id: id, password: password));
+      await authRepository.login(LoginRequestDto(email: id, password: password));
       await saveFcmToken();
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {

@@ -12,7 +12,7 @@ part 'orphanage_management_repository.g.dart';
 
 final orphanageManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  return OrphanageManagementRepositoryStub();
+  // return OrphanageManagementRepositoryStub();
   return OrphanageManagementRepository(dio);
 });
 
@@ -21,7 +21,7 @@ abstract class OrphanageManagementRepository {
   factory OrphanageManagementRepository(Dio dio, {String? baseUrl}) =
       _OrphanageManagementRepository;
 
-  @POST('/orphanages/{id}')
+  @GET('/orphanages/{id}')
   @Headers({'accessToken': 'true'})
   Future<OrphanageDetailEntity> getOrphanageData(@Path("id") int id);
 

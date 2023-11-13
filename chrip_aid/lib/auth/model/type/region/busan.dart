@@ -21,16 +21,16 @@ enum Busan implements SubRegion {
   gijanggun("기장군");
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.busan;
 
-  const Busan(this.value);
+  const Busan(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

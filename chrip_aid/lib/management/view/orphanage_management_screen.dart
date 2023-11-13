@@ -67,7 +67,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
                             ),
                             CustomTextField(
                               iconData: Icons.person,
-                              text: viewModel.entity!.name,
+                              text: viewModel.entity!.name ?? '',
                             ),
                             CustomTextField(
                               iconData: Icons.monitor,

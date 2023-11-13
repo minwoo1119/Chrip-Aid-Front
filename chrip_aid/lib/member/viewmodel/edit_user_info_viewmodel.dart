@@ -57,10 +57,14 @@ class EditUserInfoViewModel extends ChangeNotifier {
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
       initIndex: MajorRegion.values.indexOf(userInfo!.region.majorRegion),
-      onChanged: (_) => notifyListeners(),
+      onChanged: (_) {
+        subRegionDropdownController.items =
+            majorRegionDropdownController.selected.subTypes;
+        notifyListeners();
+      },
     );
     subRegionDropdownController = CustomDropdownButtonController(
-      userInfo!.region.majorRegion.subTypes,
+      majorRegionDropdownController.selected.subTypes,
       initIndex: userInfo!.region.majorRegion.subTypes.indexOf(
         userInfo!.region,
       ),
@@ -81,7 +85,7 @@ class EditUserInfoViewModel extends ChangeNotifier {
             sex: sexDropdownController.selected,
             region: subRegionDropdownController.selected,
             phone: phoneTextController.text,
-            profileUrl: '',
+            profileUrl: 'https://picsum.photos/300/300',
           ),
         );
     if (context.mounted) context.pop();

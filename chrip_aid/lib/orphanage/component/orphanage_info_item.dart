@@ -68,7 +68,7 @@ class OrphanageInfoItem extends StatelessWidget {
                   ),
                   CustomTextField(
                     iconData: Icons.person,
-                    text: entity.name,
+                    text: entity.name ?? '',
                   ),
                 ],
               ),

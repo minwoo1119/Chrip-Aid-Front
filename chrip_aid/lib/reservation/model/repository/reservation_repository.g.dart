@@ -89,7 +89,7 @@ class _ReservationRepository implements ReservationRepository {
     )
         .compose(
           _dio.options,
-          'reservations',
+          '/reservations',
           queryParameters: queryParameters,
           data: _data,
         )

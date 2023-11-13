@@ -15,7 +15,6 @@ class RootTab extends ConsumerStatefulWidget {
 
 class _RootTabState extends ConsumerState<RootTab>
     with TickerProviderStateMixin {
-  late TabController controller;
   int index = 1;
   late final List<TabInfo> tabs;
 
@@ -23,20 +22,20 @@ class _RootTabState extends ConsumerState<RootTab>
   void initState() {
     super.initState();
     tabs = ref.read(tabProvider);
-    controller = TabController(
+    rootTabController = TabController(
       length: tabs.length,
       animationDuration: Duration.zero,
       vsync: this,
       initialIndex: 1,
     );
-    controller.addListener(tabListener);
+    rootTabController.addListener(tabListener);
   }
 
-  void tabListener() => setState(() => index = controller.index);
+  void tabListener() => setState(() => index = rootTabController.index);
 
   @override
   void dispose() {
-    controller.removeListener(tabListener);
+    rootTabController.removeListener(tabListener);
     super.dispose();
   }
 
@@ -44,11 +43,11 @@ class _RootTabState extends ConsumerState<RootTab>
   Widget build(BuildContext context) {
     return DefaultLayout(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: tabs[controller.index].tab.mainColor,
+        backgroundColor: tabs[rootTabController.index].tab.mainColor,
         selectedItemColor: CustomColor.backGroundSubColor,
         unselectedItemColor: CustomColor.disabledColor.withOpacity(0.5),
         type: BottomNavigationBarType.fixed,
-        onTap: (int index) => setState(() => controller.animateTo(index)),
+        onTap: (int index) => setState(() => rootTabController.animateTo(index)),
         currentIndex: index,
         items: tabs
             .map(
@@ -62,7 +61,7 @@ class _RootTabState extends ConsumerState<RootTab>
         showSelectedLabels: false,
       ),
       child: TabBarView(
-        controller: controller,
+        controller: rootTabController,
         physics: const NeverScrollableScrollPhysics(),
         children: tabs.map((e) => e.tab).toList(),
       ),

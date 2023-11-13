@@ -14,7 +14,7 @@ abstract class MemberEntity {
 
   factory MemberEntity.fromJson(Map<String, dynamic> json) {
     // TODO : MemberEntity factory need dependency with authority type
-    if(json["orphanage"] == null) {
+    if(json["orphanage_id"] == null) {
       return UserEntity.fromJson(json);
     } else {
       return OrphanageMemberEntity.fromJson(json);

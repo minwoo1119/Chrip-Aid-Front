@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final fcmRepositoryProvider = Provider((ref) {
-  return FcmRepositoryStub();
+  // return FcmRepositoryStub();
   return FcmRepository();
 });
 
@@ -14,6 +14,7 @@ class FcmRepository {
     final fcmToken = await FirebaseMessaging.instance
         .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
     if (fcmToken == null) throw Exception("FCM Token 발급 에러");
+    print("[Chrip Aid] FCM : $fcmToken");
     return fcmToken;
   }
 }

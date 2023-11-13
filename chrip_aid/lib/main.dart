@@ -1,3 +1,4 @@
+import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/firebase/fcm.dart';
 import 'package:chrip_aid/common/go_router/go_router.dart';
 import 'package:chrip_aid/common/google_map/google_map.dart';

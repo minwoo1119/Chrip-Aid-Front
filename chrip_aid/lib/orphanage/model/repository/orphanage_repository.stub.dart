@@ -3,8 +3,7 @@ import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/repository/orphanage_repository.dart';
 import '../entity/request_item_entity.dart';
 
-class OrphanageRepositoryStub implements OrphanageRepository{
-
+class OrphanageRepositoryStub implements OrphanageRepository {
   @override
   Future<OrphanageDetailEntity> getOrphanageDetail(int orphanageId) async {
     await Future.delayed(Duration(seconds: 3));
@@ -59,6 +58,7 @@ class OrphanageRepositoryStub implements OrphanageRepository{
           state: 'COMPLETED',
         ),
       ],
+      orphanageId: 1,
     );
   }
 

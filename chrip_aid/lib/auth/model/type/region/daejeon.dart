@@ -10,16 +10,16 @@ enum Daejeon implements SubRegion {
   daedeokgu('대덕구');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.daejeon;
 
-  const Daejeon(this.value);
+  const Daejeon(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

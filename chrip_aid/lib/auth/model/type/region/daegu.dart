@@ -14,16 +14,16 @@ enum Daegu implements SubRegion {
   gunwgun('군위군');
 
   @override
-  final String value;
+  final String name;
 
   @override
   MajorRegion get majorRegion => MajorRegion.daegu;
 
-  const Daegu(this.value);
+  const Daegu(this.name);
 
   @override
-  String toJson() => "${majorRegion.value} ($value)";
+  String toJson() => "${majorRegion.name} ($name)";
 
   @override
-  String toString() => value;
+  String toString() => name;
 }

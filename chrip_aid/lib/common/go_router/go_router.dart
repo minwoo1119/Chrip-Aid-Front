@@ -15,6 +15,7 @@ import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_detail_screen.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
 import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
+import 'package:chrip_aid/orphanage/view/orphanage_donate_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_search_screen.dart';
 import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
@@ -102,6 +103,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ],
               ),
             ],
+          ),
+          GoRoute(
+            path: 'donate',
+            name: OrphanageDonateScreen.routeName,
+            builder: (_, __) => const OrphanageDonateScreen(),
           ),
           GoRoute(
             path: 'reservation',
