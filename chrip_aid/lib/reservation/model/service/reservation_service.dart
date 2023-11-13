@@ -16,7 +16,9 @@ class ReservationService extends StateNotifier<OrphanageState> {
 
   Future postReservation(OrphanageVisitEntity entity) async {
     try {
+      state = ReservationStateLoading();
       await repository.post(entity);
+      getOrphanageReservation();
     } catch (e) {
       state = ReservationStateError(e.toString());
     }

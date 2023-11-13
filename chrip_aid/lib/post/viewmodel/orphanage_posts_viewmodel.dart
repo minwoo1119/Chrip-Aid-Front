@@ -15,7 +15,9 @@ class OrphanagePostsViewModel extends ChangeNotifier {
 
   late OrphanageState state;
 
-  List<GetPostsEntity> get entity => (state as OrphanagePostStateSuccess).data;
+  List<GetPostsEntity>? get entity => state is OrphanagePostStateSuccess
+      ? (state as OrphanagePostStateSuccess).data
+      : null;
 
   OrphanagePostsViewModel(this.ref) {
     state = ref.read(orphanagePostServiceProvider);

@@ -32,9 +32,9 @@ class OrphanagePostScreen extends ConsumerWidget implements PostScreen {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.entity.length,
+                    itemCount: viewModel.entity!.length,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity[index];
+                      final item = viewModel.entity![index];
                       return InkWell(
                         onTap: () => viewModel.navigateToDetailScreen(
                           context,

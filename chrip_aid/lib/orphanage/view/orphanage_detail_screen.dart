@@ -68,7 +68,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
               ),
             ),
           ),
-          child: viewModel.state is SuccessState
+          child: viewModel.orphanageState is SuccessState
               ? SingleChildScrollView(
                   child: Column(
                     children: [
@@ -199,7 +199,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                             title: "일시",
                                             iconData: Icons.calendar_today,
                                             controller:
-                                                viewModel.dateTextController,
+                                                viewModel.dateController,
                                           ),
                                           const SizedBox(
                                             height: kPaddingSmallSize,

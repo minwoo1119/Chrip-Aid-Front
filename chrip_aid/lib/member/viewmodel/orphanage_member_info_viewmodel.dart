@@ -41,6 +41,9 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
         if (memberState is ErrorState) {
           SnackBarUtil.showError((memberState as ErrorState).message);
         }
+        if(memberState is SuccessState) {
+          ref.read(orphanageManagementServiceProvider.notifier).getOrphanageInfo();
+        }
         notifyListeners();
       }
     });
@@ -59,6 +62,7 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
   }
 
   void logout() {
+    ref.read(memberInfoServiceProvider.notifier).logout();
     ref.read(authProvider).logout();
   }
 

@@ -16,6 +16,7 @@ class OrphanageReservationBox extends StatelessWidget {
   final String reason;
   final String state;
   final String rejectReason;
+  final void Function(String) onAnswer;
 
   const OrphanageReservationBox({
     super.key,
@@ -29,6 +30,7 @@ class OrphanageReservationBox extends StatelessWidget {
     required this.reason,
     required this.state,
     required this.rejectReason,
+    required this.onAnswer,
   });
 
   @override
@@ -211,20 +213,19 @@ class OrphanageReservationBox extends StatelessWidget {
                                                   children: [
                                                     Expanded(
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           CustomButton(
                                                             label: "승인",
-                                                            onPressed: () {
-                                                              print("승인");
-                                                            },
+                                                            onPressed: () => onAnswer("APPROVED"),
                                                           ),
-                                                          const SizedBox(width: 20),
+                                                          const SizedBox(
+                                                              width: 20),
                                                           CustomButton(
                                                             label: "거절",
-                                                            onPressed: () {
-                                                              print("거절");
-                                                            },
+                                                            onPressed: () => onAnswer("REJECTED"),
                                                           ),
                                                         ],
                                                       ),
@@ -295,4 +296,3 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-

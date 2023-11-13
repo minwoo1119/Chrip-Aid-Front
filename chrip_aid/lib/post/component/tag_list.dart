@@ -29,12 +29,19 @@ class TagList extends StatelessWidget {
 }
 
 class TagListController extends ChangeNotifier {
-  final List<TagEntity> tags;
+  late List<TagEntity> tags;
 
-  TagListController(this.tags);
+  TagListController({List<TagEntity>? tags}) {
+    this.tags = tags ?? [];
+  }
 
   void onTap(int index, bool checked) {
     tags[index].isSelected = checked;
+  }
+
+  void setTags(List<TagEntity> tags) {
+    this.tags = tags;
+    notifyListeners();
   }
 
   List<TagEntity> get selectedList => tags.where((e) => e.isSelected).toList();

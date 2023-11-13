@@ -2,6 +2,7 @@ import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/firebase/fcm.dart';
 import 'package:chrip_aid/common/go_router/go_router.dart';
 import 'package:chrip_aid/common/google_map/google_map.dart';
+import 'package:chrip_aid/common/utils/aws_utils.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await initFCM();
   await initGoogleMap();
+  initAWS();
 
   runApp(ProviderScope(child: MyApp()));
 }

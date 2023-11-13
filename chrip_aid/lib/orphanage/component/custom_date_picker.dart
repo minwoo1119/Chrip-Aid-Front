@@ -1,12 +1,12 @@
 import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:flutter/material.dart';
+import 'package:chrip_aid/common/utils/date_utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 
 class OrphanageDateForm extends StatefulWidget {
   final String title;
   final IconData iconData;
-  final TextEditingController controller;
+  final CustomDatePickerController controller;
   final EdgeInsetsGeometry margin;
   final Function(DateTime)? onDateSelected; // 선택한 날짜를 전달할 콜백 함수
 
@@ -24,7 +24,6 @@ class OrphanageDateForm extends StatefulWidget {
 }
 
 class OrphanageDateFormState extends State<OrphanageDateForm> {
-  DateTime? selectedDate ;
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -35,7 +34,7 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
 
   Future<void> _selectDate(BuildContext context) async {
     _focusNode.unfocus();
-    DateTime? initialDate = selectedDate ?? DateTime.now();
+    DateTime selectedDate = widget.controller.value;
 
     final DateTime? picked = await showModalBottomSheet<DateTime>(
       context: context,
@@ -46,8 +45,8 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
             SizedBox(
               height: 200,
               child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.date,
-                initialDateTime: initialDate,
+                mode: CupertinoDatePickerMode.dateAndTime,
+                initialDateTime: selectedDate,
                 minimumDate: DateTime(2000),
                 maximumDate: DateTime(2101),
                 onDateTimeChanged: (DateTime newDate) {
@@ -59,14 +58,10 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
             ),
             InkWell(
               onTap: () {
-                print(selectedDate);
-                if (widget.onDateSelected != null && selectedDate != null) {
-                  widget.onDateSelected!(selectedDate!);
+                if (widget.onDateSelected != null) {
+                  widget.onDateSelected!(selectedDate);
                 }
-                widget.controller.text =
-                    DateFormat('yyyy년 MM월 dd일').format(selectedDate!);
-                print(widget.controller.text);
-                print(selectedDate);
+                widget.controller.onSelected(selectedDate);
                 Navigator.pop(context);
               },
               child: Container(
@@ -135,13 +130,12 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0), // 버튼의 패딩 설정
                   child: Text(
-                    selectedDate != null
-                        ? DateFormat('yyyy년 MM월 dd일').format(selectedDate!)
-                        : widget.controller.text,
+                    widget.controller.selectedDate,
                     style: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        color: CustomColor.mainColor),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: CustomColor.mainColor,
+                    ),
                   ),
                 ),
               ],
@@ -151,4 +145,20 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
       ),
     );
   }
+}
+
+class CustomDatePickerController extends ValueNotifier<DateTime> {
+  late final TextEditingController textController;
+
+  CustomDatePickerController(super.value) {
+    textController =
+        TextEditingController(text: reservationDateFormat.format(super.value));
+  }
+
+  void onSelected(DateTime dateFormat) {
+    textController.text = reservationDateFormat.format(dateFormat);
+    value = dateFormat;
+  }
+
+  String get selectedDate => textController.text;
 }

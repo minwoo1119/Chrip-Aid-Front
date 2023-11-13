@@ -17,7 +17,6 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
 
   Future editMemberInfo(EditMemberInfoRequestDto member) async {
     state = MemberInfoStateLoading();
-    print(member.toJson().toString());
     try {
       await userInfoRepository.editUserInfo(member);
       await getMemberInfo();
@@ -44,5 +43,9 @@ class MemberInfoService extends StateNotifier<MemberInfoState> {
     } catch (e) {
       state = MemberInfoStateError("알 수 없는 에러가 발생했습니다.");
     }
+  }
+
+  Future logout() async {
+    state = MemberInfoStateNone();
   }
 }

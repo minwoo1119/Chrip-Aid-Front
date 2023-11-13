@@ -1,4 +1,5 @@
 import 'package:chrip_aid/reservation/model/entity/orphanage_visit_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_answer_request_dto.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/repository/reservation_repository.dart';
 
@@ -9,8 +10,8 @@ class ReservationRepositoryStub implements ReservationRepository {
   }
 
   @override
-  Future<List<OrphanageReservationEntity>>
-      getOrphanageVisitReservation(String type) async {
+  Future<List<OrphanageReservationEntity>> getOrphanageVisitReservation(
+      String type) async {
     return wantVisitOrphanageList;
   }
 
@@ -61,8 +62,9 @@ class ReservationRepositoryStub implements ReservationRepository {
 
   List<OrphanageReservationEntity> wantVisitOrphanageList = [
     OrphanageReservationEntity(
+        reservationId: 1,
         name: "홍길동",
-        age: "20",
+        age: 20,
         sex: "남",
         region: "대구",
         phoneNumber: "010-0000-XXXX",
@@ -72,8 +74,9 @@ class ReservationRepositoryStub implements ReservationRepository {
         state: "APPROVED",
         rejectReason: "null"),
     OrphanageReservationEntity(
+        reservationId: 1,
         name: "이나라",
-        age: "21",
+        age: 20,
         sex: "여",
         region: "제주",
         phoneNumber: "010-0000-XXXX",
@@ -83,8 +86,9 @@ class ReservationRepositoryStub implements ReservationRepository {
         state: "REJECTED",
         rejectReason: "그 날은 소풍 가는 날 이라 방문하실 수 없어요ㅠㅠ"),
     OrphanageReservationEntity(
+        reservationId: 1,
         name: "홍길돌",
-        age: "21",
+        age: 20,
         sex: "여",
         region: "제주",
         phoneNumber: "010-0000-XXXX",
@@ -94,8 +98,9 @@ class ReservationRepositoryStub implements ReservationRepository {
         state: "PENDING",
         rejectReason: "null"),
     OrphanageReservationEntity(
+        reservationId: 1,
         name: "길돌홍",
-        age: "21",
+        age: 20,
         sex: "여",
         region: "제주",
         phoneNumber: "010-0000-XXXX",
@@ -105,8 +110,9 @@ class ReservationRepositoryStub implements ReservationRepository {
         state: "PENDING",
         rejectReason: "null"),
     OrphanageReservationEntity(
+        reservationId: 1,
         name: "레오나르도",
-        age: "21",
+        age: 20,
         sex: "남",
         region: "서울",
         phoneNumber: "010-0000-XXXX",
@@ -116,8 +122,9 @@ class ReservationRepositoryStub implements ReservationRepository {
         state: "COMPLETED",
         rejectReason: "null"),
     OrphanageReservationEntity(
+      reservationId: 1,
         name: "고길동",
-        age: "41",
+        age: 20,
         sex: "남",
         region: "서울",
         phoneNumber: "010-0000-XXXX",
@@ -132,4 +139,7 @@ class ReservationRepositoryStub implements ReservationRepository {
   Future post(OrphanageVisitEntity entity) async {
     return entity;
   }
+
+  @override
+  Future answer(ReservationAnswerRequestDto dto) async {}
 }

@@ -1,5 +1,6 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/reservation/model/entity/orphanage_visit_entity.dart';
+import 'package:chrip_aid/reservation/model/entity/reservation_answer_request_dto.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/repository/reservation_repository.stub.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -29,4 +30,8 @@ abstract class ReservationRepository {
   @POST('/reservations')
   @Headers({'accessToken' : 'true'})
   Future post(@Body() OrphanageVisitEntity entity);
+
+  @PATCH('/reservations')
+  @Headers({'accessToken' : 'true'})
+  Future answer(@Body() ReservationAnswerRequestDto dto);
 }

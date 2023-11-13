@@ -47,6 +47,7 @@ class UserInfoViewmodel extends ChangeNotifier {
   }
 
   void logout() {
+    ref.read(memberInfoServiceProvider.notifier).logout();
     ref.read(authProvider).logout();
   }
 }

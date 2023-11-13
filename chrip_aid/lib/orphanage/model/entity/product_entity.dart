@@ -4,13 +4,13 @@ part 'product_entity.g.dart';
 
 @JsonSerializable()
 class ProductEntity {
-  @JsonKey(name: "id")
+  @JsonKey(name: "product_id")
   int id;
   @JsonKey(name: "product_name")
   String productName;
-  @JsonKey(name: "message")
+  @JsonKey(name: "price")
   int price;
-  @JsonKey(name: "image")
+  @JsonKey(name: "product_photo")
   String image;
 
   ProductEntity({
@@ -23,6 +23,8 @@ class ProductEntity {
 
   Map<String, dynamic> toJson() => _$ProductEntityToJson(this);
 
-  factory ProductEntity.fromJson(Map<String, dynamic> json) =>
-      _$ProductEntityFromJson(json);
+  factory ProductEntity.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return _$ProductEntityFromJson(json);
+  }
 }

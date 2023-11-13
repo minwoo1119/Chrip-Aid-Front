@@ -16,9 +16,7 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
   final OrphanageBasketRepository repository;
 
   OrphanageBasketService(this.repository)
-      : super(OrphanageBasketStateLoading()) {
-    getOrphanageBasket();
-  }
+      : super(OrphanageStateNone());
 
   Future getOrphanageBasket() async {
     try {
@@ -26,6 +24,7 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
       List<OrphanageBasketEntity> data = await repository.getOrphanageBasket();
       state = OrphanageBasketStateSuccess(data);
     } catch (e) {
+      print(e);
       state = OrphanageBasketStateError(e.toString());
     }
   }

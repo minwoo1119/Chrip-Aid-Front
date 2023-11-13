@@ -29,8 +29,9 @@ Map<String, dynamic> _$ReservationEntityToJson(ReservationEntity instance) =>
 OrphanageReservationEntity _$OrphanageReservationEntityFromJson(
         Map<String, dynamic> json) =>
     OrphanageReservationEntity(
+      reservationId: json['reservation_id'] as int,
       name: json['name'] as String,
-      age: json['age'] as String,
+      age: json['age'] as int,
       sex: json['sex'] as String,
       region: json['region'] as String,
       phoneNumber: json['phone_number'] as String,
@@ -38,12 +39,13 @@ OrphanageReservationEntity _$OrphanageReservationEntityFromJson(
       visitDate: json['visit_date'] as String,
       reason: json['reason'] as String,
       state: json['state'] as String,
-      rejectReason: json['reject_reason'] as String,
+      rejectReason: json['reject_reason'] as String?,
     );
 
 Map<String, dynamic> _$OrphanageReservationEntityToJson(
         OrphanageReservationEntity instance) =>
     <String, dynamic>{
+      'reservation_id': instance.reservationId,
       'name': instance.name,
       'age': instance.age,
       'sex': instance.sex,

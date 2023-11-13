@@ -9,7 +9,7 @@ part of 'add_orphanage_product_request_dto.dart';
 AddOrphanageProductRequestDTO _$AddOrphanageProductRequestDTOFromJson(
         Map<String, dynamic> json) =>
     AddOrphanageProductRequestDTO(
-      id: json['id'] as int,
+      id: json['product_id'] as int,
       count: json['count'] as int,
       message: json['message'] as String,
     );
@@ -17,7 +17,7 @@ AddOrphanageProductRequestDTO _$AddOrphanageProductRequestDTOFromJson(
 Map<String, dynamic> _$AddOrphanageProductRequestDTOToJson(
         AddOrphanageProductRequestDTO instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'product_id': instance.id,
       'count': instance.count,
       'message': instance.message,
     };

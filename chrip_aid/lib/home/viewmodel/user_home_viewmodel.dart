@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final userHomeViewModelProvider = ChangeNotifierProvider((ref) => UserHomeViewModel(ref));
+final userHomeViewModelProvider =
+    ChangeNotifierProvider((ref) => UserHomeViewModel(ref));
 
 class UserHomeViewModel extends ChangeNotifier {
   Ref ref;
@@ -24,32 +25,37 @@ class UserHomeViewModel extends ChangeNotifier {
   UserHomeViewModel(this.ref) {
     authState = ref.read(authServiceProvider);
     ref.listen(authServiceProvider, (previous, next) {
-      if(previous != next) {
+      if (previous != next) {
         authState = next;
-        if(authState is SuccessState) {
+        if (authState is SuccessState) {
           ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
         }
       }
     });
 
     rootTabController.addListener(() {
-      if (rootTabController.index == 2 && ref.read(memberInfoServiceProvider) is! SuccessState) {
+      if (rootTabController.index == 2 &&
+          ref.read(memberInfoServiceProvider) is! SuccessState) {
         ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
       }
     });
   }
 
   Future navigateToSearchScreen(BuildContext context) async {
-    if(ref.read(memberInfoServiceProvider) is! SuccessState) {
+    if (ref.read(memberInfoServiceProvider) is! SuccessState) {
       await ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
     }
-    ref.read(orphanageServiceProvider.notifier).getOrphanageList();
-    context.pushNamed(OrphanageMapScreen.routeName);
+    ref
+        .read(orphanageServiceProvider.notifier)
+        .getOrphanageList()
+        .then((value) => context.pushNamed(OrphanageMapScreen.routeName));
   }
 
   Future navigateToFavoriteScreen(BuildContext context) async {
-    await ref.read(reservationServiceProvider.notifier).getOrphanageReservation();
-    context.pushNamed(ReservationScreen.routeName);
+    ref
+        .read(reservationServiceProvider.notifier)
+        .getOrphanageReservation()
+        .then((value) => context.pushNamed(ReservationScreen.routeName));
   }
 
   Future navigateToCertificationScreen(BuildContext context) async {

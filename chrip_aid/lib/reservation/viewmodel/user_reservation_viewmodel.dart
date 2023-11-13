@@ -41,6 +41,7 @@ class ReservationViewModel extends ChangeNotifier {
         .data
         .where((item) => item.state == "REJECTED" || item.state == "COMPLETED")
         .toList();
+    listAll.clear();
     listAll += listApprove;
     listAll += listPending;
     listAll += listEnd;
@@ -65,8 +66,8 @@ class ReservationViewModel extends ChangeNotifier {
         state = next;
         if(state is SuccessState) {
           divisionSortList();
+          notifyListeners();
         }
-        notifyListeners();
       }
     });
   }

@@ -26,17 +26,21 @@ class ReservationEntity {
     required this.rejectReason,
   });
 
-  factory ReservationEntity.fromJson(Map<String, dynamic> json) =>
-      _$ReservationEntityFromJson(json);
+  factory ReservationEntity.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return _$ReservationEntityFromJson(json);
+  }
 }
 
 // 보육원 계정일 경우
 @JsonSerializable()
 class OrphanageReservationEntity {
+  @JsonKey(name: 'reservation_id')
+  final int reservationId;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'age')
-  final String age;
+  final int age;
   @JsonKey(name: 'sex')
   final String sex;
   @JsonKey(name: 'region')
@@ -52,9 +56,10 @@ class OrphanageReservationEntity {
   @JsonKey(name: 'state')
   final String state;
   @JsonKey(name: 'reject_reason')
-  final String rejectReason;
+  final String? rejectReason;
 
   OrphanageReservationEntity({
+    required this.reservationId,
     required this.name,
     required this.age,
     required this.sex,
@@ -67,6 +72,8 @@ class OrphanageReservationEntity {
     required this.rejectReason,
   });
 
-  factory OrphanageReservationEntity.fromJson(Map<String, dynamic> json) =>
-      _$OrphanageReservationEntityFromJson(json);
+  factory OrphanageReservationEntity.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return _$OrphanageReservationEntityFromJson(json);
+  }
 }

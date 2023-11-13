@@ -82,7 +82,7 @@ class OrphanageReservationScreenState
                               final item = viewModel.filteredEntity[index];
                               return OrphanageReservationBox(
                                 name: item.name,
-                                age: item.age,
+                                age: item.age.toString(),
                                 sex: item.sex,
                                 region: item.region,
                                 phoneNumber: item.phoneNumber,
@@ -90,7 +90,8 @@ class OrphanageReservationScreenState
                                 visitDate: item.visitDate,
                                 reason: item.reason,
                                 state: item.state,
-                                rejectReason: item.rejectReason,
+                                rejectReason: item.rejectReason ?? '',
+                                onAnswer: (state) => viewModel.answerToReservation(item.reservationId, state),
                               );
                             },
                           ),

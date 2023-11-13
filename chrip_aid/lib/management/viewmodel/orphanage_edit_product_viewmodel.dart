@@ -30,6 +30,7 @@ class OrphanageEditProductViewModel extends ChangeNotifier {
       if (previous != next) state = next;
       notifyListeners();
     });
+    ref.read(orphanageManagementServiceProvider.notifier).getProductList();
   }
 
   void onProductDelete() {
