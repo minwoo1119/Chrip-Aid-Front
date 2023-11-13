@@ -28,6 +28,9 @@ class OrphanageBasketEntity {
     required this.productPhoto,
   });
 
-  factory OrphanageBasketEntity.fromJson(Map<String, dynamic> json) =>
-      _$OrphanageBasketEntityFromJson(json);
+  factory OrphanageBasketEntity.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return _$OrphanageBasketEntityFromJson(json);
+  }
+
 }

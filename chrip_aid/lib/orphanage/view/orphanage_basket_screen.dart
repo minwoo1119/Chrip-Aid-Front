@@ -27,9 +27,9 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.entity.length,
+                    itemCount: viewModel.entity!.length,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity[index];
+                      final item = viewModel.entity![index];
                       return CustomBasketProductBox(
                           basketProductId: item.basketProductId,
                           productName: item.productName,
@@ -44,7 +44,7 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
                             );
                           },
                           deleteBasket: () {
-                            viewModel.deleteBasket(item.requestId);
+                            viewModel.deleteBasket(item.basketProductId);
                           });
                     },
                   ),

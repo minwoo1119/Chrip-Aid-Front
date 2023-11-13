@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/kakao/kakao_pay.dart';
+import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
@@ -18,8 +19,10 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   late OrphanageState state;
 
-  List<OrphanageBasketEntity> get entity =>
-      (state as OrphanageBasketStateSuccess).data;
+  List<OrphanageBasketEntity>? get entity =>
+      state is OrphanageBasketStateSuccess
+          ? (state as OrphanageBasketStateSuccess).data
+          : null;
 
   int get total => calculateSumOfElements();
 
@@ -35,7 +38,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   int calculateSumOfElements() {
     int sum = 0;
-    for (OrphanageBasketEntity entityItem in entity) {
+    for (OrphanageBasketEntity entityItem in entity!) {
       sum += (entityItem.price * entityItem.count);
     }
     return sum;
@@ -46,15 +49,18 @@ class OrphanageBasketViewModel extends ChangeNotifier {
         entity: UpdateBasketItemEntity(count, requestId));
   }
 
-  void deleteBasket(int requestId) {
+  void deleteBasket(int basketProductId) {
     ref
         .read(orphanageBasketServiceProvider.notifier)
-        .deleteOrphanageBasket(DonateDeleteDto(basketProductId: requestId));
+        .deleteOrphanageBasket(DonateDeleteDto(basketProductId: basketProductId));
   }
 
-  void addOrUpdateBasket(int requestId, int count) {
+  void addOrUpdateBasket(int requestId, int count) async {
     bool isNewProduct = true;
-    for (OrphanageBasketEntity entityItem in entity) {
+    if(state is! SuccessState) {
+      await ref.read(orphanageBasketServiceProvider.notifier).getOrphanageBasket();
+    }
+    for (OrphanageBasketEntity entityItem in entity!) {
       if (entityItem.requestId == requestId) {
         updateBasket(count, requestId);
         isNewProduct = false;
@@ -70,15 +76,15 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   void payment(BuildContext context) async {
     await kakaoPayReady(
-      "${entity.first.productName} 등",
-      entity.map((e) => e.count).reduce((value, element) => value + element),
-      entity
+      "${entity!.first.productName} 등",
+      entity!.map((e) => e.count).reduce((value, element) => value + element),
+      entity!
           .map((e) => e.count * e.price)
           .reduce((value, element) => value + element),
     );
     await ref.read(orphanageBasketServiceProvider.notifier).donate(
           DonateRequestDTO(
-            basketProductIds: entity.map((e) => e.basketProductId).toList(),
+            basketProductIds: entity!.map((e) => e.basketProductId).toList(),
             message: '',
           ),
         );
