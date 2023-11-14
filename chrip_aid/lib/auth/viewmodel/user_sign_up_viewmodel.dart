@@ -36,10 +36,7 @@ class UserSignUpViewModel extends ChangeNotifier {
 
   UserSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
-    state.addListener(() {
-      if (state.isError) SnackBarUtil.showError(state.message);
-      notifyListeners();
-    });
+    state.addListener(notifyListeners);
 
     sexDropdownController = CustomDropdownButtonController(
       Sex.values,

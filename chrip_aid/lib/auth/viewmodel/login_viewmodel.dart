@@ -23,10 +23,7 @@ class LoginViewModel extends ChangeNotifier {
 
   LoginViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
-    authState.addListener(() {
-      if (authState.isError) SnackBarUtil.showError(authState.message);
-      notifyListeners();
-    });
+    authState.addListener(notifyListeners);
 
     authority = ref.read(authorityProvider);
     ref.listen(authorityProvider, (previous, next) {

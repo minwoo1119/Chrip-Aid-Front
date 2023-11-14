@@ -39,11 +39,11 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   final panelController = SlidingUpPanelController();
   final searchTextController = TextEditingController();
 
-  late MemberInfoState memberState;
+  late final MemberInfoService _memberInfoService;
 
-  UserEntity? get userInfo => memberState is MemberInfoStateSuccess
-      ? (memberState as MemberInfoStateSuccess).data as UserEntity
-      : null;
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+
+  UserEntity? get userInfo => memberState.value as UserEntity?;
 
   late OrphanageState orphanageState;
 
@@ -65,13 +65,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    memberState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) {
-        memberState = next;
-        notifyListeners();
-      }
-    });
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    memberState.addListener(notifyListeners);
 
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
@@ -124,7 +119,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void moveCameraToMarker(String id) {
-    orphanage = OrphanageState.list.where((e) => e.orphanageId.toString() == id).first;
+    orphanage =
+        OrphanageState.list.where((e) => e.orphanageId.toString() == id).first;
     final marker = markers.where((e) => e.markerId.value == id).first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(

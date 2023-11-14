@@ -25,10 +25,10 @@ class OrphanageManagementService
   Future getOrphanageInfo() async {
     try {
       state = OrphanageManagementStateLoading();
-      final id = ((ref.read(memberInfoServiceProvider.notifier).state
-                  as MemberInfoStateSuccess)
-              .data as OrphanageMemberEntity)
-          .orphanageId;
+      final id = ((ref.read(memberInfoServiceProvider).memberInfoState)
+              .value as OrphanageMemberEntity?)
+          ?.orphanageId;
+      if(id == null) return;
       OrphanageDetailEntity data = await repository.getOrphanageData(id);
       state = OrphanageManagementStateSuccess(data);
     } catch (e) {

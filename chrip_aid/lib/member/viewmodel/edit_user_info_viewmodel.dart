@@ -30,17 +30,15 @@ class EditUserInfoViewModel extends ChangeNotifier {
   late final CustomDropdownButtonController<SubRegion>
       subRegionDropdownController;
 
-  late MemberInfoState userInfoState;
+  late final MemberInfoService _memberInfoService;
 
-  UserEntity? get userInfo => userInfoState is MemberInfoStateSuccess
-      ? (userInfoState as MemberInfoStateSuccess).data as UserEntity
-      : null;
+  MemberInfoState get userInfoState => _memberInfoService.memberInfoState;
+
+  UserEntity? get userInfo => userInfoState.value as UserEntity?;
 
   EditUserInfoViewModel(this.ref) {
-    userInfoState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) userInfoState = next;
-    });
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    userInfoState.addListener(notifyListeners);
 
     nameTextController = TextEditingController(text: userInfo!.name);
     passwordTextController = TextEditingController();
@@ -76,18 +74,18 @@ class EditUserInfoViewModel extends ChangeNotifier {
     if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await ref.read(memberInfoServiceProvider.notifier).editMemberInfo(
-          EditUserInfoRequestDto(
-            name: nameTextController.text,
-            password: passwordTextController.text,
-            nickName: nicknameTextController.text,
-            age: int.parse(ageTextController.text),
-            sex: sexDropdownController.selected,
-            region: subRegionDropdownController.selected,
-            phone: phoneTextController.text,
-            profileUrl: 'https://picsum.photos/300/300',
-          ),
-        );
+    await _memberInfoService.editMemberInfo(
+      EditUserInfoRequestDto(
+        name: nameTextController.text,
+        password: passwordTextController.text,
+        nickName: nicknameTextController.text,
+        age: int.parse(ageTextController.text),
+        sex: sexDropdownController.selected,
+        region: subRegionDropdownController.selected,
+        phone: phoneTextController.text,
+        profileUrl: 'https://picsum.photos/300/300',
+      ),
+    );
     if (context.mounted) context.pop();
   }
 }

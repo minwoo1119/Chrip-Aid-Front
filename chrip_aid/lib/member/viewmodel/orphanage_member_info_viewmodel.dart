@@ -21,12 +21,13 @@ final orphanageMemberInfoViewmodelProvider =
 class OrphanageMemberInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
-  late MemberInfoState memberState;
+  late final MemberInfoService _memberInfoService;
+
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+
   late OrphanageManagementState orphanageState;
 
-  OrphanageMemberEntity? get userInfo => memberState is MemberInfoStateSuccess
-      ? (memberState as MemberInfoStateSuccess).data as OrphanageMemberEntity
-      : null;
+  OrphanageMemberEntity? get userInfo => memberState.value as OrphanageMemberEntity?;
 
   OrphanageDetailEntity? get orphanageInfo =>
       orphanageState is OrphanageManagementStateSuccess
@@ -34,17 +35,13 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
           : null;
 
   OrphanageMemberInfoViewmodel(this.ref) {
-    memberState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) {
-        memberState = next;
-        if (memberState is ErrorState) {
-          SnackBarUtil.showError((memberState as ErrorState).message);
-        }
-        if(memberState is SuccessState) {
-          ref.read(orphanageManagementServiceProvider.notifier).getOrphanageInfo();
-        }
-        notifyListeners();
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    memberState.addListener(() {
+      if (memberState.isError) {
+        SnackBarUtil.showError((memberState as ErrorState).message);
+      }
+      if(memberState.isSuccess) {
+        ref.read(orphanageManagementServiceProvider.notifier).getOrphanageInfo();
       }
     });
 
@@ -62,7 +59,7 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
   }
 
   void logout() {
-    ref.read(memberInfoServiceProvider.notifier).logout();
+    _memberInfoService.logout();
     ref.read(authProvider).logout();
   }
 

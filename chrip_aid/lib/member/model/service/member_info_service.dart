@@ -4,48 +4,49 @@ import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final memberInfoServiceProvider =
-    StateNotifierProvider<MemberInfoService, MemberInfoState>((ref) {
+final memberInfoServiceProvider = Provider((ref) {
   final userInfoRepository = ref.watch(memberInfoRepositoryProvider);
   return MemberInfoService(userInfoRepository);
 });
 
-class MemberInfoService extends StateNotifier<MemberInfoState> {
+class MemberInfoService {
   final MemberInfoRepository userInfoRepository;
 
-  MemberInfoService(this.userInfoRepository) : super(MemberInfoStateNone());
+  MemberInfoState memberInfoState = MemberInfoState();
+
+  MemberInfoService(this.userInfoRepository);
 
   Future editMemberInfo(EditMemberInfoRequestDto member) async {
-    state = MemberInfoStateLoading();
+    memberInfoState.loading();
     try {
       await userInfoRepository.editUserInfo(member);
       await getMemberInfo();
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
-        return state = MemberInfoStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+        memberInfoState.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
       }
-      state = MemberInfoStateError("서버와 연결할 수 없습니다.");
+      memberInfoState.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
-      state = MemberInfoStateError("알 수 없는 에러가 발생했습니다.");
+      memberInfoState.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
   Future getMemberInfo() async {
+    memberInfoState.loading();
     try {
-      state = MemberInfoStateLoading();
       final data = await userInfoRepository.getUserInfo();
-      state = MemberInfoStateSuccess(data);
+      memberInfoState.success(value: data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
-        return state = MemberInfoStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+        memberInfoState.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
       }
-      state = MemberInfoStateError("사용자 정보를 가져올 수 없습니다.");
+      memberInfoState.error(message: "사용자 정보를 가져올 수 없습니다.");
     } catch (e) {
-      state = MemberInfoStateError("알 수 없는 에러가 발생했습니다.");
+      memberInfoState.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
   Future logout() async {
-    state = MemberInfoStateNone();
+    memberInfoState.none();
   }
 }

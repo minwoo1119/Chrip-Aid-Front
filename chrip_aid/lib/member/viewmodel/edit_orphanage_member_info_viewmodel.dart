@@ -17,17 +17,15 @@ class EditUserInfoViewModel extends ChangeNotifier {
   late final TextEditingController passwordTextController;
   late final TextEditingController checkPasswordTextController;
 
-  late MemberInfoState userInfoState;
+  late final MemberInfoService _memberInfoService;
 
-  OrphanageMemberEntity? get userInfo => userInfoState is MemberInfoStateSuccess
-      ? (userInfoState as MemberInfoStateSuccess).data as OrphanageMemberEntity
-      : null;
+  MemberInfoState get userInfoState => _memberInfoService.memberInfoState;
+
+  OrphanageMemberEntity? get userInfo => userInfoState.value as OrphanageMemberEntity?;
 
   EditUserInfoViewModel(this.ref) {
-    userInfoState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) userInfoState = next;
-    });
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    userInfoState.addListener(notifyListeners);
 
     nameTextController = TextEditingController(text: userInfo!.name);
     passwordTextController = TextEditingController();
@@ -35,15 +33,15 @@ class EditUserInfoViewModel extends ChangeNotifier {
   }
 
   void editUserInfo(BuildContext context) async {
-    if(passwordTextController.text != checkPasswordTextController.text) {
+    if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await ref.read(memberInfoServiceProvider.notifier).editMemberInfo(
-          EditOrphanageMemberInfoRequestDto(
-            name: nameTextController.text,
-            password: passwordTextController.text,
-          ),
-        );
+    await _memberInfoService.editMemberInfo(
+      EditOrphanageMemberInfoRequestDto(
+        name: nameTextController.text,
+        password: passwordTextController.text,
+      ),
+    );
     if (context.mounted) context.pop();
   }
 }

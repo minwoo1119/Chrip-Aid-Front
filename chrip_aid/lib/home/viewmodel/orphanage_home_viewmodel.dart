@@ -5,7 +5,7 @@ import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/management/view/orphanage_management_screen.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
-import 'package:chrip_aid/member/viewmodel/orphanage_member_info_viewmodel.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/reservation/model/service/orphanage_reservation_service.dart';
@@ -20,25 +20,34 @@ final orphanageHomeViewModelProvider =
 class OrphanageHomeViewModel extends ChangeNotifier {
   Ref ref;
 
-  late AuthService _service;
-  AuthState get authState => _service.authState;
+  late AuthService _authService;
+  late MemberInfoService _memberInfoService;
+
+  AuthState get authState => _authService.authState;
+
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
 
   OrphanageHomeViewModel(this.ref) {
-    _service = ref.read(authServiceProvider);
+    _authService = ref.read(authServiceProvider);
     authState.addListener(() {
       if (authState.isSuccess) {
-        ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
-                (value) => ref
-                .read(orphanageManagementServiceProvider.notifier)
-                .getOrphanageInfo());
+        _memberInfoService.getMemberInfo();
+      }
+    });
+
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    memberState.addListener(() {
+      if (memberState.isSuccess) {
+        ref
+            .read(orphanageManagementServiceProvider.notifier)
+            .getOrphanageInfo();
       }
     });
 
     rootTabController.addListener(() async {
-      if (rootTabController.index == 2 &&
-              (ref.read(memberInfoServiceProvider) is! SuccessState) ||
+      if (rootTabController.index == 2 && !memberState.isSuccess ||
           (ref.read(orphanageManagementServiceProvider) is! SuccessState)) {
-        ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
+        _memberInfoService.getMemberInfo().then(
               (value) => ref
                   .read(orphanageManagementServiceProvider.notifier)
                   .getOrphanageInfo(),
@@ -48,24 +57,26 @@ class OrphanageHomeViewModel extends ChangeNotifier {
   }
 
   Future navigateToOrphanageScreen(BuildContext context) async {
-    if (ref.read(memberInfoServiceProvider) is! SuccessState) {
-      await ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
+    if (!memberState.isSuccess) {
+      await _memberInfoService.getMemberInfo();
     }
-    if(ref.read(orphanageManagementServiceProvider) is! SuccessState) {
-      await ref.read(orphanageManagementServiceProvider.notifier).getOrphanageInfo();
+    if (ref.read(orphanageManagementServiceProvider) is! SuccessState) {
+      await ref
+          .read(orphanageManagementServiceProvider.notifier)
+          .getOrphanageInfo();
     }
-    context.pushNamed(OrphanageManagementScreen.routeName);
+    if (context.mounted) context.pushNamed(OrphanageManagementScreen.routeName);
   }
 
   Future navigateToReservationScreen(BuildContext context) async {
     await ref
         .read(orphanageReservationServiceProvider.notifier)
         .getOrphanageVisitReservation();
-    context.pushNamed(ReservationScreen.routeName);
+    if (context.mounted) context.pushNamed(ReservationScreen.routeName);
   }
 
   Future navigateToPostScreen(BuildContext context) async {
     await ref.read(orphanagePostServiceProvider.notifier).getOrphanagePosts();
-    context.pushNamed(PostScreen.routeName);
+    if (context.mounted) context.pushNamed(PostScreen.routeName);
   }
 }

@@ -18,23 +18,15 @@ final userInfoViewmodelProvider =
 class UserInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
-  late MemberInfoState memberState;
+  late final MemberInfoService _memberInfoService;
 
-  UserEntity? get userInfo => memberState is MemberInfoStateSuccess
-      ? (memberState as MemberInfoStateSuccess).data as UserEntity
-      : null;
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+
+  UserEntity? get userInfo => memberState.value as UserEntity?;
 
   UserInfoViewmodel(this.ref) {
-    memberState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) {
-        memberState = next;
-        if (memberState is ErrorState) {
-          SnackBarUtil.showError((memberState as ErrorState).message);
-        }
-        notifyListeners();
-      }
-    });
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    memberState.addListener(notifyListeners);
   }
 
   void navigateToEditUserInfoPage(BuildContext context) {
@@ -42,12 +34,14 @@ class UserInfoViewmodel extends ChangeNotifier {
   }
 
   void navigateToDonatePage(BuildContext context) async {
-    await ref.read(orphanageDonateServiceProvider.notifier).getOrphanageDonate();
+    await ref
+        .read(orphanageDonateServiceProvider.notifier)
+        .getOrphanageDonate();
     context.pushNamed(OrphanageDonateScreen.routeName);
   }
 
   void logout() {
-    ref.read(memberInfoServiceProvider.notifier).logout();
+    _memberInfoService.logout();
     ref.read(authProvider).logout();
   }
 }

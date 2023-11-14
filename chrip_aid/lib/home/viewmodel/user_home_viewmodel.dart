@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
 import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
@@ -19,29 +20,33 @@ final userHomeViewModelProvider =
 class UserHomeViewModel extends ChangeNotifier {
   Ref ref;
 
-  late AuthService _service;
+  late AuthService _authService;
+  late MemberInfoService _memberInfoService;
 
-  AuthState get authState => _service.authState;
+  AuthState get authState => _authService.authState;
+
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
 
   UserHomeViewModel(this.ref) {
-    _service = ref.read(authServiceProvider);
+    _authService = ref.read(authServiceProvider);
     authState.addListener(() {
       if (authState.isSuccess) {
-        ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
+        _memberInfoService.getMemberInfo();
       }
     });
 
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+
     rootTabController.addListener(() {
-      if (rootTabController.index == 2 &&
-          ref.read(memberInfoServiceProvider) is! SuccessState) {
-        ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
+      if (rootTabController.index == 2 && !memberState.isSuccess) {
+        _memberInfoService.getMemberInfo();
       }
     });
   }
 
   Future navigateToSearchScreen(BuildContext context) async {
-    if (ref.read(memberInfoServiceProvider) is! SuccessState) {
-      await ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
+    if (!memberState.isSuccess) {
+      await _memberInfoService.getMemberInfo();
     }
     ref
         .read(orphanageServiceProvider.notifier)
@@ -58,6 +63,6 @@ class UserHomeViewModel extends ChangeNotifier {
 
   Future navigateToPostScreen(BuildContext context) async {
     ref.read(orphanagePostServiceProvider.notifier).getOrphanagePosts();
-    context.pushNamed(PostScreen.routeName);
+    if (context.mounted) context.pushNamed(PostScreen.routeName);
   }
 }

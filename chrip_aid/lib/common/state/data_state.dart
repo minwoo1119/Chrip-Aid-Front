@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
 
 class DataState<T> extends ValueNotifier<T?> {
@@ -42,6 +43,12 @@ class DataState<T> extends ValueNotifier<T?> {
     _message = message;
     if(this.value == value) notifyListeners();
     this.value = value;
+  }
+
+  @override
+  void notifyListeners() {
+    if(isError) SnackBarUtil.showError(message);
+    super.notifyListeners();
   }
 }
 

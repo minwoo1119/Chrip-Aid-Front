@@ -23,15 +23,17 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
   late OrphanageManagementState managementState;
-  late MemberInfoState memberState;
+
+
+  late MemberInfoService _memberInfoService;
+
+  MemberInfoState get memberState => _memberInfoService.memberInfoState;
 
   OrphanageDetailEntity? get orphanage => managementState is SuccessState
       ? (managementState as OrphanageManagementStateSuccess).data
       : null;
 
-  OrphanageMemberEntity? get member => memberState is SuccessState
-      ? (memberState as MemberInfoStateSuccess).data as OrphanageMemberEntity
-      : null;
+  OrphanageMemberEntity? get member => memberState.value as OrphanageMemberEntity?;
 
   final TextEditingController orphanageNameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -54,10 +56,8 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
         if (managementState is SuccessState) _initController();
       }
     });
-    memberState = ref.read(memberInfoServiceProvider);
-    ref.listen(memberInfoServiceProvider, (previous, next) {
-      if (previous != next) memberState = next;
-    });
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    memberState.addListener(notifyListeners);
     _initController();
   }
 

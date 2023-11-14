@@ -24,10 +24,7 @@ class OrphanageSignUpViewModel extends ChangeNotifier {
 
   OrphanageSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
-    state.addListener(() {
-      if (state.isError) SnackBarUtil.showError(state.message);
-      notifyListeners();
-    });
+    state.addListener(notifyListeners);
   }
 
   void signup(BuildContext context) async {
