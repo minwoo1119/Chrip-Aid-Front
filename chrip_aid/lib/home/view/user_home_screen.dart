@@ -64,7 +64,7 @@ class UserHomeScreen extends TabScreen {
                 children: [
                   Expanded(
                     child: CustomOutlinedButton(
-                      onPressed: () => viewmodel.navigateToCertificationScreen(
+                      onPressed: () => viewmodel.navigateToPostScreen(
                         context,
                       ),
                       text: "후원 인증글",
@@ -76,7 +76,7 @@ class UserHomeScreen extends TabScreen {
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
                     child: CustomOutlinedButton(
-                      onPressed: () => viewmodel.navigateToFavoriteScreen(
+                      onPressed: () => viewmodel.navigateToReservationScreen(
                         context,
                       ),
                       text: "방문 신청 내역",

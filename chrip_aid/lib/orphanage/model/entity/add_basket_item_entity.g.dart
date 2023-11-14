@@ -8,13 +8,13 @@ part of 'add_basket_item_entity.dart';
 
 AddBasketItemEntity _$AddBasketItemEntityFromJson(Map<String, dynamic> json) =>
     AddBasketItemEntity(
-      requestId: json['count'] as int,
-      count: json['request_id'] as int,
+      requestId: json['request_id'] as int,
+      count: json['count'] as int,
     );
 
 Map<String, dynamic> _$AddBasketItemEntityToJson(
         AddBasketItemEntity instance) =>
     <String, dynamic>{
-      'count': instance.requestId,
-      'request_id': instance.count,
+      'request_id': instance.requestId,
+      'count': instance.count,
     };

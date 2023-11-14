@@ -1,6 +1,7 @@
 import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/auth/util/validators.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
+import 'package:chrip_aid/common/component/data_state_widget.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/component/custom_text_button.dart';
@@ -92,41 +93,35 @@ class LoginScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.state is LoadingState)
-                const Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColor.backGroundSubColor,
-                  ),
-                )
-              else
-                Column(
-                  children: [
-                    CustomOutlinedButton(
-                      onPressed: viewModel.login,
-                      text: '로그인',
-                    ),
-                    const SizedBox(height: kPaddingMiddleSize),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Expanded(
-                          child: CustomTextButton(
-                            onPressed: null,
-                            text: 'ID / PW 찾기',
-                          ),
-                        ),
-                        const SizedBox(width: kPaddingMiddleSize),
-                        Expanded(
-                          child: CustomTextButton(
-                            onPressed: () =>
-                                viewModel.navigateToSignupPage(context),
-                            text: '회원이 아니신가요?',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              DataStateWidget(
+                state: viewModel.authState,
+                defaultBuilder: (_, __) => CustomOutlinedButton(
+                  onPressed: viewModel.login,
+                  text: '로그인',
                 ),
+                loadingBuilder: (_, __) => const CircularProgressIndicator(
+                  color: CustomColor.backGroundSubColor,
+                ),
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Expanded(
+                    child: CustomTextButton(
+                      onPressed: null,
+                      text: 'ID / PW 찾기',
+                    ),
+                  ),
+                  const SizedBox(width: kPaddingMiddleSize),
+                  Expanded(
+                    child: CustomTextButton(
+                      onPressed: () => viewModel.navigateToSignupPage(context),
+                      text: '회원이 아니신가요?',
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

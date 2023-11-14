@@ -12,37 +12,36 @@ final orphanageSignUpViewModelProvider =
 class OrphanageSignUpViewModel extends ChangeNotifier {
   final Ref ref;
 
+  late AuthService _service;
+
   final nameTextController = TextEditingController(text: '');
   final idTextController = TextEditingController(text: '');
   final passwordTextController = TextEditingController(text: '');
   final checkPasswordTextController = TextEditingController(text: '');
   final orphanageNameTextController = TextEditingController(text: '');
 
-
   late AuthState state;
 
   OrphanageSignUpViewModel(this.ref) {
-    state = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
+    _service = ref.read(authServiceProvider);
+    state.addListener(() {
+      if (state.isError) SnackBarUtil.showError(state.message);
+      notifyListeners();
     });
   }
 
   void signup(BuildContext context) async {
-    if(passwordTextController.text != checkPasswordTextController.text) {
+    if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await ref.read(authServiceProvider.notifier).signup(
-          OrphanageSignupRequestDto(
-            name: nameTextController.text,
-            email: idTextController.text,
-            password: passwordTextController.text,
-            orphanageName: orphanageNameTextController.text
-          ),
-        );
+    _service.signup(
+      OrphanageSignupRequestDto(
+        name: nameTextController.text,
+        email: idTextController.text,
+        password: passwordTextController.text,
+        orphanageName: orphanageNameTextController.text,
+      ),
+    );
     if (context.mounted) context.pop();
   }
 }

@@ -3,9 +3,9 @@ part 'add_basket_item_entity.g.dart';
 
 @JsonSerializable()
 class AddBasketItemEntity {
-  @JsonKey(name: 'count')
-  final int requestId;
   @JsonKey(name: 'request_id')
+  final int requestId;
+  @JsonKey(name: 'count')
   final int count;
 
   AddBasketItemEntity({

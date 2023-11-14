@@ -16,6 +16,8 @@ final userSignUpViewModelProvider =
 class UserSignUpViewModel extends ChangeNotifier {
   final Ref ref;
 
+  late AuthService _service;
+
   final nameTextController = TextEditingController(text: '');
   final idTextController = TextEditingController(text: '');
   final passwordTextController = TextEditingController(text: '');
@@ -33,12 +35,10 @@ class UserSignUpViewModel extends ChangeNotifier {
   late AuthState state;
 
   UserSignUpViewModel(this.ref) {
-    state = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
+    _service = ref.read(authServiceProvider);
+    state.addListener(() {
+      if (state.isError) SnackBarUtil.showError(state.message);
+      notifyListeners();
     });
 
     sexDropdownController = CustomDropdownButtonController(
@@ -60,22 +60,23 @@ class UserSignUpViewModel extends ChangeNotifier {
   }
 
   void signup(BuildContext context) async {
-    if(passwordTextController.text != checkPasswordTextController.text) {
+    if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await ref.read(authServiceProvider.notifier).signup(
-          UserSignupRequestDto(
-            name: nameTextController.text,
-            email: idTextController.text,
-            password: passwordTextController.text,
-            sex: sexDropdownController.selected.value,
-            age: int.parse(ageTextController.text),
-            nickname: nicknameTextController.text,
-            region: subRegionDropdownController.selected.toJson(),
-            phoneNumber: phoneTextController.text,
-            profilePhoto: 'https://picsum.photos/300/300',
-          ),
-        );
+    _service.signup(
+      UserSignupRequestDto(
+        name: nameTextController.text,
+        email: idTextController.text,
+        password: passwordTextController.text,
+        sex: sexDropdownController.selected.value,
+        age: int.parse(ageTextController.text),
+        nickname: nicknameTextController.text,
+        region: subRegionDropdownController.selected.toJson(),
+        phoneNumber: phoneTextController.text,
+        // TODO : user profile image
+        profilePhoto: 'https://picsum.photos/300/300',
+      ),
+    );
     if (context.mounted) context.pop();
   }
 }

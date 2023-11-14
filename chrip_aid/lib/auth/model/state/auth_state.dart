@@ -1,15 +1,4 @@
-import 'package:chrip_aid/common/state/state.dart';
 
-abstract class AuthState {}
+import 'package:chrip_aid/common/state/data_state.dart';
 
-class AuthStateNone extends NoneState implements AuthState {}
-
-class AuthStateLoading extends LoadingState implements AuthState {}
-
-class AuthStateSuccess extends SuccessState<bool> implements AuthState {
-  AuthStateSuccess(super.data);
-}
-
-class AuthStateError extends ErrorState implements AuthState {
-  AuthStateError(super.message);
-}
+class AuthState extends DataState<bool> {}

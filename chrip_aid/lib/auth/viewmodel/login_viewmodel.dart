@@ -2,7 +2,6 @@ import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,22 +12,20 @@ final loginViewModelProvider =
 
 class LoginViewModel extends ChangeNotifier {
   final Ref ref;
-  late AuthState state;
+  late AuthService _service;
+
+  AuthState get authState => _service.authState;
+
   late AuthorityType authority;
 
   final idTextController = TextEditingController(text: '');
   final passwordTextController = TextEditingController(text: '');
 
   LoginViewModel(this.ref) {
-    state = ref.read(authServiceProvider);
-    ref.listen<AuthState>(authServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        if (state is ErrorState) {
-          SnackBarUtil.showError((state as ErrorState).message);
-        }
-        notifyListeners();
-      }
+    _service = ref.read(authServiceProvider);
+    authState.addListener(() {
+      if (authState.isError) SnackBarUtil.showError(authState.message);
+      notifyListeners();
     });
 
     authority = ref.read(authorityProvider);
@@ -49,14 +46,14 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   void login() {
-    ref.read(authServiceProvider.notifier).login(
-          id: idTextController.text,
-          password: passwordTextController.text,
-        );
+    _service.login(
+      id: idTextController.text,
+      password: passwordTextController.text,
+    );
   }
 
   void logout() {
-    ref.read(authServiceProvider.notifier).logout();
+    _service.logout();
   }
 
   void navigateToSignupPage(BuildContext context) {

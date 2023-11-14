@@ -2,11 +2,12 @@ import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/post/component/custom_post_box.dart';
+import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/post/viewmodel/user_posts_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserPostScreen extends ConsumerWidget {
+class UserPostScreen extends ConsumerWidget implements PostScreen {
   const UserPostScreen({super.key});
 
   @override

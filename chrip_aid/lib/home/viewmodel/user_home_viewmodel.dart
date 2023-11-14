@@ -5,9 +5,8 @@ import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
+import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
-import 'package:chrip_aid/reservation/model/repository/reservation_repository.dart';
-import 'package:chrip_aid/reservation/model/service/orphanage_reservation_service.dart';
 import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +19,15 @@ final userHomeViewModelProvider =
 class UserHomeViewModel extends ChangeNotifier {
   Ref ref;
 
-  late AuthState authState;
+  late AuthService _service;
+
+  AuthState get authState => _service.authState;
 
   UserHomeViewModel(this.ref) {
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) {
-        authState = next;
-        if (authState is SuccessState) {
-          ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
-        }
+    _service = ref.read(authServiceProvider);
+    authState.addListener(() {
+      if (authState.isSuccess) {
+        ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
       }
     });
 
@@ -51,14 +49,15 @@ class UserHomeViewModel extends ChangeNotifier {
         .then((value) => context.pushNamed(OrphanageMapScreen.routeName));
   }
 
-  Future navigateToFavoriteScreen(BuildContext context) async {
+  Future navigateToReservationScreen(BuildContext context) async {
     ref
         .read(reservationServiceProvider.notifier)
         .getOrphanageReservation()
         .then((value) => context.pushNamed(ReservationScreen.routeName));
   }
 
-  Future navigateToCertificationScreen(BuildContext context) async {
+  Future navigateToPostScreen(BuildContext context) async {
+    ref.read(orphanagePostServiceProvider.notifier).getOrphanagePosts();
     context.pushNamed(PostScreen.routeName);
   }
 }

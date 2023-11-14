@@ -20,19 +20,17 @@ final orphanageHomeViewModelProvider =
 class OrphanageHomeViewModel extends ChangeNotifier {
   Ref ref;
 
-  late AuthState authState;
+  late AuthService _service;
+  AuthState get authState => _service.authState;
 
   OrphanageHomeViewModel(this.ref) {
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if (previous != next) {
-        authState = next;
-        if (authState is SuccessState) {
-          ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
-              (value) => ref
-                  .read(orphanageManagementServiceProvider.notifier)
-                  .getOrphanageInfo());
-        }
+    _service = ref.read(authServiceProvider);
+    authState.addListener(() {
+      if (authState.isSuccess) {
+        ref.read(memberInfoServiceProvider.notifier).getMemberInfo().then(
+                (value) => ref
+                .read(orphanageManagementServiceProvider.notifier)
+                .getOrphanageInfo());
       }
     });
 

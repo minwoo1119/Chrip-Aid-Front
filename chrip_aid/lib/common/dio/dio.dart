@@ -79,7 +79,7 @@ class CustomInterceptor extends Interceptor {
         await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
     print(
-        "[Chrip Aid] ERROR! ${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
+        "[Chrip Aid] ERROR! ${err.requestOptions.path}(${err.requestOptions.method}) [${err.response?.statusCode}] : ${err.response?.data["message"]}");
 
     if (refreshToken == null) return handler.reject(err);
 

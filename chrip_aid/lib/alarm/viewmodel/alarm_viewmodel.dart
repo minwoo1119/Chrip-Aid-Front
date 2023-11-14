@@ -20,16 +20,16 @@ class AlarmViewmodel extends ChangeNotifier {
   List<AlarmEntity> get entities =>
       alarmState is SuccessState ? (alarmState as AlarmStateSuccess).data : [];
 
-  late AuthState authState;
+  late AuthService _service;
+
+  AuthState get authState => _service.authState;
   late AlarmState alarmState;
 
   AlarmViewmodel(this.ref) {
-    authState = ref.read(authServiceProvider);
-    ref.listen(authServiceProvider, (previous, next) {
-      if(previous != next) {
-        if(authState is SuccessState) {
-          ref.read(alarmServiceProvider.notifier).getAlarms();
-        }
+    _service = ref.read(authServiceProvider);
+    authState.addListener(() {
+      if(authState.isSuccess) {
+        ref.read(alarmServiceProvider.notifier).getAlarms();
       }
     });
 
@@ -54,7 +54,7 @@ class AlarmViewmodel extends ChangeNotifier {
   }
 
   void navigateToScreen(BuildContext context, AlarmType type) {
-    switch(type) {
+    switch (type) {
       case AlarmType.post:
         return _navigateToPostDetailScreen(context);
       case AlarmType.reservation:

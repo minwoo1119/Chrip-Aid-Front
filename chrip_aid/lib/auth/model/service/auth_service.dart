@@ -3,83 +3,84 @@ import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authServiceProvider =
-    StateNotifierProvider<AuthService, AuthState>((ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
-  final fcmRepository = ref.watch(fcmRepositoryProvider);
-  final storage = ref.watch(localStorageProvider);
+final authServiceProvider = Provider((ref) {
+  final authRepository = ref.read(authRepositoryProvider);
+  final fcmRepository = ref.read(fcmRepositoryProvider);
+  final storage = ref.read(localStorageProvider);
   return AuthService(authRepository, fcmRepository, storage);
 });
 
-class AuthService extends StateNotifier<AuthState> {
+class AuthService {
   final AuthRepository authRepository;
   final FcmRepository fcmRepository;
   final LocalStorage storage;
 
-  AuthService(
-    this.authRepository,
-    this.fcmRepository,
-    this.storage,
-  ) : super(AuthStateNone()) {
+  AuthState authState = AuthState();
+
+  AuthService(this.authRepository, this.fcmRepository, this.storage) {
     saveFcmToken();
   }
 
   Future login({required String id, required String password}) async {
-    state = AuthStateLoading();
+    authState.loading();
     try {
-      await authRepository.login(LoginRequestDto(email: id, password: password));
+      await Future.delayed(const Duration(seconds: 3));
+      await authRepository.login(
+        LoginRequestDto(email: id, password: password),
+      );
       await saveFcmToken();
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
-        return state = AuthStateError("id 또는 password가 틀렸습니다.");
+        return authState.error(message: "id 또는 password가 틀렸습니다.");
       }
       if (e.response?.statusCode == 200) {
-        return state = AuthStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+        return authState.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
       }
-      state = AuthStateError("서버와 연결할 수 없습니다.");
+      authState.error(message: e.message ?? "서버와 연결할 수 없습니다.");
     } catch (e) {
-      state = AuthStateError("알 수 없는 에러가 발생했습니다.");
+      authState.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
   Future logout() async {
-    state = AuthStateLoading();
+    authState.loading();
     await _removeToken();
-    state = AuthStateNone();
+    authState.none();
   }
 
   Future saveFcmToken() async {
-   try {
+    try {
       final fcmToken = await fcmRepository.getFcmToken();
       await authRepository.saveToken(fcmToken);
-      state = AuthStateSuccess(true);
+      authState.success(value: true);
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 400) {
-        state = AuthStateError(
-          e.response?.data["message"] ?? "알 수 없는 에러가 발생했습니다.",
+        authState.error(
+          message: e.response?.data["message"] ?? "알 수 없는 에러가 발생했습니다.",
         );
       }
-      state = AuthStateError("서버와 통신할 수 없습니다.");
+      authState.error(message: "서버와 통신할 수 없습니다.");
     } catch (e) {
-      state = AuthStateError("알 수 없는 에러가 발생했습니다.");
+      authState.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
   Future signup(SignupRequestDto signupRequestDto) async {
-    state = AuthStateLoading();
+    authState.loading();
     try {
       await authRepository.signup(signupRequestDto);
-      state = AuthStateNone();
+      authState.none();
     } on DioException catch (e) {
-      state = AuthStateError(e.message ?? "회원가입에 실패하였습니다.");
+      authState.error(
+        message: e.response?.data["message"] ?? "회원가입에 실패하였습니다.",
+      );
     } catch (e) {
-      state = AuthStateError("알 수 없는 에러가 발생했습니다.");
+      authState.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 

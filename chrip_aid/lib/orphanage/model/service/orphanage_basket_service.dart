@@ -22,7 +22,6 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
     try {
       state = OrphanageBasketStateLoading();
       List<OrphanageBasketEntity> data = await repository.getOrphanageBasket();
-      print(data.first.basketProductId);
       state = OrphanageBasketStateSuccess(data);
     } catch (e) {
       print(e);
