@@ -1,5 +1,4 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
-import 'package:chrip_aid/common/const/tabs.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
@@ -64,7 +63,7 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
   }
 
   void navigateToDonatePage(BuildContext context) async {
-    await ref.read(orphanageDonateServiceProvider.notifier).getOrphanageDonate();
-    context.pushNamed(OrphanageDonateScreen.routeName);
+    ref.read(orphanageDonateServiceProvider).getOrphanageDonate();
+    if(context.mounted) context.pushNamed(OrphanageDonateScreen.routeName);
   }
 }

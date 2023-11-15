@@ -10,18 +10,13 @@ ChangeNotifierProvider((ref) => OrphanageDonateViewModel(ref));
 class OrphanageDonateViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageState state;
+  late final OrphanageDonateService _orphanageDonateService;
+  OrphanageDonateState get state => _orphanageDonateService.donateState;
 
-  List<DonateEntity> get entity =>
-      (state as OrphanageDonateStateSuccess).data;
+  List<DonateEntity>? get entity => state.value;
 
   OrphanageDonateViewModel(this.ref) {
-    state = ref.read(orphanageDonateServiceProvider);
-    ref.listen(orphanageDonateServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
+    _orphanageDonateService = ref.read(orphanageDonateServiceProvider);
+    state.addListener(notifyListeners);
   }
 }

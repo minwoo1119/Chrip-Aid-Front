@@ -1,4 +1,3 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/orphanage/component/custom_donate_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
@@ -17,14 +16,14 @@ class OrphanageDonateScreen extends ConsumerWidget {
     return DetailPageLayout(
       backgroundColor: CustomColor.disabledColor,
       title: "기부내역",
-      child: viewModel.state is SuccessState
+      child: viewModel.state.isSuccess
           ? Column(
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.entity.length,
+                    itemCount: viewModel.entity!.length,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity[index];
+                      final item = viewModel.entity![index];
                       return CustomDonateBox(
                         orphanageName: item.orphanageName,
                         date: item.date,

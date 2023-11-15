@@ -3,23 +3,25 @@ import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repository/orphanage_basket_repository.dart';
 
-final orphanageDonateServiceProvider =
-    StateNotifierProvider<OrphanageDonateService, OrphanageState>((ref) =>
-        OrphanageDonateService(ref.watch(orphanageBasketRepositoryProvider)));
+final orphanageDonateServiceProvider = Provider((ref) {
+  final repository = ref.watch(orphanageBasketRepositoryProvider);
+  return OrphanageDonateService(repository);
+});
 
-class OrphanageDonateService extends StateNotifier<OrphanageState> {
+class OrphanageDonateService {
   final OrphanageBasketRepository repository;
 
-  OrphanageDonateService(this.repository)
-      : super(OrphanageDonateStateLoading());
+  final donateState = OrphanageDonateState();
+
+  OrphanageDonateService(this.repository);
 
   Future getOrphanageDonate() async {
     try {
-      state = OrphanageDonateStateLoading();
+      donateState.loading();
       List<DonateEntity> data = await repository.getOrphanageDonate('user');
-      state = OrphanageDonateStateSuccess(data);
+      donateState.success(value: data);
     } catch (e) {
-      state = OrphanageDonateStateError(e.toString());
+      donateState.error(message: e.toString());
     }
   }
 }
