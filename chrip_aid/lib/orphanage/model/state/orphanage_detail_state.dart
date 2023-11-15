@@ -14,21 +14,7 @@ class OrphanageListState extends DataState<List<OrphanageEntity>> {}
 class OrphanageDetailState extends DataState<OrphanageDetailEntity> {}
 
 //장바구니
-
-class OrphanageBasketStateNone extends NoneState implements OrphanageState {}
-
-class OrphanageBasketStateLoading extends LoadingState
-    implements OrphanageState {}
-
-class OrphanageBasketStateSuccess
-    extends SuccessState<List<OrphanageBasketEntity>>
-    implements OrphanageState {
-  OrphanageBasketStateSuccess(super.data);
-}
-
-class OrphanageBasketStateError extends ErrorState implements OrphanageState {
-  OrphanageBasketStateError(super.message);
-}
+class OrphanageBasketState extends DataState<List<OrphanageBasketEntity>> {}
 
 class OrphanageDonateStateNone extends NoneState implements OrphanageState {}
 

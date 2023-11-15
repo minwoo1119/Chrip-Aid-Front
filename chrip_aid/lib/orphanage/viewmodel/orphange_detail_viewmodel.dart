@@ -57,7 +57,7 @@ class OrphanageDetailViewModel extends ChangeNotifier {
   }
 
   void goBasket(BuildContext context) async {
-    ref.read(orphanageBasketServiceProvider.notifier).getOrphanageBasket();
+    ref.read(orphanageBasketServiceProvider).getOrphanageBasket();
     context.pushNamed(OrphanageBasketScreen.routeName);
   }
 

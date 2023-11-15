@@ -8,24 +8,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../entity/orphanage_basket_entity.dart';
 import '../repository/orphanage_basket_repository.dart';
 
-final orphanageBasketServiceProvider =
-    StateNotifierProvider<OrphanageBasketService, OrphanageState>((ref) =>
-        OrphanageBasketService(ref.watch(orphanageBasketRepositoryProvider)));
+final orphanageBasketServiceProvider = Provider((ref) {
+  final repository = ref.watch(orphanageBasketRepositoryProvider);
+  return OrphanageBasketService(repository);
+});
 
-class OrphanageBasketService extends StateNotifier<OrphanageState> {
+class OrphanageBasketService {
   final OrphanageBasketRepository repository;
 
-  OrphanageBasketService(this.repository)
-      : super(OrphanageBasketStateNone());
+  final OrphanageBasketState orphanageBasketState = OrphanageBasketState();
+
+  OrphanageBasketService(this.repository);
 
   Future getOrphanageBasket() async {
     try {
-      state = OrphanageBasketStateLoading();
+      orphanageBasketState.loading();
       List<OrphanageBasketEntity> data = await repository.getOrphanageBasket();
-      state = OrphanageBasketStateSuccess(data);
+      orphanageBasketState.success(value: data);
     } catch (e) {
-      print(e);
-      state = OrphanageBasketStateError(e.toString());
+      orphanageBasketState.error(message: e.toString());
     }
   }
 
@@ -44,17 +45,17 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
       await repository.addBasket(entity);
       getOrphanageBasket();
     } catch (e) {
-      state = OrphanageProductStateError(e.toString());
+      orphanageBasketState.error(message: e.toString());
     }
   }
 
   Future donate(DonateRequestDTO dto) async {
     try {
-      state = OrphanageBasketStateLoading();
+      orphanageBasketState.loading();
       await repository.donate(dto);
       getOrphanageBasket();
     } catch (e) {
-      state = OrphanageBasketStateError(e.toString());
+      orphanageBasketState.error(message: e.toString());
     }
   }
 }

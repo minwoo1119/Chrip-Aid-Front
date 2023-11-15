@@ -1,4 +1,3 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_basket_product_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
@@ -22,7 +21,7 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
     final viewModel = ref.watch(orphanageBasketViewModelProvider);
     return DetailPageLayout(
       title: "장바구니",
-      child: viewModel.state is SuccessState
+      child: viewModel.orphanageBasketState.isSuccess
           ? Column(
               children: [
                 Expanded(

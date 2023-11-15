@@ -17,23 +17,18 @@ final orphanageBasketViewModelProvider =
 class OrphanageBasketViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageState state;
+  late final OrphanageBasketService _orphanageBasketService;
 
-  List<OrphanageBasketEntity>? get entity =>
-      state is OrphanageBasketStateSuccess
-          ? (state as OrphanageBasketStateSuccess).data
-          : null;
+  OrphanageBasketState get orphanageBasketState =>
+      _orphanageBasketService.orphanageBasketState;
+
+  List<OrphanageBasketEntity>? get entity => orphanageBasketState.value;
 
   int get total => calculateSumOfElements();
 
   OrphanageBasketViewModel(this.ref) {
-    state = ref.read(orphanageBasketServiceProvider);
-    ref.listen(orphanageBasketServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
+    _orphanageBasketService = ref.read(orphanageBasketServiceProvider);
+    orphanageBasketState.addListener(notifyListeners);
   }
 
   int calculateSumOfElements() {
@@ -45,20 +40,21 @@ class OrphanageBasketViewModel extends ChangeNotifier {
   }
 
   void updateBasket(int count, int requestId) {
-    ref.read(orphanageBasketServiceProvider.notifier).updateOrphanageBasket(
-        entity: UpdateBasketItemEntity(count, requestId));
+    _orphanageBasketService.updateOrphanageBasket(
+      entity: UpdateBasketItemEntity(count, requestId),
+    );
   }
 
   void deleteBasket(int basketProductId) {
-    ref
-        .read(orphanageBasketServiceProvider.notifier)
-        .deleteOrphanageBasket(DonateDeleteDto(basketProductId: basketProductId));
+    _orphanageBasketService.deleteOrphanageBasket(
+      DonateDeleteDto(basketProductId: basketProductId),
+    );
   }
 
   void addOrUpdateBasket(int requestId, int count) async {
     bool isNewProduct = true;
-    if(state is! SuccessState) {
-      await ref.read(orphanageBasketServiceProvider.notifier).getOrphanageBasket();
+    if (orphanageBasketState is! SuccessState) {
+      await _orphanageBasketService.getOrphanageBasket();
     }
     for (OrphanageBasketEntity entityItem in entity!) {
       if (entityItem.requestId == requestId) {
@@ -68,9 +64,9 @@ class OrphanageBasketViewModel extends ChangeNotifier {
       }
     }
     if (isNewProduct) {
-      ref.read(orphanageBasketServiceProvider.notifier).addOrphanageBasket(
-            entity: AddBasketItemEntity(requestId: requestId, count: count),
-          );
+      _orphanageBasketService.addOrphanageBasket(
+        entity: AddBasketItemEntity(requestId: requestId, count: count),
+      );
     }
   }
 
@@ -82,12 +78,12 @@ class OrphanageBasketViewModel extends ChangeNotifier {
           .map((e) => e.count * e.price)
           .reduce((value, element) => value + element),
     );
-    await ref.read(orphanageBasketServiceProvider.notifier).donate(
-          DonateRequestDTO(
-            basketProductIds: entity!.map((e) => e.basketProductId).toList(),
-            message: '',
-          ),
-        );
-    context.pop();
+    await _orphanageBasketService.donate(
+      DonateRequestDTO(
+        basketProductIds: entity!.map((e) => e.basketProductId).toList(),
+        message: '',
+      ),
+    );
+    if(context.mounted) context.pop();
   }
 }
