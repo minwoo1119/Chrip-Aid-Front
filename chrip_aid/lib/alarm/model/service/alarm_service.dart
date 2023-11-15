@@ -3,16 +3,17 @@ import 'package:chrip_aid/alarm/model/repository/alarm_repository.dart';
 import 'package:chrip_aid/alarm/model/state/alarm_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final alarmServiceProvider =
-    StateNotifierProvider<AlarmService, AlarmState>((ref) {
+final alarmServiceProvider = Provider((ref) {
   final repository = ref.watch(alarmRepositoryProvider);
   return AlarmService(repository);
 });
 
-class AlarmService extends StateNotifier<AlarmState> {
+class AlarmService {
   final AlarmRepository repository;
 
-  AlarmService(this.repository) : super(AlarmStateNone()) {
+  final AlarmState state = AlarmState();
+
+  AlarmService(this.repository) {
     getAlarms();
   }
 
@@ -23,11 +24,11 @@ class AlarmService extends StateNotifier<AlarmState> {
 
   Future getAlarms() async {
     try {
-      state = AlarmStateLoading();
+      state.loading();
       final data = await repository.getAlarms();
-      state = AlarmStateSuccess(data);
+      state.success(value: data);
     } catch (e) {
-      state = AlarmStateError(e.toString());
+      state.error(message: e.toString());
     }
   }
 }

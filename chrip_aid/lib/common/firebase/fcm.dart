@@ -101,7 +101,7 @@ Future saveAlarm(RemoteMessage message) async {
   message.data["body"] = message.notification?.body;
   message.data["time"] = alarmDateFormat.format(DateTime.now());
 
-  ProviderContainer().read(alarmServiceProvider.notifier).saveAlarm(
+  ProviderContainer().read(alarmServiceProvider).saveAlarm(
     AlarmEntity.fromJson(message.data),
   );
 }
