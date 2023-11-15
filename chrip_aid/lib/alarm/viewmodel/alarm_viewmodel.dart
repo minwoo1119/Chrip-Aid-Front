@@ -16,8 +16,8 @@ class AlarmViewmodel extends ChangeNotifier {
   Ref ref;
 
   late final AlarmService _alarmService;
-  AlarmState get alarmState => _alarmService.state;
 
+  AlarmState get alarmState => _alarmService.state;
 
   List<AlarmEntity> get entities => alarmState.value ?? [];
 
@@ -28,7 +28,7 @@ class AlarmViewmodel extends ChangeNotifier {
   AlarmViewmodel(this.ref) {
     _authService = ref.read(authServiceProvider);
     authState.addListener(() {
-      if(authState.isSuccess) {
+      if (authState.isSuccess) {
         _alarmService.getAlarms();
       }
     });

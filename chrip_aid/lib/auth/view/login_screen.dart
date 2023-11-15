@@ -4,7 +4,7 @@ import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
-import 'package:chrip_aid/common/component/data_state_widget.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +92,7 @@ class LoginScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              DataStateWidget(
+              ValueStateListener(
                 state: viewModel.authState,
                 defaultBuilder: (_, __) => CustomOutlinedButton(
                   onPressed: viewModel.login,
