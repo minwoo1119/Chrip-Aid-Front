@@ -1,38 +1,38 @@
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/repository/orphanage_repository.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final orphanageServiceProvider = StateNotifierProvider<OrphanageService, OrphanageState>(
-    (ref) => OrphanageService(ref.watch(orphanageRepositoryProvider)));
+final orphanageServiceProvider = Provider((ref) {
+  final repository = ref.watch(orphanageRepositoryProvider);
+  return OrphanageService(repository);
+});
 
-class OrphanageService extends StateNotifier<OrphanageState> {
+class OrphanageService {
   final OrphanageRepository repository;
 
-  OrphanageService(this.repository) : super(OrphanageStateNone());
+  final OrphanageListState orphanageListState = OrphanageListState();
+  final OrphanageDetailState orphanageDetailState = OrphanageDetailState();
+
+  OrphanageService(this.repository);
 
   Future getOrphanageList() async {
     try {
-      state = OrphanageStateLoading();
+      orphanageListState.loading();
       List<OrphanageEntity> data = await repository.getOrphanageList();
-      OrphanageState.list = data;
-      state = OrphanageStateNone();
+      orphanageListState.success(value: data);
     } catch (e) {
-      state = OrphanageStateError(e.toString());
+      orphanageListState.error(message: e.toString());
     }
   }
 
   Future getOrphanageDetail(int orphanageId) async {
     try {
-      state = OrphanageStateLoading();
-      OrphanageDetailEntity data =
-          await repository.getOrphanageDetail(orphanageId);
-      state = OrphanageStateSuccess(data);
+      orphanageDetailState.loading();
+      final data = await repository.getOrphanageDetail(orphanageId);
+      orphanageDetailState.success(value: data);
     } catch (e) {
-      state = OrphanageStateError(e.toString());
+      orphanageDetailState.error(message: e.toString());
     }
   }
 }
-
-

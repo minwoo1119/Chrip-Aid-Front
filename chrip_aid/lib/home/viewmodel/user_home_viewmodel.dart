@@ -1,7 +1,6 @@
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
 import 'package:chrip_aid/common/const/tabs.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
@@ -22,6 +21,7 @@ class UserHomeViewModel extends ChangeNotifier {
 
   late AuthService _authService;
   late MemberInfoService _memberInfoService;
+  late OrphanageService _orphanageService;
 
   AuthState get authState => _authService.authState;
 
@@ -29,13 +29,14 @@ class UserHomeViewModel extends ChangeNotifier {
 
   UserHomeViewModel(this.ref) {
     _authService = ref.read(authServiceProvider);
+    _memberInfoService = ref.read(memberInfoServiceProvider);
+    _orphanageService = ref.read(orphanageServiceProvider);
+
     authState.addListener(() {
       if (authState.isSuccess) {
         _memberInfoService.getMemberInfo();
       }
     });
-
-    _memberInfoService = ref.read(memberInfoServiceProvider);
 
     rootTabController.addListener(() {
       if (rootTabController.index == 2 && !memberState.isSuccess) {
@@ -48,17 +49,13 @@ class UserHomeViewModel extends ChangeNotifier {
     if (!memberState.isSuccess) {
       await _memberInfoService.getMemberInfo();
     }
-    ref
-        .read(orphanageServiceProvider.notifier)
-        .getOrphanageList()
-        .then((value) => context.pushNamed(OrphanageMapScreen.routeName));
+    await _orphanageService.getOrphanageList();
+    if (context.mounted) context.pushNamed(OrphanageMapScreen.routeName);
   }
 
   Future navigateToReservationScreen(BuildContext context) async {
-    ref
-        .read(reservationServiceProvider.notifier)
-        .getOrphanageReservation()
-        .then((value) => context.pushNamed(ReservationScreen.routeName));
+    ref.read(reservationServiceProvider.notifier).getOrphanageReservation();
+    if (context.mounted) context.pushNamed(ReservationScreen.routeName);
   }
 
   Future navigateToPostScreen(BuildContext context) async {

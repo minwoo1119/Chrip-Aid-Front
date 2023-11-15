@@ -1,7 +1,6 @@
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
@@ -40,33 +39,39 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   final searchTextController = TextEditingController();
 
   late final MemberInfoService _memberInfoService;
+  late final OrphanageService _orphanageService;
 
   MemberInfoState get memberState => _memberInfoService.memberInfoState;
 
-  UserEntity? get userInfo => memberState.value as UserEntity?;
+  OrphanageListState get orphanageListState =>
+      _orphanageService.orphanageListState;
 
-  late OrphanageState orphanageState;
+  OrphanageDetailState get orphanageDetailState =>
+      _orphanageService.orphanageDetailState;
+
+  UserEntity? get userInfo => memberState.value as UserEntity?;
 
   OrphanageEntity? orphanage;
 
-  List<OrphanageEntity> get orphanageList => OrphanageState.list
-      .where((e) =>
-          e.address.contains(subRegionDropdownController.selected.name) &&
-          e.address.contains(majorRegionDropdownController.selected.fullName) &&
-          e.orphanageName.contains(searchTextController.text))
-      .toList();
+  List<OrphanageEntity> get orphanageList =>
+      orphanageListState.value
+          ?.where((e) =>
+              e.address.contains(subRegionDropdownController.selected.name) &&
+              e.address
+                  .contains(majorRegionDropdownController.selected.fullName) &&
+              e.orphanageName.contains(searchTextController.text))
+          .toList() ??
+      [];
 
   OrphanageSearchViewModel(this.ref) {
-    orphanageState = ref.read(orphanageServiceProvider);
-    ref.listen(orphanageServiceProvider, (previous, next) {
-      if (previous != next) {
-        orphanageState = next;
-        if (orphanageState is NoneState) _initMarker();
-        notifyListeners();
-      }
-    });
     _memberInfoService = ref.read(memberInfoServiceProvider);
+    _orphanageService = ref.read(orphanageServiceProvider);
+
     memberState.addListener(notifyListeners);
+    orphanageListState.addListener(notifyListeners);
+    orphanageListState.addListener(() {
+      if(orphanageListState.isSuccess) _initMarker();
+    });
 
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
@@ -88,6 +93,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       ["최신순", "오래된순"],
       onChanged: (_) => notifyListeners(),
     );
+
+    _initMarker();
   }
 
   void onValueChange() => notifyListeners();
@@ -111,16 +118,13 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void navigateToDetailPage(BuildContext context) {
-    ref
-        .read(orphanageServiceProvider.notifier)
-        .getOrphanageDetail(orphanage!.orphanageId);
+    _orphanageService.getOrphanageDetail(orphanage!.orphanageId);
     FocusManager.instance.primaryFocus?.unfocus();
     context.pushNamed(OrphanageDetailScreen.routeName);
   }
 
   void moveCameraToMarker(String id) {
-    orphanage =
-        OrphanageState.list.where((e) => e.orphanageId.toString() == id).first;
+    orphanage = orphanageList.where((e) => e.orphanageId.toString() == id).first;
     final marker = markers.where((e) => e.markerId.value == id).first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(
@@ -132,7 +136,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void _initMarker() async {
-    for (var element in OrphanageState.list) {
+    for (var element in orphanageList) {
       _addMarkerByAddress(element);
     }
     notifyListeners();

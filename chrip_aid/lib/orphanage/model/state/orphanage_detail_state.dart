@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/state/data_state.dart';
 import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
 import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
@@ -6,63 +7,64 @@ import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 
-abstract class OrphanageState {
-  static List<OrphanageEntity> list = [];
-}
+abstract class OrphanageState {}
 
-class OrphanageStateNone extends NoneState implements OrphanageState {}
+class OrphanageListState extends DataState<List<OrphanageEntity>> {}
 
-class OrphanageStateLoading extends LoadingState implements OrphanageState {}
-
-class OrphanageStateSuccess extends SuccessState<OrphanageDetailEntity> implements OrphanageState {
-  OrphanageStateSuccess(super.data);
-}
-
-class OrphanageStateError extends ErrorState implements OrphanageState {
-  OrphanageStateError(super.message);
-}
+class OrphanageDetailState extends DataState<OrphanageDetailEntity> {}
 
 //장바구니
 
 class OrphanageBasketStateNone extends NoneState implements OrphanageState {}
 
-class OrphanageBasketStateLoading extends LoadingState implements OrphanageState {}
+class OrphanageBasketStateLoading extends LoadingState
+    implements OrphanageState {}
 
-class OrphanageBasketStateSuccess extends SuccessState<List<OrphanageBasketEntity>> implements OrphanageState {
+class OrphanageBasketStateSuccess
+    extends SuccessState<List<OrphanageBasketEntity>>
+    implements OrphanageState {
   OrphanageBasketStateSuccess(super.data);
 }
 
 class OrphanageBasketStateError extends ErrorState implements OrphanageState {
   OrphanageBasketStateError(super.message);
 }
+
 class OrphanageDonateStateNone extends NoneState implements OrphanageState {}
 
-class OrphanageDonateStateLoading extends LoadingState implements OrphanageState {}
+class OrphanageDonateStateLoading extends LoadingState
+    implements OrphanageState {}
 
-class OrphanageDonateStateSuccess extends SuccessState<List<DonateEntity>> implements OrphanageState {
+class OrphanageDonateStateSuccess extends SuccessState<List<DonateEntity>>
+    implements OrphanageState {
   OrphanageDonateStateSuccess(super.data);
 }
+
 class OrphanageDonateStateError extends ErrorState implements OrphanageState {
   OrphanageDonateStateError(super.message);
 }
 
 class OrphanagePostStateNone extends NoneState implements OrphanageState {}
 
-class OrphanagePostStateLoading extends LoadingState implements OrphanageState {}
+class OrphanagePostStateLoading extends LoadingState
+    implements OrphanageState {}
 
-class OrphanagePostStateSuccess extends SuccessState<List<GetPostsEntity>> implements OrphanageState {
+class OrphanagePostStateSuccess extends SuccessState<List<GetPostsEntity>>
+    implements OrphanageState {
   OrphanagePostStateSuccess(super.data);
 }
+
 class OrphanagePostStateError extends ErrorState implements OrphanageState {
   OrphanagePostStateError(super.message);
 }
 
-
 class OrphanageProductStateNone extends NoneState implements OrphanageState {}
 
-class OrphanageProductStateLoading extends LoadingState implements OrphanageState {}
+class OrphanageProductStateLoading extends LoadingState
+    implements OrphanageState {}
 
-class OrphanageProductStateSuccess extends SuccessState<OrphanageDetailEntity> implements OrphanageState {
+class OrphanageProductStateSuccess extends SuccessState<OrphanageDetailEntity>
+    implements OrphanageState {
   OrphanageProductStateSuccess(super.data);
 }
 
@@ -74,7 +76,8 @@ class ReservationStateNone extends NoneState implements OrphanageState {}
 
 class ReservationStateLoading extends LoadingState implements OrphanageState {}
 
-class ReservationStateSuccess extends SuccessState<List<ReservationEntity>> implements OrphanageState {
+class ReservationStateSuccess extends SuccessState<List<ReservationEntity>>
+    implements OrphanageState {
   ReservationStateSuccess(super.data);
 }
 
@@ -89,14 +92,19 @@ class ReservationStateError extends ErrorState implements OrphanageState {
 // OrphanageReservationStateSuccess<ReservationEntity> reservationState = OrphanageReservationStateSuccess(reservationData);
 // OrphanageReservationStateSuccess<OrphanageReservationEntity> orphanageState = OrphanageReservationStateSuccess(orphanageData);
 
-class OrphanageReservationStateNone extends NoneState implements OrphanageState {}
+class OrphanageReservationStateNone extends NoneState
+    implements OrphanageState {}
 
-class OrphanageReservationStateLoading extends LoadingState implements OrphanageState {}
+class OrphanageReservationStateLoading extends LoadingState
+    implements OrphanageState {}
 
-class OrphanageReservationStateSuccess extends SuccessState<List<OrphanageReservationEntity>> implements OrphanageState {
+class OrphanageReservationStateSuccess
+    extends SuccessState<List<OrphanageReservationEntity>>
+    implements OrphanageState {
   OrphanageReservationStateSuccess(super.data);
 }
 
-class OrphanageReservationStateError extends ErrorState implements OrphanageState {
+class OrphanageReservationStateError extends ErrorState
+    implements OrphanageState {
   OrphanageReservationStateError(super.message);
 }

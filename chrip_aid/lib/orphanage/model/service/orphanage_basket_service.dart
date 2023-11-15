@@ -16,7 +16,7 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
   final OrphanageBasketRepository repository;
 
   OrphanageBasketService(this.repository)
-      : super(OrphanageStateNone());
+      : super(OrphanageBasketStateNone());
 
   Future getOrphanageBasket() async {
     try {
@@ -50,7 +50,7 @@ class OrphanageBasketService extends StateNotifier<OrphanageState> {
 
   Future donate(DonateRequestDTO dto) async {
     try {
-      state = OrphanageStateLoading();
+      state = OrphanageBasketStateLoading();
       await repository.donate(dto);
       getOrphanageBasket();
     } catch (e) {

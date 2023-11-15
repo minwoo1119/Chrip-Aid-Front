@@ -1,14 +1,13 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/custom_date_picker.dart';
 import 'package:chrip_aid/orphanage/component/custom_product_box.dart';
+import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_text_form.dart';
+import 'package:chrip_aid/orphanage/const/tabs.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphange_detail_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
-import 'package:chrip_aid/orphanage/const/tabs.dart';
 
 class OrphanageDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'detailPage';
@@ -68,7 +67,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
               ),
             ),
           ),
-          child: viewModel.orphanageState is SuccessState
+          child: viewModel.orphanageDetailState.isSuccess
               ? SingleChildScrollView(
                   child: Column(
                     children: [
@@ -78,7 +77,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                             width: MediaQuery.of(context).size.width,
                             height: 150,
                             child: Image.network(
-                              viewModel.entity.photo,
+                              viewModel.entity!.photo,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -89,24 +88,24 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                             child: Column(
                               children: [
                                 CustomTextField(
-                                  text: viewModel.entity.orphanageName,
+                                  text: viewModel.entity!.orphanageName,
                                   textSize: kTextMediumSize,
                                 ),
                                 CustomTextField(
                                   iconData: Icons.location_on,
-                                  text: viewModel.entity.address,
+                                  text: viewModel.entity!.address,
                                 ),
                                 CustomTextField(
                                   iconData: Icons.phone,
-                                  text: viewModel.entity.phoneNumber,
+                                  text: viewModel.entity!.phoneNumber,
                                 ),
                                 CustomTextField(
                                   iconData: Icons.person,
-                                  text: viewModel.entity.name ?? '',
+                                  text: viewModel.entity!.name ?? '',
                                 ),
                                 CustomTextField(
                                   iconData: Icons.monitor,
-                                  text: viewModel.entity.homepageLink,
+                                  text: viewModel.entity!.homepageLink,
                                 ),
                               ],
                             ),
@@ -129,7 +128,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                             const CustomTextField(
                                 iconData: Icons.description, text: "소개글"),
                             Text(
-                              viewModel.entity.description,
+                              viewModel.entity!.description,
                               style: kTextContentStyleSmall,
                             ),
                           ],
@@ -169,10 +168,10 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                     ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
                                       itemCount:
-                                          viewModel.entity.requests.length,
+                                          viewModel.entity!.requests.length,
                                       itemBuilder: (context, index) {
                                         final item =
-                                            viewModel.entity.requests[index];
+                                            viewModel.entity!.requests[index];
                                         return CustomProductBox(
                                           requiredId: item.requestId,
                                           photo: item.productPhoto,
