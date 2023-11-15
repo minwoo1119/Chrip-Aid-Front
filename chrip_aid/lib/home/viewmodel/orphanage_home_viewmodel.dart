@@ -76,7 +76,7 @@ class OrphanageHomeViewModel extends ChangeNotifier {
   }
 
   Future navigateToPostScreen(BuildContext context) async {
-    await ref.read(orphanagePostServiceProvider.notifier).getOrphanagePosts();
+    await ref.read(orphanagePostServiceProvider).getOrphanagePosts();
     if (context.mounted) context.pushNamed(PostScreen.routeName);
   }
 }

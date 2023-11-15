@@ -59,7 +59,7 @@ class UserHomeViewModel extends ChangeNotifier {
   }
 
   Future navigateToPostScreen(BuildContext context) async {
-    ref.read(orphanagePostServiceProvider.notifier).getOrphanagePosts();
+    ref.read(orphanagePostServiceProvider).getOrphanagePosts();
     if (context.mounted) context.pushNamed(PostScreen.routeName);
   }
 }

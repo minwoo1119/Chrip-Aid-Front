@@ -1,4 +1,3 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/post/component/custom_post_box.dart';
@@ -17,14 +16,14 @@ class UserPostScreen extends ConsumerWidget implements PostScreen {
       appBarBackgroundColor: CustomColor.backgroundMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       title: "인증글",
-      child: viewModel.state is SuccessState
+      child: viewModel.postListState.isSuccess
           ? Column(
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.entity.length,
+                    itemCount: viewModel.entity!.length,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity[index];
+                      final item = viewModel.entity![index];
                       return InkWell(
                         onTap: () => viewModel.navigateToDetailScreen(
                           context,

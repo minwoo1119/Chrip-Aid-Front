@@ -1,6 +1,6 @@
 import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/post/model/state/post_state.dart';
 import 'package:chrip_aid/post/view/orphanage_edit_post_screen.dart';
 import 'package:chrip_aid/post/view/post_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,20 +13,14 @@ final orphanagePostsViewModelProvider =
 class OrphanagePostsViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageState state;
+  late final OrphanagePostService _postService;
+  PostListState get postListState => _postService.postListState;
 
-  List<GetPostsEntity>? get entity => state is OrphanagePostStateSuccess
-      ? (state as OrphanagePostStateSuccess).data
-      : null;
+  List<GetPostsEntity>? get entity => postListState.value;
 
   OrphanagePostsViewModel(this.ref) {
-    state = ref.read(orphanagePostServiceProvider);
-    ref.listen(orphanagePostServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
+    _postService = ref.read(orphanagePostServiceProvider);
+    postListState.addListener(notifyListeners);
   }
 
   void navigateToEditScreen(BuildContext context) {

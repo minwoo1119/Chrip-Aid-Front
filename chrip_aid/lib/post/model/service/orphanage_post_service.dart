@@ -1,26 +1,29 @@
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/model/entity/tag_entity.dart';
 import 'package:chrip_aid/post/model/entity/write_post_request_dto.dart';
 import 'package:chrip_aid/post/model/repository/orphanage_post_repository.dart';
+import 'package:chrip_aid/post/model/state/post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final orphanagePostServiceProvider =
-    StateNotifierProvider<OrphanagePostService, OrphanageState>((ref) =>
-        OrphanagePostService(ref.watch(orphanagePostRepositoryProvider)));
+final orphanagePostServiceProvider = Provider((ref) {
+  final repository = ref.watch(orphanagePostRepositoryProvider);
+  return OrphanagePostService(repository);
+});
 
-class OrphanagePostService extends StateNotifier<OrphanageState> {
+class OrphanagePostService {
   final OrphanagePostRepository repository;
 
-  OrphanagePostService(this.repository) : super(OrphanagePostStateLoading());
+  final postListState = PostListState();
+
+  OrphanagePostService(this.repository);
 
   Future getOrphanagePosts() async {
     try {
-      state = OrphanagePostStateLoading();
+      postListState.loading();
       List<GetPostsEntity> data = await repository.getOrphanagePosts();
-      state = OrphanagePostStateSuccess(data);
+      postListState.success(value:  data);
     } catch (e) {
-      state = OrphanagePostStateError(e.toString());
+      postListState.error(message: e.toString());
     }
   }
 
@@ -31,12 +34,11 @@ class OrphanagePostService extends StateNotifier<OrphanageState> {
 
   Future writePost(WritePostRequestDTO dto) async {
     try {
-      state = OrphanagePostStateLoading();
+      postListState.loading();
       await repository.writePost(dto);
       getOrphanagePosts();
     } catch (e) {
-      print(e);
-      state = OrphanagePostStateError(e.toString());
+      postListState.error(message: e.toString());
     }
   }
 }

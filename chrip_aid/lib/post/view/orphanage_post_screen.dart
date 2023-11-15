@@ -1,8 +1,7 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
-import 'package:chrip_aid/post/component/custom_post_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
+import 'package:chrip_aid/post/component/custom_post_box.dart';
 import 'package:chrip_aid/post/view/post_screen.dart';
 import 'package:chrip_aid/post/viewmodel/orphanage_posts_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class OrphanagePostScreen extends ConsumerWidget implements PostScreen {
           ),
         ),
       ],
-      child: viewModel.state is SuccessState
+      child: viewModel.postListState.isSuccess
           ? Column(
               children: [
                 Expanded(
