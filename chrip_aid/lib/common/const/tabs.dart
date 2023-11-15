@@ -1,5 +1,5 @@
 import 'package:chrip_aid/alarm/view/alarm_screen.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/view/orphanage_home_screen.dart';
 import 'package:chrip_aid/home/view/user_home_screen.dart';

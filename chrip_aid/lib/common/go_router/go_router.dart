@@ -1,5 +1,5 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';

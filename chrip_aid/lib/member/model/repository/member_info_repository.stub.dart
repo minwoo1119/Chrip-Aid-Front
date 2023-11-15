@@ -1,6 +1,6 @@
 import 'package:chrip_aid/auth/model/type/region/gyeonggi.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';

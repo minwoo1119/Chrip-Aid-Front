@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/repository/auth_repository.dart';
 import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,7 +13,7 @@ final authServiceProvider = Provider((ref) {
   final authRepository = ref.read(authRepositoryProvider);
   final fcmRepository = ref.read(fcmRepositoryProvider);
   final storage = ref.read(localStorageProvider);
-  return AuthService(authRepository, fcmRepository, storage);
+  return AuthService(authRepository, fcmRepository, storage, ref);
 });
 
 class AuthService {
@@ -20,9 +21,11 @@ class AuthService {
   final FcmRepository fcmRepository;
   final LocalStorage storage;
 
+  final Ref ref;
+
   AuthState authState = AuthState();
 
-  AuthService(this.authRepository, this.fcmRepository, this.storage) {
+  AuthService(this.authRepository, this.fcmRepository, this.storage, this.ref) {
     saveFcmToken();
   }
 
@@ -34,8 +37,9 @@ class AuthService {
         LoginRequestDto(email: id, password: password),
       );
       await saveFcmToken();
+      await saveAuthority(ref);
     } on DioException catch (e) {
-      if (e.response?.statusCode == 400) {
+      if (e.response?.statusCode == 404) {
         return authState.error(message: "id 또는 password가 틀렸습니다.");
       }
       if (e.response?.statusCode == 200) {

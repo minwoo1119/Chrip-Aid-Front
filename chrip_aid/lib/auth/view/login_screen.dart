@@ -1,14 +1,13 @@
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/auth/util/validators.dart';
+import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
-import 'package:chrip_aid/common/component/data_state_widget.dart';
-import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:flutter/material.dart';
 import 'package:chrip_aid/common/component/custom_text_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
+import 'package:chrip_aid/common/component/data_state_widget.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
-import 'package:chrip_aid/common/state/state.dart';
-import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
+import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerWidget {

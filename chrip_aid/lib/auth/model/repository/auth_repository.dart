@@ -24,7 +24,6 @@ abstract class AuthRepository {
   @POST('/members/new/authorityType')
   Future signup(@Body() SignupRequestDto signupRequestDto);
 
-  // TODO : when orphanage it can't saveToken
   @POST('/auth/authorityType/fcm')
   @Headers({'accessToken' : 'true'})
   Future saveToken(@Header('fcm-token') String fcmToken);

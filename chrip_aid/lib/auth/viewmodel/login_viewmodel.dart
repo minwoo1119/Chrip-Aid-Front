@@ -1,8 +1,7 @@
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
 import 'package:chrip_aid/auth/model/state/auth_state.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
-import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

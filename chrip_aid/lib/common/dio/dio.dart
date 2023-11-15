@@ -1,5 +1,5 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
-import 'package:chrip_aid/auth/provider/user_type_provider.dart';
+import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:chrip_aid/common/utils/data_utils.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
