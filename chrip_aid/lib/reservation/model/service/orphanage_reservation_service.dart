@@ -1,36 +1,39 @@
 import 'package:chrip_aid/reservation/model/entity/reservation_answer_request_dto.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/repository/reservation_repository.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/reservation/model/state/reservation_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final orphanageReservationServiceProvider =
-StateNotifierProvider<OrphanageReservationService, OrphanageState>((ref) =>
-    OrphanageReservationService(
-        ref.watch(reservationRepositoryProvider)));
+final orphanageReservationServiceProvider = Provider((ref) {
+  final repository = ref.watch(reservationRepositoryProvider);
+  return OrphanageReservationService(repository);
+});
 
-class OrphanageReservationService extends StateNotifier<OrphanageState> {
+class OrphanageReservationService {
   final ReservationRepository repository;
 
-  OrphanageReservationService(this.repository) : super(OrphanageReservationStateLoading());
+  final state = OrphanageReservationState();
+
+  OrphanageReservationService(this.repository);
 
   Future getOrphanageVisitReservation() async {
     try {
-      state = OrphanageReservationStateLoading();
-      List<OrphanageReservationEntity> data = await repository.getOrphanageVisitReservation('orphanage');
-      state = OrphanageReservationStateSuccess(data);
+      state.loading();
+      List<OrphanageReservationEntity> data =
+          await repository.getOrphanageVisitReservation('orphanage');
+      state.success(value: data);
     } catch (e) {
-      state = OrphanageReservationStateError(e.toString());
+      state.error(message: e.toString());
     }
   }
 
   Future answerToReservation(ReservationAnswerRequestDto dto) async {
     try {
-      state = OrphanageReservationStateLoading();
+      state.loading();
       await repository.answer(dto);
       getOrphanageVisitReservation();
     } catch (e) {
-      state = OrphanageReservationStateError(e.toString());
+      state.error(message: e.toString());
     }
   }
 }

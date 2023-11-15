@@ -54,7 +54,7 @@ class UserHomeViewModel extends ChangeNotifier {
   }
 
   Future navigateToReservationScreen(BuildContext context) async {
-    ref.read(reservationServiceProvider.notifier).getOrphanageReservation();
+    ref.read(reservationServiceProvider).getOrphanageReservation();
     if (context.mounted) context.pushNamed(ReservationScreen.routeName);
   }
 

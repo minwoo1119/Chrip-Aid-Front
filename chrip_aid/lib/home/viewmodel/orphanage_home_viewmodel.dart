@@ -70,7 +70,7 @@ class OrphanageHomeViewModel extends ChangeNotifier {
 
   Future navigateToReservationScreen(BuildContext context) async {
     await ref
-        .read(orphanageReservationServiceProvider.notifier)
+        .read(orphanageReservationServiceProvider)
         .getOrphanageVisitReservation();
     if (context.mounted) context.pushNamed(ReservationScreen.routeName);
   }

@@ -1,10 +1,9 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_reservation_box.dart';
 import 'package:chrip_aid/orphanage/const/tabs.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import 'package:chrip_aid/reservation/viewmodel/orphanage_reservation_viewmodel.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
+import 'package:chrip_aid/reservation/viewmodel/orphanage_reservation_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,7 +38,7 @@ class OrphanageReservationScreenState
       appBarBackgroundColor: CustomColor.backgroundMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       title: "방문예약 확인",
-      child: viewModel.state is SuccessState
+      child: viewModel.state.isSuccess
           ? Column(
               children: [
                 TabBar(

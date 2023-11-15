@@ -48,6 +48,7 @@ class DataState<T> extends ValueNotifier<T?> {
   @override
   void notifyListeners() {
     if(isError) SnackBarUtil.showError(message);
+    if(isSuccess && message != null) SnackBarUtil.showSuccess(message);
     super.notifyListeners();
   }
 }

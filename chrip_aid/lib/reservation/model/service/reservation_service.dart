@@ -1,36 +1,39 @@
 import 'package:chrip_aid/reservation/model/entity/orphanage_visit_entity.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/repository/reservation_repository.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/reservation/model/state/reservation_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final reservationServiceProvider =
-    StateNotifierProvider<ReservationService, OrphanageState>((ref) =>
-        ReservationService(
-            ref.watch(reservationRepositoryProvider)));
+final reservationServiceProvider = Provider((ref) {
+  final repository = ref.watch(reservationRepositoryProvider);
+  return ReservationService(repository);
+});
 
-class ReservationService extends StateNotifier<OrphanageState> {
+class ReservationService {
   final ReservationRepository repository;
 
-  ReservationService(this.repository) : super(ReservationStateNone());
+  final state = ReservationState();
+
+  ReservationService(this.repository);
 
   Future postReservation(OrphanageVisitEntity entity) async {
     try {
-      state = ReservationStateLoading();
+      state.loading();
       await repository.post(entity);
-      getOrphanageReservation();
+      state.success(value: state.value, message: '예약에 성공하였습니다');
     } catch (e) {
-      state = ReservationStateError(e.toString());
+      state.error(message: e.toString());
     }
   }
 
   Future getOrphanageReservation() async {
     try {
-      state = ReservationStateLoading();
-      List<ReservationEntity> data = await repository.getOrphanageReservation('user');
-      state = ReservationStateSuccess(data);
+      state.loading();
+      List<ReservationEntity> data =
+          await repository.getOrphanageReservation('user');
+      state.success(value: data);
     } catch (e) {
-      state = ReservationStateError(e.toString());
+      state.error(message: e.toString());
     }
   }
 }

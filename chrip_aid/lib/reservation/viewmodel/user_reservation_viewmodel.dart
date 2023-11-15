@@ -1,7 +1,6 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/reservation/model/state/reservation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,7 +10,10 @@ final reservationViewModelProvider =
 class ReservationViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageState state;
+  late final ReservationService _reservationService;
+
+  ReservationState get state => _reservationService.state;
+
   String? selectedTabIndex;
   List<ReservationEntity> listAll = [];
   List<ReservationEntity> listEnd = [];
@@ -29,18 +31,16 @@ class ReservationViewModel extends ChangeNotifier {
   }
 
   void divisionSortList() {
-    listApprove = (state as ReservationStateSuccess)
-        .data
-        .where((item) => item.state == "APPROVED")
-        .toList();
-    listPending = (state as ReservationStateSuccess)
-        .data
-        .where((item) => item.state == "PENDING")
-        .toList();
-    listEnd = (state as ReservationStateSuccess)
-        .data
-        .where((item) => item.state == "REJECTED" || item.state == "COMPLETED")
-        .toList();
+    listApprove =
+        state.value?.where((item) => item.state == "APPROVED").toList() ?? [];
+    listPending =
+        state.value?.where((item) => item.state == "PENDING").toList() ?? [];
+    listEnd = state.value
+            ?.where(
+                (item) => item.state == "REJECTED" || item.state == "COMPLETED")
+            .toList() ??
+        [];
+
     listAll.clear();
     listAll += listApprove;
     listAll += listPending;
@@ -60,15 +60,12 @@ class ReservationViewModel extends ChangeNotifier {
   }
 
   ReservationViewModel(this.ref) {
-    state = ref.read(reservationServiceProvider);
-    ref.listen(reservationServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        if(state is SuccessState) {
-          divisionSortList();
-          notifyListeners();
-        }
+    _reservationService = ref.read(reservationServiceProvider);
+    state.addListener(() {
+      if (state.isSuccess) {
+        divisionSortList();
       }
+      notifyListeners();
     });
   }
 }
