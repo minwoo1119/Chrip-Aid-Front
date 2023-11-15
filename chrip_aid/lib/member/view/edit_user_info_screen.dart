@@ -3,7 +3,6 @@ import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
@@ -130,7 +129,7 @@ class EditUserInfoScreen extends ConsumerWidget implements EditMemberInfoScreen 
                 textController: viewModel.phoneTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.userInfoState is LoadingState)
+              if (viewModel.userInfoState.isLoading)
                 const Center(
                   child: CircularProgressIndicator(
                     color: CustomColor.backGroundSubColor,

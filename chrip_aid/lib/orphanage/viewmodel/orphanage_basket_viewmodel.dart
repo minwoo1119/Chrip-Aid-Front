@@ -1,5 +1,4 @@
 import 'package:chrip_aid/common/kakao/kakao_pay.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
@@ -53,7 +52,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   void addOrUpdateBasket(int requestId, int count) async {
     bool isNewProduct = true;
-    if (orphanageBasketState is! SuccessState) {
+    if (orphanageBasketState.isSuccess) {
       await _orphanageBasketService.getOrphanageBasket();
     }
     for (OrphanageBasketEntity entityItem in entity!) {

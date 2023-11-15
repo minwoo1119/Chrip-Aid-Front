@@ -1,10 +1,9 @@
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
-import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_info_screen.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
+import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,23 +14,14 @@ final orphanageManagementViewModelProvider =
 class OrphanageEditViewModel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageManagementState orphanageState;
+  late final OrphanageManagementService _orphanageManagementService;
+  OrphanageDetailState get orphanageState => _orphanageManagementService.orphanageDetailState;
 
-  OrphanageDetailEntity? get entity =>
-      orphanageState is OrphanageManagementStateSuccess
-          ? (orphanageState as OrphanageManagementStateSuccess).data
-          : null;
-
-  List<ProductEntity> get products => OrphanageManagementState.productList;
+  OrphanageDetailEntity? get entity => orphanageState.value;
 
   OrphanageEditViewModel(this.ref) {
-    orphanageState = ref.read(orphanageManagementServiceProvider);
-    ref.listen(orphanageManagementServiceProvider, (previous, next) {
-      if (previous != next) {
-        orphanageState = next;
-        notifyListeners();
-      }
-    });
+    _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
+    orphanageState.addListener(notifyListeners);
   }
 
   void navigateToAddProductScreen(

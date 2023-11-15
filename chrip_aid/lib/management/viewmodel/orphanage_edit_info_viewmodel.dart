@@ -1,16 +1,14 @@
 import 'dart:io';
 
 import 'package:card_swiper/card_swiper.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/utils/aws_utils.dart';
-import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
-import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
+import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,18 +20,18 @@ final orphanageEditInfoViewmodelProvider =
 class OrphanageEditInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
-  late OrphanageManagementState managementState;
-
-
+  late final OrphanageManagementService _orphanageManagementService;
   late MemberInfoService _memberInfoService;
+
+  OrphanageDetailState get orphanageDetailState =>
+      _orphanageManagementService.orphanageDetailState;
 
   MemberInfoState get memberState => _memberInfoService.memberInfoState;
 
-  OrphanageDetailEntity? get orphanage => managementState is SuccessState
-      ? (managementState as OrphanageManagementStateSuccess).data
-      : null;
+  OrphanageDetailEntity? get orphanage => orphanageDetailState.value;
 
-  OrphanageMemberEntity? get member => memberState.value as OrphanageMemberEntity?;
+  OrphanageMemberEntity? get member =>
+      memberState.value as OrphanageMemberEntity?;
 
   final TextEditingController orphanageNameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -46,18 +44,13 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
   final List<File> images = [];
 
   OrphanageEditInfoViewmodel(this.ref) {
-    managementState = ref.read(orphanageManagementServiceProvider);
-    ref.listen(orphanageManagementServiceProvider, (previous, next) {
-      if (previous != next) {
-        managementState = next;
-        if (managementState is ErrorState) {
-          SnackBarUtil.showError((managementState as ErrorState).message);
-        }
-        if (managementState is SuccessState) _initController();
-      }
-    });
     _memberInfoService = ref.read(memberInfoServiceProvider);
+    _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
     memberState.addListener(notifyListeners);
+    orphanageDetailState.addListener(() {
+      if (orphanageDetailState.isSuccess) _initController();
+      notifyListeners();
+    });
     _initController();
   }
 
@@ -72,19 +65,19 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
 
   void post(BuildContext context) async {
     final photoUrl = await uploadFileToS3(images.first, AwsS3Dir.orphanage);
-    if(photoUrl == null) return;
-    await ref.read(orphanageManagementServiceProvider.notifier).editOrphanageInfo(
-          EditOrphanageInfoRequestDTO(
-            orphanageId: member!.orphanageId,
-            orphanageName: orphanageNameController.text,
-            address: addressController.text,
-            homepageLink: linkController.text,
-            description: descriptionController.text,
-            photo: photoUrl,
-            phoneNumber: phoneNumberController.text,
-          ),
-        );
-    context.pop();
+    if (photoUrl == null) return;
+    await _orphanageManagementService.editOrphanageInfo(
+      EditOrphanageInfoRequestDTO(
+        orphanageId: member!.orphanageId,
+        orphanageName: orphanageNameController.text,
+        address: addressController.text,
+        homepageLink: linkController.text,
+        description: descriptionController.text,
+        photo: photoUrl,
+        phoneNumber: phoneNumberController.text,
+      ),
+    );
+    if(context.mounted) context.pop();
   }
 
   void removeImage() async {

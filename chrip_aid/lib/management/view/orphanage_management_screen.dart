@@ -1,4 +1,3 @@
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
@@ -32,7 +31,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
         ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
-      child: viewModel.orphanageState is SuccessState
+      child: viewModel.orphanageState.isSuccess
           ? SingleChildScrollView(
               child: Column(
                 children: [

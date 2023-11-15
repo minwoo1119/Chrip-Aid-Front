@@ -15,9 +15,12 @@ class OrphanageEditProductViewModel extends ChangeNotifier {
 
   TextEditingController messageController = TextEditingController();
 
-  late OrphanageManagementState state;
+  late final OrphanageManagementService _orphanageManagementService;
 
-  List<ProductEntity> get products => OrphanageManagementState.productList;
+  OrphanageProductListState get state =>
+      _orphanageManagementService.productListState;
+
+  List<ProductEntity> get products => state.value ?? [];
 
   ProductEntity? get product =>
       productIndex == -1 ? null : products[productIndex];
@@ -25,12 +28,9 @@ class OrphanageEditProductViewModel extends ChangeNotifier {
   int productCount = 1;
 
   OrphanageEditProductViewModel(this.ref) {
-    state = ref.read(orphanageManagementServiceProvider);
-    ref.listen(orphanageManagementServiceProvider, (previous, next) {
-      if (previous != next) state = next;
-      notifyListeners();
-    });
-    ref.read(orphanageManagementServiceProvider.notifier).getProductList();
+    _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
+    state.addListener(notifyListeners);
+    _orphanageManagementService.getProductList();
   }
 
   void onProductDelete() {
@@ -61,15 +61,13 @@ class OrphanageEditProductViewModel extends ChangeNotifier {
 
   void post(BuildContext context) {
     if (product == null) return;
-    ref
-        .read(orphanageManagementServiceProvider.notifier)
-        .editOrphanageProduct(
-          AddOrphanageProductRequestDTO(
-            id: product!.id,
-            count: productCount,
-            message: messageController.text,
-          ),
-        )
-        .then((value) => context.pop());
+    _orphanageManagementService.editOrphanageProduct(
+      AddOrphanageProductRequestDTO(
+        id: product!.id,
+        count: productCount,
+        message: messageController.text,
+      ),
+    );
+    if (context.mounted) context.pop();
   }
 }

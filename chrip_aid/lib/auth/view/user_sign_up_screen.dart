@@ -5,7 +5,6 @@ import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +136,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.phoneTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.state is LoadingState)
+              if (viewModel.state.isLoading)
                 const Center(
                   child: CircularProgressIndicator(
                     color: CustomColor.backGroundSubColor,

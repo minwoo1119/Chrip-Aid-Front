@@ -4,7 +4,6 @@ import 'package:chrip_aid/auth/viewmodel/orphanage_sign_up_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
-import 'package:chrip_aid/common/state/state.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +80,7 @@ class OrphanageSignUpScreen extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.orphanageNameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.state is LoadingState)
+              if (viewModel.state.isLoading)
                 const Center(
                   child: CircularProgressIndicator(
                     color: CustomColor.backGroundSubColor,
