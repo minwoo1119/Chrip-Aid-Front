@@ -21,7 +21,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
   OrphanageBasketState get orphanageBasketState =>
       _orphanageBasketService.orphanageBasketState;
 
-  List<OrphanageBasketEntity>? get entity => orphanageBasketState.value;
+  List<OrphanageBasketEntity>? get entities => orphanageBasketState.value;
 
   int get total => calculateSumOfElements();
 
@@ -32,7 +32,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   int calculateSumOfElements() {
     int sum = 0;
-    for (OrphanageBasketEntity entityItem in entity!) {
+    for (OrphanageBasketEntity entityItem in entities!) {
       sum += (entityItem.price * entityItem.count);
     }
     return sum;
@@ -55,7 +55,7 @@ class OrphanageBasketViewModel extends ChangeNotifier {
     if (orphanageBasketState.isSuccess) {
       await _orphanageBasketService.getOrphanageBasket();
     }
-    for (OrphanageBasketEntity entityItem in entity!) {
+    for (OrphanageBasketEntity entityItem in entities!) {
       if (entityItem.requestId == requestId) {
         updateBasket(count, requestId);
         isNewProduct = false;
@@ -71,15 +71,15 @@ class OrphanageBasketViewModel extends ChangeNotifier {
 
   void payment(BuildContext context) async {
     await kakaoPayReady(
-      "${entity!.first.productName} 등",
-      entity!.map((e) => e.count).reduce((value, element) => value + element),
-      entity!
+      "${entities!.first.productName} 등",
+      entities!.map((e) => e.count).reduce((value, element) => value + element),
+      entities!
           .map((e) => e.count * e.price)
           .reduce((value, element) => value + element),
     );
     await _orphanageBasketService.donate(
       DonateRequestDTO(
-        basketProductIds: entity!.map((e) => e.basketProductId).toList(),
+        basketProductIds: entities!.map((e) => e.basketProductId).toList(),
         message: '',
       ),
     );
