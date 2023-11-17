@@ -1,8 +1,8 @@
+import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/model/entity/tag_entity.dart';
 import 'package:chrip_aid/post/model/entity/write_post_request_dto.dart';
 import 'package:chrip_aid/post/model/repository/orphanage_post_repository.dart';
-import 'package:chrip_aid/post/model/state/post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanagePostServiceProvider = Provider((ref) {
@@ -13,32 +13,32 @@ final orphanagePostServiceProvider = Provider((ref) {
 class OrphanagePostService {
   final OrphanagePostRepository repository;
 
-  final postListState = PostListState();
-
   OrphanagePostService(this.repository);
 
-  Future getOrphanagePosts() async {
+  Future<ResponseEntity<List<GetPostsEntity>>> getOrphanagePosts() async {
     try {
-      postListState.loading();
       List<GetPostsEntity> data = await repository.getOrphanagePosts();
-      postListState.success(value:  data);
+      return ResponseEntity.success(entity: data);
     } catch (e) {
-      postListState.error(message: e.toString());
+      return ResponseEntity.error(message: "인증글 목록을 가져오는데 실패하였습니다.");
     }
   }
 
-  Future<List<TagEntity>> getTags() async {
-    List<TagEntity> data = await repository.getTags();
-    return data;
+  Future<ResponseEntity<List<TagEntity>>> getTags() async {
+    try {
+      List<TagEntity> data = await repository.getTags();
+      return ResponseEntity.success(entity: data);
+    } catch (e) {
+      return ResponseEntity.error(message: "태그 목록을 가져오는데 실패하였습니다.");
+    }
   }
 
   Future writePost(WritePostRequestDTO dto) async {
     try {
-      postListState.loading();
       await repository.writePost(dto);
       getOrphanagePosts();
     } catch (e) {
-      postListState.error(message: e.toString());
+      return ResponseEntity.error(message: "인증글을 작성하는데 실패하였습니다.");
     }
   }
 }

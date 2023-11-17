@@ -1,26 +1,27 @@
-import 'dart:io';
-
 import 'package:card_swiper/card_swiper.dart';
+import 'package:chrip_aid/common/component/custom_image_picker.dart';
 import 'package:chrip_aid/common/utils/aws_utils.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/post/component/tag_list.dart';
 import 'package:chrip_aid/post/model/entity/write_post_product_dto.dart';
 import 'package:chrip_aid/post/model/entity/write_post_request_dto.dart';
 import 'package:chrip_aid/post/model/service/orphanage_post_service.dart';
+import 'package:chrip_aid/post/model/state/post_tag_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 final orphanageEditPostsViewModelProvider =
-    ChangeNotifierProvider((ref) => OrphanageEditPostsViewModel(ref));
+    Provider((ref) => OrphanageEditPostsViewModel(ref));
 
-class OrphanageEditPostsViewModel extends ChangeNotifier {
+class OrphanageEditPostsViewModel {
   Ref ref;
 
   late final OrphanagePostService _service;
 
-  final ImagePicker _imagePicker = ImagePicker();
-  final List<File> images = [];
+  final PostTagListState postTagListState = PostTagListState();
+
+  CustomImagePickerController imageController = CustomImagePickerController();
 
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -29,24 +30,17 @@ class OrphanageEditPostsViewModel extends ChangeNotifier {
 
   OrphanageEditPostsViewModel(this.ref) {
     _service = ref.read(orphanagePostServiceProvider);
-    _service.getTags().then((value) => tagListController.setTags(value));
+    postTagListState.addListener(() {
+      if(!postTagListState.isSuccess) return;
+      tagListController.setTags(postTagListState.value!);
+    });
   }
 
-  void removeImage() async {
-    images.removeAt(swiperController.index);
-    notifyListeners();
-  }
-
-  void pickImage() async {
-    XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    images.add(File(image.path.toString()));
-    notifyListeners();
-  }
+  void getInfo() => postTagListState.withResponse(_service.getTags());
 
   void post(BuildContext context) async {
     List<String> urls = [];
-    for (var element in images) {
+    for (var element in imageController.value) {
       String? url = await uploadFileToS3(element, AwsS3Dir.post);
       if (url != null) urls.add(url);
     }
