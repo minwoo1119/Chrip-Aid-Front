@@ -43,10 +43,14 @@ class UserInfoScreen extends TabScreen {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: Image.network(
-                              viewmodel.userInfo!.profileUrl,
+                            child: Image.asset(
+                              'assets/image/logo.png',
                               fit: BoxFit.fitWidth,
                             ),
+/*                            child: Image.network(
+                              viewmodel.userInfo!.profileUrl,
+                              fit: BoxFit.fitWidth,
+                            ),*/
                           ),
                           const SizedBox(width: kPaddingSmallSize),
                           Expanded(

@@ -26,9 +26,9 @@ class OrphanageCartScreenState extends ConsumerState<OrphanageBasketScreen> {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: viewModel.entity!.length,
+                    itemCount: viewModel.entities!.length,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity![index];
+                      final item = viewModel.entities![index];
                       return CustomBasketProductBox(
                           basketProductId: item.basketProductId,
                           productName: item.productName,

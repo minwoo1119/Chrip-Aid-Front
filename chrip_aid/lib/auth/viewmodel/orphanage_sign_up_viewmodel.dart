@@ -20,7 +20,7 @@ class OrphanageSignUpViewModel extends ChangeNotifier {
   final checkPasswordTextController = TextEditingController(text: '');
   final orphanageNameTextController = TextEditingController(text: '');
 
-  late AuthState state;
+  AuthState get state => _service.authState;
 
   OrphanageSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);

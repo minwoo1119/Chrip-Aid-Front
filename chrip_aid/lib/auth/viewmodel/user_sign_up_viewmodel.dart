@@ -32,7 +32,7 @@ class UserSignUpViewModel extends ChangeNotifier {
   late final CustomDropdownButtonController<SubRegion>
       subRegionDropdownController;
 
-  late AuthState state;
+  AuthState get state => _service.authState;
 
   UserSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
