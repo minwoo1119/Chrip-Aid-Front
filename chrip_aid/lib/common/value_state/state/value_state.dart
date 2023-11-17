@@ -21,29 +21,29 @@ class ValueStateNotifier<T> extends ChangeNotifier {
   void none({T? value, String? message}) {
     _state = _State.none;
     _message = message;
-    if (this.value == value) notifyListeners();
     this.value = value;
+    notifyListeners();
   }
 
   void loading({T? value, String? message}) {
     _state = _State.loading;
     _message = message;
-    if (this.value == value) notifyListeners();
     this.value = value;
+    notifyListeners();
   }
 
   void success({T? value, String? message}) {
     _state = _State.success;
     _message = message;
-    if (this.value == value) notifyListeners();
     this.value = value;
+    notifyListeners();
   }
 
   void error({T? value, String? message}) {
     _state = _State.error;
     _message = message;
-    if (this.value == value) notifyListeners();
     this.value = value;
+    notifyListeners();
   }
 
   @override

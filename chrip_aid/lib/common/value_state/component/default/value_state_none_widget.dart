@@ -10,7 +10,7 @@ class ValueStateNoneWidget<T> extends StatelessWidget
   final ValueStateNotifier<T> state;
 
   ValueStateNoneWidget(this.state, {Key? key})
-      : assert(state.isError),
+      : assert(state.isNone),
         super(key: key);
 
   @override

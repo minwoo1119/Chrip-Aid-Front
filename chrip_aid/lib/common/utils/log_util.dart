@@ -1,0 +1,1 @@
+void logging(String title, String message) => print("[Chrip Aid] $title : $message");

@@ -53,8 +53,6 @@ class UserEntity implements MemberEntity {
   @override
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) {
-    print("[Chrip Aid] ${json.toString()}");
-    return _$UserEntityFromJson(json);
-  }
+  factory UserEntity.fromJson(Map<String, dynamic> json) =>
+      _$UserEntityFromJson(json);
 }

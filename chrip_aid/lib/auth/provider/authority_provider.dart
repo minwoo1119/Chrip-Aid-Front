@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
+import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +27,7 @@ enum AuthorityType {
 Future initAuthority() async {
   final ref = ProviderContainer();
   final value = await ref.read(localStorageProvider).read(key: 'authority');
-  print("[Chrip Aid] init Authority $value");
+  logging("init Authority", value ?? "null");
   final authority = AuthorityType.fromString(value);
   authorityProvider = StateProvider((ref) => authority);
 }
@@ -34,6 +35,6 @@ Future initAuthority() async {
 Future saveAuthority(Ref ref) async {
   final authority = ref.read(authorityProvider);
   final value = authority.toString();
-  print("[Chrip Aid] save Authority $value");
+  logging("save Authority", value);
   await ref.read(localStorageProvider).write(key: 'authority', value: value);
 }

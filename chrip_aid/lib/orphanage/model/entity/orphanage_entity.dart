@@ -28,8 +28,6 @@ class OrphanageEntity {
 
   Map<String, dynamic> toJson() => _$OrphanageEntityToJson(this);
 
-  factory OrphanageEntity.fromJson(Map<String, dynamic> json) {
-    print("[Chrip Aid] ${json.toString()}");
-    return _$OrphanageEntityFromJson(json);
-  }
+  factory OrphanageEntity.fromJson(Map<String, dynamic> json) =>
+      _$OrphanageEntityFromJson(json);
 }

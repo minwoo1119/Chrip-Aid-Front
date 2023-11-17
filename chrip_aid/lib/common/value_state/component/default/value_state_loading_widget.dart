@@ -10,13 +10,15 @@ class ValueStateLoadingWidget<T> extends StatelessWidget
   final ValueStateNotifier<T> state;
 
   ValueStateLoadingWidget(this.state, {Key? key})
-      : assert(state.isError),
+      : assert(state.isLoading),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const CircularProgressIndicator(
-      color: CustomColor.backGroundSubColor,
+    return const Center(
+      child: CircularProgressIndicator(
+        color: CustomColor.mainColor,
+      ),
     );
   }
 }

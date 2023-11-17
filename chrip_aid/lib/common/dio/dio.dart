@@ -2,6 +2,7 @@ import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:chrip_aid/common/utils/data_utils.dart';
+import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -54,6 +55,8 @@ class CustomInterceptor extends Interceptor {
       });
     }
 
+    logging("Dio - Request", "[${options.method}]${options.path}");
+
     super.onRequest(options, handler);
   }
 
@@ -69,6 +72,8 @@ class CustomInterceptor extends Interceptor {
       }
     }
 
+    logging("Dio - SUCCESS", "[${response.requestOptions.method}]${response.requestOptions.path} [${response.statusCode}] : ${response.data}");
+
     super.onResponse(response, handler);
   }
 
@@ -78,8 +83,7 @@ class CustomInterceptor extends Interceptor {
     final refreshToken =
         await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
-    print(
-        "[Chrip Aid] ERROR! ${err.requestOptions.path}(${err.requestOptions.method}) [${err.response?.statusCode}] : ${err.response?.data["message"]}");
+    logging("Dio - ERROR", "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
 
     if (refreshToken == null) return handler.reject(err);
 

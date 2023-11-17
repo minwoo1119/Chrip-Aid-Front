@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/orphanage/component/custom_date_picker.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_basket_service.dart';
@@ -35,7 +36,10 @@ class OrphanageDetailViewModel extends ChangeNotifier {
     _orphanageService = ref.read(orphanageServiceProvider);
     _reservationService = ref.read(reservationServiceProvider);
 
-    orphanageDetailState.addListener(notifyListeners);
+    orphanageDetailState.addListener(() {
+      logging("OrphanageDetailViewModel", "orphanageDetailState.isSuccess : ${orphanageDetailState.isSuccess}");
+      notifyListeners();
+    });
   }
 
   void postVisitReservation(int orphanageId) {
