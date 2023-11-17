@@ -4,7 +4,7 @@ import 'package:chrip_aid/management/model/repository/orphanage_management_repos
 import 'package:chrip_aid/management/model/state/orphanage_management_state.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/service/member_info_service.dart';
+import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -27,9 +27,9 @@ class OrphanageManagementService {
   Future getOrphanageInfo() async {
     try {
       orphanageDetailState.loading();
-      MemberEntity? member = ref.read(memberInfoServiceProvider).memberInfoState.value;
+      MemberEntity? member = MemberInfoState().value;
       if(member is! OrphanageMemberEntity) return;
-      int id = (ref.read(memberInfoServiceProvider).memberInfoState.value as OrphanageMemberEntity).orphanageId;
+      int id = member.orphanageId;
       OrphanageDetailEntity data = await repository.getOrphanageData(id);
       orphanageDetailState.success(value: data);
     } catch (e) {

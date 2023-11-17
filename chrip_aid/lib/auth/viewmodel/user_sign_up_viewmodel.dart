@@ -1,19 +1,19 @@
 import 'package:chrip_aid/auth/dto/user_signup_request_dto.dart';
 import 'package:chrip_aid/auth/model/service/auth_service.dart';
-import 'package:chrip_aid/auth/model/state/auth_state.dart';
+import 'package:chrip_aid/auth/model/state/sign_up_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final userSignUpViewModelProvider =
-    ChangeNotifierProvider((ref) => UserSignUpViewModel(ref));
+final userSignUpViewModelProvider = Provider((ref) => UserSignUpViewModel(ref));
 
-class UserSignUpViewModel extends ChangeNotifier {
+class UserSignUpViewModel {
   final Ref ref;
 
   late AuthService _service;
@@ -32,27 +32,23 @@ class UserSignUpViewModel extends ChangeNotifier {
   late final CustomDropdownButtonController<SubRegion>
       subRegionDropdownController;
 
-  AuthState get state => _service.authState;
+  final SignUpState state = SignUpState();
 
   UserSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
-    state.addListener(notifyListeners);
 
     sexDropdownController = CustomDropdownButtonController(
       Sex.values,
-      onChanged: (_) => notifyListeners(),
     );
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
-        notifyListeners();
       },
     );
     subRegionDropdownController = CustomDropdownButtonController(
       majorRegionDropdownController.selected.subTypes,
-      onChanged: (_) => notifyListeners(),
     );
   }
 
@@ -60,7 +56,7 @@ class UserSignUpViewModel extends ChangeNotifier {
     if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    _service.signup(
+    state.withResponse(_service.signup(
       UserSignupRequestDto(
         name: nameTextController.text,
         email: idTextController.text,
@@ -73,7 +69,7 @@ class UserSignUpViewModel extends ChangeNotifier {
         // TODO : user profile image
         profilePhoto: 'https://picsum.photos/300/300',
       ),
-    );
+    ));
     if (context.mounted) context.pop();
   }
 }

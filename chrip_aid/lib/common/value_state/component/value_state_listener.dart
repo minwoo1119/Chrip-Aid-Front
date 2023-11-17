@@ -16,11 +16,11 @@ class ValueStateListener<T> extends StatefulWidget
   @override
   final ValueStateNotifier<T> state;
 
-  final ValueStateListenerBuilder? defaultBuilder;
-  final ValueStateListenerBuilder? noneBuilder;
-  final ValueStateListenerBuilder? loadingBuilder;
-  final ValueStateListenerBuilder? successBuilder;
-  final ValueStateListenerBuilder? errorBuilder;
+  final ValueStateListenerBuilder<T>? defaultBuilder;
+  final ValueStateListenerBuilder<T>? noneBuilder;
+  final ValueStateListenerBuilder<T>? loadingBuilder;
+  final ValueStateListenerBuilder<T>? successBuilder;
+  final ValueStateListenerBuilder<T>? errorBuilder;
 
   const ValueStateListener({
     Key? key,
@@ -33,10 +33,10 @@ class ValueStateListener<T> extends StatefulWidget
   }) : super(key: key);
 
   @override
-  State<ValueStateListener> createState() => _ValueStateListenerState();
+  State<ValueStateListener> createState() => _ValueStateListenerState<T>();
 }
 
-class _ValueStateListenerState extends State<ValueStateListener> {
+class _ValueStateListenerState<T> extends State<ValueStateListener<T>> {
   @override
   Widget build(BuildContext context) {
     if (widget.state.isSuccess) {
@@ -67,12 +67,10 @@ class _ValueStateListenerState extends State<ValueStateListener> {
     super.dispose();
   }
 
-  Widget? stateOrDefault(ValueStateListenerBuilder? builder) {
+  Widget? stateOrDefault(ValueStateListenerBuilder<T>? builder) {
     return builder?.call(context, widget.state) ??
         widget.defaultBuilder?.call(context, widget.state);
   }
 
-  void _setState() {
-    setState(() {});
-  }
+  void _setState() => setState(() {});
 }

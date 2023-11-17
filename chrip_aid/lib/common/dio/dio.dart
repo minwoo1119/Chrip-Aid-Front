@@ -1,5 +1,5 @@
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
 import 'package:chrip_aid/common/utils/data_utils.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
@@ -23,6 +23,7 @@ final options = BaseOptions(
 class CustomInterceptor extends Interceptor {
   final LocalStorage storage;
   final Ref ref;
+  final AuthorityState authorityState = AuthorityState();
 
   CustomInterceptor({required this.storage, required this.ref});
 
@@ -35,7 +36,7 @@ class CustomInterceptor extends Interceptor {
     if (options.path.contains('authorityType')) {
       options.path = options.path.replaceFirst(
         'authorityType',
-        ref.read(authorityProvider).toString(),
+        authorityState.value.toString(),
       );
     }
 
@@ -63,7 +64,7 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    final authority = ref.read(authorityProvider);
+    final authority = authorityState.value;
     if (response.requestOptions.path == '/auth/$authority') {
       try {
         await _saveToken(response);
@@ -88,14 +89,14 @@ class CustomInterceptor extends Interceptor {
     if (refreshToken == null) return handler.reject(err);
 
     final isStatus401 = err.response?.statusCode == 401;
-    final isPathRefresh = err.requestOptions.path == '/auth/${ref.read(authorityProvider)}/refresh';
+    final isPathRefresh = err.requestOptions.path == '/auth/${authorityState.value.toString()}/refresh';
 
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
         final refreshResponse = await dio.get(
-          DataUtils.pathToUrl('/auth/${ref.read(authorityProvider)}/refresh'),
+          DataUtils.pathToUrl('/auth/${authorityState.value.toString()}/refresh'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),

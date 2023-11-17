@@ -21,7 +21,11 @@ class UserPostsViewModel extends ChangeNotifier {
   UserPostsViewModel(this.ref) {
     _postService = ref.read(orphanagePostServiceProvider);
     postListState.addListener(notifyListeners);
+
+    getInfo();
   }
+
+  void getInfo() => _postService.getOrphanagePosts();
 
   void navigateToDetailScreen(BuildContext context, GetPostsEntity entity) {
     context.pushNamed(PostDetailScreen.routeName, extra: entity);

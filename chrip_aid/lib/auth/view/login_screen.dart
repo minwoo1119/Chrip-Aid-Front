@@ -1,12 +1,12 @@
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/util/validators.dart';
 import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_button.dart';
 import 'package:chrip_aid/common/component/custom_text_form_field.dart';
-import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +17,7 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(loginViewModelProvider);
+    final viewModel = ref.read(loginViewModelProvider)..getInfo();
     return DefaultLayout(
       backgroundColor: CustomColor.mainColor,
       child: SingleChildScrollView(
@@ -53,43 +53,43 @@ class LoginScreen extends ConsumerWidget {
                 textController: viewModel.passwordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () => viewModel.toggleAuthorityType(
-                      viewModel.authority != AuthorityType.orphanage,
-                    ),
-                    splashColor: Colors.transparent,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: kIconSmallSize,
-                          height: kIconSmallSize,
-                          child: Checkbox(
-                            value:
-                                viewModel.authority == AuthorityType.orphanage,
-                            onChanged: viewModel.toggleAuthorityType,
-                            activeColor: CustomColor.mainColor,
-                            side: const BorderSide(
-                              color: CustomColor.textReverseColor,
-                              width: 1.5,
+              ValueStateListener(
+                state: viewModel.authorityState,
+                defaultBuilder: (_, state) => Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: viewModel.toggleAuthorityType,
+                      splashColor: Colors.transparent,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: kIconSmallSize,
+                            height: kIconSmallSize,
+                            child: Checkbox(
+                              value: state.value == AuthorityType.orphanage,
+                              onChanged: (_) => viewModel.toggleAuthorityType(),
+                              activeColor: CustomColor.mainColor,
+                              side: const BorderSide(
+                                color: CustomColor.textReverseColor,
+                                width: 1.5,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: kPaddingSmallSize),
-                        Text(
-                          "보육원장 이신가요?",
-                          style: kTextReverseStyleSmall.copyWith(
-                            height: kIconMiniSize / kTextSmallSize,
+                          const SizedBox(width: kPaddingSmallSize),
+                          Text(
+                            "보육원장 이신가요?",
+                            style: kTextReverseStyleSmall.copyWith(
+                              height: kIconMiniSize / kTextSmallSize,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: kPaddingMiniSize),
-                      ],
+                          const SizedBox(width: kPaddingMiniSize),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: kPaddingMiddleSize),
               ValueStateListener(

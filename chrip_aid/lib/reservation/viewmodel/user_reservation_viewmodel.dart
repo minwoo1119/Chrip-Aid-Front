@@ -30,6 +30,20 @@ class ReservationViewModel extends ChangeNotifier {
                 : listEnd;
   }
 
+  ReservationViewModel(this.ref) {
+    _reservationService = ref.read(reservationServiceProvider);
+    state.addListener(() {
+      if (state.isSuccess) {
+        divisionSortList();
+      }
+      notifyListeners();
+    });
+
+    getInfo();
+  }
+
+  void getInfo() => _reservationService.getOrphanageReservation();
+
   void divisionSortList() {
     listApprove =
         state.value?.where((item) => item.state == "APPROVED").toList() ?? [];
@@ -57,15 +71,5 @@ class ReservationViewModel extends ChangeNotifier {
     } else if (index == 3) {
       selectedTabIndex = "ENDED";
     }
-  }
-
-  ReservationViewModel(this.ref) {
-    _reservationService = ref.read(reservationServiceProvider);
-    state.addListener(() {
-      if (state.isSuccess) {
-        divisionSortList();
-      }
-      notifyListeners();
-    });
   }
 }

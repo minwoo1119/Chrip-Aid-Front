@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/member/model/dto/edit_orphanage_member_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
@@ -8,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final editOrphanageMemberInfoViewModelProvider =
-    ChangeNotifierProvider((ref) => EditUserInfoViewModel(ref));
+    Provider((ref) => EditUserInfoViewModel(ref));
 
-class EditUserInfoViewModel extends ChangeNotifier {
+class EditUserInfoViewModel {
   final Ref ref;
 
   late final TextEditingController nameTextController;
@@ -19,13 +20,13 @@ class EditUserInfoViewModel extends ChangeNotifier {
 
   late final MemberInfoService _memberInfoService;
 
-  MemberInfoState get userInfoState => _memberInfoService.memberInfoState;
+  MemberInfoState userInfoState = MemberInfoState();
 
-  OrphanageMemberEntity? get userInfo => userInfoState.value as OrphanageMemberEntity?;
+  OrphanageMemberEntity? get userInfo =>
+      userInfoState.value as OrphanageMemberEntity?;
 
   EditUserInfoViewModel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
-    userInfoState.addListener(notifyListeners);
 
     nameTextController = TextEditingController(text: userInfo!.name);
     passwordTextController = TextEditingController();
@@ -36,12 +37,12 @@ class EditUserInfoViewModel extends ChangeNotifier {
     if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await _memberInfoService.editMemberInfo(
+    userInfoState.withResponse(_memberInfoService.editMemberInfo(
       EditOrphanageMemberInfoRequestDto(
         name: nameTextController.text,
         password: passwordTextController.text,
       ),
-    );
+    ));
     if (context.mounted) context.pop();
   }
 }

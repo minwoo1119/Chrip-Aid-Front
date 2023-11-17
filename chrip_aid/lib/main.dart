@@ -1,4 +1,4 @@
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/firebase/fcm.dart';
 import 'package:chrip_aid/common/go_router/go_router.dart';
 import 'package:chrip_aid/common/google_map/google_map.dart';

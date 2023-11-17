@@ -6,6 +6,7 @@ import 'package:chrip_aid/common/component/custom_text_form_field.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -80,17 +81,16 @@ class OrphanageSignUpScreen extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.orphanageNameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              if (viewModel.state.isLoading)
-                const Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColor.backGroundSubColor,
-                  ),
-                )
-              else
-                CustomOutlinedButton(
+              ValueStateListener(
+                state: viewModel.state,
+                defaultBuilder: (_, __) => CustomOutlinedButton(
                   onPressed: () => viewModel.signup(context),
                   text: '회원가입',
                 ),
+                loadingBuilder: (_, __) => const CircularProgressIndicator(
+                  color: CustomColor.backGroundSubColor,
+                ),
+              ),
               const SizedBox(height: kPaddingXLargeSize),
             ],
           ),

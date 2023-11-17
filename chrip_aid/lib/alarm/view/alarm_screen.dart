@@ -24,16 +24,16 @@ class AlarmScreen extends TabScreen {
       child: ValueStateListener(
         state: viewModel.alarmState,
         successBuilder: (_, state) => ListView.builder(
-          itemCount: state.value.length,
+          itemCount: state.value!.length,
           itemBuilder: (context, i) => Padding(
             padding: const EdgeInsets.all(
               kPaddingSmallSize,
             ).copyWith(bottom: 0),
             child: AlarmItem(
-              state.value[i],
+              state.value![i],
               onTap: () => viewModel.navigateToScreen(
                 context,
-                state.value[i].type,
+                state.value![i].type,
               ),
             ),
           ),

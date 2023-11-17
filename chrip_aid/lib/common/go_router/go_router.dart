@@ -1,5 +1,5 @@
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
@@ -33,13 +33,14 @@ import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
+  final AuthorityState authorityState = AuthorityState();
 
   String redirectionByAuth(
     BuildContext context,
     GoRouterState state,
     String path,
   ) {
-    if (ref.read(authorityProvider) == AuthorityType.user) return '$path/user';
+    if (authorityState.value == AuthorityType.user) return '$path/user';
     return '$path/orphanage';
   }
 
@@ -69,7 +70,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'management',
                 name: OrphanageManagementScreen.routeName,
                 redirect: (context, state) {
-                  if (ref.read(authorityProvider) == AuthorityType.orphanage) {
+                  if (authorityState.value == AuthorityType.orphanage) {
                     return null;
                   }
                   return "/orphanage/map";
@@ -146,7 +147,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'edit',
                     name: OrphanageEditPostScreen.routeName,
                     redirect: (context, state) {
-                      if (ref.read(authorityProvider) == AuthorityType.user) {
+                      if (authorityState.value == AuthorityType.user) {
                         return '/post';
                       }
                       return null;
@@ -227,7 +228,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
     ],
-    refreshListenable: auth,
+    refreshListenable: auth.authState,
     redirect: auth.redirectLogic,
   );
 });

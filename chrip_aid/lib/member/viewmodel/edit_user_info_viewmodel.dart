@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/member/model/dto/edit_user_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
@@ -12,9 +13,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final editUserInfoViewModelProvider =
-    ChangeNotifierProvider((ref) => EditUserInfoViewModel(ref));
+    Provider((ref) => EditUserInfoViewModel(ref));
 
-class EditUserInfoViewModel extends ChangeNotifier {
+class EditUserInfoViewModel {
   final Ref ref;
 
   late final TextEditingController nameTextController;
@@ -32,13 +33,12 @@ class EditUserInfoViewModel extends ChangeNotifier {
 
   late final MemberInfoService _memberInfoService;
 
-  MemberInfoState get userInfoState => _memberInfoService.memberInfoState;
+  final MemberInfoState userInfoState = MemberInfoState();
 
   UserEntity? get userInfo => userInfoState.value as UserEntity?;
 
   EditUserInfoViewModel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
-    userInfoState.addListener(notifyListeners);
 
     nameTextController = TextEditingController(text: userInfo!.name);
     passwordTextController = TextEditingController();
@@ -50,7 +50,6 @@ class EditUserInfoViewModel extends ChangeNotifier {
     sexDropdownController = CustomDropdownButtonController(
       Sex.values,
       initIndex: Sex.values.indexOf(userInfo!.sex),
-      onChanged: (_) => notifyListeners(),
     );
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
@@ -58,7 +57,6 @@ class EditUserInfoViewModel extends ChangeNotifier {
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
-        notifyListeners();
       },
     );
     subRegionDropdownController = CustomDropdownButtonController(
@@ -66,7 +64,6 @@ class EditUserInfoViewModel extends ChangeNotifier {
       initIndex: userInfo!.region.majorRegion.subTypes.indexOf(
         userInfo!.region,
       ),
-      onChanged: (_) => notifyListeners(),
     );
   }
 
@@ -74,7 +71,7 @@ class EditUserInfoViewModel extends ChangeNotifier {
     if (passwordTextController.text != checkPasswordTextController.text) {
       return SnackBarUtil.showError("비밀번호가 일치하지 않습니다.");
     }
-    await _memberInfoService.editMemberInfo(
+    userInfoState.withResponse(_memberInfoService.editMemberInfo(
       EditUserInfoRequestDto(
         name: nameTextController.text,
         password: passwordTextController.text,
@@ -85,7 +82,7 @@ class EditUserInfoViewModel extends ChangeNotifier {
         phone: phoneTextController.text,
         profileUrl: 'https://picsum.photos/300/300',
       ),
-    );
+    ));
     if (context.mounted) context.pop();
   }
 }

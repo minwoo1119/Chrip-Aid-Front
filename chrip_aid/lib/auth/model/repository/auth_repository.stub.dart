@@ -9,7 +9,9 @@ class AuthRepositoryStub implements AuthRepository {
   }
 
   @override
-  Future saveToken(String fcmToken) async {}
+  Future saveToken(String fcmToken) async {
+    throw Exception();
+  }
 
   @override
   Future signup(SignupRequestDto signupRequestDto) async {}

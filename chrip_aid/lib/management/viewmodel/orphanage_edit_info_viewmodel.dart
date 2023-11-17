@@ -5,7 +5,6 @@ import 'package:chrip_aid/common/utils/aws_utils.dart';
 import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -21,16 +20,15 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
   Ref ref;
 
   late final OrphanageManagementService _orphanageManagementService;
-  late MemberInfoService _memberInfoService;
 
   OrphanageDetailState get orphanageDetailState =>
       _orphanageManagementService.orphanageDetailState;
 
-  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+  final MemberInfoState memberState = MemberInfoState();
 
   OrphanageDetailEntity? get orphanage => orphanageDetailState.value;
 
-  OrphanageMemberEntity? get member =>
+  OrphanageMemberEntity? get _member =>
       memberState.value as OrphanageMemberEntity?;
 
   final TextEditingController orphanageNameController = TextEditingController();
@@ -44,9 +42,8 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
   final List<File> images = [];
 
   OrphanageEditInfoViewmodel(this.ref) {
-    _memberInfoService = ref.read(memberInfoServiceProvider);
     _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
-    memberState.addListener(notifyListeners);
+
     orphanageDetailState.addListener(() {
       if (orphanageDetailState.isSuccess) _initController();
       notifyListeners();
@@ -68,7 +65,7 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
     if (photoUrl == null) return;
     await _orphanageManagementService.editOrphanageInfo(
       EditOrphanageInfoRequestDTO(
-        orphanageId: member!.orphanageId,
+        orphanageId: _member!.orphanageId,
         orphanageName: orphanageNameController.text,
         address: addressController.text,
         homepageLink: linkController.text,
@@ -77,7 +74,7 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
         phoneNumber: phoneNumberController.text,
       ),
     );
-    if(context.mounted) context.pop();
+    if (context.mounted) context.pop();
   }
 
   void removeImage() async {

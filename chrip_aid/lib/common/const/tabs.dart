@@ -1,5 +1,5 @@
 import 'package:chrip_aid/alarm/view/alarm_screen.dart';
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/view/orphanage_home_screen.dart';
 import 'package:chrip_aid/home/view/user_home_screen.dart';
@@ -17,8 +17,8 @@ class TabInfo {
 }
 
 final tabProvider = Provider((ref) {
-  final authority = ref.watch(authorityProvider);
-  switch (authority) {
+  final authority = AuthorityState();
+  switch (authority.value!) {
     case AuthorityType.user:
       return const [
         TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),

@@ -1,6 +1,6 @@
+import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/model/type/region/gyeonggi.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
-import 'package:chrip_aid/auth/provider/authority_provider.dart';
 import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
@@ -18,7 +18,7 @@ class MemberInfoRepositoryStub implements MemberInfoRepository {
 
   @override
   Future<MemberEntity> getUserInfo() async {
-    return ref.read(authorityProvider) == AuthorityType.user
+    return AuthorityState().value == AuthorityType.user
         ? UserEntity(
             email: "email",
             name: "name",

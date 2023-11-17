@@ -21,7 +21,10 @@ class OrphanagePostsViewModel extends ChangeNotifier {
   OrphanagePostsViewModel(this.ref) {
     _postService = ref.read(orphanagePostServiceProvider);
     postListState.addListener(notifyListeners);
+    getInfo();
   }
+
+  void getInfo() => _postService.getOrphanagePosts();
 
   void navigateToEditScreen(BuildContext context) {
     context.pushNamed(OrphanageEditPostScreen.routeName);

@@ -1,6 +1,7 @@
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
@@ -41,7 +42,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   late final MemberInfoService _memberInfoService;
   late final OrphanageService _orphanageService;
 
-  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+  final MemberInfoState memberState = MemberInfoState();
 
   OrphanageListState get orphanageListState =>
       _orphanageService.orphanageListState;
@@ -49,7 +50,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   OrphanageDetailState get orphanageDetailState =>
       _orphanageService.orphanageDetailState;
 
-  UserEntity? get userInfo => memberState.value as UserEntity?;
+  UserEntity? get _userInfo => memberState.value as UserEntity?;
 
   OrphanageEntity? orphanage;
 
@@ -67,15 +68,16 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     _memberInfoService = ref.read(memberInfoServiceProvider);
     _orphanageService = ref.read(orphanageServiceProvider);
 
-    memberState.addListener(notifyListeners);
     orphanageListState.addListener(notifyListeners);
     orphanageListState.addListener(() {
-      if(orphanageListState.isSuccess) _initMarker();
+      if (orphanageListState.isSuccess) _initMarker();
     });
+
+    // TODO : init controllers after get info
 
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
-      initIndex: MajorRegion.values.indexOf(userInfo!.region.majorRegion),
+      initIndex: MajorRegion.values.indexOf(_userInfo!.region.majorRegion),
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
@@ -84,8 +86,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     );
     subRegionDropdownController = CustomDropdownButtonController(
       majorRegionDropdownController.selected.subTypes,
-      initIndex: userInfo!.region.majorRegion.subTypes.indexOf(
-        userInfo!.region,
+      initIndex: _userInfo!.region.majorRegion.subTypes.indexOf(
+        _userInfo!.region,
       ),
       onChanged: (_) => notifyListeners(),
     );
@@ -94,7 +96,14 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       onChanged: (_) => notifyListeners(),
     );
 
-    _initMarker();
+    getInfo();
+  }
+
+  void getInfo() {
+    if(!memberState.isSuccess) {
+      memberState.withResponse(_memberInfoService.getMemberInfo());
+    }
+    _orphanageService.getOrphanageList();
   }
 
   void onValueChange() => notifyListeners();
@@ -124,7 +133,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void moveCameraToMarker(String id) {
-    orphanage = orphanageList.where((e) => e.orphanageId.toString() == id).first;
+    orphanage =
+        orphanageList.where((e) => e.orphanageId.toString() == id).first;
     final marker = markers.where((e) => e.markerId.value == id).first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(

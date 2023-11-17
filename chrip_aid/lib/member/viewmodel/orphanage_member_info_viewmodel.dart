@@ -1,6 +1,6 @@
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
@@ -21,19 +21,19 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
   late final MemberInfoService _memberInfoService;
   late final OrphanageManagementService _orphanageManagementService;
 
-  MemberInfoState get memberState => _memberInfoService.memberInfoState;
+  final MemberInfoState memberState = MemberInfoState();
 
-  OrphanageDetailState get orphanageDetailState => _orphanageManagementService.orphanageDetailState;
-
-  OrphanageMemberEntity? get userInfo => memberState.value as OrphanageMemberEntity?;
+  OrphanageDetailState get orphanageDetailState =>
+      _orphanageManagementService.orphanageDetailState;
 
   OrphanageDetailEntity? get orphanageInfo => orphanageDetailState.value;
 
   OrphanageMemberInfoViewmodel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
+
     memberState.addListener(() {
-      if(memberState.isSuccess) {
-        ref.read(orphanageManagementServiceProvider).getOrphanageInfo();
+      if (memberState.isSuccess) {
+        _orphanageManagementService.getOrphanageInfo();
       }
     });
 
@@ -41,17 +41,22 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
     orphanageDetailState.addListener(notifyListeners);
   }
 
+  void getInfo() {
+    if (!memberState.isSuccess) {
+      memberState.withResponse(_memberInfoService.getMemberInfo());
+    }
+  }
+
   void navigateToEditUserInfoPage(BuildContext context) {
     context.pushNamed(EditMemberInfoScreen.routeName);
   }
 
   void logout() {
-    _memberInfoService.logout();
     ref.read(authProvider).logout();
   }
 
   void navigateToDonatePage(BuildContext context) async {
     ref.read(orphanageDonateServiceProvider).getOrphanageDonate();
-    if(context.mounted) context.pushNamed(OrphanageDonateScreen.routeName);
+    if (context.mounted) context.pushNamed(OrphanageDonateScreen.routeName);
   }
 }
