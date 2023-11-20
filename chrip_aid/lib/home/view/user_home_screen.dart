@@ -3,6 +3,7 @@ import 'package:chrip_aid/common/component/shadow_image.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/common/view/tab_screen.dart';
 import 'package:chrip_aid/home/component/custom_speech_balloon.dart';
 import 'package:chrip_aid/home/viewmodel/user_home_viewmodel.dart';
@@ -28,8 +29,36 @@ class UserHomeScreen extends TabScreen {
           child: Column(
             children: [
               CustomSpeechBalloon(
-                child: Container(
+                child: SizedBox(
                   height: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: kPaddingMiddleSize,
+                      right: kPaddingMiddleSize,
+                      top: kPaddingMiddleSize,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          "작은 봉사라도 그것이 계속된다면 참다운 봉사이다. 데이지 꽃은 그것이 드리우는 제 그림자에 의하여 아롱지는 이슬방울을 햇빛으로부터 지켜준다.",
+                          style: kTextContentStyleMiddle.copyWith(
+                            color: CustomColor.mainColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const Expanded(child: SizedBox()),
+                        Text(
+                          "- 윌리엄 워즈워스",
+                          textAlign: TextAlign.right,
+                          style: kTextContentStyleMiddle.copyWith(
+                            color: CustomColor.mainColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: kPaddingLargeSize),
