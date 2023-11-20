@@ -21,7 +21,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
 final orphanageSearchViewModelProvider =
-    ChangeNotifierProvider((ref) => OrphanageSearchViewModel(ref));
+ChangeNotifierProvider((ref) => OrphanageSearchViewModel(ref));
 
 class OrphanageSearchViewModel extends ChangeNotifier {
   Ref ref;
@@ -30,9 +30,9 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   final Set<Marker> markers = {};
 
   late final CustomDropdownButtonController<MajorRegion>
-      majorRegionDropdownController;
+  majorRegionDropdownController;
   late final CustomDropdownButtonController<SubRegion>
-      subRegionDropdownController;
+  subRegionDropdownController;
 
   late final CustomDropdownButtonController sortDropdownController;
 
@@ -57,20 +57,25 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   List<OrphanageEntity> get orphanageList =>
       orphanageListState.value
           ?.where((e) =>
-              e.address.contains(subRegionDropdownController.selected.name) &&
-              e.address
-                  .contains(majorRegionDropdownController.selected.fullName) &&
-              e.orphanageName.contains(searchTextController.text))
+      e.address.contains(subRegionDropdownController.selected.name) &&
+          e.address
+              .contains(majorRegionDropdownController.selected.fullName) &&
+          e.orphanageName.contains(searchTextController.text))
           .toList() ??
-      [];
+          [];
 
   OrphanageSearchViewModel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
     _orphanageService = ref.read(orphanageServiceProvider);
 
-    orphanageListState.addListener(notifyListeners);
     orphanageListState.addListener(() {
-      if (orphanageListState.isSuccess) _initMarker();
+      if (orphanageListState.isSuccess) {
+        notifyListeners();
+      }
+    });
+
+    majorRegionDropdownController.addListener(() {
+      _initMarker();
     });
 
     memberState.addListener(() {
@@ -102,8 +107,8 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       initIndex: _userInfo == null
           ? 0
           : _userInfo!.region.majorRegion.subTypes.indexOf(
-              _userInfo!.region,
-            ),
+        _userInfo!.region,
+      ),
       onChanged: (_) => notifyListeners(),
     );
     sortDropdownController = CustomDropdownButtonController(
@@ -149,8 +154,12 @@ class OrphanageSearchViewModel extends ChangeNotifier {
 
   void moveCameraToMarker(String id) {
     orphanage =
-        orphanageList.where((e) => e.orphanageId.toString() == id).first;
-    final marker = markers.where((e) => e.markerId.value == id).first;
+        orphanageList
+            .where((e) => e.orphanageId.toString() == id)
+            .first;
+    final marker = markers
+        .where((e) => e.markerId.value == id)
+        .first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: marker.position, zoom: 14.0),
@@ -161,7 +170,11 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void _initMarker() async {
-    for (var element in orphanageList) {
+    markers.clear();
+    final list = orphanageListState.value!.where((e) =>
+        e.address
+            .contains(majorRegionDropdownController.selected.fullName));
+    for (var element in list) {
       _addMarkerByAddress(element);
     }
     notifyListeners();
@@ -170,7 +183,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   void _addMarkerByAddress(OrphanageEntity entity) async {
     var googleGeocoding = GoogleGeocoding(dotenv.get('GOOGLE_MAP_KEY'));
     GeocodingResponse? p =
-        await googleGeocoding.geocoding.get(entity.address, []);
+    await googleGeocoding.geocoding.get(entity.address, []);
 
     if (p == null) return;
 
