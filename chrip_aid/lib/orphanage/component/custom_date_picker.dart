@@ -129,12 +129,15 @@ class OrphanageDateFormState extends State<OrphanageDateForm> {
                 Container(
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0), // 버튼의 패딩 설정
-                  child: Text(
-                    widget.controller.selectedDate,
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColor.mainColor,
+                  child: ValueListenableBuilder(
+                    valueListenable: widget.controller,
+                    builder: (_, __, ___) => Text(
+                      widget.controller.selectedDate,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: CustomColor.mainColor,
+                      ),
                     ),
                   ),
                 ),

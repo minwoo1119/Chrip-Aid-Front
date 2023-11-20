@@ -140,4 +140,8 @@ class CustomDropdownButtonController<T> extends ChangeNotifier {
       if (onChanged != null) onChanged(value);
     };
   }
+
+  void select(int index) {
+    onChanged(_items[index]);
+  }
 }

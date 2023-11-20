@@ -73,11 +73,24 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       if (orphanageListState.isSuccess) _initMarker();
     });
 
-    // TODO : init controllers after get info
+    memberState.addListener(() {
+      if (memberState.isSuccess) {
+        majorRegionDropdownController.select(
+          MajorRegion.values.indexOf(_userInfo!.region.majorRegion),
+        );
+        subRegionDropdownController.select(
+          _userInfo!.region.majorRegion.subTypes.indexOf(
+            _userInfo!.region,
+          ),
+        );
+      }
+    });
 
     majorRegionDropdownController = CustomDropdownButtonController(
       MajorRegion.values,
-      initIndex: MajorRegion.values.indexOf(_userInfo!.region.majorRegion),
+      initIndex: _userInfo == null
+          ? 0
+          : MajorRegion.values.indexOf(_userInfo!.region.majorRegion),
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
@@ -86,9 +99,11 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     );
     subRegionDropdownController = CustomDropdownButtonController(
       majorRegionDropdownController.selected.subTypes,
-      initIndex: _userInfo!.region.majorRegion.subTypes.indexOf(
-        _userInfo!.region,
-      ),
+      initIndex: _userInfo == null
+          ? 0
+          : _userInfo!.region.majorRegion.subTypes.indexOf(
+              _userInfo!.region,
+            ),
       onChanged: (_) => notifyListeners(),
     );
     sortDropdownController = CustomDropdownButtonController(
@@ -100,7 +115,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void getInfo() {
-    if(!memberState.isSuccess) {
+    if (!memberState.isSuccess) {
       memberState.withResponse(_memberInfoService.getMemberInfo());
     }
     _orphanageService.getOrphanageList();

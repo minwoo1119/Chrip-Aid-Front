@@ -17,8 +17,8 @@ OrphanageDetailEntity _$OrphanageDetailEntityFromJson(
       homepageLink: json['homepage_link'] as String,
       name: json['name'] as String?,
       description: json['description'] as String,
-      requests: (json['requests'] as List<dynamic>)
-          .map((e) => RequestItemEntity.fromJson(e as Map<String, dynamic>))
+      requests: (json['requests'] as List<dynamic>?)
+          ?.map((e) => RequestItemEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -32,11 +32,7 @@ class UserHomeScreen extends TabScreen {
                 child: SizedBox(
                   height: 200,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: kPaddingMiddleSize,
-                      right: kPaddingMiddleSize,
-                      top: kPaddingMiddleSize,
-                    ),
+                    padding: const EdgeInsets.all(kPaddingMiddleSize),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [

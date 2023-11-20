@@ -22,7 +22,7 @@ class OrphanageDetailEntity {
   @JsonKey(name: 'photo')
   final String photo;
   @JsonKey(name: 'requests')
-  final List<RequestItemEntity> requests;
+  final List<RequestItemEntity>? requests;
 
   OrphanageDetailEntity({
     required this.orphanageId,

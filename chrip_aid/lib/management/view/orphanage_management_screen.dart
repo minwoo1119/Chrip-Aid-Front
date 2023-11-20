@@ -135,12 +135,12 @@ class OrphanageManagementScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: kPaddingMiniSize),
-                  ListView.builder(
-                    itemCount: viewModel.entity!.requests.length,
+                  if(viewModel.entity!.requests != null) ListView.builder(
+                    itemCount: viewModel.entity!.requests!.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final item = viewModel.entity!.requests[index];
+                      final item = viewModel.entity!.requests![index];
                       return CustomProductBox2(
                         requiredId: item.requestId,
                         photo: item.productPhoto,

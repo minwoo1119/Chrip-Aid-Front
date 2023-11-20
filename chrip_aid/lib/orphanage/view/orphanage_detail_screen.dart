@@ -165,13 +165,13 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                   controller: tabController,
                                   //physics: NeverScrollableScrollPhysics(),
                                   children: [
-                                    ListView.builder(
+                                    if(viewModel.entity!.requests != null) ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
                                       itemCount:
-                                          viewModel.entity!.requests.length,
+                                          viewModel.entity!.requests!.length,
                                       itemBuilder: (context, index) {
                                         final item =
-                                            viewModel.entity!.requests[index];
+                                            viewModel.entity!.requests![index];
                                         return CustomProductBox(
                                           requiredId: item.requestId,
                                           photo: item.productPhoto,
@@ -186,7 +186,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
                                       },
                                       padding:
                                           const EdgeInsets.only(bottom: 100),
-                                    ),
+                                    ) else Container(),
                                     Container(
                                       color: CustomColor.mainColor,
                                       child: Column(
