@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/service/reservation_service.dart';
 import 'package:chrip_aid/reservation/model/state/reservation_state.dart';
@@ -12,7 +13,8 @@ class ReservationViewModel extends ChangeNotifier {
 
   late final ReservationService _reservationService;
 
-  ReservationState get state => _reservationService.state;
+  final ReservationState reservationState = ReservationState();
+  late TabController tabController;
 
   String? selectedTabIndex;
   List<ReservationEntity> listAll = [];
@@ -20,36 +22,33 @@ class ReservationViewModel extends ChangeNotifier {
   List<ReservationEntity> listPending = [];
   List<ReservationEntity> listApprove = [];
 
-  List<ReservationEntity> get filteredEntity {
-    return selectedTabIndex == null
-        ? listAll
-        : selectedTabIndex == "APPROVED"
-            ? listApprove
-            : selectedTabIndex == "PENDING"
-                ? listPending
-                : listEnd;
-  }
+  List<List<ReservationEntity>> get list => [
+    listAll, listApprove, listEnd, listPending,
+  ];
+
 
   ReservationViewModel(this.ref) {
     _reservationService = ref.read(reservationServiceProvider);
-    state.addListener(() {
-      if (state.isSuccess) {
+    reservationState.addListener(() {
+      if (reservationState.isSuccess) {
         divisionSortList();
       }
-      notifyListeners();
     });
-
-    getInfo();
   }
 
-  void getInfo() => _reservationService.getOrphanageReservation();
+  void getInfo(TickerProvider vsync) {
+    tabController = TabController(length: list.length, vsync: vsync);
+    reservationState.withResponse(
+      _reservationService.getOrphanageReservation(),
+    );
+  }
 
   void divisionSortList() {
     listApprove =
-        state.value?.where((item) => item.state == "APPROVED").toList() ?? [];
+        reservationState.value?.where((item) => item.state == "APPROVED").toList() ?? [];
     listPending =
-        state.value?.where((item) => item.state == "PENDING").toList() ?? [];
-    listEnd = state.value
+        reservationState.value?.where((item) => item.state == "PENDING").toList() ?? [];
+    listEnd = reservationState.value
             ?.where(
                 (item) => item.state == "REJECTED" || item.state == "COMPLETED")
             .toList() ??

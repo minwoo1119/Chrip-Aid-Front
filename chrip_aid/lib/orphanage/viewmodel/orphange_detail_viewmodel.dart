@@ -23,7 +23,7 @@ class OrphanageDetailViewModel {
 
   late final ReservationService _reservationService;
 
-  ReservationState get reservationState => _reservationService.state;
+  final ReservationPostState reservationState = ReservationPostState();
 
   final dateController = CustomDatePickerController(DateTime.now());
   final purposeTextController = TextEditingController(text: '');
@@ -37,11 +37,13 @@ class OrphanageDetailViewModel {
       .withResponse(_orphanageService.getOrphanageDetail(orphanageId));
 
   void postVisitReservation(int orphanageId) {
-    _reservationService.postReservation(OrphanageVisitEntity(
-      orphanageId: orphanageId,
-      visitDate: dateController.value.toString(),
-      reason: purposeTextController.text,
-    ));
+    reservationState.withResponse(
+      _reservationService.postReservation(OrphanageVisitEntity(
+        orphanageId: orphanageId,
+        visitDate: dateController.value.toString(),
+        reason: purposeTextController.text,
+      )),
+    );
   }
 
   void goBasket(BuildContext context) async {

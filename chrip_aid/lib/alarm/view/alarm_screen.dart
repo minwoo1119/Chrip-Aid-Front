@@ -4,7 +4,7 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
-import 'package:chrip_aid/common/view/tab_screen.dart';
+import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

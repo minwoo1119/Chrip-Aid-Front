@@ -10,9 +10,9 @@ extension ValueStateWithResponse<T> on ValueStateNotifier<T> {
         if (value.entity == null && value.message == null) {
           none();
         } else if (value.isSuccess) {
-          success(value: value.entity);
+          success(value: value.entity, message: value.message);
         } else {
-          error(message: value.message);
+          error(value: value.entity, message: value.message);
         }
       });
     });

@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_answer_request_dto.dart';
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:chrip_aid/reservation/model/service/orphanage_reservation_service.dart';
@@ -6,36 +7,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanageReservationViewModelProvider =
-    ChangeNotifierProvider((ref) => OrphanageReservationViewModel(ref));
+    Provider((ref) => OrphanageReservationViewModel(ref));
 
-class OrphanageReservationViewModel extends ChangeNotifier {
+class OrphanageReservationViewModel {
   Ref ref;
 
   late final OrphanageReservationService _orphanageReservationService;
 
-  OrphanageReservationState get state => _orphanageReservationService.state;
+  late TabController tabController;
+
+  final OrphanageReservationState reservationState =
+      OrphanageReservationState();
   String? selectedTabIndex;
   List<OrphanageReservationEntity> listAll = [];
   List<OrphanageReservationEntity> listEnd = [];
   List<OrphanageReservationEntity> listPending = [];
   List<OrphanageReservationEntity> listApprove = [];
 
-  List<OrphanageReservationEntity> get filteredEntity {
-    return selectedTabIndex == null
-        ? listAll
-        : selectedTabIndex == "APPROVED"
-            ? listApprove
-            : selectedTabIndex == "PENDING"
-                ? listPending
-                : listEnd;
-  }
+  List<List<OrphanageReservationEntity>> get list => [
+    listAll, listApprove, listEnd, listPending,
+  ];
 
   void divisionSortList() {
-    listApprove =
-        state.value?.where((item) => item.state == "APPROVED").toList() ?? [];
-    listPending =
-        state.value?.where((item) => item.state == "PENDING").toList() ?? [];
-    listEnd = state.value
+    listApprove = reservationState.value
+            ?.where((item) => item.state == "APPROVED")
+            .toList() ??
+        [];
+    listPending = reservationState.value
+            ?.where((item) => item.state == "PENDING")
+            .toList() ??
+        [];
+    listEnd = reservationState.value
             ?.where(
                 (item) => item.state == "REJECTED" || item.state == "COMPLETED")
             .toList() ??
@@ -62,31 +64,29 @@ class OrphanageReservationViewModel extends ChangeNotifier {
   OrphanageReservationViewModel(this.ref) {
     _orphanageReservationService =
         ref.read(orphanageReservationServiceProvider);
-    state.addListener(() {
-      if (state.isSuccess) {
+    reservationState.addListener(() {
+      if (reservationState.isSuccess) {
         divisionSortList();
       }
-      notifyListeners();
     });
   }
 
-  void answerToReservation(int reservationId, String state) {
-    _orphanageReservationService.answerToReservation(
-      ReservationAnswerRequestDto(
-        reservationId: reservationId,
-        state: state,
-        message: state == "REJECTED" ? "그 날은 소풍 가는 날이라 방문하실 수 없어요..." : "",
-      ),
+  void getInfo(TickerProvider vsync) {
+    tabController = TabController(length: list.length, vsync: vsync);
+    reservationState.withResponse(
+      _orphanageReservationService.getOrphanageVisitReservation(),
     );
   }
 
-// late TabController tabController;
-//
-// void initTabController(int length, TickerProvider vsync) {
-//   tabController = TabController(length: length, vsync: vsync);
-//   tabController.addListener(() {
-//     changeSelectedTab(tabController.index);
-//     notifyListeners();
-//   });
-// }
+  void answerToReservation(int reservationId, String state) {
+    reservationState.withResponse(
+      _orphanageReservationService.answerToReservation(
+        ReservationAnswerRequestDto(
+          reservationId: reservationId,
+          state: state,
+          message: state == "REJECTED" ? "그 날은 소풍 가는 날이라 방문하실 수 없어요..." : "",
+        ),
+      ),
+    );
+  }
 }

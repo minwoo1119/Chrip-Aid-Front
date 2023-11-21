@@ -1,4 +1,4 @@
-import 'package:chrip_aid/common/view/tab_screen.dart';
+import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabInfo {
