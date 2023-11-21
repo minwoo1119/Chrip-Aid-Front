@@ -1,6 +1,5 @@
-import 'package:chrip_aid/common/utils/log_util.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/orphanage/component/custom_date_picker.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_basket_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
@@ -13,15 +12,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final orphanageDetailViewModelProvider =
-    ChangeNotifierProvider((ref) => OrphanageDetailViewModel(ref));
+    Provider((ref) => OrphanageDetailViewModel(ref));
 
-class OrphanageDetailViewModel extends ChangeNotifier {
+class OrphanageDetailViewModel {
   Ref ref;
 
   late final OrphanageService _orphanageService;
 
-  OrphanageDetailState get orphanageDetailState =>
-      _orphanageService.orphanageDetailState;
+  OrphanageDetailState orphanageDetailState = OrphanageDetailState();
 
   late final ReservationService _reservationService;
 
@@ -30,17 +28,13 @@ class OrphanageDetailViewModel extends ChangeNotifier {
   final dateController = CustomDatePickerController(DateTime.now());
   final purposeTextController = TextEditingController(text: '');
 
-  OrphanageDetailEntity? get entity => orphanageDetailState.value;
-
   OrphanageDetailViewModel(this.ref) {
     _orphanageService = ref.read(orphanageServiceProvider);
     _reservationService = ref.read(reservationServiceProvider);
-
-    orphanageDetailState.addListener(() {
-      logging("OrphanageDetailViewModel", "orphanageDetailState.isSuccess : ${orphanageDetailState.isSuccess}");
-      notifyListeners();
-    });
   }
+
+  void getInfo(int orphanageId) => orphanageDetailState
+      .withResponse(_orphanageService.getOrphanageDetail(orphanageId));
 
   void postVisitReservation(int orphanageId) {
     _reservationService.postReservation(OrphanageVisitEntity(
@@ -56,11 +50,10 @@ class OrphanageDetailViewModel extends ChangeNotifier {
   }
 
   void postOrGoBasket(int num, BuildContext context) {
-    if (entity == null) return;
     if (num % 2 == 0) {
       goBasket(context);
     } else {
-      postVisitReservation(entity!.orphanageId);
+      postVisitReservation(orphanageDetailState.value!.orphanageId);
     }
   }
 }

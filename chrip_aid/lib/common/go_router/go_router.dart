@@ -94,7 +94,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'detail',
                 name: OrphanageDetailScreen.routeName,
-                builder: (context, state) => const OrphanageDetailScreen(),
+                builder: (context, state) => OrphanageDetailScreen(
+                  orphanageId: state.extra as int,
+                ),
                 routes: [
                   GoRoute(
                     path: 'basket',

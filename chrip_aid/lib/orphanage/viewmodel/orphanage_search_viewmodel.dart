@@ -21,18 +21,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
 final orphanageSearchViewModelProvider =
-ChangeNotifierProvider((ref) => OrphanageSearchViewModel(ref));
+    Provider((ref) => OrphanageSearchViewModel(ref));
 
-class OrphanageSearchViewModel extends ChangeNotifier {
+class OrphanageSearchViewModel {
   Ref ref;
 
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
 
   late final CustomDropdownButtonController<MajorRegion>
-  majorRegionDropdownController;
+      majorRegionDropdownController;
   late final CustomDropdownButtonController<SubRegion>
-  subRegionDropdownController;
+      subRegionDropdownController;
 
   late final CustomDropdownButtonController sortDropdownController;
 
@@ -44,39 +44,17 @@ class OrphanageSearchViewModel extends ChangeNotifier {
 
   final MemberInfoState memberState = MemberInfoState();
 
-  OrphanageListState get orphanageListState =>
-      _orphanageService.orphanageListState;
+  final OrphanageListState _orphanageListState = OrphanageListState();
 
-  OrphanageDetailState get orphanageDetailState =>
-      _orphanageService.orphanageDetailState;
+  final OrphanageListState orphanageListState = OrphanageListState();
+
+  final OrphanageListState orphanageState = OrphanageListState();
 
   UserEntity? get _userInfo => memberState.value as UserEntity?;
-
-  OrphanageEntity? orphanage;
-
-  List<OrphanageEntity> get orphanageList =>
-      orphanageListState.value
-          ?.where((e) =>
-      e.address.contains(subRegionDropdownController.selected.name) &&
-          e.address
-              .contains(majorRegionDropdownController.selected.fullName) &&
-          e.orphanageName.contains(searchTextController.text))
-          .toList() ??
-          [];
 
   OrphanageSearchViewModel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
     _orphanageService = ref.read(orphanageServiceProvider);
-
-    orphanageListState.addListener(() {
-      if (orphanageListState.isSuccess) {
-        notifyListeners();
-      }
-    });
-
-    majorRegionDropdownController.addListener(() {
-      _initMarker();
-    });
 
     memberState.addListener(() {
       if (memberState.isSuccess) {
@@ -99,7 +77,6 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
-        notifyListeners();
       },
     );
     subRegionDropdownController = CustomDropdownButtonController(
@@ -107,14 +84,40 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       initIndex: _userInfo == null
           ? 0
           : _userInfo!.region.majorRegion.subTypes.indexOf(
-        _userInfo!.region,
-      ),
-      onChanged: (_) => notifyListeners(),
+              _userInfo!.region,
+            ),
     );
     sortDropdownController = CustomDropdownButtonController(
       ["최신순", "오래된순"],
-      onChanged: (_) => notifyListeners(),
     );
+
+    majorRegionDropdownController.addListener(() {
+      _initMarker();
+      _moveCameraByAddress(majorRegionDropdownController.selected.name);
+      orphanageListState.success(
+          value: _orphanageListState.value
+                  ?.where((e) =>
+                      e.address.contains(
+                          subRegionDropdownController.selected.name) &&
+                      e.address.contains(
+                          majorRegionDropdownController.selected.fullName) &&
+                      e.orphanageName.contains(searchTextController.text))
+                  .toList() ??
+              []);
+    });
+
+    subRegionDropdownController.addListener(() {
+      orphanageListState.success(
+          value: _orphanageListState.value
+                  ?.where((e) =>
+                      e.address.contains(
+                          subRegionDropdownController.selected.name) &&
+                      e.address.contains(
+                          majorRegionDropdownController.selected.fullName) &&
+                      e.orphanageName.contains(searchTextController.text))
+                  .toList() ??
+              []);
+    });
 
     getInfo();
   }
@@ -123,14 +126,12 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     if (!memberState.isSuccess) {
       memberState.withResponse(_memberInfoService.getMemberInfo());
     }
-    _orphanageService.getOrphanageList();
+    _orphanageListState.withResponse(_orphanageService.getOrphanageList());
   }
-
-  void onValueChange() => notifyListeners();
 
   void onPanelExpanded(BuildContext context) {
     panelController.collapse();
-    if (orphanage == null) {
+    if (orphanageState.value?.firstOrNull == null) {
       navigateToSearchPage(context);
     } else {
       navigateToDetailPage(context);
@@ -147,43 +148,42 @@ class OrphanageSearchViewModel extends ChangeNotifier {
   }
 
   void navigateToDetailPage(BuildContext context) {
-    _orphanageService.getOrphanageDetail(orphanage!.orphanageId);
     FocusManager.instance.primaryFocus?.unfocus();
-    context.pushNamed(OrphanageDetailScreen.routeName);
+    context.pushNamed(
+      OrphanageDetailScreen.routeName,
+      extra: orphanageState.value!.first.orphanageId,
+    );
   }
 
   void moveCameraToMarker(String id) {
-    orphanage =
-        orphanageList
-            .where((e) => e.orphanageId.toString() == id)
-            .first;
-    final marker = markers
-        .where((e) => e.markerId.value == id)
-        .first;
+    orphanageState.success(value: [
+      _orphanageListState.value!
+          .where((e) => e.orphanageId.toString() == id)
+          .first
+    ]);
+    final marker = markers.where((e) => e.markerId.value == id).first;
     mapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: marker.position, zoom: 14.0),
       ),
     );
     panelController.anchor();
-    notifyListeners();
   }
 
   void _initMarker() async {
+    if (!_orphanageListState.isSuccess) return;
     markers.clear();
-    final list = orphanageListState.value!.where((e) =>
-        e.address
-            .contains(majorRegionDropdownController.selected.fullName));
+    final list = _orphanageListState.value!.where((e) =>
+        e.address.contains(majorRegionDropdownController.selected.fullName));
     for (var element in list) {
       _addMarkerByAddress(element);
     }
-    notifyListeners();
   }
 
   void _addMarkerByAddress(OrphanageEntity entity) async {
     var googleGeocoding = GoogleGeocoding(dotenv.get('GOOGLE_MAP_KEY'));
     GeocodingResponse? p =
-    await googleGeocoding.geocoding.get(entity.address, []);
+        await googleGeocoding.geocoding.get(entity.address, []);
 
     if (p == null) return;
 
@@ -193,7 +193,7 @@ class OrphanageSearchViewModel extends ChangeNotifier {
     );
 
     PlacesDetailsResponse detail = await places.getDetailsByPlaceId(
-      p.results![0].placeId!,
+      p.results!.first.placeId!,
     );
 
     final position = LatLng(
@@ -206,5 +206,31 @@ class OrphanageSearchViewModel extends ChangeNotifier {
       position: position,
       onTap: () => moveCameraToMarker(entity.orphanageId.toString()),
     ));
+  }
+
+  void _moveCameraByAddress(String address) async {
+    var googleGeocoding = GoogleGeocoding(dotenv.get('GOOGLE_MAP_KEY'));
+    GeocodingResponse? p = await googleGeocoding.geocoding.get(address, []);
+
+    if (p == null) return;
+
+    GoogleMapsPlaces places = GoogleMapsPlaces(
+      apiKey: dotenv.get('GOOGLE_MAP_KEY'),
+      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+    );
+
+    PlacesDetailsResponse detail = await places.getDetailsByPlaceId(
+      p.results!.first.placeId!,
+    );
+
+    final position = LatLng(
+      detail.result.geometry!.location.lat,
+      detail.result.geometry!.location.lng,
+    );
+
+    mapController.moveCamera(
+      CameraUpdate.newCameraPosition(
+          CameraPosition(target: position, zoom: 12)),
+    );
   }
 }

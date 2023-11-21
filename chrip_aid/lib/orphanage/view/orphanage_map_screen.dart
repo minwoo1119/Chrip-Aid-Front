@@ -2,6 +2,7 @@ import 'package:chrip_aid/auth/util/google_map_util.dart';
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field_bar.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_info_item.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_search_viewmodel.dart';
@@ -17,14 +18,13 @@ class OrphanageMapScreen extends ConsumerStatefulWidget {
   const OrphanageMapScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<OrphanageMapScreen> createState() =>
-      _OrphanageMapScreenState();
+  ConsumerState<OrphanageMapScreen> createState() => _OrphanageMapScreenState();
 }
 
 class _OrphanageMapScreenState extends ConsumerState<OrphanageMapScreen> {
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(orphanageSearchViewModelProvider);
+    final viewModel = ref.read(orphanageSearchViewModelProvider)..getInfo();
     return DefaultLayout(
       child: Stack(
         children: [
@@ -33,7 +33,8 @@ class _OrphanageMapScreenState extends ConsumerState<OrphanageMapScreen> {
               onTap: (_) => viewModel.panelController.collapse(),
               initialCameraPosition: initialPosition,
               mapType: MapType.normal,
-              onMapCreated: (controller) => viewModel.mapController = controller,
+              onMapCreated: (controller) =>
+                  viewModel.mapController = controller,
               zoomControlsEnabled: false,
               mapToolbarEnabled: false,
               markers: viewModel.markers,
@@ -52,7 +53,7 @@ class _OrphanageSearchUI extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(orphanageSearchViewModelProvider);
+    final viewModel = ref.read(orphanageSearchViewModelProvider);
     return SafeArea(
       child: Column(
         children: [
@@ -65,8 +66,8 @@ class _OrphanageSearchUI extends ConsumerWidget {
                   flex: 2,
                   child: InkWell(
                     onTap: () => viewModel.navigateToSearchPage(context),
-                    child: CustomDropdownButtonItem(
-                      viewModel.majorRegionDropdownController.selected.name,
+                    child: CustomDropdownButton(
+                      viewModel.majorRegionDropdownController,
                       leading: Icons.location_on,
                     ),
                   ),
@@ -105,7 +106,6 @@ class _SlidingUpPanel extends ConsumerWidget {
       elevation: 8.0,
       controlHeight: kPaddingSmallSize + kPaddingLargeSize + 5,
       panelController: viewModel.panelController,
-      enableOnTap: viewModel.orphanage != null,
       onStatusChanged: (status) {
         if (status == SlidingUpPanelStatus.expanded) {
           viewModel.onPanelExpanded(context);
@@ -135,13 +135,15 @@ class _SlidingUpPanel extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: kPaddingLargeSize),
-                  if (viewModel.orphanage != null)
-                    OrphanageInfoItem(
-                      entity: viewModel.orphanage!,
+                  ValueStateListener(
+                    state: viewModel.orphanageState,
+                    successBuilder: (_, state) => OrphanageInfoItem(
+                      entity: state.value!.first,
                       onTap: () => viewModel.navigateToDetailPage(
                         context,
                       ),
                     ),
+                  ),
                 ],
               ),
             ),

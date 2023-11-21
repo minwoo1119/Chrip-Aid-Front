@@ -1,6 +1,8 @@
+import 'package:chrip_aid/common/entity/response_entity.dart';
+import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 import 'package:chrip_aid/orphanage/model/repository/orphanage_repository.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final orphanageServiceProvider = Provider((ref) {
@@ -11,28 +13,33 @@ final orphanageServiceProvider = Provider((ref) {
 class OrphanageService {
   final OrphanageRepository repository;
 
-  final OrphanageListState orphanageListState = OrphanageListState();
-  final OrphanageDetailState orphanageDetailState = OrphanageDetailState();
-
   OrphanageService(this.repository);
 
-  Future getOrphanageList() async {
+  Future<ResponseEntity<List<OrphanageEntity>>> getOrphanageList() async {
     try {
-      orphanageListState.loading();
       List<OrphanageEntity> data = await repository.getOrphanageList();
-      orphanageListState.success(value: data);
+      return ResponseEntity.success(entity: data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 200) {
+        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
-      orphanageListState.error(message: e.toString());
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
-  Future getOrphanageDetail(int orphanageId) async {
+  Future<ResponseEntity<OrphanageDetailEntity>> getOrphanageDetail(int orphanageId) async {
     try {
-      orphanageDetailState.loading();
       final data = await repository.getOrphanageDetail(orphanageId);
-      orphanageDetailState.success(value: data);
+      return ResponseEntity.success(entity: data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 200) {
+        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
-      orphanageDetailState.error(message: e.toString());
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 }

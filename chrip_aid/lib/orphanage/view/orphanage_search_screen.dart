@@ -1,6 +1,7 @@
 import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field_bar.dart';
 import 'package:chrip_aid/orphanage/component/orphanage_info_item.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_search_viewmodel.dart';
@@ -43,7 +44,6 @@ class OrphanageSearchScreen extends ConsumerWidget {
                       child: Material(
                         child: CustomTextFieldBar(
                           controller: viewModel.searchTextController,
-                          onChanged: (_) => viewModel.onValueChange(),
                         ),
                       ),
                     ),
@@ -92,16 +92,19 @@ class OrphanageSearchScreen extends ConsumerWidget {
               ),
               const SizedBox(height: kPaddingMiddleSize),
               Expanded(
-                child: ListView.separated(
-                  itemCount: viewModel.orphanageList.length,
-                  itemBuilder: (context, i) => OrphanageInfoItem(
-                    entity: viewModel.orphanageList[i],
-                    onTap: () => context.pop(
-                      viewModel.orphanageList[i].orphanageId,
+                child: ValueStateListener(
+                  state: viewModel.orphanageListState,
+                  successBuilder: (_, state) => ListView.separated(
+                    itemCount: state.value!.length,
+                    itemBuilder: (context, i) => OrphanageInfoItem(
+                      entity: state.value![i],
+                      onTap: () => context.pop(
+                        state.value![i].orphanageId,
+                      ),
                     ),
-                  ),
-                  separatorBuilder: (_, __) => const SizedBox(
-                    height: kPaddingMiddleSize,
+                    separatorBuilder: (_, __) => const SizedBox(
+                      height: kPaddingMiddleSize,
+                    ),
                   ),
                 ),
               ),
