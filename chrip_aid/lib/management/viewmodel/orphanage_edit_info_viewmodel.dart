@@ -1,7 +1,6 @@
-import 'dart:io';
-
-import 'package:card_swiper/card_swiper.dart';
+import 'package:chrip_aid/common/component/custom_image_picker.dart';
 import 'package:chrip_aid/common/utils/aws_utils.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
 import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
@@ -11,22 +10,20 @@ import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 final orphanageEditInfoViewmodelProvider =
-    ChangeNotifierProvider((ref) => OrphanageEditInfoViewmodel(ref));
+    Provider((ref) => OrphanageEditInfoViewmodel(ref));
 
-class OrphanageEditInfoViewmodel extends ChangeNotifier {
+class OrphanageEditInfoViewmodel {
   Ref ref;
 
   late final OrphanageManagementService _orphanageManagementService;
 
-  OrphanageDetailState get orphanageDetailState =>
-      _orphanageManagementService.orphanageDetailState;
+  final OrphanageDetailState orphanageDetailState = OrphanageDetailState();
 
   final MemberInfoState memberState = MemberInfoState();
 
-  OrphanageDetailEntity? get orphanage => orphanageDetailState.value;
+  OrphanageDetailEntity? get _orphanage => orphanageDetailState.value;
 
   OrphanageMemberEntity? get _member =>
       memberState.value as OrphanageMemberEntity?;
@@ -36,32 +33,34 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController linkController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  final SwiperController swiperController = SwiperController();
 
-  final ImagePicker _imagePicker = ImagePicker();
-  final List<File> images = [];
+  CustomImagePickerController imageController = CustomImagePickerController();
 
   OrphanageEditInfoViewmodel(this.ref) {
     _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
 
     orphanageDetailState.addListener(() {
       if (orphanageDetailState.isSuccess) _initController();
-      notifyListeners();
     });
-    _initController();
   }
 
+  void getInfo() => orphanageDetailState
+      .withResponse(_orphanageManagementService.getOrphanageInfo());
+
   void _initController() {
-    orphanageNameController.text = orphanage!.orphanageName;
-    descriptionController.text = orphanage!.description;
-    addressController.text = orphanage!.address;
-    phoneNumberController.text = orphanage!.phoneNumber;
-    linkController.text = orphanage!.homepageLink;
+    orphanageNameController.text = _orphanage!.orphanageName;
+    descriptionController.text = _orphanage!.description;
+    addressController.text = _orphanage!.address;
+    phoneNumberController.text = _orphanage!.phoneNumber;
+    linkController.text = _orphanage!.homepageLink;
     // TODO : fix function (init image from orphanage detail entity)
   }
 
   void post(BuildContext context) async {
-    final photoUrl = await uploadFileToS3(images.first, AwsS3Dir.orphanage);
+    final photoUrl = await uploadFileToS3(
+      imageController.value.first,
+      AwsS3Dir.orphanage,
+    );
     if (photoUrl == null) return;
     await _orphanageManagementService.editOrphanageInfo(
       EditOrphanageInfoRequestDTO(
@@ -75,17 +74,5 @@ class OrphanageEditInfoViewmodel extends ChangeNotifier {
       ),
     );
     if (context.mounted) context.pop();
-  }
-
-  void removeImage() async {
-    images.removeAt(swiperController.index);
-    notifyListeners();
-  }
-
-  void pickImage() async {
-    XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    images.add(File(image.path.toString()));
-    notifyListeners();
   }
 }

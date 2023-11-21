@@ -4,6 +4,7 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/management/component/custom_basket_product_box_2.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/viewmodel/orphanage_edit_product_viewmodel.dart';
@@ -18,7 +19,8 @@ class OrphanageEditProductScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(orphanageEditProductViewModelProvider);
+    final viewModel = ref.read(orphanageEditProductViewModelProvider)
+      ..getInfo();
     return DefaultLayout(
       title: "물품 요청글 작성",
       titleStyle: kTextContentStyleMedium,
@@ -42,17 +44,9 @@ class OrphanageEditProductScreen extends ConsumerWidget {
                         children: [
                           const Text("물품", style: kTextSubContentStyleSmall),
                           const SizedBox(height: kPaddingSmallSize),
-                          if (viewModel.product != null)
-                            CustomBasketProductBox2(
-                              productName: viewModel.product!.productName,
-                              count: viewModel.productCount,
-                              price: viewModel.product!.price,
-                              photo: viewModel.product!.image,
-                              onCountUpdate: viewModel.onCountUpdate,
-                              onDelete: viewModel.onProductDelete,
-                            )
-                          else
-                            InkWell(
+                          ValueStateListener(
+                            state: viewModel.productState,
+                            defaultBuilder: (_, __) => InkWell(
                               onTap: () => viewModel.openProductModal(context),
                               child: Container(
                                 decoration: BoxDecoration(
@@ -71,6 +65,15 @@ class OrphanageEditProductScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
+                            successBuilder: (_ ,state) => CustomBasketProductBox2(
+                              productName: state.value!.product.productName,
+                              count: state.value!.count,
+                              price: state.value!.product.price,
+                              photo: state.value!.product.image,
+                              onCountUpdate: viewModel.onCountUpdate,
+                              onDelete: viewModel.onProductDelete,
+                            ),
+                          ),
                         ],
                       ),
                     ),

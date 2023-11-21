@@ -4,7 +4,6 @@ import 'package:chrip_aid/management/model/service/orphanage_management_service.
 import 'package:chrip_aid/member/model/service/member_info_service.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/member/view/edit_member_info_screen.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_donate_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_donate_screen.dart';
@@ -13,9 +12,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final orphanageMemberInfoViewmodelProvider =
-    ChangeNotifierProvider((ref) => OrphanageMemberInfoViewmodel(ref));
+    Provider((ref) => OrphanageMemberInfoViewmodel(ref));
 
-class OrphanageMemberInfoViewmodel extends ChangeNotifier {
+class OrphanageMemberInfoViewmodel {
   Ref ref;
 
   late final MemberInfoService _memberInfoService;
@@ -23,10 +22,7 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
 
   final MemberInfoState memberState = MemberInfoState();
 
-  OrphanageDetailState get orphanageDetailState =>
-      _orphanageManagementService.orphanageDetailState;
-
-  OrphanageDetailEntity? get orphanageInfo => orphanageDetailState.value;
+  OrphanageDetailState orphanageDetailState = OrphanageDetailState();
 
   OrphanageMemberInfoViewmodel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
@@ -38,13 +34,15 @@ class OrphanageMemberInfoViewmodel extends ChangeNotifier {
     });
 
     _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
-    orphanageDetailState.addListener(notifyListeners);
   }
 
   void getInfo() {
     if (!memberState.isSuccess) {
       memberState.withResponse(_memberInfoService.getMemberInfo());
     }
+    orphanageDetailState.withResponse(
+      _orphanageManagementService.getOrphanageInfo(),
+    );
   }
 
   void navigateToEditUserInfoPage(BuildContext context) {

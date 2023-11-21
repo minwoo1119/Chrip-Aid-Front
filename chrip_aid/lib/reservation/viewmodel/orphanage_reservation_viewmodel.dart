@@ -25,7 +25,7 @@ class OrphanageReservationViewModel {
   List<OrphanageReservationEntity> listApprove = [];
 
   List<List<OrphanageReservationEntity>> get list => [
-    listAll, listApprove, listEnd, listPending,
+    listAll, listApprove, listPending, listEnd,
   ];
 
   void divisionSortList() {
