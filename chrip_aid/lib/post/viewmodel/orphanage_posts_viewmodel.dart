@@ -24,7 +24,7 @@ class OrphanagePostsViewModel {
   void getInfo() => postListState.withResponse(_postService.getOrphanagePosts());
 
   void navigateToEditScreen(BuildContext context) {
-    context.pushNamed(OrphanageEditPostScreen.routeName);
+    context.pushNamed(OrphanageEditPostScreen.routeName).then((value) => getInfo());
   }
 
   void navigateToDetailScreen(BuildContext context, GetPostsEntity entity) {
