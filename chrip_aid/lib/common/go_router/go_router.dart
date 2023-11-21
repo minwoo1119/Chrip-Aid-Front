@@ -4,7 +4,8 @@ import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
-import 'package:chrip_aid/common/view/root_tab.dart';
+import 'package:chrip_aid/common/utils/log_util.dart';
+import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_info_screen.dart';
@@ -40,6 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     GoRouterState state,
     String path,
   ) {
+    logging("redirectionByAuth", authorityState.value.toString());
     if (authorityState.value == AuthorityType.user) return '$path/user';
     return '$path/orphanage';
   }

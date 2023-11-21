@@ -50,7 +50,6 @@ void toggleAuthority() {
 
 Future saveAuthority() async {
   if (!AuthorityState().isSuccess) return;
-
   final ref = ProviderContainer();
   final authority = AuthorityState().value;
   final value = authority.toString();
