@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/kakao/kakao_pay.dart';
+import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_delete_dto.dart';
 import 'package:chrip_aid/orphanage/model/dto/donate_request_dto.dart';
 import 'package:chrip_aid/orphanage/model/entity/add_basket_item_entity.dart';
@@ -11,51 +12,51 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final orphanageBasketViewModelProvider =
-    ChangeNotifierProvider((ref) => OrphanageBasketViewModel(ref));
+    Provider((ref) => OrphanageBasketViewModel(ref));
 
-class OrphanageBasketViewModel extends ChangeNotifier {
+class OrphanageBasketViewModel {
   Ref ref;
 
   late final OrphanageBasketService _orphanageBasketService;
 
-  OrphanageBasketState get orphanageBasketState =>
-      _orphanageBasketService.orphanageBasketState;
+  OrphanageBasketState orphanageBasketState = OrphanageBasketState();
 
-  List<OrphanageBasketEntity>? get entities => orphanageBasketState.value;
+  List<OrphanageBasketEntity>? get _entities => orphanageBasketState.value;
 
   int get total => calculateSumOfElements();
 
   OrphanageBasketViewModel(this.ref) {
     _orphanageBasketService = ref.read(orphanageBasketServiceProvider);
-    orphanageBasketState.addListener(notifyListeners);
   }
+
+  void getInfo() => orphanageBasketState
+      .withResponse(_orphanageBasketService.getOrphanageBasket());
 
   int calculateSumOfElements() {
     int sum = 0;
-    for (OrphanageBasketEntity entityItem in entities!) {
+    for (OrphanageBasketEntity entityItem in _entities!) {
       sum += (entityItem.price * entityItem.count);
     }
     return sum;
   }
 
   void updateBasket(int count, int requestId) {
-    _orphanageBasketService.updateOrphanageBasket(
+    orphanageBasketState
+        .withResponse(_orphanageBasketService.updateOrphanageBasket(
       entity: UpdateBasketItemEntity(count, requestId),
-    );
+    ));
   }
 
   void deleteBasket(int basketProductId) {
-    _orphanageBasketService.deleteOrphanageBasket(
+    orphanageBasketState
+        .withResponse(_orphanageBasketService.deleteOrphanageBasket(
       DonateDeleteDto(basketProductId: basketProductId),
-    );
+    ));
   }
 
   void addOrUpdateBasket(int requestId, int count) async {
     bool isNewProduct = true;
-    if (orphanageBasketState.isSuccess) {
-      await _orphanageBasketService.getOrphanageBasket();
-    }
-    for (OrphanageBasketEntity entityItem in entities!) {
+    for (OrphanageBasketEntity entityItem in _entities!) {
       if (entityItem.requestId == requestId) {
         updateBasket(count, requestId);
         isNewProduct = false;
@@ -63,26 +64,27 @@ class OrphanageBasketViewModel extends ChangeNotifier {
       }
     }
     if (isNewProduct) {
-      _orphanageBasketService.addOrphanageBasket(
+      orphanageBasketState
+          .withResponse(_orphanageBasketService.addOrphanageBasket(
         entity: AddBasketItemEntity(requestId: requestId, count: count),
-      );
+      ));
     }
   }
 
   void payment(BuildContext context) async {
     await kakaoPayReady(
-      "${entities!.first.productName} 등",
-      entities!.map((e) => e.count).reduce((value, element) => value + element),
-      entities!
+      "${_entities!.first.productName} 등",
+      _entities!.map((e) => e.count).reduce((value, element) => value + element),
+      _entities!
           .map((e) => e.count * e.price)
           .reduce((value, element) => value + element),
     );
     await _orphanageBasketService.donate(
       DonateRequestDTO(
-        basketProductIds: entities!.map((e) => e.basketProductId).toList(),
+        basketProductIds: _entities!.map((e) => e.basketProductId).toList(),
         message: '',
       ),
     );
-    if(context.mounted) context.pop();
+    if (context.mounted) context.pop();
   }
 }

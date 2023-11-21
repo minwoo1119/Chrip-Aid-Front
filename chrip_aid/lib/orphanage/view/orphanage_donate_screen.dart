@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/styles/colors.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
 import 'package:chrip_aid/orphanage/component/custom_donate_box.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/orphanage/viewmodel/orphanage_donate_viewmodel.dart';
@@ -12,32 +13,32 @@ class OrphanageDonateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(orphanageDonateViewModelProvider);
+    final viewModel = ref.watch(orphanageDonateViewModelProvider)..getInfo();
     return DetailPageLayout(
-      backgroundColor: CustomColor.disabledColor,
-      title: "기부내역",
-      child: viewModel.state.isSuccess
-          ? Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: viewModel.entity!.length,
-                    itemBuilder: (context, index) {
-                      final item = viewModel.entity![index];
-                      return CustomDonateBox(
-                        orphanageName: item.orphanageName,
-                        date: item.date,
-                        productName: item.productName,
-                        price: item.price,
-                        count: item.count,
-                        message: item.message,
-                      );
-                    },
-                  ),
+        backgroundColor: CustomColor.disabledColor,
+        title: "기부내역",
+        child: ValueStateListener(
+          state: viewModel.state,
+          successBuilder: (_, state) => Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.value!.length,
+                  itemBuilder: (context, index) {
+                    final item = state.value![index];
+                    return CustomDonateBox(
+                      orphanageName: item.orphanageName,
+                      date: item.date,
+                      productName: item.productName,
+                      price: item.price,
+                      count: item.count,
+                      message: item.message,
+                    );
+                  },
                 ),
-              ],
-            )
-          : const Center(child: CircularProgressIndicator()),
-    );
+              ),
+            ],
+          ),
+        ));
   }
 }

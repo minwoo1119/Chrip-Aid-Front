@@ -1,6 +1,5 @@
 import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/orphanage/component/custom_date_picker.dart';
-import 'package:chrip_aid/orphanage/model/service/orphanage_basket_service.dart';
 import 'package:chrip_aid/orphanage/model/service/orphanage_service.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:chrip_aid/orphanage/view/orphanage_basket_screen.dart';
@@ -47,7 +46,6 @@ class OrphanageDetailViewModel {
   }
 
   void goBasket(BuildContext context) async {
-    ref.read(orphanageBasketServiceProvider).getOrphanageBasket();
     context.pushNamed(OrphanageBasketScreen.routeName);
   }
 

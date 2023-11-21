@@ -158,7 +158,7 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(orphanageBasketViewModelProvider);
+    final viewModel = ref.read(orphanageBasketViewModelProvider);
     final String name = widget.name;
     final int price = widget.price;
     return IconButton(
@@ -305,7 +305,9 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     viewModel.addOrUpdateBasket(
-                                        widget.requestId, _counter);
+                                      widget.requestId,
+                                      _counter,
+                                    );
                                     setState(() {
                                       _counter = 1; // _counter 변수를 1로 초기화
                                     });

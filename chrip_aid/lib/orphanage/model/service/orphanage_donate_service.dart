@@ -1,5 +1,5 @@
+import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/donate_entity.dart';
-import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repository/orphanage_basket_repository.dart';
 
@@ -11,17 +11,14 @@ final orphanageDonateServiceProvider = Provider((ref) {
 class OrphanageDonateService {
   final OrphanageBasketRepository repository;
 
-  final donateState = OrphanageDonateState();
-
   OrphanageDonateService(this.repository);
 
-  Future getOrphanageDonate() async {
+  Future<ResponseEntity<List<DonateEntity>>> getOrphanageDonate() async {
     try {
-      donateState.loading();
-      List<DonateEntity> data = await repository.getOrphanageDonate('user');
-      donateState.success(value: data);
+      final data = await repository.getOrphanageDonate('user');
+      return ResponseEntity.success(entity: data);
     } catch (e) {
-      donateState.error(message: e.toString());
+      return ResponseEntity.error(message: e.toString());
     }
   }
 }
