@@ -32,6 +32,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../supervisor/view/superviser_screen.dart';
+
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
   final AuthorityState authorityState = AuthorityState();
@@ -230,6 +232,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: 'supervisor',
+        builder: (context, state) => const SupervisorScreen(),
       ),
     ],
     refreshListenable: auth.authState,
