@@ -234,7 +234,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: 'supervisor',
+        path: '/supervisor',
+        name: SupervisorScreen.routeName,
         builder: (context, state) => const SupervisorScreen(),
       ),
     ],
