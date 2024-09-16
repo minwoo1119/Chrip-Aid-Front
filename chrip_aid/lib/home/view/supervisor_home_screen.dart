@@ -27,34 +27,8 @@ class SupervisorHomeScreen extends TabScreen {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomSpeechBalloon(
-                child: SizedBox(
-                  height: 200,
-                  child: Padding(
-                    padding: const EdgeInsets.all(kPaddingMiddleSize),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          "작은 봉사라도 그것이 계속된다면 참다운 봉사이다. 데이지 꽃은 그것이 드리우는 제 그림자에 의하여 아롱지는 이슬방울을 햇빛으로부터 지켜준다.",
-                          style: kTextContentStyleMiddle.copyWith(
-                            color: CustomColor.mainColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const Expanded(child: SizedBox()),
-                        Text(
-                          "- 윌리엄 워즈워스",
-                          textAlign: TextAlign.right,
-                          style: kTextContentStyleMiddle.copyWith(
-                            color: CustomColor.mainColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              SizedBox(
+                height: 150,
               ),
               const SizedBox(height: kPaddingLargeSize),
               Row(
@@ -64,6 +38,10 @@ class SupervisorHomeScreen extends TabScreen {
                     child: CustomOutlinedButton(
                       onPressed: () =>
                           viewmodel.navigateToSearchScreen(context),
+                      icon: Icon(
+                        Icons.account_circle,
+                        size:60,color: Colors.white,
+                      ),
                       text: "계정 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
@@ -91,6 +69,10 @@ class SupervisorHomeScreen extends TabScreen {
                       onPressed: () => viewmodel.navigateToPostScreen(
                         context,
                       ),
+                      icon: Icon(
+                        Icons.description,
+                        size:60,color: Colors.white,
+                      ),
                       text: "게시글 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
@@ -103,7 +85,10 @@ class SupervisorHomeScreen extends TabScreen {
                       onPressed: () => viewmodel.navigateToReservationScreen(
                         context,
                       ),
-                      text: "신고 관리",
+                      icon: Icon(
+                        Icons.warning_amber_rounded,
+                        size:60,color: Colors.white,
+                      ),                      text: "신고 관리",
                       elevation: kElevationSize,
                       fixedSize: kOutlinedButtonLargeSize,
                       hasSide: false,
