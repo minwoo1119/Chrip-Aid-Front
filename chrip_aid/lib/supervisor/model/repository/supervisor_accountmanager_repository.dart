@@ -7,6 +7,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
+part 'supervisor_accountmanager_repository.g.dart';
 
 final supervisorAccountManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
