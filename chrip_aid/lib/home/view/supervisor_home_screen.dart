@@ -37,7 +37,7 @@ class SupervisorHomeScreen extends TabScreen {
                   Expanded(
                     child: CustomOutlinedButton(
                       onPressed: () =>
-                          viewmodel.navigateToSearchScreen(context),
+                          viewmodel.navigateToAccountManagementScreen(context),
                       icon: Icon(
                         Icons.account_circle,
                         size:60,color: Colors.white,
@@ -66,7 +66,7 @@ class SupervisorHomeScreen extends TabScreen {
                 children: [
                   Expanded(
                     child: CustomOutlinedButton(
-                      onPressed: () => viewmodel.navigateToPostScreen(
+                      onPressed: () => viewmodel.navigateToPostsManagementScreen(
                         context,
                       ),
                       icon: Icon(
@@ -82,7 +82,7 @@ class SupervisorHomeScreen extends TabScreen {
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
                     child: CustomOutlinedButton(
-                      onPressed: () => viewmodel.navigateToReservationScreen(
+                      onPressed: () => viewmodel.navigateToReportManagementScreen(
                         context,
                       ),
                       icon: Icon(

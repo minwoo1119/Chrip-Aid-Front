@@ -1,7 +1,6 @@
-import 'package:chrip_aid/orphanage/view/orphanage_map_screen.dart';
-import 'package:chrip_aid/post/view/post_screen.dart';
-import 'package:chrip_aid/reservation/view/reservation_screen.dart';
-import 'package:chrip_aid/supervisor/viewmodel/superviser_viewmodel.dart';
+import 'package:chrip_aid/supervisor/view/supervisor_accountmanagement_screen.dart';
+import 'package:chrip_aid/supervisor/view/supervisor_postmanagement_screen.dart';
+import 'package:chrip_aid/supervisor/view/supervisor_reportmanagement_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,15 +13,15 @@ class SupervisorViewModel {
   SupervisorViewModel(this.ref);
 
   // TODO : 아래 세 함수들 수정해야함
-  void navigateToSearchScreen(BuildContext context) {
-    context.pushNamed(OrphanageMapScreen.routeName);
+  void navigateToAccountManagementScreen(BuildContext context) {
+    context.pushNamed(SupervisorAccountmanagementScreen.routeName);
   }
 
-  void navigateToReservationScreen(BuildContext context) {
-    context.pushNamed(ReservationScreen.routeName);
+  void navigateToPostsManagementScreen(BuildContext context) {
+    context.pushNamed(SupervisorPostManagementScreen.routeName);
   }
 
-  void navigateToPostScreen(BuildContext context) {
-    context.pushNamed(PostScreen.routeName);
+  void navigateToReportManagementScreen(BuildContext context) {
+    context.pushNamed(SupervisorReportmanagementScreen.routeName);
   }
 }
