@@ -14,17 +14,16 @@ Provider((ref) => SupervisorAccountManagementViewmodel(ref));
 
 class SupervisorAccountManagementViewmodel {
   Ref ref;
-
-  late final SupervisorAccountManagementService _orphanageManagementService;
+  late final SupervisorAccountManagementService _supervisorAccountManagementServiceManagementService;
 
   OrphanageDetailState orphanageState = OrphanageDetailState();
 
   SupervisorAccountManagementViewmodel(this.ref) {
-    _orphanageManagementService = ref.read(supervisorAccountManagementServiceProvider);
+    _supervisorAccountManagementServiceManagementService = ref.read(supervisorAccountManagementServiceProvider);
   }
 
   void getInfo() => orphanageState
-      .withResponse(_orphanageManagementService.getOrphanageInfo());
+      .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo());
 
   void navigateToAddProductScreen(
       BuildContext context, {
@@ -32,14 +31,14 @@ class SupervisorAccountManagementViewmodel {
       }) {
     context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity).then(
           (value) => orphanageState
-          .withResponse(_orphanageManagementService.getOrphanageInfo()),
+          .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo()),
     );
   }
 
   void navigateToEditOrphanageScreen(BuildContext context) {
     context.pushNamed(OrphanageEditInfoScreen.routeName).then(
           (value) => orphanageState
-          .withResponse(_orphanageManagementService.getOrphanageInfo()),
+          .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo()),
     );
   }
 }
