@@ -1,3 +1,6 @@
+import 'package:chrip_aid/common/component/custom_detail_info.dart';
+import 'package:chrip_aid/common/component/custom_toggle_button.dart';
+import 'package:chrip_aid/common/component/custom_user_list.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/styles/text_styles.dart';
@@ -12,6 +15,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SupervisorAccountmanagementScreen extends ConsumerWidget {
   static String get routeName => "accountmanagement";
+  static const Map<String, dynamic> dummyData = {
+    'name': 'User1',
+    'email': 'example@google.com',
+    'phoneNumber': '010-0000-0000',
+    'nickname': 'King',
+  };
 
   const SupervisorAccountmanagementScreen({Key? key}) : super(key: key);
 
@@ -19,13 +28,16 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
     return DetailPageLayout(
-        appBarBackgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: false,
+        title: '계정 관리',
+        appBarBackgroundColor: CustomColor.buttonMainColor,
         backgroundColor: CustomColor.backgroundMainColor,
         leadingColor: CustomColor.textReverseColor,
         actions: [
           IconButton(
+            // TODO : onPressed 검색 페이지 연결
             onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
-            icon: const Icon(Icons.edit, size: kIconSmallSize),
+            icon: const Icon(Icons.search, size: kIconSmallSize),
             color: CustomColor.textReverseColor,
             splashRadius: kIconSmallSize,
             padding: EdgeInsets.zero,
@@ -35,6 +47,60 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
         ],
         child: ValueStateListener(
           state: viewModel.orphanageState,
+          defaultBuilder: (_,state)=>SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 10.0,),
+                  CustomToggleButton(
+                    firstOption: '사용자',
+                    secondOption: '보육원',
+                  ),
+                  SizedBox(height: 10.0,),
+                  CustomDetailInfo(
+                      name: dummyData['name'],
+                      email: dummyData['email'],
+                      phoneNumber: dummyData['phoneNumber'],
+                      nickname: dummyData['nickname'],
+                      age: '20',
+                      region: 'Gumi',
+                      sex: 'M',
+                  ),
+                  SizedBox(height: 10.0,),
+                  CustomUserList(
+                      name: 'User1',
+                      email: 'example@google.com',
+                      phoneNumber: '010-0000-0000',
+                      nickname: 'King',
+                  ),
+                  CustomUserList(
+                    name: 'User1',
+                    email: 'example@google.com',
+                    phoneNumber: '010-0000-0000',
+                    nickname: 'King',
+                  ),
+                  CustomUserList(
+                    name: 'User1',
+                    email: 'example@google.com',
+                    phoneNumber: '010-0000-0000',
+                    nickname: 'King',
+                  ),
+                  CustomUserList(
+                    name: 'User1',
+                    email: 'example@google.com',
+                    phoneNumber: '010-0000-0000',
+                    nickname: 'King',
+                  ),
+                  CustomUserList(
+                    name: 'User1',
+                    email: 'example@google.com',
+                    phoneNumber: '010-0000-0000',
+                    nickname: 'King',
+                  ),
+                ],
+              ),
+            ),
+          ),
           successBuilder: (_, state) => SingleChildScrollView(
             child: Column(
               children: [
@@ -43,10 +109,7 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 150,
-                      child: Image.network(
-                        state.value!.photo,
-                        fit: BoxFit.fitWidth,
-                      ),
+                      child: Text('User')
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -56,25 +119,25 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           CustomTextField(
-                            text: state.value!.orphanageName,
+                            text: 'User1',
                             textSize: kTextMediumSize,
                           ),
-                          CustomTextField(
-                            iconData: Icons.location_on,
-                            text: state.value!.address,
-                          ),
-                          CustomTextField(
-                            iconData: Icons.phone,
-                            text: state.value!.phoneNumber,
-                          ),
-                          CustomTextField(
-                            iconData: Icons.person,
-                            text: state.value!.name ?? '',
-                          ),
-                          CustomTextField(
-                            iconData: Icons.monitor,
-                            text: state.value!.homepageLink,
-                          ),
+                          // CustomTextField(
+                          //   iconData: Icons.location_on,
+                          //   text: state.value!.address,
+                          // ),
+                          // CustomTextField(
+                          //   iconData: Icons.phone,
+                          //   text: state.value!.phoneNumber,
+                          // ),
+                          // CustomTextField(
+                          //   iconData: Icons.person,
+                          //   text: state.value!.name ?? '',
+                          // ),
+                          // CustomTextField(
+                          //   iconData: Icons.monitor,
+                          //   text: state.value!.homepageLink,
+                          // ),
                         ],
                       ),
                     )
@@ -98,7 +161,7 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                         text: "소개글",
                       ),
                       Text(
-                        state.value!.description,
+                        '소개글 내용',
                         style: kTextContentStyleSmall,
                       ),
                     ],
@@ -109,55 +172,8 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                   color: CustomColor.disabledColor.withOpacity(0.5),
                 ),
                 const SizedBox(height: kPaddingMiddleSize),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: kPaddingMiddleSize,
-                    right: kPaddingSmallSize,
-                  ),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "요청 물품 목록",
-                        style: kTextContentStyleSmall,
-                      ),
-                      const Expanded(child: SizedBox()),
-                      IconButton(
-                        onPressed: () =>
-                            viewModel.navigateToAddProductScreen(context),
-                        icon: const Icon(
-                          Icons.add,
-                          size: kIconSmallSize,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: kPaddingSmallSize,
-                        ),
-                        constraints: const BoxConstraints(),
-                        splashRadius: kIconSmallSize,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: kPaddingMiniSize),
-                if (state.value!.requests != null)
-                  ListView.builder(
-                    itemCount: state.value!.requests!.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final item = state.value!.requests![index];
-                      return CustomProductBox2(
-                        requiredId: item.requestId,
-                        photo: item.productPhoto,
-                        name: item.productName,
-                        description: item.message,
-                        price: item.price,
-                        requestCount: item.requestCount,
-                        supportCount: item.supportCount,
-                        progress: item.supportCount / item.requestCount,
-                      );
-                    },
-                    padding: EdgeInsets.zero,
-                  ),
+
+
               ],
             ),
           ),
