@@ -33,6 +33,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../supervisor/view/superviser_screen.dart';
+import '../../supervisor/view/supervisor_accountmanagement_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
@@ -237,6 +238,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/supervisor',
         name: SupervisorScreen.routeName,
         builder: (context, state) => const SupervisorScreen(),
+        routes: [
+          GoRoute(
+          path: 'accountmanagement',
+          name: SupervisorAccountmanagementScreen.routeName,
+          builder: (context, state) => const SupervisorAccountmanagementScreen(),
+        ),
+        ]
       ),
     ],
     refreshListenable: auth.authState,
