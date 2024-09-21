@@ -74,8 +74,10 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
               children: [
                 SizedBox(height: 10.0),
                 CustomToggleButton(
-                  firstOption: '사용자',
-                  secondOption: '보육원',
+                  options: [
+                    '사용자',
+                    '보육원'
+                  ],
                 ),
                 SizedBox(height: 6.0),
                 Column(
