@@ -16,12 +16,32 @@ import 'package:go_router/go_router.dart';
 
 class SupervisorAccountmanagementScreen extends ConsumerWidget {
   static String get routeName => "accountmanagement";
-  static const Map<String, dynamic> dummyData = {
-    'name': 'User1',
-    'email': 'example@google.com',
-    'phoneNumber': '010-0000-0000',
-    'nickname': 'King',
-  };
+  static const List<Map<String, dynamic>> dummyData = [
+    {
+      'name': 'minwoo',
+      'email': 'minu@example.com',
+      'phoneNumber': '010-0000-0001',
+      'nickname': 'babayLion',
+    },
+    {
+      'name': 'juheok',
+      'email': 'juh@example.com',
+      'phoneNumber': '010-0000-0002',
+      'nickname': 'King of Spring',
+    },
+    {
+      'name': 'youngjin',
+      'email': 'yong@example.com',
+      'phoneNumber': '010-0000-0003',
+      'nickname': 'The King',
+    },
+    {
+      'name': 'seongYoon',
+      'email': 'IloveIoT@example.com',
+      'phoneNumber': '010-0000-0004',
+      'nickname': 'EmbeddedKing',
+    },
+  ];
 
   const SupervisorAccountmanagementScreen({Key? key}) : super(key: key);
 
@@ -57,13 +77,20 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                   firstOption: '사용자',
                   secondOption: '보육원',
                 ),
-                SizedBox(height: 10.0),
-                CustomUserList(
-                  name: 'User1',
-                  email: 'example@google.com',
-                  phoneNumber: '010-0000-0000',
-                  nickname: 'King',
-                  onTap: () => _navigateToDetailPage(context, dummyData),
+                SizedBox(height: 6.0),
+                Column(
+                  children: dummyData.map((user) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: CustomUserList(
+                        name: user['name'],
+                        email: user['email'],
+                        phoneNumber: user['phoneNumber'],
+                        nickname: user['nickname'],
+                        onTap: () => _navigateToDetailPage(context, user),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
