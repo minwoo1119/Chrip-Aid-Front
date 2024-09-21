@@ -31,6 +31,7 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: '계정 관리',
+      titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
