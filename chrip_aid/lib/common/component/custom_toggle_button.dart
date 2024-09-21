@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomToggleButton extends StatefulWidget {
-  final String firstOption;
-  final String secondOption;
+  final List<String> options;
 
   const CustomToggleButton({
     Key? key,
-    required this.firstOption,
-    required this.secondOption,
+    required this.options,
   }) : super(key: key);
 
   @override
@@ -15,7 +13,7 @@ class CustomToggleButton extends StatefulWidget {
 }
 
 class _CustomToggleButtonState extends State<CustomToggleButton> {
-  bool isSelected = true;
+  int selectedIndex = 0; // 선택된 항목을 인덱스로 저장
 
   @override
   Widget build(BuildContext context) {
@@ -33,58 +31,43 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          // 첫 번째 옵션 버튼
-          GestureDetector(
+        children: List.generate(widget.options.length, (index) {
+          bool isSelected = selectedIndex == index;
+          return GestureDetector(
             onTap: () {
               setState(() {
-                isSelected = true;
+                selectedIndex = index; // 선택된 버튼의 인덱스 갱신
               });
             },
             child: Container(
               decoration: BoxDecoration(
                 color: isSelected ? Colors.green[300] : Colors.white,
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(30),
-                ),
+                borderRadius: _getBorderRadius(index),
               ),
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
-                widget.firstOption,
+                widget.options[index],
                 style: TextStyle(
                   color: isSelected ? Colors.white : Colors.green[800],
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          ),
-          // 두 번째 옵션 버튼
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isSelected = false;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: !isSelected ? Colors.green[300] : Colors.white,
-                borderRadius: BorderRadius.horizontal(
-                  right: Radius.circular(30),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Text(
-                widget.secondOption,
-                style: TextStyle(
-                  color: !isSelected ? Colors.white : Colors.green[800],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        }),
       ),
     );
   }
-}
 
+  BorderRadius _getBorderRadius(int index) {
+    if (index == 0) {
+      // 첫 번째 버튼
+      return BorderRadius.horizontal(left: Radius.circular(30));
+    } else if (index == widget.options.length - 1) {
+      // 마지막 버튼
+      return BorderRadius.horizontal(right: Radius.circular(30));
+    } else {
+      return BorderRadius.zero;
+    }
+  }
+}
