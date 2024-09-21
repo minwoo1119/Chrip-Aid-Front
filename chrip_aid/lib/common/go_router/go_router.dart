@@ -34,6 +34,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../supervisor/view/superviser_screen.dart';
 import '../../supervisor/view/supervisor_accountmanagement_screen.dart';
+import '../component/custom_detail_info.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
@@ -243,6 +244,23 @@ final routerProvider = Provider<GoRouter>((ref) {
           path: 'accountmanagement',
           name: SupervisorAccountmanagementScreen.routeName,
           builder: (context, state) => const SupervisorAccountmanagementScreen(),
+            routes: [
+              GoRoute(
+                path: 'detail',
+                builder: (context, state) {
+                  final userData = state.extra as Map<String, dynamic>;
+                  return CustomDetailInfo(
+                    name: userData['name'],
+                    email: userData['email'],
+                    phoneNumber: userData['phoneNumber'],
+                    nickname: userData['nickname'],
+                    age: '20',
+                    region: 'Gumi',
+                    sex: 'M',
+                  );
+                },
+              ),
+            ]
         ),
         ]
       ),

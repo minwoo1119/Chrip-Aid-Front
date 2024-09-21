@@ -12,6 +12,7 @@ import 'package:chrip_aid/management/viewmodel/orphanage_management_viewmodel.da
 import 'package:chrip_aid/supervisor/viewmodel/supervisor_accountmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SupervisorAccountmanagementScreen extends ConsumerWidget {
   static String get routeName => "accountmanagement";
@@ -28,155 +29,106 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
     return DetailPageLayout(
-        extendBodyBehindAppBar: false,
-        title: '계정 관리',
-        appBarBackgroundColor: CustomColor.buttonMainColor,
-        backgroundColor: CustomColor.backgroundMainColor,
-        leadingColor: CustomColor.textReverseColor,
-        actions: [
-          IconButton(
-            // TODO : onPressed 검색 페이지 연결
-            onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
-            icon: const Icon(Icons.search, size: kIconSmallSize),
-            color: CustomColor.textReverseColor,
-            splashRadius: kIconSmallSize,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: kPaddingMiddleSize),
-        ],
-        child: ValueStateListener(
-          state: viewModel.orphanageState,
-          defaultBuilder: (_,state)=>SingleChildScrollView(
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 10.0,),
-                  CustomToggleButton(
-                    firstOption: '사용자',
-                    secondOption: '보육원',
-                  ),
-                  SizedBox(height: 10.0,),
-                  CustomDetailInfo(
-                      name: dummyData['name'],
-                      email: dummyData['email'],
-                      phoneNumber: dummyData['phoneNumber'],
-                      nickname: dummyData['nickname'],
-                      age: '20',
-                      region: 'Gumi',
-                      sex: 'M',
-                  ),
-                  SizedBox(height: 10.0,),
-                  CustomUserList(
-                      name: 'User1',
-                      email: 'example@google.com',
-                      phoneNumber: '010-0000-0000',
-                      nickname: 'King',
-                  ),
-                  CustomUserList(
-                    name: 'User1',
-                    email: 'example@google.com',
-                    phoneNumber: '010-0000-0000',
-                    nickname: 'King',
-                  ),
-                  CustomUserList(
-                    name: 'User1',
-                    email: 'example@google.com',
-                    phoneNumber: '010-0000-0000',
-                    nickname: 'King',
-                  ),
-                  CustomUserList(
-                    name: 'User1',
-                    email: 'example@google.com',
-                    phoneNumber: '010-0000-0000',
-                    nickname: 'King',
-                  ),
-                  CustomUserList(
-                    name: 'User1',
-                    email: 'example@google.com',
-                    phoneNumber: '010-0000-0000',
-                    nickname: 'King',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          successBuilder: (_, state) => SingleChildScrollView(
+      extendBodyBehindAppBar: false,
+      title: '계정 관리',
+      appBarBackgroundColor: CustomColor.buttonMainColor,
+      backgroundColor: CustomColor.backgroundMainColor,
+      leadingColor: CustomColor.textReverseColor,
+      actions: [
+        IconButton(
+          onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
+          icon: const Icon(Icons.search, size: kIconSmallSize),
+          color: CustomColor.textReverseColor,
+          splashRadius: kIconSmallSize,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+        ),
+        const SizedBox(width: kPaddingMiddleSize),
+      ],
+      child: ValueStateListener(
+        state: viewModel.orphanageState,
+        defaultBuilder: (_, state) => SingleChildScrollView(
+          child: Center(
             child: Column(
               children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 150,
-                      child: Text('User')
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: kPaddingMiddleSize,
-                        vertical: kPaddingMiniSize,
-                      ),
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            text: 'User1',
-                            textSize: kTextMediumSize,
-                          ),
-                          // CustomTextField(
-                          //   iconData: Icons.location_on,
-                          //   text: state.value!.address,
-                          // ),
-                          // CustomTextField(
-                          //   iconData: Icons.phone,
-                          //   text: state.value!.phoneNumber,
-                          // ),
-                          // CustomTextField(
-                          //   iconData: Icons.person,
-                          //   text: state.value!.name ?? '',
-                          // ),
-                          // CustomTextField(
-                          //   iconData: Icons.monitor,
-                          //   text: state.value!.homepageLink,
-                          // ),
-                        ],
-                      ),
-                    )
-                  ],
+                SizedBox(height: 10.0),
+                CustomToggleButton(
+                  firstOption: '사용자',
+                  secondOption: '보육원',
                 ),
-                Container(
-                  height: 5.0,
-                  color: CustomColor.disabledColor.withOpacity(0.5),
+                SizedBox(height: 10.0),
+                CustomUserList(
+                  name: 'User1',
+                  email: 'example@google.com',
+                  phoneNumber: '010-0000-0000',
+                  nickname: 'King',
+                  onTap: () => _navigateToDetailPage(context, dummyData),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: kPaddingMiddleSize,
-                    right: kPaddingMiddleSize,
-                    top: kPaddingMiniSize,
-                    bottom: kPaddingSmallSize,
-                  ),
-                  child: Column(
-                    children: [
-                      const CustomTextField(
-                        iconData: Icons.description,
-                        text: "소개글",
-                      ),
-                      Text(
-                        '소개글 내용',
-                        style: kTextContentStyleSmall,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 5.0,
-                  color: CustomColor.disabledColor.withOpacity(0.5),
-                ),
-                const SizedBox(height: kPaddingMiddleSize),
-
-
               ],
             ),
           ),
-        ));
+        ),
+        successBuilder: (_, state) => SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    child: Text('User'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kPaddingMiddleSize,
+                      vertical: kPaddingMiniSize,
+                    ),
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          text: 'User1',
+                          textSize: kTextMediumSize,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: 5.0,
+                color: CustomColor.disabledColor.withOpacity(0.5),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: kPaddingMiddleSize,
+                  right: kPaddingMiddleSize,
+                  top: kPaddingMiniSize,
+                  bottom: kPaddingSmallSize,
+                ),
+                child: Column(
+                  children: [
+                    const CustomTextField(
+                      iconData: Icons.description,
+                      text: "소개글",
+                    ),
+                    Text(
+                      '소개글 내용',
+                      style: kTextContentStyleSmall,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateToDetailPage(BuildContext context, Map<String, dynamic> userData) {
+    context.push(
+      '/supervisor/accountmanagement/detail',
+      extra: userData,
+    );
   }
 }
