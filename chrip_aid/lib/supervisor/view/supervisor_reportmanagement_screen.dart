@@ -1,3 +1,11 @@
+import 'package:chrip_aid/common/component/custom_detail_info.dart';
+import 'package:chrip_aid/common/component/custom_toggle_button.dart';
+import 'package:chrip_aid/common/component/custom_user_list.dart';
+import 'package:chrip_aid/common/styles/colors.dart';
+import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/common/styles/text_styles.dart';
+import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
+import 'package:chrip_aid/orphanage/component/custom_product_box_2.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:chrip_aid/management/viewmodel/orphanage_management_viewmodel.dart';
@@ -5,30 +13,82 @@ import 'package:chrip_aid/supervisor/viewmodel/supervisor_accountmanagement_view
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../common/component/custom_toggle_button.dart';
-import '../../common/styles/colors.dart';
-import '../../common/styles/sizes.dart';
-import '../../common/styles/text_styles.dart';
-import '../../common/value_state/component/value_state_listener.dart';
-
-class SupervisorReportmanagementScreen extends ConsumerWidget{
-  static String get routeName => 'reportmanagement';
+class SupervisorReportmanagementScreen extends ConsumerWidget {
+  static String get routeName => "reportmanagement";
+  static const List<Map<String, dynamic>> dummyData = [
+    {
+      'name': 'minwoo',
+      'email': 'minu@example.com',
+      'phoneNumber': '010-0000-0001',
+      'nickname': 'babayLion',
+    },
+    {
+      'name': 'juheok',
+      'email': 'juh@example.com',
+      'phoneNumber': '010-0000-0002',
+      'nickname': 'King of Spring',
+    },
+    {
+      'name': 'youngjin',
+      'email': 'yong@example.com',
+      'phoneNumber': '010-0000-0003',
+      'nickname': 'The King',
+    },
+    {
+      'name': 'seongYoon',
+      'email': 'IloveIoT@example.com',
+      'phoneNumber': '010-0000-0004',
+      'nickname': 'EmbeddedKing',
+    },{
+      'name': 'minwoo',
+      'email': 'minu@example.com',
+      'phoneNumber': '010-0000-0001',
+      'nickname': 'babayLion',
+    },
+    {
+      'name': 'juheok',
+      'email': 'juh@example.com',
+      'phoneNumber': '010-0000-0002',
+      'nickname': 'King of Spring',
+    },
+    {
+      'name': 'youngjin',
+      'email': 'yong@example.com',
+      'phoneNumber': '010-0000-0003',
+      'nickname': 'The King',
+    },
+    {
+      'name': 'seongYoon',
+      'email': 'IloveIoT@example.com',
+      'phoneNumber': '010-0000-0004',
+      'nickname': 'EmbeddedKing',
+    },
+  ];
 
   const SupervisorReportmanagementScreen({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
-
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
-      title: '계정 관리',
+      title: '신고 관리',
       titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
-      actions: [],
+      actions: [
+        IconButton(
+          onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
+          icon: const Icon(Icons.search, size: kIconSmallSize),
+          color: CustomColor.textReverseColor,
+          splashRadius: kIconSmallSize,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+        ),
+        const SizedBox(width: kPaddingMiddleSize),
+      ],
       child: ValueStateListener(
         state: viewModel.orphanageState,
         defaultBuilder: (_, state) => SingleChildScrollView(
@@ -36,12 +96,20 @@ class SupervisorReportmanagementScreen extends ConsumerWidget{
             child: Column(
               children: [
                 SizedBox(height: 10.0),
-                CustomToggleButton(
-                  firstOption: '사용자',
-                  secondOption: '보육원',
+                Column(
+                  children: dummyData.map((user) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: CustomUserList(
+                        name: user['name'],
+                        email: user['email'],
+                        phoneNumber: user['phoneNumber'],
+                        nickname: user['nickname'],
+                        onTap: () => _navigateToDetailPage(context, user),
+                      ),
+                    );
+                  }).toList(),
                 ),
-                SizedBox(height: 6.0),
-
               ],
             ),
           ),
@@ -100,6 +168,13 @@ class SupervisorReportmanagementScreen extends ConsumerWidget{
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateToDetailPage(BuildContext context, Map<String, dynamic> userData) {
+    context.push(
+      '/supervisor/accountmanagement/detail',
+      extra: userData,
     );
   }
 }
