@@ -4,6 +4,7 @@ import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
+import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
@@ -268,6 +269,20 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'postmanagement',
             name: SupervisorPostManagementScreen.routeName,
             builder: (context, state) => const SupervisorPostManagementScreen(),
+              routes: [
+                GoRoute(
+                  path: 'postdetail',
+                  builder: (context, state) {
+                    final userData = state.extra as Map<String, dynamic>;
+                    return CustomDetailPostInfo(
+                      title: userData['title'],
+                      content: userData['content'],
+                      writtenAt: userData['writtenAt'],
+                      nickname: userData['nickname'],
+                    );
+                  },
+                ),
+          ]
           ),
           GoRoute(
             path: 'reportmanagement',
