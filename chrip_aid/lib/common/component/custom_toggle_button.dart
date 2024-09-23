@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomToggleButton extends StatefulWidget {
   final List<String> options;
+  final ValueChanged<int> onChanged; // 선택된 인덱스를 전달할 콜백 함수
 
   const CustomToggleButton({
     Key? key,
     required this.options,
+    required this.onChanged, // 필수로 콜백을 받아야 함
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
               setState(() {
                 selectedIndex = index; // 선택된 버튼의 인덱스 갱신
               });
+              widget.onChanged(index); // 선택된 인덱스를 부모 위젯으로 전달
             },
             child: Container(
               decoration: BoxDecoration(
