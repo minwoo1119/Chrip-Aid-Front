@@ -268,7 +268,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'postmanagement',
             name: SupervisorPostManagementScreen.routeName,
-            builder: (context, state) => const SupervisorPostManagementScreen(),
+            builder: (context, state) => SupervisorPostManagementScreen(),
               routes: [
                 GoRoute(
                   path: 'postdetail',
