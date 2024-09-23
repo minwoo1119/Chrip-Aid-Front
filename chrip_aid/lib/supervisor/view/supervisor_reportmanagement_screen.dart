@@ -1,68 +1,55 @@
-import 'package:chrip_aid/common/component/custom_detail_info.dart';
-import 'package:chrip_aid/common/component/custom_toggle_button.dart';
-import 'package:chrip_aid/common/component/custom_user_list.dart';
-import 'package:chrip_aid/common/styles/colors.dart';
-import 'package:chrip_aid/common/styles/sizes.dart';
-import 'package:chrip_aid/common/styles/text_styles.dart';
-import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
-import 'package:chrip_aid/orphanage/component/custom_product_box_2.dart';
-import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
-import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import 'package:chrip_aid/management/viewmodel/orphanage_management_viewmodel.dart';
-import 'package:chrip_aid/supervisor/viewmodel/supervisor_accountmanagement_viewmodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../common/component/custom_report_list.dart';
+import '../../common/component/custom_toggle_button.dart';
+import '../../common/styles/colors.dart';
+import '../../common/styles/sizes.dart';
+import '../../common/styles/text_styles.dart';
+import '../../common/value_state/component/value_state_listener.dart';
+import '../../orphanage/component/custom_text_field.dart';
+import '../../orphanage/layout/detail_page_layout.dart';
+import '../viewmodel/supervisor_accountmanagement_viewmodel.dart';
 
 class SupervisorReportmanagementScreen extends ConsumerWidget {
   static String get routeName => "reportmanagement";
   static const List<Map<String, dynamic>> dummyData = [
     {
-      'name': 'minwoo',
-      'email': 'minu@example.com',
-      'phoneNumber': '010-0000-0001',
-      'nickname': 'babayLion',
+      'title': '4시간 연강이 말입니까 ?',
+      'target': '오병우 교수',
+      'writtenAt': '2024-09-25',
+      'user': 'minwoo',
+      'isUser': 'false',
     },
     {
-      'name': 'juheok',
-      'email': 'juh@example.com',
-      'phoneNumber': '010-0000-0002',
-      'nickname': 'King of Spring',
+      'title': '성윤이형이 수업갔어요',
+      'target': 'seongyoon',
+      'writtenAt': '2024-09-22',
+      'user': 'minwoo',
+      'isUser': 'true',
     },
     {
-      'name': 'youngjin',
-      'email': 'yong@example.com',
-      'phoneNumber': '010-0000-0003',
-      'nickname': 'The King',
+      'title': '흰 셔츠가 없는데 사오래요',
+      'target': '안형태 교수',
+      'writtenAt': '2024-09-21',
+      'user': 'juhyeok',
+      'isUser': 'true',
     },
     {
-      'name': 'seongYoon',
-      'email': 'IloveIoT@example.com',
-      'phoneNumber': '010-0000-0004',
-      'nickname': 'EmbeddedKing',
-    },{
-      'name': 'minwoo',
-      'email': 'minu@example.com',
-      'phoneNumber': '010-0000-0001',
-      'nickname': 'babayLion',
+      'title': '수업 재미없어요',
+      'target': '컴퓨터공학과',
+      'writtenAt': '2024-09-17',
+      'user': 'youngjin',
+      'isUser': 'false',
     },
     {
-      'name': 'juheok',
-      'email': 'juh@example.com',
-      'phoneNumber': '010-0000-0002',
-      'nickname': 'King of Spring',
-    },
-    {
-      'name': 'youngjin',
-      'email': 'yong@example.com',
-      'phoneNumber': '010-0000-0003',
-      'nickname': 'The King',
-    },
-    {
-      'name': 'seongYoon',
-      'email': 'IloveIoT@example.com',
-      'phoneNumber': '010-0000-0004',
-      'nickname': 'EmbeddedKing',
+      'title': '라즈베리파이가 욕했어요',
+      'target': 'razp',
+      'writtenAt': '2024-04-29',
+      'user': 'seongyoon',
+      'isUser': 'true',
     },
   ];
 
@@ -71,6 +58,13 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
+    final isUserState = ref.watch(isUserFilterProvider);
+
+    // 필터링된 데이터
+    final filteredData = dummyData
+        .where((user) => isUserState ? user['isUser'] == 'true' : user['isUser'] == 'false')
+        .toList();
+
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: '신고 관리',
@@ -96,16 +90,25 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
             child: Column(
               children: [
                 SizedBox(height: 10.0),
+                CustomToggleButton(
+                  options: ['사용자', '게시글'],
+                  onChanged: (index) {
+                    // isUser 상태 변경 (사용자가 클릭한 토글에 따라 상태 변경)
+                    ref.read(isUserFilterProvider.notifier).state = index == 0;
+                  },
+                ),
+                SizedBox(height: 10.0),
                 Column(
-                  children: dummyData.map((user) {
+                  children: filteredData.map((user) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
-                      child: CustomUserList(
-                        name: user['name'],
-                        email: user['email'],
-                        phoneNumber: user['phoneNumber'],
-                        nickname: user['nickname'],
-                        onTap: () => _navigateToDetailPage(context, user),
+                      child: CustomReportList(
+                        title: user['title'],
+                        target: user['target'],
+                        writtenAt: user['writtenAt'],
+                        user: user['user'],
+                        isUser: user['isUser'] == 'true',
+                        onTap: () {},
                       ),
                     );
                   }).toList(),
@@ -178,3 +181,6 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
     );
   }
 }
+
+// isUser 필터 상태 관리
+final isUserFilterProvider = StateProvider<bool>((ref) => true);
