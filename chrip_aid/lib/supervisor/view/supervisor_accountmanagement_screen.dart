@@ -22,31 +22,55 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
       'email': 'minu@example.com',
       'phoneNumber': '010-0000-0001',
       'nickname': 'babayLion',
+      'isUser':'true',
     },
     {
       'name': 'juheok',
       'email': 'juh@example.com',
       'phoneNumber': '010-0000-0002',
       'nickname': 'King of Spring',
+      'isUser':'true',
     },
     {
       'name': 'youngjin',
       'email': 'yong@example.com',
       'phoneNumber': '010-0000-0003',
       'nickname': 'The King',
+      'isUser':'true',
     },
     {
       'name': 'seongYoon',
       'email': 'IloveIoT@example.com',
       'phoneNumber': '010-0000-0004',
       'nickname': 'EmbeddedKing',
+      'isUser':'true',
+    },
+    {
+      'name': '파주보육원',
+      'email': 'pajuorphanage@example.com',
+      'phoneNumber': '010-0000-0005',
+      'nickname': '파주파주',
+      'isUser':'false',
+    },
+    {
+      'name': '구미보육원',
+      'email': 'GumiLoveKid@example.com',
+      'phoneNumber': '010-0000-0006',
+      'nickname': 'WarmGumi',
+      'isUser':'false',
     },
   ];
 
   const SupervisorAccountmanagementScreen({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isUserState = ref.watch(isUserFilterProvider);
+    final filteredData = dummyData
+        .where((user) => isUserState ? user['isUser'] == 'true' : user['isUser'] == 'false')
+        .toList();
     final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -78,10 +102,11 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
                     '사용자',
                     '보육원'
                   ],
+                  onChanged: (index) {ref.read(isUserFilterProvider.notifier).state = index == 0;},
                 ),
                 SizedBox(height: 6.0),
                 Column(
-                  children: dummyData.map((user) {
+                  children: filteredData.map((user) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
                       child: CustomUserList(
@@ -162,3 +187,6 @@ class SupervisorAccountmanagementScreen extends ConsumerWidget {
     );
   }
 }
+
+
+final isUserFilterProvider = StateProvider<bool>((ref) => true);
