@@ -9,14 +9,18 @@ class CustomDetailReportInfo extends ConsumerWidget {
   final String title;
   final String target;
   final String writtenAt;
-  final String user;
+  final String email;
+  final String nickname;
+  final String content;
 
   const CustomDetailReportInfo({
     super.key,
     required this.title,
     required this.target,
     required this.writtenAt,
-    required this.user,
+    required this.content,
+    required this.nickname,
+    required this.email,
   });
 
   @override
@@ -25,7 +29,7 @@ class CustomDetailReportInfo extends ConsumerWidget {
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
-      title: '게시글 관리',
+      title: '신고 관리',
       titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
@@ -56,7 +60,84 @@ class CustomDetailReportInfo extends ConsumerWidget {
               ),
               child:Column(
                 children: [
-                  Text('Hate You '),
+                  Text(title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image(
+                            image: AssetImage('assets/image/logo.png'),
+                            height: 100,
+                            width: 100,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    '이름',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.0,),
+                                  Text('${nickname}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '아이디',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.0,),
+                                  Text('${email}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '별명',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.0,),
+                                  Text('${nickname}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '신고 사유',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.0,),
+                                  Text('${content}'),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               )
           ),

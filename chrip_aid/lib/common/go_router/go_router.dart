@@ -298,7 +298,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                     title: userData['title'],
                     target: userData['target'],
                     writtenAt: userData['writtenAt'],
-                    user: userData['user'],
+                    nickname: userData['nickname'],
+                    content: userData['content'],
+                    email: userData['email'],
                   );
                 },
               ),
