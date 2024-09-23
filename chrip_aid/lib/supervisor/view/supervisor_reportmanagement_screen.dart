@@ -108,7 +108,7 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
                         writtenAt: user['writtenAt'],
                         user: user['user'],
                         isUser: user['isUser'] == 'true',
-                        onTap: () {},
+                        onTap: ()=>_navigateToDetailPage(context, user),
                       ),
                     );
                   }).toList(),
@@ -176,7 +176,7 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
 
   void _navigateToDetailPage(BuildContext context, Map<String, dynamic> userData) {
     context.push(
-      '/supervisor/accountmanagement/detail',
+      '/supervisor/reportmanagement/detail',
       extra: userData,
     );
   }
