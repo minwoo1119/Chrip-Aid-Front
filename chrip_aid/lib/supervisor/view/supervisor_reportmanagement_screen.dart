@@ -19,7 +19,7 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
     {
       'title': '4시간 연강이 말입니까 ?',
       'content' : '진짜 이건 너무하잖아요',
-      'target': '오병우 교수',
+      'target': '구미보육원',
       'writtenAt': '2024-09-25',
       'nickname': 'minwoo',
       'email' : 'minwoo1119@naver.com',
@@ -37,7 +37,7 @@ class SupervisorReportmanagementScreen extends ConsumerWidget {
     {
       'title': '흰 셔츠가 없는데 사오래요',
       'content' : '진짜 이건 너무하잖아요',
-      'target': '안형태 교수',
+      'target': 'D138',
       'writtenAt': '2024-09-21',
       'nickname': 'juhyeok',
       'email' : 'example@naver.com',
