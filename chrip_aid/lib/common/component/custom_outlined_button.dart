@@ -48,10 +48,10 @@ class CustomOutlinedButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          icon!,
-          SizedBox(
-            height: 20,
-          ),
+          if (icon != null) ...[
+            icon!, 
+            const SizedBox(height: 20),
+          ],
           Text(
             text,
             style: textStyle ??
