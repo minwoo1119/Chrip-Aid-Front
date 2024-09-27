@@ -30,9 +30,9 @@ class CustomInterceptor extends Interceptor {
   // 1) 요청을 보낼때
   @override
   void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+      RequestOptions options,
+      RequestInterceptorHandler handler,
+      ) async {
     if (options.path.contains('authorityType')) {
       options.path = options.path.replaceFirst(
         'authorityType',
@@ -82,7 +82,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken =
-        await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
+    await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
     logging("Dio - ERROR", "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
 
