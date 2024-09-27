@@ -4,6 +4,8 @@ import 'package:chrip_aid/auth/view/login_screen.dart';
 import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
+import 'package:chrip_aid/chatting/view/chatting_message_screen.dart';
+import 'package:chrip_aid/chatting/view/chatting_screen.dart';
 import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
@@ -307,6 +309,20 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ]
+      ),
+      GoRoute(
+          path: '/chatting',
+          name: ChattingScreen.routeName,
+          builder: (context, state) => const ChattingScreen(),
+          routes: [
+            GoRoute(
+              path: ':chat_room_id',
+              builder: (context, state) {
+                final chatRoomId = state.pathParameters['chat_room_id']!;
+                return ChattingMessageScreen(chatRoomId: chatRoomId);
+              },
+            ),
+          ]
       ),
     ],
     refreshListenable: auth.authState,
