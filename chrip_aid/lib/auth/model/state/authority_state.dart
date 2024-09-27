@@ -31,7 +31,7 @@ enum AuthorityType {
 
   static AuthorityType fromString(String? value) =>
       AuthorityType.values.firstWhereOrNull((e) => e.toString() == value) ??
-      AuthorityType.supervisor; //입력값이 없을 때 기본 값임. 임시로 supervisor로 수정하여 편집하겠음
+      AuthorityType.user;
 }
 
 Future initAuthority() async {
