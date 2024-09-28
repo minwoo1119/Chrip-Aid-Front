@@ -8,17 +8,19 @@ import '../../orphanage/layout/detail_page_layout.dart';
 class ChattingMessageScreen extends ConsumerWidget {
   static String get routeName => 'chatting';
   final String chatRoomId;
+  final String targetId;
 
   const ChattingMessageScreen({
     super.key,
     required this.chatRoomId,
+    required this.targetId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
-      title: '채팅',
+      title: '${targetId}',
       titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
@@ -40,17 +42,17 @@ class ChattingMessageScreen extends ConsumerWidget {
             child: ListView.separated(
               padding: const EdgeInsets.all(16.0),
               itemBuilder: (context, index) {
-                final chatMessage = dummyData[index];
+                bool isSentByMe = index % 2 == 0;
                 return _buildChatBubble(
-                  chatMessage['isSentByMe'] as bool,
-                  chatMessage['message'] as String,
+                  isSentByMe,
+                  '채팅 메시지 $index',
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-              itemCount: dummyData.length,
+              itemCount: 20, // 메시지 개수 (더미 데이터)
             ),
           ),
-          _BottomInputField(),
+          _BottomInputField(), // 채팅 입력 필드
         ],
       ),
     );
@@ -62,7 +64,7 @@ class ChattingMessageScreen extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 14.0),
         decoration: BoxDecoration(
-          color: isSentByMe ? CustomColor.itemMainColor : Colors.grey[300],
+          color: isSentByMe ? CustomColor.itemMainColor : Colors.grey[200],
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Text(
@@ -76,34 +78,6 @@ class ChattingMessageScreen extends ConsumerWidget {
   }
 }
 
-
-final List<Map<String, dynamic>> dummyData = [
-  {
-    'isSentByMe': true,
-    'message': '안녕하세요! 오늘 일정은 어떻게 되세요?',
-  },
-  {
-    'isSentByMe': false,
-    'message': '안녕하세요! 오늘 오후에는 회의가 있어요.',
-  },
-  {
-    'isSentByMe': true,
-    'message': '회의 준비는 잘 되었나요?',
-  },
-  {
-    'isSentByMe': false,
-    'message': '네, 준비 다 했어요.',
-  },
-  {
-    'isSentByMe': true,
-    'message': '좋아요. 그럼 회의 끝나고 연락드릴게요!',
-  },
-  {
-    'isSentByMe': false,
-    'message': '네, 알겠습니다.',
-  },
-];
-
 class _BottomInputField extends StatefulWidget {
   @override
   State<_BottomInputField> createState() => _BottomInputFieldState();
@@ -114,12 +88,8 @@ class _BottomInputFieldState extends State<_BottomInputField> {
 
   void _sendMessage() {
     if (_controller.text.trim().isNotEmpty) {
-      setState(() {
-        dummyData.add({
-          'isSentByMe': true,
-          'message': _controller.text,
-        });
-      });
+      // 메시지를 전송하는 로직 추가 (예: 서버로 메시지 전송)
+      print('Message sent: ${_controller.text}');
       _controller.clear(); // 메시지 전송 후 입력 필드 초기화
     }
   }
@@ -149,7 +119,7 @@ class _BottomInputFieldState extends State<_BottomInputField> {
             const SizedBox(width: 8.0),
             IconButton(
               icon: const Icon(Icons.send, color: Colors.blueAccent),
-              onPressed: _sendMessage,
+              onPressed: _sendMessage, // 메시지 전송
             ),
           ],
         ),

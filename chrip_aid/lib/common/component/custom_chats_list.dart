@@ -18,7 +18,7 @@ class CustomChatsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        _navigateToDetailPage(context, chat_room_id);
+        _navigateToDetailPage(context, chat_room_id, target_id);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -31,7 +31,7 @@ class CustomChatsList extends ConsumerWidget {
               color: Colors.black.withOpacity(0.1),
               spreadRadius: 2,
               blurRadius: 10,
-              offset: const Offset(0, 4), // 그림자 위치
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -53,7 +53,7 @@ class CustomChatsList extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '보육원이름',  // 실제 데이터로 변경 가능
+                    '${target_id}',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -79,9 +79,10 @@ class CustomChatsList extends ConsumerWidget {
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, String chat_room_id) {
+  void _navigateToDetailPage(BuildContext context, String chat_room_id, String target_id) {
     context.push(
       '/chatting/$chat_room_id',
+      extra: {'targetId': target_id},
     );
   }
 }

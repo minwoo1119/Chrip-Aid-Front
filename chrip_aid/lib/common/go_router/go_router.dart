@@ -319,7 +319,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               path: ':chat_room_id',
               builder: (context, state) {
                 final chatRoomId = state.pathParameters['chat_room_id']!;
-                return ChattingMessageScreen(chatRoomId: chatRoomId);
+                final extra = state.extra as Map<String, dynamic>?;
+                final targetId = extra?['targetId'] as String? ?? 'Unknown';
+                return ChattingMessageScreen(chatRoomId: chatRoomId, targetId: targetId);
               },
             ),
           ]

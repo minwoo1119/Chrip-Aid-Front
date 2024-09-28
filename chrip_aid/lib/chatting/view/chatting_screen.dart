@@ -38,27 +38,27 @@ class ChattingScreen extends ConsumerWidget {
           SizedBox(height: 20.0,),
           CustomChatsList(
             chat_room_id: '2jdek290',
-            target_id: 'djkd121',
+            target_id: '안형태 교수님',
             last_chat: '학회를 가기 위한 여정은 잘 되어가니?',
           ),
           CustomChatsList(
             chat_room_id: '3abce320',
-            target_id: 'djkd122',
+            target_id: '정성윤',
             last_chat: '오늘 저녁 뭐 먹을까?',
           ),
           CustomChatsList(
             chat_room_id: '4bde1341',
-            target_id: 'djkd123',
+            target_id: '채주혁',
             last_chat: '내일 회의 몇 시에 시작하지?',
           ),
           CustomChatsList(
             chat_room_id: '5cfr2391',
-            target_id: 'djkd124',
+            target_id: '황용진',
             last_chat: '프로젝트 진행 상황 어때?',
           ),
           CustomChatsList(
             chat_room_id: '6hij3012',
-            target_id: 'djkd125',
+            target_id: '권오빈',
             last_chat: '커피 한 잔 할래?',
           ),
         ],
