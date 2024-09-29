@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
@@ -32,28 +19,72 @@
   <title>chrip_aid</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-messaging.js"></script>
+
   <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyA27yMPyCuJID-gW_LdTwDIscopBIpGVAw",
+  authDomain: "chirp-aid-8c7f6.firebaseapp.com",
+  projectId: "chirp-aid-8c7f6",
+  storageBucket: "chirp-aid-8c7f6.appspot.com",
+  messagingSenderId: "439232034927",
+  appId: "1:439232034927:web:dfaad167314710fcddf59a",
+  measurementId: "G-HBGKQXBT7Z"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Register the service worker for FCM
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+
+          const messaging = firebase.messaging();
+          messaging.useServiceWorker(registration);
+
+          // Request permission and get the token
+          messaging.requestPermission()
+            .then(function() {
+              console.log('Notification permission granted.');
+              return messaging.getToken();
+            })
+            .then(function(token) {
+              console.log('FCM Token:', token);
+            })
+            .catch(function(err) {
+              console.error('Unable to get permission to notify.', err);
+            });
+        })
+        .catch(function(err) {
+          console.error('Service Worker registration failed:', err);
+        });
+    }
   </script>
+
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
+<script>
+  window.addEventListener('load', function(ev) {
+    // Download main.dart.js
+    _flutter.loader.loadEntrypoint({
+      serviceWorker: {
+        serviceWorkerVersion: '{{flutter_service_worker_version}}',
+      },
+      onEntrypointLoaded: function(engineInitializer) {
+        engineInitializer.initializeEngine().then(function(appRunner) {
+          appRunner.runApp();
+        });
+      }
     });
-  </script>
+  });
+</script>
 </body>
 </html>

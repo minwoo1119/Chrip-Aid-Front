@@ -8,7 +8,6 @@ final fcmRepositoryProvider = Provider((ref) {
   return FcmRepository();
 });
 
-
 class FcmRepository {
   Future<String> getFcmToken() async {
     final fcmToken = await FirebaseMessaging.instance
