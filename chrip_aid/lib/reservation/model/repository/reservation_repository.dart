@@ -4,6 +4,7 @@ import 'package:chrip_aid/reservation/model/entity/reservation_answer_request_dt
 import 'package:chrip_aid/reservation/model/entity/reservation_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 part 'reservation_repository.g.dart';
 

@@ -1,29 +1,29 @@
 import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
-import 'package:chrip_aid/management/model/service/orphanage_management_service.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_info_screen.dart';
 import 'package:chrip_aid/management/view/orphanage_edit_product_screen.dart';
 import 'package:chrip_aid/orphanage/model/state/orphanage_detail_state.dart';
-import 'package:chrip_aid/supervisor/model/service/supervisor_accountmanagement_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final supervisorAccountManagementViewModelProvider =
-Provider((ref) => SupervisorAccountManagementViewmodel(ref));
+import '../model/service/admin_accountmanagement_service.dart';
 
-class SupervisorAccountManagementViewmodel {
+final adminAccountManagementViewModelProvider =
+Provider((ref) => AdminAccountManagementViewmodel(ref));
+
+class AdminAccountManagementViewmodel {
   Ref ref;
-  late final SupervisorAccountManagementService _supervisorAccountManagementServiceManagementService;
+  late final AdminAccountManagementService _adminAccountManagementServiceManagementService;
 
   OrphanageDetailState orphanageState = OrphanageDetailState();
 
-  SupervisorAccountManagementViewmodel(this.ref) {
-    _supervisorAccountManagementServiceManagementService = ref.read(supervisorAccountManagementServiceProvider);
+  AdminAccountManagementViewmodel(this.ref) {
+    _adminAccountManagementServiceManagementService = ref.read(adminAccountManagementServiceProvider);
   }
 
   void getInfo() => orphanageState
-      .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo());
+      .withResponse(_adminAccountManagementServiceManagementService.getOrphanageInfo());
 
   void navigateToAddProductScreen(
       BuildContext context, {
@@ -31,14 +31,14 @@ class SupervisorAccountManagementViewmodel {
       }) {
     context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity).then(
           (value) => orphanageState
-          .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo()),
+          .withResponse(_adminAccountManagementServiceManagementService.getOrphanageInfo()),
     );
   }
 
   void navigateToEditOrphanageScreen(BuildContext context) {
     context.pushNamed(OrphanageEditInfoScreen.routeName).then(
           (value) => orphanageState
-          .withResponse(_supervisorAccountManagementServiceManagementService.getOrphanageInfo()),
+          .withResponse(_adminAccountManagementServiceManagementService.getOrphanageInfo()),
     );
   }
 }

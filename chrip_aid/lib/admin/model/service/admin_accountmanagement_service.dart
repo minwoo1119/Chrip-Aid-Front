@@ -6,20 +6,20 @@ import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/state/member_info_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
-import 'package:chrip_aid/supervisor/model/repository/supervisor_accountmanager_repository.dart';
-import 'package:chrip_aid/supervisor/model/repository/supervisor_reportmanagement_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final supervisorReportManagementServiceProvider = Provider<SupervisorReportmanagementService>((ref) {
-  final repository = ref.read(supervisorAccountManagementRepositoryProvider);
-  return SupervisorReportmanagementService(repository, ref);
+import '../repository/admin_accountmanager_repository.dart';
+
+final adminAccountManagementServiceProvider = Provider((ref) {
+  final repository = ref.read(adminAccountManagementRepositoryProvider);
+  return AdminAccountManagementService(repository, ref);
 });
 
-class SupervisorReportmanagementService {
+class AdminAccountManagementService {
   final Ref ref;
-  late final SupervisorAccountManagementRepository repository;
+  late final AdminAccountManagementRepository repository;
 
-  SupervisorReportmanagementService(this.repository, this.ref);
+  AdminAccountManagementService(this.repository, this.ref);
 
   // TODO : 아래 함수 필요한걸로 바꿔야할듯
   Future<ResponseEntity<OrphanageDetailEntity>> getOrphanageInfo() async {

@@ -5,20 +5,21 @@ import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
-part 'supervisor_reportmanagement_repository.g.dart';
+part 'admin_postmanagement_repository.g.dart';
 
-final supervisorReportManagementRepositoryProvider = Provider((ref) {
+final adminPostManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
   // return OrphanageManagementRepositoryStub();
-  return SupervisorReportmanagementRepository(dio);
+  return AdminPostmanagementRepository(dio);
 });
 
 @RestApi()
-abstract class SupervisorReportmanagementRepository {
-  factory SupervisorReportmanagementRepository(Dio dio, {String? baseUrl}) =
-  _SupervisorReportmanagementRepository;
+abstract class AdminPostmanagementRepository {
+  factory AdminPostmanagementRepository(Dio dio, {String? baseUrl}) =
+  _AdminPostmanagementRepository;
 
   // TODO : 아래 부분 수정해야함
   @GET('/orphanages/{id}')

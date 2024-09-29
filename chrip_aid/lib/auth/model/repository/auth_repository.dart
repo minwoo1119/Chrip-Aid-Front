@@ -3,6 +3,7 @@ import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 part 'auth_repository.g.dart';

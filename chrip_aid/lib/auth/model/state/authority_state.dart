@@ -15,7 +15,7 @@ class AuthorityState extends ValueStateNotifier<AuthorityType> {
 enum AuthorityType {
   user,
   orphanage,
-  supervisor;
+  admin;
 
   @override
   String toString() {
@@ -24,8 +24,8 @@ enum AuthorityType {
         return 'users';
       case orphanage:
         return 'orphanages';
-      case supervisor:
-        return 'supervisor';
+      case admin:
+        return 'admin';
     }
   }
 

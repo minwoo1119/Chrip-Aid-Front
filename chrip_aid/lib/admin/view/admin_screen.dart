@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-class SupervisorScreen extends ConsumerWidget {
+class AdminScreen extends ConsumerWidget {
   static String get routeName => 'supervisor';
 
-  const SupervisorScreen({super.key});
+  const AdminScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

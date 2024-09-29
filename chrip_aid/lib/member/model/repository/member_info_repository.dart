@@ -3,6 +3,7 @@ import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 part 'member_info_repository.g.dart';

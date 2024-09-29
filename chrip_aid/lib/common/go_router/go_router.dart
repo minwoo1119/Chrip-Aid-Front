@@ -1,3 +1,6 @@
+import 'package:chrip_aid/admin/view/admin_accountmanagement_screen.dart';
+import 'package:chrip_aid/admin/view/admin_postmanagement_screen.dart';
+import 'package:chrip_aid/admin/view/admin_reportmanagement_screen.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
@@ -32,14 +35,11 @@ import 'package:chrip_aid/post/view/user_post_screen.dart';
 import 'package:chrip_aid/reservation/view/orphanage_reservation_screen.dart';
 import 'package:chrip_aid/reservation/view/reservation_screen.dart';
 import 'package:chrip_aid/reservation/view/user_reservation_screen.dart';
-import 'package:chrip_aid/supervisor/view/supervisor_postmanagement_screen.dart';
-import 'package:chrip_aid/supervisor/view/supervisor_reportmanagement_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../supervisor/view/superviser_screen.dart';
-import '../../supervisor/view/supervisor_accountmanagement_screen.dart';
+import '../../admin/view/admin_screen.dart';
 import '../component/custom_detail_info.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -243,13 +243,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/supervisor',
-        name: SupervisorScreen.routeName,
-        builder: (context, state) => const SupervisorScreen(),
+        name: AdminScreen.routeName,
+        builder: (context, state) => const AdminScreen(),
         routes: [
           GoRoute(
           path: 'accountmanagement',
-          name: SupervisorAccountmanagementScreen.routeName,
-          builder: (context, state) => const SupervisorAccountmanagementScreen(),
+          name: AdminAccountmanagementScreen.routeName,
+          builder: (context, state) => const AdminAccountmanagementScreen(),
             routes: [
               GoRoute(
                 path: 'detail',
@@ -270,8 +270,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
           GoRoute(
             path: 'postmanagement',
-            name: SupervisorPostManagementScreen.routeName,
-            builder: (context, state) => SupervisorPostManagementScreen(),
+            name: AdminPostmanagementScreen.routeName,
+            builder: (context, state) => AdminPostmanagementScreen(),
               routes: [
                 GoRoute(
                   path: 'postdetail',
@@ -289,8 +289,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'reportmanagement',
-            name: SupervisorReportmanagementScreen.routeName,
-            builder: (context, state) => const SupervisorReportmanagementScreen(),
+            name: AdminReportmanagementScreen.routeName,
+            builder: (context, state) => const AdminReportmanagementScreen(),
             routes: [
               GoRoute(
                 path: 'detail',

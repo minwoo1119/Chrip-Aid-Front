@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
-import '../../supervisor/viewmodel/supervisor_accountmanagement_viewmodel.dart';
+import '../../admin/viewmodel/admin_accountmanagement_viewmodel.dart';
 import '../styles/colors.dart';
 import '../styles/sizes.dart';
 
@@ -25,7 +25,7 @@ class CustomDetailReportInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(supervisorAccountManagementViewModelProvider)..getInfo();
+    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getInfo();
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
