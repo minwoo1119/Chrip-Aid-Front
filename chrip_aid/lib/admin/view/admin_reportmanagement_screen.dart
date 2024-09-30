@@ -67,7 +67,7 @@ class AdminReportmanagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getInfo();
+    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getOrphanageUserList();
     final isUserState = ref.watch(isUserFilterProvider);
 
     // 필터링된 데이터
@@ -84,7 +84,7 @@ class AdminReportmanagementScreen extends ConsumerWidget {
       leadingColor: CustomColor.textReverseColor,
       actions: [
         IconButton(
-          onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
+          onPressed: () => {},
           icon: const Icon(Icons.search, size: kIconSmallSize),
           color: CustomColor.textReverseColor,
           splashRadius: kIconSmallSize,
@@ -94,7 +94,7 @@ class AdminReportmanagementScreen extends ConsumerWidget {
         const SizedBox(width: kPaddingMiddleSize),
       ],
       child: ValueStateListener(
-        state: viewModel.orphanageState,
+        state: viewModel.userState,
         defaultBuilder: (_, state) => SingleChildScrollView(
           child: Center(
             child: Column(

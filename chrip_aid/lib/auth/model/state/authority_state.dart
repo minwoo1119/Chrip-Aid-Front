@@ -31,7 +31,7 @@ enum AuthorityType {
 
   static AuthorityType fromString(String? value) =>
       AuthorityType.values.firstWhereOrNull((e) => e.toString() == value) ??
-      AuthorityType.user;
+      AuthorityType.user; // 기본값
 }
 
 Future initAuthority() async {

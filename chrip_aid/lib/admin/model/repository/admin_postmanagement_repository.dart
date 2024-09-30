@@ -1,40 +1,35 @@
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
-import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
+import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+
 part 'admin_postmanagement_repository.g.dart';
 
 final adminPostManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  // return OrphanageManagementRepositoryStub();
-  return AdminPostmanagementRepository(dio);
+  return AdminPostManagementRepository(dio);
 });
 
 @RestApi()
-abstract class AdminPostmanagementRepository {
-  factory AdminPostmanagementRepository(Dio dio, {String? baseUrl}) =
-  _AdminPostmanagementRepository;
+abstract class AdminPostManagementRepository {
+  factory AdminPostManagementRepository(Dio dio, {String? baseUrl}) = _AdminPostManagementRepository;
 
-  // TODO : 아래 부분 수정해야함
-  @GET('/orphanages/{id}')
-  @Headers({'accessToken': 'true'})
-  Future<OrphanageDetailEntity> getOrphanageData(@Path("id") int id);
+  // 게시글 목록 조회
+  @GET('/posts')
+  Future<List<GetPostsEntity>> getPosts();
 
-  @PATCH('/orphanages')
-  @Headers({'accessToken': 'true'})
-  Future editOrphanageInfo(@Body() EditOrphanageInfoRequestDTO dto);
+  // 특정 게시글 조회
+  @GET('/posts/{id}')
+  Future<GetPostsEntity> getPost(@Path("id") int postId);
 
-  @POST('/requests')
-  @Headers({'accessToken': 'true'})
-  Future editOrphanageProduct(@Body() AddOrphanageProductRequestDTO dto);
+  // 게시글 수정
+  // @PATCH('/posts/{id}')
+  // Future<void> editPost(@Path("id") int postId, @Body() EditPostRequestDTO dto);
 
-  @GET('/requests/products')
-  @Headers({'accessToken': 'true'})
-  Future<List<ProductEntity>> getProducts();
+  // 게시글 삭제
+  @DELETE('/posts/{id}')
+  Future<void> deletePost(@Path("id") int postId);
 }

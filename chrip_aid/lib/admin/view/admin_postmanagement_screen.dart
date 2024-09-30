@@ -62,7 +62,7 @@ class AdminPostmanagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getInfo();
+    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getUserList();
     final selectedIndex = ref.watch(selectedToggleProvider); // 선택된 토글 인덱스
 
     // 선택된 인덱스에 따라 데이터 필터링
@@ -85,7 +85,7 @@ class AdminPostmanagementScreen extends ConsumerWidget {
       leadingColor: CustomColor.textReverseColor,
       actions: [],
       child: ValueStateListener(
-        state: viewModel.orphanageState,
+        state: viewModel.userState,
         defaultBuilder: (_, state) => SingleChildScrollView(
           child: Center(
             child: Column(
