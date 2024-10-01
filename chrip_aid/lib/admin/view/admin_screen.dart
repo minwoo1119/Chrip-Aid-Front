@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 class AdminScreen extends ConsumerWidget {
-  static String get routeName => 'supervisor';
+  static String get routeName => 'admin';
 
   const AdminScreen({super.key});
 

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'admin_all_user_request_dto.g.dart';
 
 @JsonSerializable()
-class UserDto {
+class AdminAllUserRequestDto {
   final String name;
   final String email;
   final int age;
@@ -14,7 +14,7 @@ class UserDto {
   final String profilePhoto;
   final String role;
 
-  UserDto({
+  AdminAllUserRequestDto({
     required this.name,
     required this.email,
     required this.age,
@@ -27,8 +27,8 @@ class UserDto {
   });
 
   // JSON에서 객체를 생성하기 위한 factory method
-  factory UserDto.fromJson(Map<String, dynamic> json) => _$UserDtoFromJson(json);
+  factory AdminAllUserRequestDto.fromJson(Map<String, dynamic> json) => _$AdminAllUserRequestDtoFromJson(json);
 
   // 객체를 JSON으로 변환하기 위한 method
-  Map<String, dynamic> toJson() => _$UserDtoToJson(this);
+  Map<String, dynamic> toJson() => _$AdminAllUserRequestDtoToJson(this);
 }

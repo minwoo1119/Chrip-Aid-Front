@@ -26,6 +26,7 @@ class AuthProvider extends ChangeNotifier {
 
     if (authState.isNone) {
       return isLoginScreen ? null : '/auth';
+      // return isLoginScreen || state.location == '/splash' ? '/' : null;
     }
 
     if (authState.isSuccess) {
@@ -34,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
 
     if (authState.isError) {
       return isLoginScreen ? null : '/auth';
+      // return isLoginScreen || state.location == '/splash' ? '/' : null;
     }
 
     return null;

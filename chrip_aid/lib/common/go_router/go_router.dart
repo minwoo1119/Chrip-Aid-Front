@@ -12,6 +12,7 @@ import 'package:chrip_aid/chatting/view/chatting_screen.dart';
 import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
+import 'package:chrip_aid/home/view/admin_home_screen.dart';
 import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
@@ -244,7 +245,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin',
         name: AdminScreen.routeName,
-        builder: (context, state) => const AdminScreen(),
+        builder: (context, state) => const AdminHomeScreen(),
         routes: [
           GoRoute(
           path: 'accountmanagement',

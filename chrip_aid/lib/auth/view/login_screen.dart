@@ -95,7 +95,7 @@ class LoginScreen extends ConsumerWidget {
               ValueStateListener(
                 state: viewModel.authState,
                 defaultBuilder: (_, __) => CustomOutlinedButton(
-                  onPressed: viewModel.login,
+                  onPressed: () => viewModel.login(context),
                   text: '로그인',
                 ),
                 loadingBuilder: (_, __) => const CircularProgressIndicator(

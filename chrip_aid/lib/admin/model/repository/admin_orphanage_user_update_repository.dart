@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 
 import '../dto/admin_orphanage_user_update_request_dto.dart';
 
-class UserRepository {
+class AdminOrphanageUserUpdateRepository {
   final Dio dio;
 
-  UserRepository({required this.dio});
+  AdminOrphanageUserUpdateRepository({required this.dio});
 
   Future<void> updateOrphanageUser({
     required String id,

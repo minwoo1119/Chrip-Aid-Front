@@ -123,7 +123,7 @@ class UserHomeScreen extends TabScreen {
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      onPressed: () =>_navigateToDetailPage(context),
+                      onPressed: () =>_navigateToChattingPage(context),
                       icon: Icon(
                         Icons.chat_bubble_outline_rounded,
                         color: Colors.white,
@@ -139,7 +139,7 @@ class UserHomeScreen extends TabScreen {
       ),
     );
   }
-  void _navigateToDetailPage(BuildContext context) {
+  void _navigateToChattingPage(BuildContext context) {
     context.push(
       '/chatting',
     );

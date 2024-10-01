@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-class UserRepository {
+class AdminUserRepository {
   final Dio dio;
 
-  UserRepository({required this.dio});
+  AdminUserRepository({required this.dio});
 
   Future<void> deleteUser({required String id, required String accessToken}) async {
     try {

@@ -30,8 +30,9 @@ class LoginViewModel {
 
   void toggleAuthorityType() => toggleAuthority();
 
-  void login() {
+  void login(BuildContext context) {
     authState.withResponse(_service.login(
+      context: context,
       id: idTextController.text,
       password: passwordTextController.text,
     ));
