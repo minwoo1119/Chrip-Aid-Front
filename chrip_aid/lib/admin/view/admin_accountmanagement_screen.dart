@@ -104,8 +104,8 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
                         child: CustomUserList(
                           name: user.name,
                           email: user.email,
-                          phoneNumber: user.phone,
-                          nickname: user.nickName,
+                          phoneNumber: user.phoneNumber,
+                          nickname: user.nickname,
                           onTap: () => _navigateToDetailPage(context, user),
                         ),
                       );

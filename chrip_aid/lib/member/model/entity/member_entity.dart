@@ -13,11 +13,12 @@ abstract class MemberEntity {
   Map<String, dynamic> toJson();
 
   factory MemberEntity.fromJson(Map<String, dynamic> json) {
-    // TODO : MemberEntity factory need dependency with authority type
-    if(json["orphanage_id"] == null) {
-      return UserDetailEntity.fromJson(json);
+    if (json["orphanage_id"] == null) {
+      // UserDetailEntity를 MemberEntity로 명시적 캐스팅
+      return UserDetailEntity.fromJson(json) as MemberEntity;
     } else {
-      return OrphanageMemberEntity.fromJson(json);
+      // OrphanageMemberEntity를 MemberEntity로 명시적 캐스팅
+      return OrphanageMemberEntity.fromJson(json) as MemberEntity;
     }
   }
 }

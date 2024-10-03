@@ -64,7 +64,7 @@ class UserInfoScreen extends TabScreen {
                           child: Column(
                             children: [
                               DesignedContainerTitleBar(
-                                title: "${memberInfo.nickName}님",
+                                title: "${memberInfo.nickname}님",
                                 actions: [
                                   IconButton(
                                     onPressed: () => viewmodel
@@ -97,7 +97,7 @@ class UserInfoScreen extends TabScreen {
                               const SizedBox(height: kPaddingMiniSize),
                               CustomTextField(
                                 iconData: Icons.phone,
-                                text: memberInfo.phone,
+                                text: memberInfo.phoneNumber,
                               ),
                             ],
                           ),

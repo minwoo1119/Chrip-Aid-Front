@@ -24,7 +24,7 @@ class UserOrphanageDetailState extends ValueStateNotifier<OrphanageDetailEntity>
   }
 }
 
-class UserOrphanageListState extends ValueStateNotifier<List<OrphanageEntity>> {
+class UserOrphanageListState extends ValueStateNotifier<OrphanageEntity> {
   UserOrphanageListState() : super();
 
   factory UserOrphanageListState.loading() {
@@ -33,7 +33,7 @@ class UserOrphanageListState extends ValueStateNotifier<List<OrphanageEntity>> {
     return state;
   }
 
-  factory UserOrphanageListState.success({required List<OrphanageEntity> data}) {
+  factory UserOrphanageListState.success({required OrphanageEntity data}) {
     final state = UserOrphanageListState();
     state.success(value: data);
     return state;

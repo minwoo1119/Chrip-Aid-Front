@@ -29,7 +29,7 @@ abstract class AdminAccountManagementRepository {
   // 등록된 사용자 정보 전체 조회
   @GET('/admin/users')
   @Headers({'accessToken': 'true'})
-  Future<UserDetailEntity> getAllUsers();
+  Future<List<UserDetailEntity>> getAllUsers();
 
   // 사용자 정보 ID 검색
   @GET('/admin/users/id')
@@ -59,7 +59,7 @@ abstract class AdminAccountManagementRepository {
   // 등록된 보육원 사용자 정보 전체 조회
   @GET('/admin/orphanage-users')
   @Headers({'accessToken': 'true'})
-  Future<List<OrphanageEntity>> getAllOrphanageUsers();
+  Future<OrphanageEntity> getAllOrphanageUsers();
 
   // 보육원 사용자 정보 ID 검색
   @GET('/admin/orphanage-users/id')

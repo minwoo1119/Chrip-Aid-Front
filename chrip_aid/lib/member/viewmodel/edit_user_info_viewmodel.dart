@@ -43,9 +43,9 @@ class EditUserInfoViewModel {
     nameTextController = TextEditingController(text: userInfo!.name);
     passwordTextController = TextEditingController();
     checkPasswordTextController = TextEditingController();
-    nicknameTextController = TextEditingController(text: userInfo!.nickName);
+    nicknameTextController = TextEditingController(text: userInfo!.nickname);
     ageTextController = TextEditingController(text: userInfo!.age.toString());
-    phoneTextController = TextEditingController(text: userInfo!.phone);
+    phoneTextController = TextEditingController(text: userInfo!.phoneNumber);
 
     sexDropdownController = CustomDropdownButtonController(
       Sex.values,

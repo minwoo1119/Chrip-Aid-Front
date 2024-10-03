@@ -14,9 +14,9 @@ class AdminAccountManagementViewmodel {
   Ref ref;
   late final AdminAccountManagementService _adminAccountManagementService;
 
-  // ValueStateNotifier로 타입 설정
-  ValueStateNotifier<UserDetailEntity> userState = UserListState();
-  ValueStateNotifier<List<OrphanageEntity>> userOrphanageListState = UserOrphanageListState();
+  // 상태 관리 객체
+  ValueStateNotifier<List<UserDetailEntity>> userState = UserListState();
+  ValueStateNotifier<OrphanageEntity> userOrphanageListState = UserOrphanageListState();
   ValueStateNotifier<UserDetailEntity> userDetailState = UserDetailState();
   ValueStateNotifier<OrphanageDetailEntity> orphanageUserDetailState = UserOrphanageDetailState();
 
@@ -27,63 +27,52 @@ class AdminAccountManagementViewmodel {
   Future<void> getUserList() async {
     try {
       userState.loading();
-      print('User list loading...');
-      final response = await _adminAccountManagementService.getUserList();
-      if (response.isSuccess && response.entity != null) {
-        userState.success(value: response.entity!);
-        print('User list successfully loaded: ${response.entity}');
-      } else {
-        userState.error(message: response.message ?? '알 수 없는 오류가 발생했습니다.');
-        print('Error loading user list: ${response.message}');
-      }
+      final List<UserDetailEntity> userList = await _adminAccountManagementService.getUserList();
+      print('Received data from service: $userList'); // 서비스로부터 받은 데이터 확인
+      userState.success(value: userList);
+      print('State successfully updated to success with value: $userList');
     } catch (e) {
       userState.error(message: e.toString());
       print('Exception occurred while loading user list: $e');
     }
   }
 
-
   Future<void> getOrphanageUserList() async {
     try {
       userOrphanageListState.loading();
-      final response = await _adminAccountManagementService.getOrphanageUserList();
-      if (response.isSuccess && response.entity != null) {
-        userOrphanageListState.success(value: response.entity);
-      } else {
-        userOrphanageListState.error(message: response.message ?? '알 수 없는 오류가 발생했습니다.');
-      }
+      print('Orphanage user list loading...');
+      final orphanageList = await _adminAccountManagementService.getOrphanageUserList();
+      userOrphanageListState.success(value: orphanageList);
+      print('Orphanage user list successfully loaded: $orphanageList');
     } catch (e) {
       userOrphanageListState.error(message: e.toString());
+      print('Exception occurred while loading orphanage user list: $e');
     }
   }
 
-  // 특정 사용자 세부 정보 가져오기
   Future<void> getUserDetailInfo(String userId) async {
     try {
       userDetailState.loading();
-      final response = await _adminAccountManagementService.getUserById(userId);
-      if (response.isSuccess && response.entity != null) {
-        userDetailState.success(value: response.entity!);
-      } else {
-        userDetailState.error(message: response.message ?? '알 수 없는 오류가 발생했습니다.');
-      }
+      print('Loading user details for ID: $userId');
+      final userDetail = await _adminAccountManagementService.getUserById(userId);
+      userDetailState.success(value: userDetail);
+      print('User detail successfully loaded: $userDetail');
     } catch (e) {
       userDetailState.error(message: e.toString());
+      print('Exception occurred while loading user details: $e');
     }
   }
 
-  // 특정 보육원 사용자 세부 정보 가져오기
   Future<void> getOrphanageUserDetailInfo(String orphanageUserId) async {
     try {
       orphanageUserDetailState.loading();
-      final response = await _adminAccountManagementService.getOrphanageUserById(orphanageUserId);
-      if (response.isSuccess && response.entity != null) {
-        orphanageUserDetailState.success(value: response.entity);
-      } else {
-        orphanageUserDetailState.error(message: response.message ?? '알 수 없는 오류가 발생했습니다.');
-      }
+      print('Loading orphanage user details for ID: $orphanageUserId');
+      final orphanageDetail = await _adminAccountManagementService.getOrphanageUserById(orphanageUserId);
+      orphanageUserDetailState.success(value: orphanageDetail);
+      print('Orphanage user detail successfully loaded: $orphanageDetail');
     } catch (e) {
       orphanageUserDetailState.error(message: e.toString());
+      print('Exception occurred while loading orphanage user details: $e');
     }
   }
 }
