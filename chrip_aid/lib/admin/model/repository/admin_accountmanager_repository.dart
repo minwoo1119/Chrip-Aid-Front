@@ -29,7 +29,7 @@ abstract class AdminAccountManagementRepository {
   // 등록된 사용자 정보 전체 조회
   @GET('/admin/users')
   @Headers({'accessToken': 'true'})
-  Future<List<UserDetailEntity>> getAllUsers();
+  Future<UserDetailEntity> getAllUsers();
 
   // 사용자 정보 ID 검색
   @GET('/admin/users/id')

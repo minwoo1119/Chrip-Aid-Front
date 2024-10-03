@@ -35,10 +35,10 @@ class AdminAccountManagementService {
     }
   }
 
-  Future<ResponseEntity<List<UserDetailEntity>>> getUserList() async {
+  Future<ResponseEntity<UserDetailEntity>> getUserList() async {
     try {
       print('Requesting user list from repository...');
-      List<UserDetailEntity> data = await repository.getAllUsers();
+      UserDetailEntity data = await repository.getAllUsers();
       print('Received user list: $data');
       return ResponseEntity.success(entity: data);
     } catch (e) {

@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class UserHomeScreen extends TabScreen {
-  static String get routeName => 'user';
   @override
   Color get mainColor => CustomColor.mainColor;
 

@@ -32,7 +32,7 @@ class AuthService {
   final FcmRepository fcmRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository,this.userRepository, this.fcmRepository, this.storage);
+  AuthService(this.authRepository, this.userRepository, this.fcmRepository, this.storage);
 
   Future<ResponseEntity> login(
       {required String id, required String password, required BuildContext context}) async {
@@ -52,19 +52,24 @@ class AuthService {
       final response = await saveFcmToken();
       print("FCM 토큰 저장 요청 성공");
 
-      // 4. 사용자 상세 정보 요청
-      final userDetail = await getUserDetailInfo();
-      print("사용자 상세 정보 요청 성공: ${userDetail.toString()}");
+      // 4. 권한 확인 후 사용자 상세 정보 요청
+      final authority = await storage.read(key: 'authority');
+      if (authority != 'orphanages') {
+        final userDetail = await getUserDetailInfo();
+        print("사용자 상세 정보 요청 성공: ${userDetail.toString()}");
 
-      // 5. 사용자 역할에 따라 페이지 이동
-      if (userDetail.role == "admin") {
-        print("관리자 페이지로 이동");
-        navigateToAdminPage(context);
+        // 5. 사용자 역할에 따라 페이지 이동
+        if (userDetail.role == "admin") {
+          print("관리자 페이지로 이동");
+          navigateToAdminPage(context);
+        } else {
+          print("일반 사용자 페이지로 이동");
+        }
+        return ResponseEntity.success(entity: userDetail);
       } else {
-        print("일반 사용자 페이지로 이동");
+        print("사용자가 orphanages 권한을 가짐 - 상세 정보 요청 없이 페이지 이동");
+        return ResponseEntity.success();
       }
-
-      return ResponseEntity.success(entity: userDetail);
     } on DioException catch (e) {
       // HTTP 에러 처리
       print("DioException 발생: ${e.response?.statusCode}, ${e.message}");

@@ -15,7 +15,7 @@ class AdminAccountManagementViewmodel {
   late final AdminAccountManagementService _adminAccountManagementService;
 
   // ValueStateNotifier로 타입 설정
-  ValueStateNotifier<List<UserDetailEntity>> userState = UserListState();
+  ValueStateNotifier<UserDetailEntity> userState = UserListState();
   ValueStateNotifier<List<OrphanageEntity>> userOrphanageListState = UserOrphanageListState();
   ValueStateNotifier<UserDetailEntity> userDetailState = UserDetailState();
   ValueStateNotifier<OrphanageDetailEntity> orphanageUserDetailState = UserOrphanageDetailState();

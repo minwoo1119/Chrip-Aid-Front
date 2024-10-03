@@ -23,7 +23,7 @@ class UserDetailState extends ValueStateNotifier<UserDetailEntity> {
   }
 }
 
-class UserListState extends ValueStateNotifier<List<UserDetailEntity>> {
+class UserListState extends ValueStateNotifier<UserDetailEntity> {
   UserListState() : super();
 
   factory UserListState.loading() {
@@ -32,7 +32,7 @@ class UserListState extends ValueStateNotifier<List<UserDetailEntity>> {
     return state;
   }
 
-  factory UserListState.success({required List<UserDetailEntity> data}) {
+  factory UserListState.success({required UserDetailEntity data}) {
     final state = UserListState();
     state.success(value: data);
     return state;

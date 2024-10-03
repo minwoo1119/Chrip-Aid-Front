@@ -30,9 +30,9 @@ class CustomInterceptor extends Interceptor {
   // 1) 요청을 보낼때
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     if (options.path.contains('authorityType')) {
       options.path = options.path.replaceFirst(
         'authorityType',
@@ -73,7 +73,8 @@ class CustomInterceptor extends Interceptor {
       }
     }
 
-    logging("Dio - SUCCESS", "[${response.requestOptions.method}]${response.requestOptions.path} [${response.statusCode}] : ${response.data}");
+    logging("Dio - SUCCESS",
+        "[${response.requestOptions.method}]${response.requestOptions.path} [${response.statusCode}] : ${response.data}");
 
     super.onResponse(response, handler);
   }
@@ -82,21 +83,24 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken =
-    await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
+        await storage.read(key: dotenv.get('REFRESH_TOKEN_KEY'));
 
-    logging("Dio - ERROR", "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
+    logging("Dio - ERROR",
+        "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
 
     if (refreshToken == null) return handler.reject(err);
 
     final isStatus401 = err.response?.statusCode == 401;
-    final isPathRefresh = err.requestOptions.path == '/auth/${authorityState.value.toString()}/refresh';
+    final isPathRefresh = err.requestOptions.path ==
+        '/auth/${authorityState.value.toString()}/refresh';
 
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
         final refreshResponse = await dio.get(
-          DataUtils.pathToUrl('/auth/${authorityState.value.toString()}/refresh'),
+          DataUtils.pathToUrl(
+              '/auth/${authorityState.value.toString()}/refresh'),
           options: Options(headers: {
             'authorization': 'Bearer $refreshToken',
           }),
@@ -131,7 +135,7 @@ class CustomInterceptor extends Interceptor {
       throw DioException(
         requestOptions: response.requestOptions,
         type: DioExceptionType.badResponse,
-        message: "토큰 정보를 가져오지 못했습니다.",
+        message: " 정보를 가져오지 못했습니다.",
         response: response,
       );
     }

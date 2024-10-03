@@ -4,8 +4,6 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/home/viewmodel/admin_home_viewmodel.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
-import 'package:chrip_aid/home/component/custom_speech_balloon.dart';
-import 'package:chrip_aid/home/viewmodel/user_home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

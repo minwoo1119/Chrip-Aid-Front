@@ -54,6 +54,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   ) {
     logging("redirectionByAuth", authorityState.value.toString());
     if (authorityState.value == AuthorityType.user) return '$path/user';
+    else if(authorityState.value == AuthorityType.admin) return '$path/admin';
     return '$path/orphanage';
   }
 
