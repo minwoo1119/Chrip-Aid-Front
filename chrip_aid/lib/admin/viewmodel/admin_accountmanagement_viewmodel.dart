@@ -3,9 +3,9 @@ import 'package:chrip_aid/admin/model/state/user_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/value_state/state/value_state.dart';
+import '../../member/model/entity/orphanage_member_entity.dart';
 import '../../member/model/entity/user_detail_entity.dart';
 import '../../orphanage/model/entity/orphanage_detail_entity.dart';
-import '../../orphanage/model/entity/orphanage_entity.dart';
 import '../model/service/admin_accountmanagement_service.dart';
 
 final adminAccountManagementViewModelProvider = Provider((ref) => AdminAccountManagementViewmodel(ref));
@@ -16,7 +16,7 @@ class AdminAccountManagementViewmodel {
 
   // 상태 관리 객체
   ValueStateNotifier<List<UserDetailEntity>> userState = UserListState();
-  ValueStateNotifier<OrphanageEntity> userOrphanageListState = UserOrphanageListState();
+  ValueStateNotifier<List<OrphanageMemberEntity>> userOrphanageListState = UserOrphanageListState();
   ValueStateNotifier<UserDetailEntity> userDetailState = UserDetailState();
   ValueStateNotifier<OrphanageDetailEntity> orphanageUserDetailState = UserOrphanageDetailState();
 
@@ -41,7 +41,7 @@ class AdminAccountManagementViewmodel {
     try {
       userOrphanageListState.loading();
       print('Orphanage user list loading...');
-      final orphanageList = await _adminAccountManagementService.getOrphanageUserList();
+      final List<OrphanageMemberEntity> orphanageList = await _adminAccountManagementService.getOrphanageUserList();
       userOrphanageListState.success(value: orphanageList);
       print('Orphanage user list successfully loaded: $orphanageList');
     } catch (e) {

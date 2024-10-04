@@ -1,3 +1,4 @@
+import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,11 +20,6 @@ class AdminAccountManagementService {
       print('Requesting user list from repository...');
       List<UserDetailEntity> userList = await repository.getAllUsers();
 
-      // 변환된 데이터를 디버깅 로그로 출력하여 확인
-      for (var user in userList) {
-        print('User: ${user.toJson()}');
-      }
-
       return userList;
     } catch (e) {
       print('Error while requesting user list: $e');
@@ -39,7 +35,7 @@ class AdminAccountManagementService {
     }
   }
 
-  Future<OrphanageEntity> getOrphanageUserList() async {
+  Future<List<OrphanageMemberEntity>> getOrphanageUserList() async {
     try {
       return await repository.getAllOrphanageUsers();
     } catch (e) {

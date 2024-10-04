@@ -23,7 +23,7 @@ abstract class OrphanageManagementRepository {
 
   @GET('/orphanages/{id}')
   @Headers({'accessToken': 'true'})
-  Future<OrphanageDetailEntity> getOrphanageData(@Path("id") int id);
+  Future<OrphanageDetailEntity> getOrphanageData(@Path("id") String id);
 
   @PATCH('/orphanages')
   @Headers({'accessToken': 'true'})

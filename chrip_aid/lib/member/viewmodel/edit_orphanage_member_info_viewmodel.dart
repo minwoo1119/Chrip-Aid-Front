@@ -28,7 +28,7 @@ class EditUserInfoViewModel {
   EditUserInfoViewModel(this.ref) {
     _memberInfoService = ref.read(memberInfoServiceProvider);
 
-    nameTextController = TextEditingController(text: userInfo!.name);
+    nameTextController = TextEditingController(text: userInfo!.orphanageId);
     passwordTextController = TextEditingController();
     checkPasswordTextController = TextEditingController();
   }

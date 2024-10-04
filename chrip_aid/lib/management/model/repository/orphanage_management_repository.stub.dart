@@ -14,7 +14,7 @@ class OrphanageManagementRepositoryStub
   Future editOrphanageProduct(AddOrphanageProductRequestDTO dto) async {}
 
   @override
-  Future<OrphanageDetailEntity> getOrphanageData(int id) async {
+  Future<OrphanageDetailEntity> getOrphanageData(String id) async {
     return OrphanageDetailEntity(
       orphanageName: '파주 보육원',
       address: '경기도 파주시 법원읍 술이홀로907번길 139',

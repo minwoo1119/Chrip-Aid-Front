@@ -1,3 +1,4 @@
+import 'package:chrip_aid/admin/model/state/admin_detail_state.dart';
 import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
 import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
@@ -22,11 +23,11 @@ class OrphanageManagementService {
 
   Future<ResponseEntity<OrphanageDetailEntity>> getOrphanageInfo() async {
     try {
-      MemberEntity? member = MemberInfoState().value;
-      if (member is! OrphanageMemberEntity) {
+      List<OrphanageMemberEntity> orphanageMember = OrphanageListState().value!;
+      if (orphanageMember is! OrphanageMemberEntity) {
         return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
       }
-      int id = member.orphanageId;
+      String id = orphanageMember.toString();
       OrphanageDetailEntity data = await repository.getOrphanageData(id);
       return ResponseEntity.success(entity: data);
     } catch (e) {

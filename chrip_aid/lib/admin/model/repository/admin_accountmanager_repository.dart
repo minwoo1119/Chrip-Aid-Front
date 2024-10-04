@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+import '../../../member/model/entity/orphanage_member_entity.dart';
 import '../../../orphanage/model/entity/orphanage_detail_entity.dart';
 import '../../../orphanage/model/entity/orphanage_entity.dart';
 import '../dto/admin_orphanage_user_update_request_dto.dart';
@@ -59,7 +60,7 @@ abstract class AdminAccountManagementRepository {
   // 등록된 보육원 사용자 정보 전체 조회
   @GET('/admin/orphanage-users')
   @Headers({'accessToken': 'true'})
-  Future<OrphanageEntity> getAllOrphanageUsers();
+  Future<List<OrphanageMemberEntity>> getAllOrphanageUsers();
 
   // 보육원 사용자 정보 ID 검색
   @GET('/admin/orphanage-users/id')

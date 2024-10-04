@@ -2,6 +2,8 @@ import 'package:chrip_aid/common/value_state/state/value_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
 
+import '../../../member/model/entity/orphanage_member_entity.dart';
+
 class UserOrphanageDetailState extends ValueStateNotifier<OrphanageDetailEntity> {
   UserOrphanageDetailState() : super();
 
@@ -24,7 +26,7 @@ class UserOrphanageDetailState extends ValueStateNotifier<OrphanageDetailEntity>
   }
 }
 
-class UserOrphanageListState extends ValueStateNotifier<OrphanageEntity> {
+class UserOrphanageListState extends ValueStateNotifier<List<OrphanageMemberEntity>> {
   UserOrphanageListState() : super();
 
   factory UserOrphanageListState.loading() {
@@ -33,7 +35,7 @@ class UserOrphanageListState extends ValueStateNotifier<OrphanageEntity> {
     return state;
   }
 
-  factory UserOrphanageListState.success({required OrphanageEntity data}) {
+  factory UserOrphanageListState.success({required List<OrphanageMemberEntity> data}) {
     final state = UserOrphanageListState();
     state.success(value: data);
     return state;

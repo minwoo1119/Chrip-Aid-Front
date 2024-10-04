@@ -22,7 +22,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<OrphanageDetailEntity> getOrphanageData(int id) async {
+  Future<OrphanageDetailEntity> getOrphanageData(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
