@@ -1,18 +1,34 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../model/notice_model.dart';
+import 'package:flutter/material.dart';
 
-final noticeViewModelProvider = StateNotifierProvider<NoticeViewModel, List<NoticeModel>>((ref) {
-  return NoticeViewModel();
-});
+class NoticeViewModel extends ChangeNotifier {
+  bool isDonationChecked = false;
+  bool isPersonalInfoChecked = false;
+  bool isTaxBenefitChecked = false;
+  bool isContactInfoChecked = false;
 
-class NoticeViewModel extends StateNotifier<List<NoticeModel>> {
-  NoticeViewModel() : super([]);
+  bool get isAllChecked =>
+      isDonationChecked &&
+          isPersonalInfoChecked &&
+          isTaxBenefitChecked &&
+          isContactInfoChecked;
 
-  void addNotice(NoticeModel notice) {
-    state = [...state, notice];
+  void updateDonationChecked(bool value) {
+    isDonationChecked = value;
+    notifyListeners();
   }
 
-  void clearNotices() {
-    state = [];
+  void updatePersonalInfoChecked(bool value) {
+    isPersonalInfoChecked = value;
+    notifyListeners();
+  }
+
+  void updateTaxBenefitChecked(bool value) {
+    isTaxBenefitChecked = value;
+    notifyListeners();
+  }
+
+  void updateContactInfoChecked(bool value) {
+    isContactInfoChecked = value;
+    notifyListeners();
   }
 }
