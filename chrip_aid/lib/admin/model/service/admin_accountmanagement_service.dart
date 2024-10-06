@@ -1,4 +1,5 @@
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,7 @@ class AdminAccountManagementService {
     }
   }
 
-  Future<List<OrphanageMemberEntity>> getOrphanageUserList() async {
+  Future<List<OrphanageUserEntity>> getOrphanageUserList() async {
     try {
       return await repository.getAllOrphanageUsers();
     } catch (e) {

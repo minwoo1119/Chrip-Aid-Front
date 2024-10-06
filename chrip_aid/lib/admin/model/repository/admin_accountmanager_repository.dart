@@ -1,4 +1,5 @@
 import 'package:chrip_aid/common/dio/dio.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,7 +61,7 @@ abstract class AdminAccountManagementRepository {
   // 등록된 보육원 사용자 정보 전체 조회
   @GET('/admin/orphanage-users')
   @Headers({'accessToken': 'true'})
-  Future<List<OrphanageMemberEntity>> getAllOrphanageUsers();
+  Future<List<OrphanageUserEntity>> getAllOrphanageUsers();
 
   // 보육원 사용자 정보 ID 검색
   @GET('/admin/orphanage-users/id')
