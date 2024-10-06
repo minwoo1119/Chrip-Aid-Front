@@ -4,7 +4,6 @@ import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../orphanage/model/entity/orphanage_detail_entity.dart';
-import '../../../orphanage/model/entity/orphanage_entity.dart';
 import '../repository/admin_accountmanager_repository.dart';
 
 final adminAccountManagementServiceProvider = Provider((ref) {

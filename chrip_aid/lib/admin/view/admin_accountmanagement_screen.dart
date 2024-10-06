@@ -150,12 +150,20 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, dynamic userData) {
-    context.push(
-      '/admin/accountmanagement/detail',
-      extra: userData,
-    );
+  void _navigateToDetailPage(BuildContext context, Object userData) {
+    if (userData is UserDetailEntity) {
+      context.push(
+        '/admin/accountmanagement/user/detail',
+        extra: userData.toJson(),
+      );
+    } else if (userData is OrphanageUserEntity) {
+      context.push(
+        '/admin/accountmanagement/orphanageuser/detail',
+        extra: userData.toJson(),
+      );
+    }
   }
+
 }
 
 final isUserFilterProvider = StateProvider<bool>((ref) => true);

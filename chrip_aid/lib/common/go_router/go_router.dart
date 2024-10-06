@@ -11,6 +11,7 @@ import 'package:chrip_aid/chatting/view/chatting_message_screen.dart';
 import 'package:chrip_aid/chatting/view/chatting_screen.dart';
 import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
+import 'package:chrip_aid/common/component/custom_orphanage_user_detail_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/home/view/admin_home_screen.dart';
 import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';
@@ -254,19 +255,66 @@ final routerProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => const AdminAccountmanagementScreen(),
             routes: [
               GoRoute(
-                path: 'detail',
+                path: 'user/detail',
                 builder: (context, state) {
                   final userData = state.extra as Map<String, dynamic>;
+                  ;
+
+                  // userData가 null일 경우를 처리
+                  if (userData == null) {
+                    return Center(
+                      child: Text('사용자 데이터를 찾을 수 없습니다.'),
+                    );
+                  }
+
+                  // 필요한 데이터를 null 안전하게 사용하기
+                  String name = userData['name'] ?? 'N/A';
+                  String email = userData['email'] ?? 'N/A';
+                  String phoneNumber = userData['phoneNumber'] ?? 'N/A';
+                  String nickname = userData['nickname'] ?? 'N/A';
+                  String age = userData['age']?.toString() ?? 'N/A';
+                  String region = userData['region'] ?? 'N/A';
+                  String sex = userData['sex'] ?? 'N/A';
+
                   return CustomDetailInfo(
-                    name: userData['name'],
-                    email: userData['email'],
-                    phoneNumber: userData['phoneNumber'],
-                    nickname: userData['nickname'],
-                    age: '20',
-                    region: 'Gumi',
-                    sex: 'M',
+                    name: name,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    nickname: nickname,
+                    age: age,
+                    region: region,
+                    sex: sex,
                   );
                 },
+
+              ),
+              GoRoute(
+                path: 'orphanageuser/detail',
+                builder: (context, state) {
+                  final userData = state.extra as Map<String, dynamic>;
+                  ;
+
+                  // userData가 null일 경우를 처리
+                  if (userData == null) {
+                    return Center(
+                      child: Text('사용자 데이터를 찾을 수 없습니다.'),
+                    );
+                  }
+
+                  // 필요한 데이터를 null 안전하게 사용하기
+                  String name = userData['name'] ?? 'N/A';
+                  String email = userData['email'] ?? 'N/A';
+                  String orphanageId = userData['orphanageId'] ?? 'N/A';
+                  String orphanageUserId = userData['orphanageUserId'] ?? 'N/A';
+
+                  return CustomOrphanageUserDetailInfo(
+                    name: name,
+                    email: email,
+                    orphanageId: orphanageId,
+                    orphanageUserId: orphanageUserId,
+                  );
+                },
+
               ),
             ]
         ),
