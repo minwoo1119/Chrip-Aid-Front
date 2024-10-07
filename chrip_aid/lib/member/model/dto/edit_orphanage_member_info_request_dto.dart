@@ -23,3 +23,4 @@ class EditOrphanageMemberInfoRequestDto implements EditMemberInfoRequestDto {
   factory EditOrphanageMemberInfoRequestDto.fromJson(Map<String, dynamic> json) =>
       _$EditOrphanageMemberInfoRequestDtoFromJson(json);
 }
+

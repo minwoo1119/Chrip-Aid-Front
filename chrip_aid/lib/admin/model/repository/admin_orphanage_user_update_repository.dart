@@ -1,6 +1,6 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_user_edit_dto.dart';
 import 'package:dio/dio.dart';
 
-import '../dto/admin_orphanage_user_update_request_dto.dart';
 
 class AdminOrphanageUserUpdateRepository {
   final Dio dio;
@@ -9,7 +9,7 @@ class AdminOrphanageUserUpdateRepository {
 
   Future<void> updateOrphanageUser({
     required String id,
-    required OrphanageUserUpdateRequestDto updateRequestDto,
+    required OrphanageUserEditDto updateRequestDto,
     required String accessToken,
   }) async {
     try {

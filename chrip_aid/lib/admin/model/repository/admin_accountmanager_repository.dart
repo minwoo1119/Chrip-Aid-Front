@@ -1,16 +1,14 @@
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
+import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
-import '../../../member/model/entity/orphanage_member_entity.dart';
+import '../dto/orphanage_user_edit_dto.dart';
 import '../../../orphanage/model/entity/orphanage_detail_entity.dart';
-import '../../../orphanage/model/entity/orphanage_entity.dart';
-import '../dto/admin_orphanage_user_update_request_dto.dart';
-import '../dto/admin_user_update_request_dto.dart';
 
 part 'admin_accountmanager_repository.g.dart';
 
@@ -26,7 +24,7 @@ abstract class AdminAccountManagementRepository {
   // 사용자 정보 추가
   @POST('/admin/users')
   @Headers({'accessToken': 'true'})
-  Future<void> createUser(@Body() AdminUserCreateRequestDTO dto);
+  Future<void> createUser(@Body() UserDto dto);
 
   // 등록된 사용자 정보 전체 조회
   @GET('/admin/users')
@@ -46,7 +44,7 @@ abstract class AdminAccountManagementRepository {
   // 사용자 정보 수정
   @PATCH('/admin/users/{id}')
   @Headers({'accessToken': 'true'})
-  Future<void> updateUser(@Path('id') String id, @Body() UserUpdateRequestDto dto);
+  Future<void> updateUser(@Path('id') String id, @Body() UserDto dto);
 
   // 사용자 정보 삭제
   @DELETE('/admin/users/{id}')
@@ -56,7 +54,7 @@ abstract class AdminAccountManagementRepository {
   // 보육원 사용자 정보 추가
   @POST('/admin/orphanage-users')
   @Headers({'accessToken': 'true'})
-  Future<void> createOrphanageUser(@Body() AdminUserCreateRequestDTO dto);
+  Future<void> createOrphanageUser(@Body() UserDto dto);
 
   // 등록된 보육원 사용자 정보 전체 조회
   @GET('/admin/orphanage-users')
@@ -76,13 +74,10 @@ abstract class AdminAccountManagementRepository {
   // 보육원 사용자 정보 수정
   @PATCH('/admin/orphanage-users/{id}')
   @Headers({'accessToken': 'true'})
-  Future<void> updateOrphanageUser(@Path('id') String id, @Body() OrphanageUserUpdateRequestDto dto);
+  Future<void> updateOrphanageUser(@Path('id') String id, @Body() OrphanageUserEditDto dto);
 
   // 보육원 사용자 정보 삭제
   @DELETE('/admin/orphanage-users/{id}')
   @Headers({'accessToken': 'true'})
   Future<void> deleteOrphanageUser(@Path('id') String id);
-}
-
-class AdminUserCreateRequestDTO {
 }

@@ -1,4 +1,3 @@
-import 'package:chrip_aid/admin/model/dto/admin_user_delete_request_dto.dart';
 import 'package:chrip_aid/admin/view/admin_screen.dart';
 import 'package:chrip_aid/auth/dto/login_request_dto.dart';
 import 'package:chrip_aid/auth/dto/signup_request_dto.dart';
@@ -7,8 +6,6 @@ import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
-import 'package:chrip_aid/home/view/admin_home_screen.dart';
-import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
