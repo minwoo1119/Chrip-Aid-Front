@@ -339,8 +339,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'reportmanagement',
-            name: AdminReportmanagementScreen.routeName,
-            builder: (context, state) => const AdminReportmanagementScreen(),
+            name: AdminReportManagementScreen.routeName,
+            builder: (context, state) => const AdminReportManagementScreen(),
             routes: [
               GoRoute(
                 path: 'detail',

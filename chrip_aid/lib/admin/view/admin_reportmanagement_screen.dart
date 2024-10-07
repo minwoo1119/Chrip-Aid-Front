@@ -7,73 +7,27 @@ import '../../common/component/custom_report_list.dart';
 import '../../common/component/custom_toggle_button.dart';
 import '../../common/styles/colors.dart';
 import '../../common/styles/sizes.dart';
-import '../../common/styles/text_styles.dart';
 import '../../common/value_state/component/value_state_listener.dart';
-import '../../orphanage/component/custom_text_field.dart';
+import '../../common/value_state/state/value_state.dart';
 import '../../orphanage/layout/detail_page_layout.dart';
-import '../viewmodel/admin_accountmanagement_viewmodel.dart';
+import '../model/entity/report_entity.dart';
+import '../viewmodel/admin_reportmanagement_viewmodel.dart';
 
-class AdminReportmanagementScreen extends ConsumerWidget {
+class AdminReportManagementScreen extends ConsumerWidget {
   static String get routeName => "reportmanagement";
-  static const List<Map<String, dynamic>> dummyData = [
-    {
-      'title': '4시간 연강이 말입니까 ?',
-      'content' : '진짜 이건 너무하잖아요',
-      'target': '구미보육원',
-      'writtenAt': '2024-09-25',
-      'nickname': 'minwoo',
-      'email' : 'minwoo1119@naver.com',
-      'isUser': 'false',
-    },
-    {
-      'title': '성윤이형이 수업갔어요',
-      'content' : '진짜 이건 너무하잖아요',
-      'target': 'seongyoon',
-      'writtenAt': '2024-09-22',
-      'nickname': 'minwoo',
-      'email' : 'minwoo1119@naver.com',
-      'isUser': 'true',
-    },
-    {
-      'title': '흰 셔츠가 없는데 사오래요',
-      'content' : '진짜 이건 너무하잖아요',
-      'target': 'D138',
-      'writtenAt': '2024-09-21',
-      'nickname': 'juhyeok',
-      'email' : 'example@naver.com',
-      'isUser': 'true',
-    },
-    {
-      'title': '수업 재미없어요',
-      'content' : '진짜 이건 너무하잖아요',
-      'target': '컴퓨터공학과',
-      'writtenAt': '2024-09-17',
-      'nickname': 'youngjin',
-      'email' : 'example@naver.com',
-      'isUser': 'false',
-    },
-    {
-      'title': '라즈베리파이가 욕했어요',
-      'content' : '진짜 이건 너무하잖아요',
-      'target': 'razp',
-      'writtenAt': '2024-04-29',
-      'nickname': 'seongyoon',
-      'email' : 'example@naver.com',
-      'isUser': 'true',
-    },
-  ];
 
-  const AdminReportmanagementScreen({Key? key}) : super(key: key);
+  const AdminReportManagementScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getOrphanageUserList();
+    final viewModel = ref.read(adminReportManagementViewModelProvider);
+    final reportsState = ref.watch(adminReportManagementViewModelProvider).reportsState;
     final isUserState = ref.watch(isUserFilterProvider);
 
-    // 필터링된 데이터
-    final filteredData = dummyData
-        .where((user) => isUserState ? user['isUser'] == 'true' : user['isUser'] == 'false')
-        .toList();
+    // 화면이 처음 로드될 때 데이터 가져오기
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.fetchAllReports();
+    });
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -94,9 +48,25 @@ class AdminReportmanagementScreen extends ConsumerWidget {
         const SizedBox(width: kPaddingMiddleSize),
       ],
       child: ValueStateListener(
-        state: viewModel.userState,
-        defaultBuilder: (_, state) => SingleChildScrollView(
-          child: Center(
+        state: reportsState,
+        defaultBuilder: (_, state) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        successBuilder: (_, state) {
+          final List<ReportEntity> reports = state.value ?? [];
+
+          // 사용자/게시글 필터링된 데이터
+          final filteredData = reports
+              .where((report) => isUserState ? report.targetType == 'USER' : report.boardType != null)
+              .toList();
+
+          if (filteredData.isEmpty) {
+            return Center(
+              child: Text('데이터가 없습니다.'),
+            );
+          }
+
+          return SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(height: 10.0),
@@ -109,85 +79,36 @@ class AdminReportmanagementScreen extends ConsumerWidget {
                 ),
                 SizedBox(height: 10.0),
                 Column(
-                  children: filteredData.map((user) {
+                  children: filteredData.map((report) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
                       child: CustomReportList(
-                        title: user['title'],
-                        target: user['target'],
-                        writtenAt: user['writtenAt'],
-                        user: user['nickname'],
-                        isUser: user['isUser'] == 'true',
-                        onTap: ()=>_navigateToDetailPage(context, user),
+                        title: report.boardTitle ?? report.description,
+                        reporterName: report.reporterName,
+                        targetName: report.targetName ?? report.targetName ?? 'N/A',
+                        onTap: () => _navigateToDetailPage(context, report),
                       ),
                     );
                   }).toList(),
                 ),
               ],
             ),
-          ),
-        ),
-        successBuilder: (_, state) => SingleChildScrollView(
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 150,
-                    child: Text('User'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kPaddingMiddleSize,
-                      vertical: kPaddingMiniSize,
-                    ),
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          text: 'User1',
-                          textSize: kTextMediumSize,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 5.0,
-                color: CustomColor.disabledColor.withOpacity(0.5),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kPaddingMiddleSize,
-                  right: kPaddingMiddleSize,
-                  top: kPaddingMiniSize,
-                  bottom: kPaddingSmallSize,
-                ),
-                child: Column(
-                  children: [
-                    const CustomTextField(
-                      iconData: Icons.description,
-                      text: "소개글",
-                    ),
-                    Text(
-                      '소개글 내용',
-                      style: kTextContentStyleSmall,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+          );
+        },
+        errorBuilder: (_, error) {
+          final errorMessage = error is ValueStateNotifier ? error.message : '알 수 없는 오류가 발생했습니다.';
+          return Center(
+            child: Text('오류 발생: $errorMessage'),
+          );
+        },
       ),
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, Map<String, dynamic> userData) {
+  void _navigateToDetailPage(BuildContext context, dynamic reportData) {
     context.push(
       '/supervisor/reportmanagement/detail',
-      extra: userData,
+      extra: reportData,
     );
   }
 }

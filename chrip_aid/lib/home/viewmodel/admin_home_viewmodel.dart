@@ -13,7 +13,6 @@ class SupervisorViewModel {
 
   SupervisorViewModel(this.ref);
 
-  // TODO : 아래 세 함수들 수정해야함
   void navigateToAccountManagementScreen(BuildContext context) {
     context.pushNamed(AdminAccountmanagementScreen.routeName);
   }
@@ -23,6 +22,6 @@ class SupervisorViewModel {
   }
 
   void navigateToReportManagementScreen(BuildContext context) {
-    context.pushNamed(AdminReportmanagementScreen.routeName);
+    context.pushNamed(AdminReportManagementScreen.routeName);
   }
 }

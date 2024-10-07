@@ -1,8 +1,5 @@
+import 'package:chrip_aid/admin/model/dto/admin_report_dto.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
-import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
@@ -12,7 +9,6 @@ part 'admin_reportmanagement_repository.g.dart';
 
 final adminReportManagementRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  // return OrphanageManagementRepositoryStub();
   return AdminReportmanagementRepository(dio);
 });
 
@@ -21,20 +17,18 @@ abstract class AdminReportmanagementRepository {
   factory AdminReportmanagementRepository(Dio dio, {String? baseUrl}) =
   _AdminReportmanagementRepository;
 
-  // TODO : 아래 부분 수정해야함
-  @GET('/orphanages/{id}')
+  // 모든 신고 조회
+  @GET('/admin/reports')
   @Headers({'accessToken': 'true'})
-  Future<OrphanageDetailEntity> getOrphanageData(@Path("id") int id);
+  Future<List<AdminReportDto>> getAllReports();
 
-  @PATCH('/orphanages')
+  // 특정 신고 ID 조회
+  @GET('/admin/reports/id')
   @Headers({'accessToken': 'true'})
-  Future editOrphanageInfo(@Body() EditOrphanageInfoRequestDTO dto);
+  Future<AdminReportDto> getReportById(@Query('id') String id);
 
-  @POST('/requests')
+  // 특정 신고 description 조회
+  @GET('/admin/reports/desc')
   @Headers({'accessToken': 'true'})
-  Future editOrphanageProduct(@Body() AddOrphanageProductRequestDTO dto);
-
-  @GET('/requests/products')
-  @Headers({'accessToken': 'true'})
-  Future<List<ProductEntity>> getProducts();
+  Future<List<AdminReportDto>> getReportByDescription(@Query('desc') String description);
 }
