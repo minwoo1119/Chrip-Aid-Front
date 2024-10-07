@@ -1,5 +1,7 @@
 import 'package:chrip_aid/common/dio/dio.dart';
-import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
+import 'package:chrip_aid/post/model/entity/post_request_entity.dart';
+import 'package:chrip_aid/post/model/entity/post_reservation_entity.dart';
+import 'package:chrip_aid/post/model/entity/post_thanks_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
@@ -17,19 +19,48 @@ final adminPostManagementRepositoryProvider = Provider((ref) {
 abstract class AdminPostManagementRepository {
   factory AdminPostManagementRepository(Dio dio, {String? baseUrl}) = _AdminPostManagementRepository;
 
-  // 게시글 목록 조회
+  // 방문 예약글 조회
+  @GET('/admin/board/reservation')
+  @Headers({'accessToken': 'true'})
+  Future<List<PostReservationEntity>> getReservationPosts();
+
+  // 특정 방문 예약글 조회
+  @GET('/admin/board/reservation/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<PostReservationEntity> getReservationPostsById(@Path("id") int postId);
+
+  // 방문 예약글 삭제
+  @DELETE('/admin/board/reservation/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<void> deleteReservationPost(@Path("id") int postId);
+
+  // 물품 요청글 조회
+  @GET('/admin/board/request')
+  @Headers({'accessToken': 'true'})
+  Future<List<PostRequestEntity>> getRequestPosts();
+
+  // 특정 물품 요청글 조회
+  @GET('/admin/board/request/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<PostRequestEntity> getRequestPostsById(@Path("id") int postId);
+
+  // 물품 요청글 삭제
+  @DELETE('/admin/board/request/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<void> deleteRequestPost(@Path("id") int postId);
+
+  // 기부 감사글 조회
   @GET('/posts')
-  Future<List<GetPostsEntity>> getPosts();
+  @Headers({'accessToken': 'true'})
+  Future<List<PostThanksEntity>> getThanksPosts();
 
-  // 특정 게시글 조회
-  @GET('/posts/{id}')
-  Future<GetPostsEntity> getPost(@Path("id") int postId);
+  // 특정 기부 감사글 조회
+  @GET('/admin/board/post/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<PostThanksEntity> getThanksPostsById(@Path("id") int postId);
 
-  // 게시글 수정
-  // @PATCH('/posts/{id}')
-  // Future<void> editPost(@Path("id") int postId, @Body() EditPostRequestDTO dto);
-
-  // 게시글 삭제
-  @DELETE('/posts/{id}')
-  Future<void> deletePost(@Path("id") int postId);
+  // 기부 감사글 삭제
+  @DELETE('/admin/board/post/{id}')
+  @Headers({'accessToken': 'true'})
+  Future<void> deleteThanksPost(@Path("id") int postId);
 }

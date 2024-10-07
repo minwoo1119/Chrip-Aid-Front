@@ -6,54 +6,13 @@ import 'package:go_router/go_router.dart';
 import '../../common/component/custom_post_list.dart';
 import '../../common/component/custom_toggle_button.dart';
 import '../../common/styles/colors.dart';
-import '../../common/styles/sizes.dart';
-import '../../common/styles/text_styles.dart';
 import '../../common/value_state/component/value_state_listener.dart';
-import '../../orphanage/component/custom_text_field.dart';
+import '../../common/value_state/state/value_state.dart';
 import '../../orphanage/layout/detail_page_layout.dart';
-import '../viewmodel/admin_accountmanagement_viewmodel.dart';
+import '../viewmodel/admin_postmanagement_viewmodel.dart';
 
 class AdminPostmanagementScreen extends ConsumerWidget {
   static String get routeName => 'postmanagement';
-
-  // 더미 데이터
-  static const List<Map<String, dynamic>> dummyData = [
-    {
-      'title': '초코파이',
-      'content': '초코파이 주세요',
-      'writtenAt': '2024-01-28',
-      'nickname': 'gumiorphanage',
-      'type': '물품 요청',
-    },
-    {
-      'title': '우유',
-      'content': '서울우유로 주세요',
-      'writtenAt': '2024-04-24',
-      'nickname': 'gumiorphanage',
-      'type': '물품 요청',
-    },
-    {
-      'title': '동그랑땡 잘 받았어요!',
-      'content': '명절 느낌 내게해줘서 너무 감사해요 ㅜㅜ',
-      'writtenAt': '2024-09-18',
-      'nickname': 'pajuorphanage',
-      'type': '기부 감사',
-    },
-    {
-      'title': '구미보육원 방문 예약합니다',
-      'content': '2024-05-11 구미보육원 방문 희망합니다.',
-      'writtenAt': '2024-03-11',
-      'nickname': 'babayLion',
-      'type': '방문 예약',
-    },
-    {
-      'title': '파주보육원 방문 예약합니다',
-      'content': '2024-06-21 파주보육원 방문 희망합니다.',
-      'writtenAt': '2024-05-11',
-      'nickname': 'juhyeok',
-      'type': '방문 예약',
-    },
-  ];
 
   // StateProvider로 선택된 토글 값을 관리
   final selectedToggleProvider = StateProvider<int>((ref) => 0);
@@ -62,19 +21,24 @@ class AdminPostmanagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getUserList();
+    final viewModel = ref.read(adminPostManagementViewModelProvider);
     final selectedIndex = ref.watch(selectedToggleProvider); // 선택된 토글 인덱스
 
-    // 선택된 인덱스에 따라 데이터 필터링
-    List<Map<String, dynamic>> filteredData = dummyData.where((item) {
-      if (selectedIndex == 0) {
-        return item['type'] == '방문 예약';
-      } else if (selectedIndex == 1) {
-        return item['type'] == '물품 요청';
+    // 선택된 인덱스에 따라 데이터를 로드
+    void _fetchDataBasedOnToggle(int index) {
+      if (index == 0) {
+        viewModel.getReservationPosts();
+      } else if (index == 1) {
+        viewModel.getRequestPosts();
       } else {
-        return item['type'] == '기부 감사';
+        viewModel.getThanksPosts();
       }
-    }).toList();
+    }
+
+    // 처음에 데이터 로드
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchDataBasedOnToggle(selectedIndex);
+    });
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -84,99 +48,71 @@ class AdminPostmanagementScreen extends ConsumerWidget {
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
       actions: [],
-      child: ValueStateListener(
-        state: viewModel.userState,
-        defaultBuilder: (_, state) => SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(height: 10.0),
-                CustomToggleButton(
-                  options: ['방문 예약', '물품 요청', '기부 감사'],
-                  onChanged: (index) {
-                    ref.read(selectedToggleProvider.notifier).state = index;
-                  },
-                ),
-                SizedBox(height: 6.0),
-                Column(
-                  children: filteredData.map((user) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                      child: CustomPostList(
-                        title: user['title'],
-                        content: user['content'],
-                        writtenAt: user['writtenAt'],
-                        nickname: user['nickname'],
-                        onTap: () => _navigateToDetailPage(context, user),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
+      child: Column(
+        children: [
+          SizedBox(height: 10.0),
+          CustomToggleButton(
+            options: ['방문 예약', '물품 요청', '기부 감사'],
+            onChanged: (index) {
+              ref.read(selectedToggleProvider.notifier).state = index;
+              _fetchDataBasedOnToggle(index); // Toggle 변경 시 데이터 다시 로드
+            },
+          ),
+          SizedBox(height: 6.0),
+          Expanded(
+            child: ValueStateListener(
+              state: selectedIndex == 0
+                  ? viewModel.reservationPostsState
+                  : selectedIndex == 1
+                  ? viewModel.requestPostsState
+                  : viewModel.thanksPostsState,
+              defaultBuilder: (_, state) => const Center(
+                child: CircularProgressIndicator(), // 데이터 로드 중
+              ),
+              successBuilder: (_, state) {
+                final List<Map<String, dynamic>>? data =
+                state.value as List<Map<String, dynamic>>?;
+                if (data == null || data.isEmpty) {
+                  return Center(
+                    child: Text('데이터가 없습니다.'),
+                  );
+                }
+
+                return SingleChildScrollView(
+                  child: Column(
+                    children: data.map((post) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomPostList(
+                          title: post['title'],
+                          content: post['content'],
+                          writtenAt: post['writtenAt'],
+                          nickname: post['nickname'],
+                          onTap: () => _navigateToDetailPage(context, post),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              },
+              errorBuilder: (_, error) {
+                final errorMessage =
+                error is ValueStateNotifier ? error.message : '알 수 없는 오류가 발생했습니다.';
+                return Center(
+                  child: Text('오류가 발생했습니다: $errorMessage'),
+                );
+              },
             ),
           ),
-        ),
-        successBuilder: (_, state) => SingleChildScrollView(
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 150,
-                    child: Text('User'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kPaddingMiddleSize,
-                      vertical: kPaddingMiniSize,
-                    ),
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          text: 'User1',
-                          textSize: kTextMediumSize,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 5.0,
-                color: CustomColor.disabledColor.withOpacity(0.5),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kPaddingMiddleSize,
-                  right: kPaddingMiddleSize,
-                  top: kPaddingMiniSize,
-                  bottom: kPaddingSmallSize,
-                ),
-                child: Column(
-                  children: [
-                    const CustomTextField(
-                      iconData: Icons.description,
-                      text: "소개글",
-                    ),
-                    Text(
-                      '소개글 내용',
-                      style: kTextContentStyleSmall,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, Map<String, dynamic> userData) {
+  void _navigateToDetailPage(BuildContext context, Map<String, dynamic> postData) {
     context.push(
       '/supervisor/postmanagement/postdetail',
-      extra: userData,
+      extra: postData,
     );
   }
 }
