@@ -9,36 +9,40 @@ import '../../common/styles/colors.dart';
 import '../../common/value_state/component/value_state_listener.dart';
 import '../../common/value_state/state/value_state.dart';
 import '../../orphanage/layout/detail_page_layout.dart';
+import '../../post/model/entity/post_request_entity.dart';
+import '../../post/model/entity/post_reservation_entity.dart';
+import '../../post/model/entity/post_thanks_entity.dart';
 import '../viewmodel/admin_postmanagement_viewmodel.dart';
 
-class AdminPostmanagementScreen extends ConsumerWidget {
+class AdminPostmanagementScreen extends ConsumerStatefulWidget {
   static String get routeName => 'postmanagement';
-
-  // StateProvider로 선택된 토글 값을 관리
-  final selectedToggleProvider = StateProvider<int>((ref) => 0);
 
   AdminPostmanagementScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _AdminPostmanagementScreenState createState() => _AdminPostmanagementScreenState();
+}
+
+class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementScreen> {
+  // StateProvider로 선택된 토글 값을 관리
+  final selectedToggleProvider = StateProvider<int>((ref) => 0);
+
+  @override
+  void initState() {
+    super.initState();
+    // 처음에 모든 데이터를 로드
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModel = ref.read(adminPostManagementViewModelProvider);
+      viewModel.getReservationPosts();
+      viewModel.getRequestPosts();
+      viewModel.getThanksPosts();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final viewModel = ref.read(adminPostManagementViewModelProvider);
     final selectedIndex = ref.watch(selectedToggleProvider); // 선택된 토글 인덱스
-
-    // 선택된 인덱스에 따라 데이터를 로드
-    void _fetchDataBasedOnToggle(int index) {
-      if (index == 0) {
-        viewModel.getReservationPosts();
-      } else if (index == 1) {
-        viewModel.getRequestPosts();
-      } else {
-        viewModel.getThanksPosts();
-      }
-    }
-
-    // 처음에 데이터 로드
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchDataBasedOnToggle(selectedIndex);
-    });
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -55,7 +59,6 @@ class AdminPostmanagementScreen extends ConsumerWidget {
             options: ['방문 예약', '물품 요청', '기부 감사'],
             onChanged: (index) {
               ref.read(selectedToggleProvider.notifier).state = index;
-              _fetchDataBasedOnToggle(index); // Toggle 변경 시 데이터 다시 로드
             },
           ),
           SizedBox(height: 6.0),
@@ -70,8 +73,8 @@ class AdminPostmanagementScreen extends ConsumerWidget {
                 child: CircularProgressIndicator(), // 데이터 로드 중
               ),
               successBuilder: (_, state) {
-                final List<Map<String, dynamic>>? data =
-                state.value as List<Map<String, dynamic>>?;
+                final data = state.value;
+
                 if (data == null || data.isEmpty) {
                   return Center(
                     child: Text('데이터가 없습니다.'),
@@ -81,16 +84,42 @@ class AdminPostmanagementScreen extends ConsumerWidget {
                 return SingleChildScrollView(
                   child: Column(
                     children: data.map((post) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: CustomPostList(
-                          title: post['title'],
-                          content: post['content'],
-                          writtenAt: post['writtenAt'],
-                          nickname: post['nickname'],
-                          onTap: () => _navigateToDetailPage(context, post),
-                        ),
-                      );
+                      if (post is PostReservationEntity) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: CustomPostList(
+                            title: "방문 예약글 - ${post.reservationId}",
+                            content: post.reason,
+                            writtenAt: post.writeDate,
+                            nickname: post.state,
+                            onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          ),
+                        );
+                      } else if (post is PostRequestEntity) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: CustomPostList(
+                            title: "물품 요청 - ${post.requestId}",
+                            content: post.message,
+                            writtenAt: "총 ${post.supportedCount}/${post.count}개", // 작성일 추가 필요 시 수정
+                            nickname: post.state,
+                            onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          ),
+                        );
+                      } else if (post is PostThanksEntity) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: CustomPostList(
+                            title: post.title,
+                            content: post.content,
+                            writtenAt: post.date,
+                            nickname: post.name,
+                            onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          ),
+                        );
+                      } else {
+                        return SizedBox.shrink(); // 다른 타입일 경우 표시하지 않음
+                      }
                     }).toList(),
                   ),
                 );
@@ -116,3 +145,6 @@ class AdminPostmanagementScreen extends ConsumerWidget {
     );
   }
 }
+
+// isUser 필터 상태 관리
+final isUserFilterProvider = StateProvider<bool>((ref) => true);

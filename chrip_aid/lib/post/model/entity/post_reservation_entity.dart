@@ -4,35 +4,31 @@ part 'post_reservation_entity.g.dart';
 
 @JsonSerializable()
 class PostReservationEntity {
-  @JsonKey(name: 'reservation_id')
+  @JsonKey(name: 'reservationId')
   final int reservationId;
 
-  @JsonKey(name: 'visitor_name')
-  final String visitorName;
+  @JsonKey(name: 'writeDate')
+  final String writeDate;
 
-  @JsonKey(name: 'visit_date')
+  @JsonKey(name: 'visitDate')
   final String visitDate;
 
-  @JsonKey(name: 'visitor_count')
-  final int visitorCount;
-
-  @JsonKey(name: 'orphanage_name')
-  final String orphanageName;
+  @JsonKey(name: 'reason')
+  final String reason;
 
   @JsonKey(name: 'state')
   final String state;
 
-  @JsonKey(name: 'message')
-  final String message;
+  @JsonKey(name: 'rejectReason')
+  final String rejectReason;
 
   PostReservationEntity({
     required this.reservationId,
-    required this.visitorName,
+    required this.writeDate,
     required this.visitDate,
-    required this.visitorCount,
-    required this.orphanageName,
+    required this.reason,
     required this.state,
-    required this.message,
+    required this.rejectReason,
   });
 
   factory PostReservationEntity.fromJson(Map<String, dynamic> json) =>

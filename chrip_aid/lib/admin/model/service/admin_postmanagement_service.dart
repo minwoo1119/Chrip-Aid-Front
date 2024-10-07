@@ -1,10 +1,12 @@
 import 'package:chrip_aid/common/entity/response_entity.dart';
-import 'package:chrip_aid/post/model/entity/get_posts_entity.dart';
 import 'package:chrip_aid/post/model/entity/post_request_entity.dart';
 import 'package:chrip_aid/post/model/entity/post_reservation_entity.dart';
 import 'package:chrip_aid/post/model/entity/post_thanks_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../dto/item_request_post_dto.dart';
+import '../dto/visit_request_post_dto.dart';
+import '../dto/thanks_post_dto.dart';
 import '../repository/admin_postmanagement_repository.dart';
 
 final adminPostManagementServiceProvider = Provider((ref) {
@@ -18,11 +20,11 @@ class AdminPostManagementService {
 
   AdminPostManagementService(this.repository, this.ref);
 
-
   // 방문 예약글 목록 조회
   Future<ResponseEntity<List<PostReservationEntity>>> getReservationPostList() async {
     try {
-      List<PostReservationEntity> data = await repository.getReservationPosts();
+      List<VisitRequestPostDto> dtos = await repository.getReservationPosts();
+      List<PostReservationEntity> data = dtos.map((dto) => dto.toEntity()).toList();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
@@ -32,7 +34,8 @@ class AdminPostManagementService {
   // 특정 방문 예약글 조회
   Future<ResponseEntity<PostReservationEntity>> getReservationPost(int postId) async {
     try {
-      PostReservationEntity data = await repository.getReservationPostsById(postId);
+      VisitRequestPostDto dto = await repository.getReservationPostsById(postId);
+      PostReservationEntity data = dto.toEntity();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
@@ -52,7 +55,8 @@ class AdminPostManagementService {
   // 물품 요청글 목록 조회
   Future<ResponseEntity<List<PostRequestEntity>>> getRequestPostList() async {
     try {
-      List<PostRequestEntity> data = await repository.getRequestPosts();
+      List<ItemRequestPostDto> dtos = await repository.getRequestPosts();
+      List<PostRequestEntity> data = dtos.map((dto) => dto.toEntity()).toList();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
@@ -62,7 +66,8 @@ class AdminPostManagementService {
   // 특정 물품 요청글 조회
   Future<ResponseEntity<PostRequestEntity>> getRequestPost(int postId) async {
     try {
-      PostRequestEntity data = await repository.getRequestPostsById(postId);
+      ItemRequestPostDto dto = await repository.getRequestPostsById(postId);
+      PostRequestEntity data = dto.toEntity();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
@@ -82,7 +87,8 @@ class AdminPostManagementService {
   // 기부 감사글 목록 조회
   Future<ResponseEntity<List<PostThanksEntity>>> getThanksPostList() async {
     try {
-      List<PostThanksEntity> data = await repository.getThanksPosts();
+      List<ThanksPostDto> dtos = await repository.getThanksPosts();
+      List<PostThanksEntity> data = dtos.map((dto) => dto.toEntity()).toList();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
@@ -92,7 +98,8 @@ class AdminPostManagementService {
   // 특정 기부 감사글 조회
   Future<ResponseEntity<PostThanksEntity>> getThanksPost(int postId) async {
     try {
-      PostThanksEntity data = await repository.getThanksPostsById(postId);
+      ThanksPostDto dto = await repository.getThanksPostsById(postId);
+      PostThanksEntity data = dto.toEntity();
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
