@@ -1,12 +1,14 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_user_edit_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
+import 'package:go_router/go_router.dart';
 import '../../admin/viewmodel/admin_accountmanagement_viewmodel.dart';
 import '../styles/colors.dart';
 import '../styles/sizes.dart';
-import 'custom_user_list.dart';
 
 class CustomDetailInfo extends ConsumerWidget {
+  final String userId; // 사용자 ID 추가
   final String name;
   final String email;
   final String phoneNumber;
@@ -17,6 +19,7 @@ class CustomDetailInfo extends ConsumerWidget {
 
   const CustomDetailInfo({
     super.key,
+    required this.userId, // 사용자 ID 추가
     required this.name,
     required this.email,
     required this.phoneNumber,
@@ -28,7 +31,7 @@ class CustomDetailInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getUserList();
+    final viewModel = ref.read(adminAccountManagementViewModelProvider);
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -86,8 +89,8 @@ class CustomDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
-                                Text('${name}'),
+                                SizedBox(width: 10.0),
+                                Text(name),
                               ],
                             ),
                             Row(
@@ -99,8 +102,8 @@ class CustomDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
-                                Text('${email}'),
+                                SizedBox(width: 10.0),
+                                Text(email),
                               ],
                             ),
                             Row(
@@ -112,8 +115,8 @@ class CustomDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
-                                Text('${nickname}'),
+                                SizedBox(width: 10.0),
+                                Text(nickname),
                               ],
                             ),
                           ],
@@ -122,12 +125,11 @@ class CustomDetailInfo extends ConsumerWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 30),
                 Column(
                   children: [
                     Container(
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6.0),
@@ -137,26 +139,24 @@ class CustomDetailInfo extends ConsumerWidget {
                                   '나이',
                                   style: TextStyle(
                                       fontSize: 20.0,
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(width: 10.0,),
-                                Text('${age}'),
+                                SizedBox(width: 10.0),
+                                Text(age),
                               ],
                             ),
                           ),
-                          SizedBox(width: 100,),
+                          SizedBox(width: 100),
                           Row(
                             children: [
                               Text(
                                 '성별',
                                 style: TextStyle(
                                     fontSize: 20.0,
-                                    fontWeight: FontWeight.bold
-                                ),
+                                    fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(width: 10.0,),
-                              Text('${sex}'),
+                              SizedBox(width: 10.0),
+                              Text(sex),
                             ],
                           ),
                         ],
@@ -174,12 +174,10 @@ class CustomDetailInfo extends ConsumerWidget {
                           Text(
                             '전화번호',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 10.0,),
-                          Text('${phoneNumber}'),
+                          SizedBox(width: 10.0),
+                          Text(phoneNumber),
                         ],
                       ),
                     ),
@@ -190,62 +188,27 @@ class CustomDetailInfo extends ConsumerWidget {
                           Text(
                             '지역',
                             style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 10.0,),
-                          Text('${region}'),
+                          SizedBox(width: 10.0),
+                          Text(region),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    Text(
-                      '활동 내역',
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-
-                    Container(
-                      height: 300,
-                      child: ListView(
-                        children: [
-                          CustomUserList(
-                            name: '미누',
-                            email: 'email',
-                            phoneNumber: '010-0000-0000',
-                            nickname: 'nickname',
-                          ),
-                          CustomUserList(
-                            name: '미누',
-                            email: 'email',
-                            phoneNumber: '010-0000-0000',
-                            nickname: 'nickname',
-                          ),
-                          CustomUserList(
-                            name: '미누',
-                            email: 'email',
-                            phoneNumber: '010-0000-0000',
-                            nickname: 'nickname',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.0,),
+                SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        print('ElevatedButton pressed');
+                        // 수정 페이지로 이동
+                        context.go(
+                          '/admin/accountmanagement/user/detail/edit',
+                          extra: userId, // userId를 Map 형태로 전달
+                        );
                       },
                       child: Row(
                         children: [
@@ -254,10 +217,21 @@ class CustomDetailInfo extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 20.0,),
+
+                    SizedBox(width: 20.0),
                     ElevatedButton(
-                      onPressed: () {
-                        print('ElevatedButton pressed');
+                      onPressed: () async {
+                        // Delete 버튼 클릭 시 viewmodel에서 삭제 기능 호출
+                        try {
+                          await viewModel.deleteOrphanageUser(userId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('사용자가 삭제되었습니다.')),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
+                          );
+                        }
                       },
                       child: Row(
                         children: [

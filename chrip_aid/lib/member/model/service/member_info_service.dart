@@ -1,9 +1,10 @@
 import 'package:chrip_aid/common/entity/response_entity.dart';
-import 'package:chrip_aid/member/model/dto/edit_member_info_request_dto.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:chrip_aid/member/model/repository/member_info_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../dto/edit_member_info_request_dto.dart';
 
 final memberInfoServiceProvider = Provider((ref) {
   final userInfoRepository = ref.watch(memberInfoRepositoryProvider);

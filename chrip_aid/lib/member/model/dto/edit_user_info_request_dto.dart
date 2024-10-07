@@ -52,3 +52,4 @@ class EditUserInfoRequestDto implements EditMemberInfoRequestDto {
   factory EditUserInfoRequestDto.fromJson(Map<String, dynamic> json) =>
       _$EditUserInfoRequestDtoFromJson(json);
 }
+

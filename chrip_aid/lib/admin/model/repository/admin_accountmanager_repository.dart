@@ -1,3 +1,5 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_user_add_dto.dart';
+import 'package:chrip_aid/admin/model/dto/user_edit_dto.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
@@ -44,7 +46,7 @@ abstract class AdminAccountManagementRepository {
   // 사용자 정보 수정
   @PATCH('/admin/users/{id}')
   @Headers({'accessToken': 'true'})
-  Future<void> updateUser(@Path('id') String id, @Body() UserDto dto);
+  Future<void> updateUser(@Path('id') String id, @Body() UserEditDto dto);
 
   // 사용자 정보 삭제
   @DELETE('/admin/users/{id}')
@@ -54,7 +56,7 @@ abstract class AdminAccountManagementRepository {
   // 보육원 사용자 정보 추가
   @POST('/admin/orphanage-users')
   @Headers({'accessToken': 'true'})
-  Future<void> createOrphanageUser(@Body() UserDto dto);
+  Future<void> createOrphanageUser(@Body() OrphanageUserAddDto dto);
 
   // 등록된 보육원 사용자 정보 전체 조회
   @GET('/admin/orphanage-users')

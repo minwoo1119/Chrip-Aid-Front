@@ -42,6 +42,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../admin/view/admin_screen.dart';
+import '../../admin/view/user_edit_page.dart';
 import '../component/custom_detail_info.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -258,7 +259,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'user/detail',
                 builder: (context, state) {
                   final userData = state.extra as Map<String, dynamic>;
-                  ;
+
 
                   // userData가 null일 경우를 처리
                   if (userData == null) {
@@ -275,6 +276,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   String age = userData['age']?.toString() ?? 'N/A';
                   String region = userData['region'] ?? 'N/A';
                   String sex = userData['sex'] ?? 'N/A';
+                  String id = userData['user_id'] ?? 'N/A';
 
                   return CustomDetailInfo(
                     name: name,
@@ -284,9 +286,27 @@ final routerProvider = Provider<GoRouter>((ref) {
                     age: age,
                     region: region,
                     sex: sex,
+                    userId: id,
                   );
                 },
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    builder: (context, state) {
+                      final userData = state.extra as String?;
 
+                      if (userData == null) {
+                        return Center(
+                          child: Text('사용자 ID를 찾을 수 없습니다.'),
+                        );
+                      }
+
+                      String userId = userData ?? 'N/A';
+
+                      return UserEditPage(userId: userId);
+                    },
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'orphanageuser/detail',
