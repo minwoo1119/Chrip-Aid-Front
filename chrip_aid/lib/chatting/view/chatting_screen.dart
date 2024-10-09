@@ -1,20 +1,45 @@
+import 'package:chrip_aid/chatting/model/entity/chat_room_entity.dart';
+import 'package:chrip_aid/chatting/viewmodel/chatting_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_chats_list.dart';
+import 'package:chrip_aid/common/styles/colors.dart';
+import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/styles/colors.dart';
-import '../../common/styles/sizes.dart';
-import '../../orphanage/layout/detail_page_layout.dart';
 
-class ChattingScreen extends ConsumerWidget {
+class ChattingScreen extends ConsumerStatefulWidget {
   static String get routeName => 'chatting';
 
-  const ChattingScreen({super.key});
-  Color get mainColor => CustomColor.mainColor;
+  const ChattingScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _ChattingScreenState createState() => _ChattingScreenState();
+}
+
+class _ChattingScreenState extends ConsumerState<ChattingScreen> {
+  List<ChatRoomEntity>? _cachedChatRooms;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchInitialData();
+    });
+  }
+
+  void _fetchInitialData() async {
+    final viewModel = ref.read(chattingViewModelProvider);
+    final chatRooms = await viewModel.getAllChatRooms();
+
+    setState(() {
+      _cachedChatRooms = chatRooms;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: 'Chats',
@@ -35,34 +60,50 @@ class ChattingScreen extends ConsumerWidget {
       ],
       child: Column(
         children: [
-          SizedBox(height: 20.0,),
-          CustomChatsList(
-            chat_room_id: '2jdek290',
-            target_id: '안형태 교수님',
-            last_chat: '학회를 가기 위한 여정은 잘 되어가니?',
-          ),
-          CustomChatsList(
-            chat_room_id: '3abce320',
-            target_id: '정성윤',
-            last_chat: '오늘 저녁 뭐 먹을까?',
-          ),
-          CustomChatsList(
-            chat_room_id: '4bde1341',
-            target_id: '채주혁',
-            last_chat: '내일 회의 몇 시에 시작하지?',
-          ),
-          CustomChatsList(
-            chat_room_id: '5cfr2391',
-            target_id: '황용진',
-            last_chat: '프로젝트 진행 상황 어때?',
-          ),
-          CustomChatsList(
-            chat_room_id: '6hij3012',
-            target_id: '권오빈',
-            last_chat: '커피 한 잔 할래?',
+          const SizedBox(height: 20.0),
+          Expanded(
+            child: Builder(
+              builder: (context) {
+                if (_cachedChatRooms == null) {
+                  // 데이터가 로드되지 않았을 때 (로딩 중)
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (_cachedChatRooms!.isEmpty) {
+                  // 데이터가 로드됐지만 채팅방이 없을 때
+                  return const Center(
+                    child: Text('채팅방이 없습니다.'),
+                  );
+                } else {
+                  // 데이터가 로드되고 채팅방이 있을 때
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: _cachedChatRooms!.map((room) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: CustomChatsList(
+                            chat_room_id: room.chatRoomId,
+                            name: room.user.name,
+                            last_chat: "마지막 채팅 미리보기",
+                            onTap: () => _navigateToChatRoom(context, room),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  void _navigateToChatRoom(BuildContext context, ChatRoomEntity room) {
+    context.push(
+      '/chatting/${room.chatRoomId}',
+      extra: {'targetId': room.user.userId},
     );
   }
 }

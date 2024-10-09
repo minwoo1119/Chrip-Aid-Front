@@ -1,68 +1,79 @@
+import 'package:chrip_aid/chatting/model/dto/chat_message_dto.dart';
+import 'package:chrip_aid/chatting/model/dto/chat_room_dto.dart';
 import 'package:chrip_aid/chatting/model/repository/chatting_repository.dart';
-import 'package:chrip_aid/common/entity/response_entity.dart';
-import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
-import 'package:chrip_aid/management/model/dto/edit_orphanage_info_request_dto.dart';
-import 'package:chrip_aid/member/model/entity/member_entity.dart';
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/member/model/state/member_info_state.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/product_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../entity/chat_message_entity.dart';
+import '../entity/chat_room_entity.dart';
+import '../../../common/entity/response_entity.dart';
 
 final chattingServiceProvider = Provider((ref) {
   final repository = ref.read(chattingRepositoryProvider);
-  return ChattingService(repository, ref);
+  return ChattingService(repository);
 });
 
 class ChattingService {
-  final Ref ref;
-  late final ChattingRepository repository;
+  final ChattingRepository repository;
 
-  ChattingService(this.repository, this.ref);
+  ChattingService(this.repository);
 
-  // TODO : 아래 함수 필요한걸로 바꿔야할듯
-  // Future<ResponseEntity<OrphanageDetailEntity>> getOrphanageInfo() async {
-  //   try {
-  //     MemberEntity? member = MemberInfoState().value;
-  //     if (member is! OrphanageMemberEntity) {
-  //       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
-  //     }
-  //     int id = member.orphanageId;
-  //     OrphanageDetailEntity data = await repository.getOrphanageData(id);
-  //     return ResponseEntity.success(entity: data);
-  //   } catch (e) {
-  //     return ResponseEntity.error(message: e.toString());
-  //   }
-  // }
-  //
-  // Future<ResponseEntity<List<ProductEntity>>> getProductList() async {
-  //   try {
-  //     List<ProductEntity> data = await repository.getProducts();
-  //     return ResponseEntity.success(entity: data);
-  //   } catch (e) {
-  //     return ResponseEntity.error(message: e.toString());
-  //   }
-  // }
-  //
-  // Future<ResponseEntity<OrphanageDetailEntity>> editOrphanageProduct(
-  //     AddOrphanageProductRequestDTO dto,
-  //     ) async {
-  //   try {
-  //     await repository.editOrphanageProduct(dto);
-  //     return getOrphanageInfo();
-  //   } catch (e) {
-  //     return ResponseEntity.error(message: e.toString());
-  //   }
-  // }
-  //
-  // Future<ResponseEntity> editOrphanageInfo(
-  //     EditOrphanageInfoRequestDTO dto,
-  //     ) async {
-  //   try {
-  //     await repository.editOrphanageInfo(dto);
-  //     return ResponseEntity.success();
-  //   } catch (e) {
-  //     return ResponseEntity.error(message: e.toString());
-  //   }
-  // }
+  // 모든 채팅방 조회
+  Future<ResponseEntity<List<ChatRoomEntity>>> getAllChatRooms() async {
+    try {
+      print('Requesting all chat rooms from repository...');
+      List<ChatRoomDto> chatRoomDtos = await repository.getAllChatRooms();
+      return ResponseEntity.success(entity: chatRoomDtos.map((dto) => dto.toEntity()).toList());
+    } catch (e) {
+      print('Error while requesting all chat rooms: $e');
+      return ResponseEntity.error(message: 'Failed to load chat rooms');
+    }
+  }
+
+  // 모든 메시지 조회
+  Future<ResponseEntity<List<ChatMessageEntity>>> getAllChatMessages() async {
+    try {
+      print('Requesting all chat messages from repository...');
+      List<ChatMessageDto> chatMessageDtos = await repository.getAllChatMessages();
+      return ResponseEntity.success(entity: chatMessageDtos.map((dto) => dto.toEntity()).toList());
+    } catch (e) {
+      print('Error while requesting all chat messages: $e');
+      return ResponseEntity.error(message: 'Failed to load chat messages');
+    }
+  }
+
+  // 사용자 ID 기반 채팅방 조회
+  Future<ResponseEntity<List<ChatRoomEntity>>> getChatRoomByUserId(String userId) async {
+    try {
+      print('Requesting chat rooms by user ID from repository...');
+      List<ChatRoomDto> chatRoomDtos = await repository.getChatRoomByUserId(userId);
+      return ResponseEntity.success(entity: chatRoomDtos.map((dto) => dto.toEntity()).toList());
+    } catch (e) {
+      print('Error while requesting chat rooms by user ID: $e');
+      return ResponseEntity.error(message: 'Failed to load chat rooms by user ID');
+    }
+  }
+
+  // 보육원 사용자 ID 기반 채팅방 조회
+  Future<ResponseEntity<List<ChatRoomEntity>>> getChatRoomByOrphanageId(String orphanageUserId) async {
+    try {
+      print('Requesting chat rooms by orphanage user ID from repository...');
+      List<ChatRoomDto> chatRoomDtos = await repository.getChatRoomByOrphanageId(orphanageUserId);
+      return ResponseEntity.success(entity: chatRoomDtos.map((dto) => dto.toEntity()).toList());
+    } catch (e) {
+      print('Error while requesting chat rooms by orphanage user ID: $e');
+      return ResponseEntity.error(message: 'Failed to load chat rooms by orphanage user ID');
+    }
+  }
+
+  // 특정 채팅방의 모든 메시지 조회
+  Future<ResponseEntity<List<ChatMessageEntity>>> getAllMessagesThisRoom(String chatRoomId) async {
+    try {
+      print('Requesting all messages for chat room from repository...');
+      List<ChatMessageDto> chatMessageDtos = await repository.getAllMessageThisRoom(chatRoomId);
+      return ResponseEntity.success(entity: chatMessageDtos.map((dto) => dto.toEntity()).toList());
+    } catch (e) {
+      print('Error while requesting messages for this room: $e');
+      return ResponseEntity.error(message: 'Failed to load messages for this room');
+    }
+  }
 }

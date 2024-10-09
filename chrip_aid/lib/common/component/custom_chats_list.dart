@@ -4,21 +4,23 @@ import 'package:go_router/go_router.dart';
 
 class CustomChatsList extends ConsumerWidget {
   final String chat_room_id;
-  final String target_id;
+  final String name;
   final String last_chat;
+  final VoidCallback? onTap;
 
   const CustomChatsList({
     super.key,
     required this.chat_room_id,
-    required this.target_id,
-    required this.last_chat,
+    required this.name,
+    this.last_chat="마지막 채팅",
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        _navigateToDetailPage(context, chat_room_id, target_id);
+        _navigateToDetailPage(context, chat_room_id, name);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -53,7 +55,7 @@ class CustomChatsList extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${target_id}',
+                    '${name}',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
