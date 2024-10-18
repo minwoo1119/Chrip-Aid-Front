@@ -7,6 +7,7 @@ import 'package:chrip_aid/orphanage/viewmodel/orphanage_basket_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:chrip_aid/notice/view/notice_screen.dart';
 
 class OrphanageBasketScreen extends ConsumerStatefulWidget {
   static String get routeName => 'basket';
@@ -88,7 +89,20 @@ class OrphanageBasketScreenState extends ConsumerState<OrphanageBasketScreen> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () => viewModel.payment(context),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return NoticeScreen(
+                                  onConfirm: () {
+                                    // 팝업에서 확인이 완료되면 결제 진행
+                                    Navigator.pop(context); // 팝업 닫기
+                                    viewModel.payment(context); // 결제 함수 호출
+                                  },
+                                );
+                              },
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.black,
@@ -104,6 +118,7 @@ class OrphanageBasketScreenState extends ConsumerState<OrphanageBasketScreen> {
                       ),
                     ],
                   )
+
                 ],
               ),
             ),

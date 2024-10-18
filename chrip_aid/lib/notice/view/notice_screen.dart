@@ -6,6 +6,9 @@ import 'package:chrip_aid/common/styles/styles.dart';
 final noticeViewModelProvider = ChangeNotifierProvider((ref) => NoticeViewModel());
 
 class NoticeScreen extends ConsumerWidget {
+  final VoidCallback onConfirm; // 확인 버튼을 눌렀을 때 호출되는 콜백 추가
+
+  NoticeScreen({required this.onConfirm}); // onConfirm 콜백을 받도록 수정
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(noticeViewModelProvider);
@@ -95,8 +98,7 @@ class NoticeScreen extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: viewModel.isAllChecked
                           ? () {
-                        Navigator.pop(context); // Close the dialog
-                        Navigator.pushNamed(context, '/confirmation'); // Navigate to confirmation page
+                        onConfirm(); // 모든 항목이 체크되었을 때 onConfirm 콜백 호출
                       }
                           : null,
                       style: ElevatedButton.styleFrom(
