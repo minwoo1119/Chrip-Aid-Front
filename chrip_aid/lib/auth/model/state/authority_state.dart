@@ -46,7 +46,10 @@ void toggleAuthority() {
   AuthorityState state = AuthorityState();
   if (state.value == AuthorityType.user) {
     AuthorityState().success(value: AuthorityType.orphanage);
-  } else {
+  }else if(state.value == AuthorityType.admin){
+    AuthorityState().success(value: AuthorityType.admin);
+  }
+  else {
     AuthorityState().success(value: AuthorityType.user);
   }
 }
