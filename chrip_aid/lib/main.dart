@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'notice/view/notice_screen.dart';
@@ -45,10 +46,8 @@ class TestHomePage extends StatelessWidget {
     );
   }
 }
+*/
 
-
-
-/*
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/firebase/fcm.dart';
 import 'package:chrip_aid/common/go_router/go_router.dart';
@@ -91,4 +90,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-*/
