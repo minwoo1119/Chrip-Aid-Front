@@ -271,7 +271,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   // 필요한 데이터를 null 안전하게 사용하기
                   String name = userData['name'] ?? 'N/A';
                   String email = userData['email'] ?? 'N/A';
-                  String phoneNumber = userData['phoneNumber'] ?? 'N/A';
+                  String phoneNumber = userData['phone_number'] ?? 'N/A';
                   String nickname = userData['nickname'] ?? 'N/A';
                   String age = userData['age']?.toString() ?? 'N/A';
                   String region = userData['region'] ?? 'N/A';
@@ -293,15 +293,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'edit',
                     builder: (context, state) {
-                      final userData = state.extra as String?;
-
-                      if (userData == null) {
-                        return Center(
-                          child: Text('사용자 ID를 찾을 수 없습니다.'),
-                        );
-                      }
-
-                      String userId = userData ?? 'N/A';
+                      final userId = state.extra as String;
 
                       return UserEditPage(userId: userId);
                     },
