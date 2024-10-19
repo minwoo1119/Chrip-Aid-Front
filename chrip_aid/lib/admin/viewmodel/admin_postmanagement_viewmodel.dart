@@ -52,6 +52,52 @@ class AdminPostmanagementViewmodel {
     }
   }
 
+  // 방문 예약글 ID로 조회하기
+  Future<void> getReservationPostById(int id) async {
+    try {
+      reservationPostsState.loading();
+      print('Loading reservation post with ID: $id');
+
+      // 서비스 호출 및 ResponseEntity 확인
+      final response = await _adminPostManagementService.getReservationPostById(id);
+
+      if (response.isSuccess) {
+        final PostReservationEntity? post = response.entity;
+        if (post != null) {
+          reservationPostsState.success(value: [post]);
+          print('Reservation post successfully loaded: $post');
+        } else {
+          throw Exception('No post available');
+        }
+      } else {
+        throw Exception(response.message ?? 'Unknown error occurred');
+      }
+    } catch (e) {
+      reservationPostsState.error(message: e.toString());
+      print('Exception occurred while loading reservation post by ID: $e');
+    }
+  }
+
+// 방문 예약글 삭제하기
+  Future<void> deleteReservationPost(int id) async {
+    try {
+      print('Deleting reservation post with ID: $id');
+
+      // 서비스 호출 및 ResponseEntity 확인
+      final response = await _adminPostManagementService.deleteReservationPost(id);
+
+      if (response.isSuccess) {
+        print('Reservation post successfully deleted');
+        // 필요 시 삭제 후 상태 업데이트
+        await getReservationPosts();
+      } else {
+        throw Exception(response.message ?? 'Failed to delete the post');
+      }
+    } catch (e) {
+      print('Exception occurred while deleting reservation post: $e');
+    }
+  }
+
   // 물품 요청글 가져오기
   Future<void> getRequestPosts() async {
     try {
@@ -76,6 +122,49 @@ class AdminPostmanagementViewmodel {
     } catch (e) {
       requestPostsState.error(message: e.toString());
       print('Exception occurred while loading request posts: $e');
+    }
+  }
+
+  // 물품 요청글 ID로 조회하기
+  Future<void> getRequestPostById(int id) async {
+    try {
+      requestPostsState.loading();
+      print('Loading request post with ID: $id');
+
+      final response = await _adminPostManagementService.getRequestPostById(id);
+
+      if (response.isSuccess) {
+        final PostRequestEntity? post = response.entity;
+        if (post != null) {
+          requestPostsState.success(value: [post]);
+          print('Request post successfully loaded: $post');
+        } else {
+          throw Exception('No post available');
+        }
+      } else {
+        throw Exception(response.message ?? 'Unknown error occurred');
+      }
+    } catch (e) {
+      requestPostsState.error(message: e.toString());
+      print('Exception occurred while loading request post by ID: $e');
+    }
+  }
+
+// 물품 요청글 삭제하기
+  Future<void> deleteRequestPost(int id) async {
+    try {
+      print('Deleting request post with ID: $id');
+
+      final response = await _adminPostManagementService.deleteRequestPost(id);
+
+      if (response.isSuccess) {
+        print('Request post successfully deleted');
+        await getRequestPosts();
+      } else {
+        throw Exception(response.message ?? 'Failed to delete the post');
+      }
+    } catch (e) {
+      print('Exception occurred while deleting request post: $e');
     }
   }
 
@@ -105,4 +194,48 @@ class AdminPostmanagementViewmodel {
       print('Exception occurred while loading thanks posts: $e');
     }
   }
+
+  // 기부 감사글 ID로 조회하기
+  Future<void> getThanksPostById(int id) async {
+    try {
+      thanksPostsState.loading();
+      print('Loading thanks post with ID: $id');
+
+      final response = await _adminPostManagementService.getThanksPostById(id);
+
+      if (response.isSuccess) {
+        final PostThanksEntity? post = response.entity;
+        if (post != null) {
+          thanksPostsState.success(value: [post]);
+          print('Thanks post successfully loaded: $post');
+        } else {
+          throw Exception('No post available');
+        }
+      } else {
+        throw Exception(response.message ?? 'Unknown error occurred');
+      }
+    } catch (e) {
+      thanksPostsState.error(message: e.toString());
+      print('Exception occurred while loading thanks post by ID: $e');
+    }
+  }
+
+// 기부 감사글 삭제하기
+  Future<void> deleteThanksPost(int id) async {
+    try {
+      print('Deleting thanks post with ID: $id');
+
+      final response = await _adminPostManagementService.deleteThanksPost(id);
+
+      if (response.isSuccess) {
+        print('Thanks post successfully deleted');
+        await getThanksPosts();
+      } else {
+        throw Exception(response.message ?? 'Failed to delete the post');
+      }
+    } catch (e) {
+      print('Exception occurred while deleting thanks post: $e');
+    }
+  }
 }
+

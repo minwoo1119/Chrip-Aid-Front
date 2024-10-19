@@ -205,9 +205,10 @@ class CustomDetailInfo extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         // 수정 페이지로 이동
+                        print("userId : ${userId}");
                         context.go(
                           '/admin/accountmanagement/user/detail/edit',
-                          extra: userId, // userId를 Map 형태로 전달
+                          extra: userId,
                         );
                       },
                       child: Row(

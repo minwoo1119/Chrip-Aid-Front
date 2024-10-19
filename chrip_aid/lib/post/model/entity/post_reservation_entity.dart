@@ -20,7 +20,7 @@ class PostReservationEntity {
   final String state;
 
   @JsonKey(name: 'rejectReason')
-  final String rejectReason;
+  final String? rejectReason;
 
   PostReservationEntity({
     required this.reservationId,
@@ -28,7 +28,7 @@ class PostReservationEntity {
     required this.visitDate,
     required this.reason,
     required this.state,
-    required this.rejectReason,
+    this.rejectReason,
   });
 
   factory PostReservationEntity.fromJson(Map<String, dynamic> json) =>

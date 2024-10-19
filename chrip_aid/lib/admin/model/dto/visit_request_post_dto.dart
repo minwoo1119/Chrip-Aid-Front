@@ -21,7 +21,7 @@ class VisitRequestPostDto {
   final String state;
 
   @JsonKey(name: 'rejectReason')
-  final String rejectReason;
+  final String? rejectReason;
 
   VisitRequestPostDto({
     required this.reservationId,
@@ -29,7 +29,7 @@ class VisitRequestPostDto {
     required this.visitDate,
     required this.reason,
     required this.state,
-    required this.rejectReason,
+    this.rejectReason,
   });
 
   factory VisitRequestPostDto.fromJson(Map<String, dynamic> json) =>

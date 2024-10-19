@@ -303,28 +303,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'orphanageuser/detail',
                 builder: (context, state) {
-                  final userData = state.extra as Map<String, dynamic>;
-                  ;
 
-                  // userData가 null일 경우를 처리
-                  if (userData == null) {
-                    return Center(
-                      child: Text('사용자 데이터를 찾을 수 없습니다.'),
-                    );
-                  }
 
-                  // 필요한 데이터를 null 안전하게 사용하기
-                  String name = userData['name'] ?? 'N/A';
-                  String email = userData['email'] ?? 'N/A';
-                  String orphanageId = userData['orphanageId'] ?? 'N/A';
-                  String orphanageUserId = userData['orphanageUserId'] ?? 'N/A';
-
-                  return CustomOrphanageUserDetailInfo(
-                    name: name,
-                    email: email,
-                    orphanageId: orphanageId,
-                    orphanageUserId: orphanageUserId,
-                  );
+                  return Text("It is Deleted Page");
                 },
 
               ),

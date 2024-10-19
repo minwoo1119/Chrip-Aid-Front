@@ -32,7 +32,7 @@ class AdminPostManagementService {
   }
 
   // 특정 방문 예약글 조회
-  Future<ResponseEntity<PostReservationEntity>> getReservationPost(int postId) async {
+  Future<ResponseEntity<PostReservationEntity>> getReservationPostById(int postId) async {
     try {
       VisitRequestPostDto dto = await repository.getReservationPostsById(postId);
       PostReservationEntity data = dto.toEntity();
@@ -64,7 +64,7 @@ class AdminPostManagementService {
   }
 
   // 특정 물품 요청글 조회
-  Future<ResponseEntity<PostRequestEntity>> getRequestPost(int postId) async {
+  Future<ResponseEntity<PostRequestEntity>> getRequestPostById(int postId) async {
     try {
       ItemRequestPostDto dto = await repository.getRequestPostsById(postId);
       PostRequestEntity data = dto.toEntity();
@@ -96,7 +96,7 @@ class AdminPostManagementService {
   }
 
   // 특정 기부 감사글 조회
-  Future<ResponseEntity<PostThanksEntity>> getThanksPost(int postId) async {
+  Future<ResponseEntity<PostThanksEntity>> getThanksPostById(int postId) async {
     try {
       ThanksPostDto dto = await repository.getThanksPostsById(postId);
       PostThanksEntity data = dto.toEntity();

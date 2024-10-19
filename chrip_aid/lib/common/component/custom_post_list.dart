@@ -1,4 +1,6 @@
+import 'package:chrip_aid/admin/viewmodel/admin_postmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomPostList extends StatelessWidget {
   final String title;
@@ -8,16 +10,17 @@ class CustomPostList extends StatelessWidget {
   final VoidCallback? onTap;
 
   const CustomPostList({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.writtenAt,
     required this.nickname,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    // final viewModel = ref.read(adminPostManagementViewModelProvider);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -78,6 +81,31 @@ class CustomPostList extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
+            Column(
+              children: [
+                // TODO : 글 삭제 부분 통합 요망
+                // ElevatedButton(
+                //   onPressed: () async{
+                //     try {
+                //       await viewModel.deleteRequestPost(2);
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(content: Text('사용자가 삭제되었습니다.')),
+                //       );
+                //     } catch (e) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
+                //       );
+                //     }
+                //   },
+                //   child: Row(
+                //     children: [
+                //       Icon(Icons.delete),
+                //       Text("삭제"),
+                //     ],
+                //   ),
+                // ),
+              ],
+            )
           ],
         ),
       ),
