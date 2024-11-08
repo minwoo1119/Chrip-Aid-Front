@@ -2,27 +2,24 @@ import 'package:chrip_aid/admin/viewmodel/admin_postmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomPostList extends ConsumerWidget {
-  final String title;
-  final String content;
-  final String writtenAt;
-  final String nickname;
-  final VoidCallback? onTap;
+class ItemRequestList extends ConsumerWidget {
+  final String visitDate;
+  final String reason;
+  final String writeDate;
+  final String state;
 
-  const CustomPostList({
+  const ItemRequestList({
     super.key,
-    required this.title,
-    required this.content,
-    required this.writtenAt,
-    required this.nickname,
-    this.onTap,
+    required this.visitDate,
+    required this.reason,
+    required this.writeDate,
+    required this.state,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(adminPostManagementViewModelProvider);
     return GestureDetector(
-      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.all(8.0),
@@ -50,7 +47,7 @@ class CustomPostList extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  reason,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -58,7 +55,7 @@ class CustomPostList extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  content,
+                  "방문일 : ${visitDate}",
                   style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
@@ -66,7 +63,7 @@ class CustomPostList extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  writtenAt,
+                  "작성일 : ${writeDate}",
                   style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
@@ -75,7 +72,7 @@ class CustomPostList extends ConsumerWidget {
               ],
             ),
             Text(
-              nickname,
+              state,
               style: const TextStyle(
                 fontSize: 14.0,
                 color: Colors.grey,

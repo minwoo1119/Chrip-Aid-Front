@@ -2,27 +2,24 @@ import 'package:chrip_aid/admin/viewmodel/admin_postmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomPostList extends ConsumerWidget {
-  final String title;
-  final String content;
-  final String writtenAt;
-  final String nickname;
-  final VoidCallback? onTap;
+class ItemRequestList extends ConsumerWidget {
+  final String count;
+  final String supported_count;
+  final String state;
+  final String message;
 
-  const CustomPostList({
+  const ItemRequestList({
     super.key,
-    required this.title,
-    required this.content,
-    required this.writtenAt,
-    required this.nickname,
-    this.onTap,
+    required this.count,
+    required this.supported_count,
+    required this.state,
+    required this.message,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(adminPostManagementViewModelProvider);
     return GestureDetector(
-      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.all(8.0),
@@ -50,7 +47,7 @@ class CustomPostList extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  "상품명",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -58,7 +55,7 @@ class CustomPostList extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  content,
+                  message,
                   style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
@@ -66,20 +63,13 @@ class CustomPostList extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  writtenAt,
+                  "총 ${supported_count}/${count}",
                   style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
                   ),
                 ),
               ],
-            ),
-            Text(
-              nickname,
-              style: const TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-              ),
             ),
             Column(
               children: [

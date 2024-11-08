@@ -2,14 +2,14 @@ import 'package:chrip_aid/admin/viewmodel/admin_postmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomPostList extends ConsumerWidget {
+class ThanksPostList extends ConsumerWidget {
   final String title;
   final String content;
   final String writtenAt;
   final String nickname;
   final VoidCallback? onTap;
 
-  const CustomPostList({
+  const ThanksPostList({
     super.key,
     required this.title,
     required this.content,
