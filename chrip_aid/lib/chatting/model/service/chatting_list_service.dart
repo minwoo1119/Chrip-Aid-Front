@@ -7,15 +7,15 @@ import '../entity/chat_message_entity.dart';
 import '../entity/chat_room_entity.dart';
 import '../../../common/entity/response_entity.dart';
 
-final chattingServiceProvider = Provider((ref) {
+final chattingListServiceProvider = Provider((ref) {
   final repository = ref.read(chattingRepositoryProvider);
-  return ChattingService(repository);
+  return ChattingListService(repository);
 });
 
-class ChattingService {
+class ChattingListService {
   final ChattingRepository repository;
 
-  ChattingService(this.repository);
+  ChattingListService(this.repository);
 
   // 모든 채팅방 조회
   Future<ResponseEntity<List<ChatRoomEntity>>> getAllChatRooms() async {

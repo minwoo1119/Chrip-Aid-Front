@@ -1,26 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:chrip_aid/chatting/viewmodel/chatting_viewmodel.dart';
+import 'package:chrip_aid/common/styles/colors.dart';
+import 'package:chrip_aid/common/styles/sizes.dart';
+import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
+import '../model/service/socket_service.dart';
+import '../model/service/socket_service_provider.dart';
 
-import '../../common/styles/colors.dart';
-import '../../common/styles/sizes.dart';
-import '../../orphanage/layout/detail_page_layout.dart';
-
-class ChattingMessageScreen extends ConsumerWidget {
-  static String get routeName => 'chatting';
+class ChattingMessageScreen extends ConsumerStatefulWidget {
   final String chatRoomId;
   final String targetId;
+  final String userId;
 
   const ChattingMessageScreen({
-    super.key,
+    Key? key,
     required this.chatRoomId,
     required this.targetId,
-  });
+    required this.userId,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _ChattingMessageScreenState createState() => _ChattingMessageScreenState();
+}
+
+class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
+  final List<Map<String, dynamic>> _messages = [];
+  late final SocketService _socketService;
+  String userName = '';
+  String userState = '';
+  late final String chatRoomId;
+  late final String targetId;
+
+  @override
+  void initState() {
+    super.initState();
+    chatRoomId = widget.chatRoomId;
+    targetId = widget.targetId;
+    _socketService = ref.read(socketServiceProvider);
+    _initializeUserDetails();
+    _initializeSocketListeners(_socketService);
+    _socketService.joinRoom(chatRoomId);
+  }
+
+
+  Future<void> _initializeUserDetails() async {
+    final viewModel = ref.read(chattingViewModelProvider);
+    final userInfo = await viewModel.fetchUserInfo();
+    final authority = await viewModel.getUserAuthority();
+
+    print("Fetched userName: ${userInfo.name}");
+    print("Fetched userState: $authority");
+
+    setState(() {
+      userName = userInfo.name;
+      userState = authority;
+    });
+  }
+
+  void _initializeSocketListeners(SocketService socketService) {
+    socketService.getRoomMessages(chatRoomId, (data) {
+      setState(() {
+        _messages.clear();
+        _messages.addAll(data as Iterable<Map<String, dynamic>>);
+      });
+    });
+
+    socketService.onNewMessage((message) {
+      setState(() {
+        _messages.add(message);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _socketService.leaveRoom(chatRoomId);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
-      title: '${targetId}',
+      title: targetId,
       titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
@@ -39,20 +101,22 @@ class ChattingMessageScreen extends ConsumerWidget {
       child: Column(
         children: [
           Expanded(
-            child: ListView.separated(
+            child: ListView.builder(
               padding: const EdgeInsets.all(16.0),
+              itemCount: _messages.length,
               itemBuilder: (context, index) {
-                bool isSentByMe = index % 2 == 0;
-                return _buildChatBubble(
-                  isSentByMe,
-                  '채팅 메시지 $index',
-                );
+                final message = _messages[index];
+                bool isSentByMe = message['sender'] == targetId;
+                return _buildChatBubble(isSentByMe, message['content']);
               },
-              separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-              itemCount: 20, // 메시지 개수 (더미 데이터)
             ),
           ),
-          _BottomInputField(), // 채팅 입력 필드
+          _BottomInputField(
+            chatRoomId: chatRoomId,
+            socketService: _socketService,
+            userName: userName,
+            userState: userState,
+          ),
         ],
       ),
     );
@@ -79,6 +143,19 @@ class ChattingMessageScreen extends ConsumerWidget {
 }
 
 class _BottomInputField extends StatefulWidget {
+  final String chatRoomId;
+  final SocketService socketService;
+  final String userName;
+  final String userState;
+
+  const _BottomInputField({
+    Key? key,
+    required this.chatRoomId,
+    required this.socketService,
+    required this.userName,
+    required this.userState,
+  }) : super(key: key);
+
   @override
   State<_BottomInputField> createState() => _BottomInputFieldState();
 }
@@ -88,9 +165,21 @@ class _BottomInputFieldState extends State<_BottomInputField> {
 
   void _sendMessage() {
     if (_controller.text.trim().isNotEmpty) {
-      // 메시지를 전송하는 로직 추가 (예: 서버로 메시지 전송)
-      print('Message sent: ${_controller.text}');
-      _controller.clear(); // 메시지 전송 후 입력 필드 초기화
+      final messageContent = _controller.text;
+
+      widget.socketService.sendMessage(
+        widget.userName,
+        widget.userState,
+        widget.chatRoomId,
+        messageContent,
+      );
+
+      setState(() {
+        final newMessage = {'sender': widget.userName, 'content': messageContent};
+        context.findAncestorStateOfType<_ChattingMessageScreenState>()?._messages.add(newMessage);
+      });
+
+      _controller.clear();
     }
   }
 
@@ -119,7 +208,7 @@ class _BottomInputFieldState extends State<_BottomInputField> {
             const SizedBox(width: 8.0),
             IconButton(
               icon: const Icon(Icons.send, color: Colors.blueAccent),
-              onPressed: _sendMessage, // 메시지 전송
+              onPressed: _sendMessage,
             ),
           ],
         ),

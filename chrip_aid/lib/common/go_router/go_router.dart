@@ -8,7 +8,7 @@ import 'package:chrip_aid/auth/view/orphanage_sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/view/user_sign_up_screen.dart';
 import 'package:chrip_aid/chatting/view/chatting_message_screen.dart';
-import 'package:chrip_aid/chatting/view/chatting_screen.dart';
+import 'package:chrip_aid/chatting/view/chatting_list_screen.dart';
 import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
 import 'package:chrip_aid/common/component/custom_orphanage_user_detail_info.dart';
@@ -355,8 +355,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
           path: '/chatting',
-          name: ChattingScreen.routeName,
-          builder: (context, state) => const ChattingScreen(),
+          name: ChattingListScreen.routeName,
+          builder: (context, state) => const ChattingListScreen(),
           routes: [
             GoRoute(
               path: ':chat_room_id',
@@ -364,7 +364,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                 final chatRoomId = state.pathParameters['chat_room_id']!;
                 final extra = state.extra as Map<String, dynamic>?;
                 final targetId = extra?['targetId'] as String? ?? 'Unknown';
-                return ChattingMessageScreen(chatRoomId: chatRoomId, targetId: targetId);
+                final userId = extra?['userId'] as String? ?? 'Unknown';
+                return ChattingMessageScreen(chatRoomId: chatRoomId, targetId: targetId, userId: userId,);
               },
             ),
           ]
