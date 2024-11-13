@@ -1,3 +1,4 @@
+import 'package:chrip_aid/user/model/service/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,7 @@ class ChatRoomListNotifier extends StateNotifier<List<ChatRoomEntity>?> {
   }
 
   Future<void> fetchChatRooms() async {
+    // TODO : getChatRoomById(userId) 로 변경해야함
     final rooms = await chatService.getAllChatRooms();
     state = rooms.entity;
   }
@@ -36,6 +38,7 @@ class ChattingListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userInfo = ref.watch(userProvider);
     final chatRooms = ref.watch(chatRoomsProvider);
 
     return DetailPageLayout(
