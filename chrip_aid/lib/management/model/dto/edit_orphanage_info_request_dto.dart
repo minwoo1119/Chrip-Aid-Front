@@ -5,7 +5,7 @@ part 'edit_orphanage_info_request_dto.g.dart';
 @JsonSerializable()
 class EditOrphanageInfoRequestDTO {
   @JsonKey(name: "orphanage_id")
-  final String orphanageId;
+  final int orphanageId;
   @JsonKey(name: "orphanage_name")
   final String orphanageName;
   @JsonKey(name: "address")

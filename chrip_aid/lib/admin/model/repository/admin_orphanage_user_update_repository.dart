@@ -1,7 +1,6 @@
 import 'package:chrip_aid/admin/model/dto/orphanage_user_edit_dto.dart';
 import 'package:dio/dio.dart';
 
-
 class AdminOrphanageUserUpdateRepository {
   final Dio dio;
 
@@ -14,7 +13,7 @@ class AdminOrphanageUserUpdateRepository {
   }) async {
     try {
       final response = await dio.patch(
-        '/admin/orphanage-users/$id',
+        '/-users/$id',
         data: updateRequestDto.toJson(),
         options: Options(
           headers: {

@@ -1,3 +1,4 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_dto.dart';
 import 'package:chrip_aid/admin/model/dto/orphanage_user_add_dto.dart';
 import 'package:chrip_aid/admin/model/dto/user_edit_dto.dart';
 import 'package:chrip_aid/common/dio/dio.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+import '../../../member/model/entity/orphanage_member_entity.dart';
 import '../dto/orphanage_user_edit_dto.dart';
 import '../../../orphanage/model/entity/orphanage_detail_entity.dart';
 
@@ -82,4 +84,31 @@ abstract class AdminAccountManagementRepository {
   @DELETE('/admin/orphanage-users/{id}')
   @Headers({'accessToken': 'true'})
   Future<void> deleteOrphanageUser(@Path('id') String id);
+
+  // 보육원 생성
+  @POST('/admin/orphanage')
+  @Headers({'accessToken' : 'true'})
+  Future<void> createOrphanage(@Body() OrphanageDto dto);
+
+  // 보육원 전체 조회
+  @GET('/admin/orphanage')
+  @Headers({'accessToken' : 'true'})
+  Future<List<OrphanageMemberEntity>> getAllOrphanages();
+
+  // 보육원 아이디 조회
+  @GET('/admin/orphanage/{id}')
+  @Headers({'accessToken' : 'true'})
+  Future<OrphanageMemberEntity> getOrphanageById(@Path('id') int id);
+
+  // 보육원 정보 수정
+  @PATCH('/admin/orphanage/{id}')
+  @Headers({'accessToken' : 'true'})
+  Future<void> updateOrphanage(@Path('id') String id, @Body() OrphanageDto dto);
+
+  // 보육원 삭제
+  @DELETE('/admin/orphanage/{id}')
+  @Headers({'accessToken' : 'true'})
+  Future<void> deleteOrphanage(@Path('id') String id);
+
+
 }

@@ -9,7 +9,7 @@ part of 'orphanage_member_entity.dart';
 OrphanageMemberEntity _$OrphanageMemberEntityFromJson(
         Map<String, dynamic> json) =>
     OrphanageMemberEntity(
-      orphanageId: json['orphanage_id'] as String,
+      orphanageId: (json['orphanage_id'] as num).toInt(),
       orphanageName: json['orphanage_name'] as String,
       address: json['address'] as String,
       homepageLink: json['homepage_link'] as String,

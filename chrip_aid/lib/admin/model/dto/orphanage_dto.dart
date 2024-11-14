@@ -1,10 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'orphanage_member_entity.g.dart';
+part 'orphanage_dto.g.dart';
 
 @JsonSerializable()
-class OrphanageMemberEntity {
-  @override
+class OrphanageDto {
   @JsonKey(name: 'orphanage_id')
   final int orphanageId;
 
@@ -12,7 +11,7 @@ class OrphanageMemberEntity {
   final String orphanageName;
 
   @JsonKey(name: 'address')
-  final String address;
+  final String adress;
 
   @JsonKey(name: 'homepage_link')
   final String homepageLink;
@@ -26,19 +25,19 @@ class OrphanageMemberEntity {
   @JsonKey(name: 'photo')
   final String photo;
 
-  OrphanageMemberEntity({
+
+  OrphanageDto({
     required this.orphanageId,
     required this.orphanageName,
-    required this.address,
+    required this.adress,
     required this.homepageLink,
     required this.phoneNumber,
     required this.description,
     required this.photo,
   });
 
-  @override
-  Map<String, dynamic> toJson() => _$OrphanageMemberEntityToJson(this);
+  factory OrphanageDto.fromJson(Map<String, dynamic> json) =>
+      _$OrphanageDtoFromJson(json);
 
-  factory OrphanageMemberEntity.fromJson(Map<String, dynamic> json) =>
-      _$OrphanageMemberEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$OrphanageDtoToJson(this);
 }

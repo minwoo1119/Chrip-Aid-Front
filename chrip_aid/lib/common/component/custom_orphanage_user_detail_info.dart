@@ -10,7 +10,7 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
   final String orphanageUserId;
   final String name;
   final String email;
-  final String orphanageId;
+  final Map<String, int> orphanageId;
 
   const CustomOrphanageUserDetailInfo({
     super.key,
@@ -22,7 +22,8 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider)..getUserList();
+    final viewModel = ref.read(adminAccountManagementViewModelProvider)
+      ..getUserList();
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -80,7 +81,9 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
                                 Text('${name}'),
                               ],
                             ),
@@ -93,7 +96,9 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
                                 Text('${email}'),
                               ],
                             ),
@@ -106,7 +111,9 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0,),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
                                 Text('${orphanageUserId}'),
                               ],
                             ),
@@ -116,7 +123,9 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
                 Row(
                   children: [
                     Text(
@@ -126,12 +135,15 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                         fontSize: 20.0,
                       ),
                     ),
-                    SizedBox(width: 10.0,),
+                    SizedBox(
+                      width: 10.0,
+                    ),
                     Text('${orphanageId}'),
                   ],
                 ),
-
-                SizedBox(height: 20.0,),
+                SizedBox(
+                  height: 20.0,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,7 +159,9 @@ class CustomOrphanageUserDetailInfo extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 20.0,),
+                    SizedBox(
+                      width: 20.0,
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         print('ElevatedButton pressed');

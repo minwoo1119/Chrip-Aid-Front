@@ -1,7 +1,10 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_dto.dart';
 import 'package:chrip_aid/admin/model/dto/orphanage_user_add_dto.dart';
 import 'package:chrip_aid/admin/model/dto/orphanage_user_edit_dto.dart';
-import 'package:chrip_aid/admin/model/state/orphanage_detail_state.dart';
+import 'package:chrip_aid/admin/model/state/admin_detail_state.dart';
+import 'package:chrip_aid/admin/model/state/orphanage_user_detail_state.dart';
 import 'package:chrip_aid/admin/model/state/user_detail_state.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,8 +12,8 @@ import '../../common/value_state/state/value_state.dart';
 import '../../member/model/entity/orphanage_user_entity.dart';
 import '../../member/model/entity/user_detail_entity.dart';
 import '../../orphanage/model/entity/orphanage_detail_entity.dart';
+import '../../orphanage/model/entity/orphanage_entity.dart';
 import '../model/dto/user_edit_dto.dart';
-import '../model/repository/admin_accountmanager_repository.dart';
 import '../model/service/admin_accountmanagement_service.dart';
 
 final adminAccountManagementViewModelProvider =
@@ -27,10 +30,13 @@ class AdminAccountManagementViewmodel {
   ValueStateNotifier<UserDetailEntity> userDetailState = UserDetailState();
   ValueStateNotifier<OrphanageDetailEntity> orphanageUserDetailState =
   UserOrphanageDetailState();
+  ValueStateNotifier<List<OrphanageMemberEntity>> orphanageListState = OrphanageListState();
+  ValueStateNotifier<OrphanageMemberEntity> orphanageDetailState = OrphanageDetailState();
 
   // 캐시된 데이터 리스트
   List<UserDetailEntity>? _cachedUserList;
   List<OrphanageUserEntity>? _cachedOrphanageUserList;
+  List<OrphanageMemberEntity>? _cachedOrphanageList;
 
   AdminAccountManagementViewmodel(this.ref) {
     _adminAccountManagementService =
@@ -202,4 +208,75 @@ class AdminAccountManagementViewmodel {
       print('Exception occurred while loading orphanage user details: $e');
     }
   }
+
+  // 보육원 생성
+  Future<void> createOrphanage(OrphanageDto dto) async{
+    try {
+      await _adminAccountManagementService.createOrphanage(dto);
+      print('Orphanage created successfully');
+    } catch (e) {
+      print('Exception occurred while creating orphanage user: $e');
+      throw Exception('Failed to create orphanage');
+    }
+  }
+
+  // 보육원 전체조회
+  Future<List<OrphanageMemberEntity>> getOrphanageList() async {
+    try {
+      if (_cachedOrphanageList != null) {
+        print('Returning cached orphanage user list');
+        orphanageListState.success(value: _cachedOrphanageList!);
+        return _cachedOrphanageList!;
+      }
+
+      orphanageListState.loading();
+      print('Orphanage user list loading...');
+      final List<OrphanageMemberEntity> orphanageList =
+      await _adminAccountManagementService.getAllOrphanages();
+      orphanageListState.success(value: orphanageList);
+      _cachedOrphanageList = orphanageList;
+
+      return orphanageList;
+    } catch (e) {
+      orphanageListState.error(message: e.toString());
+      print('Exception occurred while loading orphanage user list: $e');
+      rethrow;
+    }
+  }
+
+  // 보육원 아이디 조회
+  Future<void> getOrphanageById(int id) async{
+    try {
+      orphanageDetailState.loading();
+      final orphanageDetail = await _adminAccountManagementService.getOrphanageById(id);
+      orphanageDetailState.success(value: orphanageDetail);
+      print('Orphanage user detail loaded successfully by name: $id');
+    } catch (e) {
+      orphanageDetailState.error(message: e.toString());
+      print('Exception occurred while loading orphanage user by name: $e');
+    }
+  }
+
+  // 보육원 정보 수정
+  Future<void> updateOrphanage(String id, OrphanageDto dto) async{
+    try {
+      await _adminAccountManagementService.updateOrphanage(id, dto);
+      print('Orphanage updated successfully');
+    } catch (e) {
+      print('Exception occurred while updating orphanage user: $e');
+      throw Exception('Failed to update orphanage');
+    }
+  }
+
+  // 보육원 삭제
+  Future<void> deleteOrphanage(String id) async{
+    try {
+      await _adminAccountManagementService.deleteOrphanage(id);
+      print('Orphanage deleted successfully');
+    } catch (e) {
+      print('Exception occurred while deleting orphanage user: $e');
+      throw Exception('Failed to delete orphanage user');
+    }
+  }
+
 }

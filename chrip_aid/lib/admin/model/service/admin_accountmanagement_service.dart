@@ -1,3 +1,4 @@
+import 'package:chrip_aid/admin/model/dto/orphanage_dto.dart';
 import 'package:chrip_aid/admin/model/dto/orphanage_user_edit_dto.dart';
 import 'package:chrip_aid/admin/model/dto/user_edit_dto.dart';
 import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
@@ -136,4 +137,52 @@ class AdminAccountManagementService {
       throw Exception('Failed to delete orphanage user: $e');
     }
   }
+
+  // 보육원 생성
+  Future<void> createOrphanage(OrphanageDto dto) async{
+    try{
+      await repository.createOrphanage(dto);
+    }catch(e){
+      throw Exception('Failed to create orphanage: $e');
+    }
+  }
+
+  // 보육원 전체 조회
+  Future<List<OrphanageMemberEntity>> getAllOrphanages() async{
+    try{
+      return await repository.getAllOrphanages();
+    }catch(e){
+      throw Exception('Failed to load orphanage details: $e');
+    }
+  }
+
+  // 보육원 아이디 조회
+  Future<OrphanageMemberEntity> getOrphanageById(int id) async{
+    try{
+      return await repository.getOrphanageById(id);
+    }catch(e){
+      throw Exception('Failed to load orphanage details : $e');
+    }
+  }
+
+  // 보육원 정보 수정
+  Future<void> updateOrphanage(String id, OrphanageDto dto) async {
+    try{
+      await repository.updateOrphanage(id, dto);
+    }catch(e){
+      throw Exception('Failed to update orphanage: $e');
+    }
+  }
+
+  // 보육원 삭제
+  Future<void> deleteOrphanage(String id) async{
+    try{
+      await repository.deleteOrphanage(id);
+    }catch(e){
+      throw Exception('Failed to delete orphanage: $e');
+    }
+  }
+
+
+
 }

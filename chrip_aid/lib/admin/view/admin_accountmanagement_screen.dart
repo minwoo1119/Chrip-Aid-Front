@@ -2,13 +2,12 @@ import 'package:chrip_aid/common/component/custom_toggle_button.dart';
 import 'package:chrip_aid/common/component/custom_user_list.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
-import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/value_state/state/value_state.dart';
 import '../../member/model/entity/orphanage_user_entity.dart';
 import '../../member/model/entity/user_detail_entity.dart';
 import '../viewmodel/admin_accountmanagement_viewmodel.dart';
@@ -25,6 +24,7 @@ class AdminAccountmanagementScreen extends ConsumerStatefulWidget {
 class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanagementScreen> {
   List<UserDetailEntity>? _cachedUserList;
   List<OrphanageUserEntity>? _cachedOrphanageUserList;
+  List<OrphanageMemberEntity>? _cachedOrphanageList;
 
   @override
   void initState() {
@@ -51,6 +51,13 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
       final orphanageUserListResult = await viewModel.getOrphanageUserList();
       setState(() {
         _cachedOrphanageUserList = orphanageUserListResult;
+      });
+    }
+
+    if (_cachedOrphanageList == null) {
+      final orphanageUserListResult = await viewModel.getOrphanageList();
+      setState(() {
+        _cachedOrphanageList = orphanageUserListResult;
       });
     }
   }
@@ -119,6 +126,7 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
                 } else {
                   // 보육원 사용자 목록 출력
                   final data = _cachedOrphanageUserList;
+                  final orphanageData = _cachedOrphanageList;
                   if (data == null || data.isEmpty) {
                     return const Center(
                       child: CircularProgressIndicator(), // 데이터가 없을 때 로딩 중
@@ -128,14 +136,18 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
                   return SingleChildScrollView(
                     child: Column(
                       children: data.map((orphanageUser) {
+                        final orphanage = orphanageData?.firstWhere(
+                              (o) => o.orphanageId == orphanageUser.orphanageId.orphanageId
+                        );
+                        final orphanageArea = orphanage?.address ?? 'N/A';
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                           child: CustomUserList(
                             name: orphanageUser.name ?? 'N/A',
                             email: orphanageUser.email,
-                            phoneNumber: orphanageUser.orphanageId.toString(),
-                            nickname: orphanageUser.orphanageUserId,
-                            onTap: () => _navigateToDetailPage(context, orphanageUser),
+                            phoneNumber: orphanageArea,
+                            nickname:"",
+                            onTap: () {},
                           ),
                         );
                       }).toList(),

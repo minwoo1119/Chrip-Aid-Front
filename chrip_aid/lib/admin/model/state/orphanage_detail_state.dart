@@ -1,49 +1,46 @@
 import 'package:chrip_aid/common/value_state/state/value_state.dart';
 import 'package:chrip_aid/orphanage/model/entity/orphanage_detail_entity.dart';
-import 'package:chrip_aid/orphanage/model/entity/orphanage_entity.dart';
-
-import '../../../member/model/entity/orphanage_member_entity.dart';
 import '../../../member/model/entity/orphanage_user_entity.dart';
 
-class UserOrphanageDetailState extends ValueStateNotifier<OrphanageDetailEntity> {
-  UserOrphanageDetailState() : super();
+class OrphanageDetailState extends ValueStateNotifier<OrphanageDetailEntity> {
+  OrphanageDetailState() : super();
 
-  factory UserOrphanageDetailState.loading() {
-    final state = UserOrphanageDetailState();
+  factory OrphanageDetailState.loading() {
+    final state = OrphanageDetailState();
     state.loading();
     return state;
   }
 
-  factory UserOrphanageDetailState.success({required OrphanageDetailEntity data}) {
-    final state = UserOrphanageDetailState();
+  factory OrphanageDetailState.success({required OrphanageDetailEntity data}) {
+    final state = OrphanageDetailState();
     state.success(value: data);
     return state;
   }
 
-  factory UserOrphanageDetailState.error({String? message}) {
-    final state = UserOrphanageDetailState();
+  factory OrphanageDetailState.error({String? message}) {
+    final state = OrphanageDetailState();
     state.error(message: message);
     return state;
   }
 }
 
-class UserOrphanageListState extends ValueStateNotifier<List<OrphanageUserEntity>> {
-  UserOrphanageListState() : super();
+class OrphanageListState extends ValueStateNotifier<List<OrphanageUserEntity>> {
+  OrphanageListState() : super();
 
-  factory UserOrphanageListState.loading() {
-    final state = UserOrphanageListState();
+  factory OrphanageListState.loading() {
+    final state = OrphanageListState();
     state.loading();
     return state;
   }
 
-  factory UserOrphanageListState.success({required List<OrphanageUserEntity> data}) {
-    final state = UserOrphanageListState();
+  factory OrphanageListState.success({required List<OrphanageUserEntity> data}) {
+    final state = OrphanageListState();
     state.success(value: data);
     return state;
   }
 
-  factory UserOrphanageListState.error({String? message}) {
-    final state = UserOrphanageListState();
+  factory OrphanageListState.error({String? message}) {
+    final state = OrphanageListState();
     state.error(message: message);
     return state;
   }
