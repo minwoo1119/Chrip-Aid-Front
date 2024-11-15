@@ -88,6 +88,8 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                           child: CustomPostList(
+                            id:post.reservationId,
+                            postType: "reservation",
                             title: "방문 예약글 - ${post.reservationId}",
                             content: post.reason,
                             writtenAt: post.writeDate,
@@ -99,6 +101,8 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                           child: CustomPostList(
+                            id: post.requestId,
+                            postType: "request",
                             title: "물품 요청 - ${post.requestId}",
                             content: post.message,
                             writtenAt: "총 ${post.supportedCount}/${post.count}개", // 작성일 추가 필요 시 수정
@@ -110,6 +114,8 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2.0),
                           child: CustomPostList(
+                            id: post.reviewId,
+                            postType: "review",
                             title: post.title,
                             content: post.content,
                             writtenAt: post.date,
