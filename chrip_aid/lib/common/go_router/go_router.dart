@@ -11,7 +11,6 @@ import 'package:chrip_aid/chatting/view/chatting_message_screen.dart';
 import 'package:chrip_aid/chatting/view/chatting_list_screen.dart';
 import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
-import 'package:chrip_aid/common/component/custom_orphanage_user_detail_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/home/view/admin_home_screen.dart';
 import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';

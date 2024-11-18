@@ -2,10 +2,9 @@ import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
 import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
-import 'package:chrip_aid/member/model/entity/user_member_entity.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:chrip_aid/member/component/designed_container_title_bar.dart';
-import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/viewmodel/user_info_viewmodel.dart';
 import 'package:chrip_aid/orphanage/component/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class UserInfoScreen extends TabScreen {
   @override
   get mainColor => CustomColor.thirdColor;
 
-  const UserInfoScreen({Key? key}) : super(key: key);
+  const UserInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +29,7 @@ class UserInfoScreen extends TabScreen {
           state: viewmodel.memberState,
           successBuilder: (_, state) {
             // TODO : memberInfoState <-> UserEntity
-            final memberInfo = state.value as UserDetailEntity;
+            final memberInfo = state.value as UserEntity;
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -64,7 +63,7 @@ class UserInfoScreen extends TabScreen {
                           child: Column(
                             children: [
                               DesignedContainerTitleBar(
-                                title: "${memberInfo.nickname}님",
+                                title: "${memberInfo.nickName}님",
                                 actions: [
                                   IconButton(
                                     onPressed: () => viewmodel
@@ -97,7 +96,7 @@ class UserInfoScreen extends TabScreen {
                               const SizedBox(height: kPaddingMiniSize),
                               CustomTextField(
                                 iconData: Icons.phone,
-                                text: memberInfo.phoneNumber,
+                                text: memberInfo.phone,
                               ),
                             ],
                           ),
