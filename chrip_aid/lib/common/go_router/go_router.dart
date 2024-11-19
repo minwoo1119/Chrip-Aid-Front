@@ -13,6 +13,7 @@ import 'package:chrip_aid/common/component/custom_detail_post_info.dart';
 import 'package:chrip_aid/common/component/custom_detail_report_info.dart';
 import 'package:chrip_aid/common/utils/log_util.dart';
 import 'package:chrip_aid/home/view/admin_home_screen.dart';
+import 'package:chrip_aid/member/model/entity/user_detail_entity.dart';
 import 'package:chrip_aid/root_tab/view/root_tab_screen.dart';
 import 'package:chrip_aid/common/view/splash_screen.dart';
 import 'package:chrip_aid/management/model/dto/add_orphanage_product_request_dto.dart';
@@ -257,7 +258,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'user/detail',
                 builder: (context, state) {
-                  final userData = state.extra as Map<String, dynamic>;
+                  final userData = state.extra as UserDetailEntity;
 
 
                   // userData가 null일 경우를 처리
@@ -268,14 +269,14 @@ final routerProvider = Provider<GoRouter>((ref) {
                   }
 
                   // 필요한 데이터를 null 안전하게 사용하기
-                  String name = userData['name'] ?? 'N/A';
-                  String email = userData['email'] ?? 'N/A';
-                  String phoneNumber = userData['phone_number'] ?? 'N/A';
-                  String nickname = userData['nickname'] ?? 'N/A';
-                  String age = userData['age']?.toString() ?? 'N/A';
-                  String region = userData['region'] ?? 'N/A';
-                  String sex = userData['sex'] ?? 'N/A';
-                  String id = userData['user_id'] ?? 'N/A';
+                  String name = userData.name ?? 'N/A';
+                  String email = userData.email ?? 'N/A';
+                  String phoneNumber = userData.phoneNumber ?? 'N/A';
+                  String nickname = userData.nickname ?? 'N/A';
+                  String age = userData.age.toString() ?? 'N/A';
+                  String region = userData.region.name ?? 'N/A';
+                  String sex = userData.sex.value ?? 'N/A';
+                  String id = userData.userId ?? 'N/A';
 
                   return CustomDetailInfo(
                     name: name,
@@ -292,7 +293,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'edit',
                     builder: (context, state) {
-                      final userId = state.extra as String;
+                      final user = state.extra as Map<String, dynamic>;
+                      final userId = user['user_id'];
 
                       return UserEditPage(userId: userId);
                     },

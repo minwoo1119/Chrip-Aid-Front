@@ -221,20 +221,22 @@ class CustomDetailInfo extends ConsumerWidget {
 
                     SizedBox(width: 20.0),
                     ElevatedButton(
-                      onPressed: () async {
-                        // Delete 버튼 클릭 시 viewmodel에서 삭제 기능 호출
-                        try {
-                          await viewModel.deleteOrphanageUser(userId);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('사용자가 삭제되었습니다.')),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
-                          );
-                        }
-                      },
-                      child: Row(
+                        onPressed: () async {
+                          try {
+                            await viewModel.deleteUser(userId);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('사용자가 삭제되었습니다.')),
+                            );
+
+                            // 삭제 완료 후 이전 페이지로 true 반환
+                            Navigator.pop(context, true);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
+                            );
+                          }
+                        },
+                        child: Row(
                         children: [
                           Icon(Icons.delete),
                           Text('삭제'),

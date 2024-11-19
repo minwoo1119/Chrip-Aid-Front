@@ -1,70 +1,25 @@
-import 'package:chrip_aid/common/component/custom_toggle_button.dart';
-import 'package:chrip_aid/common/component/custom_user_list.dart';
-import 'package:chrip_aid/common/styles/colors.dart';
-import 'package:chrip_aid/common/styles/sizes.dart';
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
-import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../member/model/entity/orphanage_user_entity.dart';
+import '../../common/component/custom_toggle_button.dart';
+import '../../common/component/custom_user_list.dart';
+import '../../common/styles/colors.dart';
+import '../../common/styles/sizes.dart';
 import '../../member/model/entity/user_detail_entity.dart';
-import '../viewmodel/admin_accountmanagement_viewmodel.dart';
+import '../../orphanage/layout/detail_page_layout.dart';
+import '../model/state/admin_account_management_state.dart';
+import 'admin_postmanagement_screen.dart';
 
-class AdminAccountmanagementScreen extends ConsumerStatefulWidget {
+class AdminAccountmanagementScreen extends ConsumerWidget {
   static String get routeName => "accountmanagement";
-
   const AdminAccountmanagementScreen({Key? key}) : super(key: key);
 
   @override
-  _AdminAccountmanagementScreenState createState() => _AdminAccountmanagementScreenState();
-}
-
-class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanagementScreen> {
-  List<UserDetailEntity>? _cachedUserList;
-  List<OrphanageUserEntity>? _cachedOrphanageUserList;
-  List<OrphanageMemberEntity>? _cachedOrphanageList;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // 페이지 초기 로드 시 User와 Orphanage User 데이터를 로드하여 캐시에 저장합니다.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchInitialData();
-    });
-  }
-
-  void _fetchInitialData() async {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider);
-
-    // 처음 데이터를 로드하여 캐시에 저장
-    if (_cachedUserList == null) {
-      final userListResult = await viewModel.getUserList();
-      setState(() {
-        _cachedUserList = userListResult;
-      });
-    }
-
-    if (_cachedOrphanageUserList == null) {
-      final orphanageUserListResult = await viewModel.getOrphanageUserList();
-      setState(() {
-        _cachedOrphanageUserList = orphanageUserListResult;
-      });
-    }
-
-    if (_cachedOrphanageList == null) {
-      final orphanageUserListResult = await viewModel.getOrphanageList();
-      setState(() {
-        _cachedOrphanageList = orphanageUserListResult;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isUserState = ref.watch(isUserFilterProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(adminAccountManagementProvider);
+    final notifier = ref.read(adminAccountManagementProvider.notifier);
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -75,8 +30,8 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
       leadingColor: CustomColor.textReverseColor,
       actions: [
         IconButton(
-          onPressed: () => {},
-          icon: const Icon(Icons.search, size: kIconSmallSize),
+          onPressed: () => notifier.fetchInitialData(),
+          icon: const Icon(Icons.refresh, size: kIconSmallSize),
           color: CustomColor.textReverseColor,
           splashRadius: kIconSmallSize,
           padding: EdgeInsets.zero,
@@ -84,74 +39,79 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
         ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
-      child: Column(
+      child: state.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           CustomToggleButton(
             options: ['사용자', '보육원'],
             onChanged: (index) {
               ref.read(isUserFilterProvider.notifier).state = index == 0;
-              setState(() {}); // 상태 변경 후 화면 다시 그리기
             },
           ),
-          SizedBox(height: 6.0),
+          const SizedBox(height: 6.0),
           Expanded(
             child: Builder(
               builder: (context) {
+                final isUserState = ref.watch(isUserFilterProvider);
+
                 if (isUserState) {
-                  // 사용자 목록 출력
-                  final data = _cachedUserList;
+                  final data = state.userList;
                   if (data == null || data.isEmpty) {
                     return const Center(
-                      child: CircularProgressIndicator(), // 데이터가 없을 때 로딩 중
+                      child: Text('사용자가 없습니다.'),
                     );
                   }
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: data.map((user) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: CustomUserList(
-                            name: user.name,
-                            email: user.email,
-                            phoneNumber: user.phoneNumber,
-                            nickname: user.nickname,
-                            onTap: () => _navigateToDetailPage(context, user),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final user = data[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomUserList(
+                          name: user.name,
+                          email: user.email,
+                          phoneNumber: user.phoneNumber,
+                          nickname: user.nickname,
+                          onTap: () =>
+                              _navigateToDetailPage(context, user, notifier),
+                        ),
+                      );
+                    },
                   );
                 } else {
-                  // 보육원 사용자 목록 출력
-                  final data = _cachedOrphanageUserList;
-                  final orphanageData = _cachedOrphanageList;
+                  final data = state.orphanageUserList;
+                  final orphanageData = state.orphanageList;
+
                   if (data == null || data.isEmpty) {
                     return const Center(
-                      child: CircularProgressIndicator(), // 데이터가 없을 때 로딩 중
+                      child: Text('보육원 사용자가 없습니다.'),
                     );
                   }
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: data.map((orphanageUser) {
-                        final orphanage = orphanageData?.firstWhere(
-                              (o) => o.orphanageId == orphanageUser.orphanageId.orphanageId
-                        );
-                        final orphanageArea = orphanage?.address ?? 'N/A';
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: CustomUserList(
-                            name: orphanageUser.name ?? 'N/A',
-                            email: orphanageUser.email,
-                            phoneNumber: orphanageArea,
-                            nickname:"",
-                            onTap: () {},
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final orphanageUser = data[index];
+                      final orphanage = orphanageData?.firstWhere(
+                            (o) =>
+                        o.orphanageId == orphanageUser.orphanageId.orphanageId,
+                        orElse:null,
+                      );
+                      final orphanageArea = orphanage?.address ?? 'N/A';
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomUserList(
+                          name: orphanageUser.name ?? 'N/A',
+                          email: orphanageUser.email,
+                          phoneNumber: orphanageArea,
+                          nickname: "",
+                          onTap: () {},
+                        ),
+                      );
+                    },
                   );
                 }
               },
@@ -162,20 +122,18 @@ class _AdminAccountmanagementScreenState extends ConsumerState<AdminAccountmanag
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, Object userData) {
-    if (userData is UserDetailEntity) {
-      context.push(
-        '/admin/accountmanagement/user/detail',
-        extra: userData.toJson(),
-      );
-    } else if (userData is OrphanageUserEntity) {
-      context.push(
-        '/admin/accountmanagement/orphanageuser/detail',
-        extra: userData.toJson(),
-      );
+  void _navigateToDetailPage(
+      BuildContext context, Object userData, AdminAccountManagementNotifier notifier) async {
+    final bool? isDeleted = await context.push<bool>(
+      userData is UserDetailEntity
+          ? '/admin/accountmanagement/user/detail'
+          : '/admin/accountmanagement/orphanageuser/detail',
+      extra: userData,
+    );
+
+    print("isDeleted 값: $isDeleted");
+    if (isDeleted == true) {
+      notifier.fetchInitialData(); // 삭제 후 데이터 갱신
     }
   }
-
 }
-
-final isUserFilterProvider = StateProvider<bool>((ref) => true);
