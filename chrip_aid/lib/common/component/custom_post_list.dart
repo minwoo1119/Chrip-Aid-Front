@@ -12,7 +12,7 @@ class CustomPostList extends StatefulWidget {
   final VoidCallback? onTap;
 
   const CustomPostList({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.writtenAt,
@@ -20,7 +20,7 @@ class CustomPostList extends StatefulWidget {
     required this.id,
     required this.postType,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomPostList> createState() => _CustomPostListState();

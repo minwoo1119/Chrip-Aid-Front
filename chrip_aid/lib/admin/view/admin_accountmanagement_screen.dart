@@ -1,3 +1,5 @@
+import 'package:chrip_aid/common/component/custom_post_list.dart';
+import 'package:chrip_aid/common/component/postlist/custom_account_list_with_delete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,12 +105,12 @@ class AdminAccountmanagementScreen extends ConsumerWidget {
                       final orphanageArea = orphanage?.address ?? 'N/A';
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: CustomUserList(
-                          name: orphanageUser.name ?? 'N/A',
-                          email: orphanageUser.email,
-                          phoneNumber: orphanageArea,
+                        child: CustomAccountListWithDelete(
+                          title: orphanageUser.name,
+                          content: orphanageUser.email,
+                          writtenAt: orphanageArea,
                           nickname: "",
-                          onTap: () {},
+                          id: orphanageUser.orphanageUserId,
                         ),
                       );
                     },
