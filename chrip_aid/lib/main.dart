@@ -1,3 +1,53 @@
+/*
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'notice/view/notice_screen.dart';
+import 'test/view/confirmation_page.dart';
+
+void main() {
+  runApp(
+    ProviderScope(child: MyApp()),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Test App',
+      home: TestHomePage(),
+      routes: {
+        '/confirmation': (context) => ConfirmationPage(),
+      },
+    );
+  }
+}
+
+class TestHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Test Home Page'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return NoticeScreen();
+              },
+            );
+          },
+          child: Text('Notice 팝업 열기'),
+        ),
+      ),
+    );
+  }
+}
+*/
+
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/firebase/fcm.dart';
 import 'package:chrip_aid/common/go_router/go_router.dart';
@@ -40,3 +90,4 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+

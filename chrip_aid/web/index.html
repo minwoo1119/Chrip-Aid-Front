@@ -20,26 +20,30 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-messaging.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-messaging.js"></script>
   <script async
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVaFdiJivetDJxOSKQutq3uFVqGYSVmcM&callback=initMap"
           defer></script>
-  <script>
+
+  <script type="module">
     // Firebase configuration
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
+    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-messaging.js';
+
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-  apiKey: "AIzaSyA27yMPyCuJID-gW_LdTwDIscopBIpGVAw",
-  authDomain: "chirp-aid-8c7f6.firebaseapp.com",
-  projectId: "chirp-aid-8c7f6",
-  storageBucket: "chirp-aid-8c7f6.appspot.com",
-  messagingSenderId: "439232034927",
-  appId: "1:439232034927:web:dfaad167314710fcddf59a",
-  measurementId: "G-HBGKQXBT7Z"
+      apiKey: "AIzaSyA27yMPyCuJID-gW_LdTwDIscopBIpGVAw",
+      authDomain: "chirp-aid-8c7f6.firebaseapp.com",
+      projectId: "chirp-aid-8c7f6",
+      storageBucket: "chirp-aid-8c7f6.appspot.com",
+      messagingSenderId: "439232034927",
+      appId: "1:439232034927:web:dfaad167314710fcddf59a",
+      measurementId: "G-HBGKQXBT7Z"
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
 
     // Register the service worker for FCM
     if ('serviceWorker' in navigator) {
@@ -47,14 +51,14 @@
         .then(function(registration) {
           console.log('Service Worker registered with scope:', registration.scope);
 
-          const messaging = firebase.messaging();
+          // Set the service worker to the messaging instance
           messaging.useServiceWorker(registration);
 
           // Request permission and get the token
           messaging.requestPermission()
             .then(function() {
               console.log('Notification permission granted.');
-              return messaging.getToken();
+              return getToken(messaging);
             })
             .then(function(token) {
               console.log('FCM Token:', token);
