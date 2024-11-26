@@ -3,7 +3,7 @@ import 'package:chrip_aid/auth/util/validators.dart';
 import 'package:chrip_aid/auth/viewmodel/login_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
 import 'package:chrip_aid/common/component/custom_text_button.dart';
-import 'package:chrip_aid/common/component/custom_text_form_field.dart';
+import 'package:chrip_aid/common/component/custom_text_form_field_2.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/common/value_state/component/value_state_listener.dart';
@@ -19,7 +19,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(loginViewModelProvider)..getInfo();
     return DefaultLayout(
-      backgroundColor: CustomColor.mainColor,
+      backgroundColor: Colors.white,
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
@@ -35,8 +35,7 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: kPaddingXLargeSize),
-              CustomTextFormField(
-                labelText: "이메일",
+              CustomTextFormField_2(
                 hintText: "Email",
                 prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
@@ -44,8 +43,7 @@ class LoginScreen extends ConsumerWidget {
                 textController: viewModel.idTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "비밀번호",
+              CustomTextFormField_2(
                 hintText: "Password",
                 prefixIcon: Icons.lock,
                 keyboardType: TextInputType.visiblePassword,
