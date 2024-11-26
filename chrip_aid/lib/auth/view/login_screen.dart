@@ -28,13 +28,46 @@ class LoginScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: kPaddingXLargeSize),
-              Center(
-                child: Image.asset(
-                  'assets/image/logo.png',
-                  height: MediaQuery.of(context).size.height / 3,
-                ),
+              Column(
+                children: [
+                  // Circular Background with Logo
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      color: CustomColor.mainColor, // 초록색 원 배경
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/image/logo.png',
+                        width: 170,
+                        height: 170,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10), // 원과 텍스트 간격
+                  // App Name
+                  Text(
+                    "Chrip Aid",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: CustomColor.mainColor,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  // App Description
+                  Text(
+                    "Orphanage Direct Donation Platform",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: kPaddingXLargeSize),
+              const SizedBox(height: 20),
               CustomTextFormField_2(
                 hintText: "Email",
                 prefixIcon: Icons.email,
@@ -70,16 +103,17 @@ class LoginScreen extends ConsumerWidget {
                               onChanged: (_) => viewModel.toggleAuthorityType(),
                               activeColor: CustomColor.mainColor,
                               side: const BorderSide(
-                                color: CustomColor.textReverseColor,
+                                color: CustomColor.mainColor,
                                 width: 1.5,
                               ),
                             ),
                           ),
                           const SizedBox(width: kPaddingSmallSize),
                           Text(
-                            "보육원장 이신가요?",
+                            "Are you orphanage director?",
                             style: kTextReverseStyleSmall.copyWith(
                               height: kIconMiniSize / kTextSmallSize,
+                              color: CustomColor.mainColor,
                             ),
                           ),
                           const SizedBox(width: kPaddingMiniSize),
@@ -94,7 +128,7 @@ class LoginScreen extends ConsumerWidget {
                 state: viewModel.authState,
                 defaultBuilder: (_, __) => CustomOutlinedButton(
                   onPressed: () => viewModel.login(context),
-                  text: '로그인',
+                  text: 'Login',
                 ),
                 loadingBuilder: (_, __) => const CircularProgressIndicator(
                   color: CustomColor.backGroundSubColor,
@@ -107,14 +141,14 @@ class LoginScreen extends ConsumerWidget {
                   const Expanded(
                     child: CustomTextButton(
                       onPressed: null,
-                      text: 'ID / PW 찾기',
+                      text: 'Find ID / PW',
                     ),
                   ),
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
                     child: CustomTextButton(
                       onPressed: () => viewModel.navigateToSignupPage(context),
-                      text: '회원이 아니신가요?',
+                      text: 'Need an account?',
                     ),
                   ),
                 ],

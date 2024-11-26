@@ -40,7 +40,7 @@ class CustomOutlinedButton extends StatelessWidget {
         fixedSize: fixedSize,
         side: BorderSide(
           color: hasSide ? Colors.white : CustomColor.buttonMainColor,
-          width: kBorderWidth,
+          width: 0,
         ),
         elevation: elevation,
       ),

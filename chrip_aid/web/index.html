@@ -22,9 +22,26 @@
   <!-- Firebase SDK -->
   <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-messaging.js"></script>
+
+  <!-- Google Maps API: English-only configuration -->
   <script async
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVaFdiJivetDJxOSKQutq3uFVqGYSVmcM&callback=initMap"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVaFdiJivetDJxOSKQutq3uFVqGYSVmcM&language=en&region=US&callback=initMap"
           defer></script>
+  <script>
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 35.9078, lng: 127.7669 },
+        zoom: 7,
+        styles: [
+          {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }], // 모든 라벨 숨김
+          },
+        ],
+      });
+    }
+  </script>
 
   <script type="module">
     // Firebase configuration
@@ -51,9 +68,6 @@
         .then(function(registration) {
           console.log('Service Worker registered with scope:', registration.scope);
 
-          // Set the service worker to the messaging instance
-          messaging.useServiceWorker(registration);
-
           // Request permission and get the token
           messaging.requestPermission()
             .then(function() {
@@ -73,7 +87,7 @@
     }
   </script>
 
-  <!-- This script adds the flutter initialization JS code -->
+  <!-- Flutter initialization script -->
   <script src="flutter.js" defer></script>
 </head>
 <body>

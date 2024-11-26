@@ -26,11 +26,7 @@ class CustomTextButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: onPressed == null
-            ? kTextReverseStyleSmall.copyWith(
-                color: CustomColor.textReverseColor.withOpacity(0.5),
-              )
-            : kTextReverseStyleSmall,
+        style: kTextMainStyleSmall,
       ),
     );
   }

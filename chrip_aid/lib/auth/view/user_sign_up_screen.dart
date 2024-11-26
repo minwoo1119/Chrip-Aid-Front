@@ -1,9 +1,9 @@
 import 'package:chrip_aid/auth/util/validators.dart';
 import 'package:chrip_aid/auth/view/sign_up_screen.dart';
 import 'package:chrip_aid/auth/viewmodel/user_sign_up_viewmodel.dart';
-import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
+import 'package:chrip_aid/common/component/custom_dropdown_button_2.dart';
 import 'package:chrip_aid/common/component/custom_outlined_button.dart';
-import 'package:chrip_aid/common/component/custom_text_form_field.dart';
+import 'package:chrip_aid/common/component/custom_text_form_field_2.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/common/styles/sizes.dart';
@@ -19,13 +19,18 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(userSignUpViewModelProvider);
     return DefaultLayout(
-      backgroundColor: CustomColor.mainColor,
-      title: "Chirp Aid",
+      backgroundColor: Colors.white,
+      title: "Sign Up",
+      titleStyle: const TextStyle(
+        color: CustomColor.mainColor, // mainColor로 설정
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       leading: IconButton(
         onPressed: context.pop,
         icon: const Icon(
           Icons.navigate_before,
-          color: CustomColor.backgroundMainColor,
+          color: CustomColor.mainColor,
           size: kIconLargeSize,
         ),
       ),
@@ -37,8 +42,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "이메일",
+              CustomTextFormField_2(
                 hintText: "Email",
                 prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
@@ -46,8 +50,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.idTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "비밀번호",
+              CustomTextFormField_2(
                 hintText: "Password",
                 prefixIcon: Icons.lock,
                 keyboardType: TextInputType.visiblePassword,
@@ -55,8 +58,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.passwordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "비밀번호 확인",
+              CustomTextFormField_2(
                 hintText: "Check Password",
                 prefixIcon: Icons.password,
                 keyboardType: TextInputType.visiblePassword,
@@ -64,8 +66,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.checkPasswordTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "이름",
+              CustomTextFormField_2(
                 hintText: "Name",
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.name,
@@ -73,8 +74,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 textController: viewModel.nameTextController,
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "닉네임",
+              CustomTextFormField_2(
                 hintText: "Nickname",
                 prefixIcon: Icons.person,
                 keyboardType: TextInputType.text,
@@ -86,8 +86,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: CustomTextFormField(
-                      labelText: "나이",
+                    child: CustomTextFormField_2(
                       hintText: "Age",
                       prefixIcon: Icons.calendar_today,
                       keyboardType: TextInputType.number,
@@ -97,7 +96,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
                   ),
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
-                    child: CustomDropdownButton(
+                    child: CustomDropdownButton_2(
                       viewModel.sexDropdownController,
                       leading: Icons.wc,
                       action: Icons.arrow_drop_down,
@@ -109,27 +108,24 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
               Row(
                 children: [
                   Expanded(
-                    child: CustomDropdownButton(
+                    child: CustomDropdownButton_2(
                       viewModel.majorRegionDropdownController,
                       leading: Icons.location_on,
                       action: Icons.arrow_drop_down,
-                      boarderColor: CustomColor.backgroundMainColor,
                     ),
                   ),
                   const SizedBox(width: kPaddingMiddleSize),
                   Expanded(
-                    child: CustomDropdownButton(
+                    child: CustomDropdownButton_2(
                       viewModel.subRegionDropdownController,
                       leading: Icons.location_on_outlined,
                       action: Icons.arrow_drop_down,
-                      boarderColor: CustomColor.backgroundMainColor,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: kPaddingMiddleSize),
-              CustomTextFormField(
-                labelText: "전화번호",
+              CustomTextFormField_2(
                 hintText: "Phone Number",
                 prefixIcon: Icons.phone,
                 keyboardType: TextInputType.phone,

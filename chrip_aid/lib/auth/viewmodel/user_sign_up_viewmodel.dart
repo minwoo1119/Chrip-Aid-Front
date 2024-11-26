@@ -4,7 +4,7 @@ import 'package:chrip_aid/auth/model/state/sign_up_state.dart';
 import 'package:chrip_aid/auth/model/type/region.dart';
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
-import 'package:chrip_aid/common/component/custom_dropdown_button.dart';
+import 'package:chrip_aid/common/component/custom_dropdown_button_2.dart';
 import 'package:chrip_aid/common/utils/snack_bar_util.dart';
 import 'package:chrip_aid/common/value_state/util/value_state_util.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,10 @@ class UserSignUpViewModel {
   final ageTextController = TextEditingController(text: '');
   final phoneTextController = TextEditingController(text: '');
 
-  late final CustomDropdownButtonController<Sex> sexDropdownController;
-  late final CustomDropdownButtonController<MajorRegion>
+  late final CustomDropdownButtonController_2<Sex> sexDropdownController;
+  late final CustomDropdownButtonController_2<MajorRegion>
       majorRegionDropdownController;
-  late final CustomDropdownButtonController<SubRegion>
+  late final CustomDropdownButtonController_2<SubRegion>
       subRegionDropdownController;
 
   final SignUpState state = SignUpState();
@@ -37,17 +37,17 @@ class UserSignUpViewModel {
   UserSignUpViewModel(this.ref) {
     _service = ref.read(authServiceProvider);
 
-    sexDropdownController = CustomDropdownButtonController(
+    sexDropdownController = CustomDropdownButtonController_2(
       Sex.values,
     );
-    majorRegionDropdownController = CustomDropdownButtonController(
+    majorRegionDropdownController = CustomDropdownButtonController_2(
       MajorRegion.values,
       onChanged: (_) {
         subRegionDropdownController.items =
             majorRegionDropdownController.selected.subTypes;
       },
     );
-    subRegionDropdownController = CustomDropdownButtonController(
+    subRegionDropdownController = CustomDropdownButtonController_2(
       majorRegionDropdownController.selected.subTypes,
     );
   }
