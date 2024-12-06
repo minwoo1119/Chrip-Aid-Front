@@ -8,7 +8,6 @@ import '../../orphanage/layout/detail_page_layout.dart';
 import '../model/entity/chat_room_entity.dart';
 import '../model/service/chatting_list_service.dart';
 
-// 채팅방 리스트를 관리하는 StateNotifier
 class ChatRoomListNotifier extends StateNotifier<List<ChatRoomEntity>?> {
   final ChattingListService chatService;
 
@@ -17,13 +16,16 @@ class ChatRoomListNotifier extends StateNotifier<List<ChatRoomEntity>?> {
   }
 
   Future<void> fetchChatRooms() async {
-    // TODO : getChatRoomById(userId) 로 변경해야함
     final rooms = await chatService.getAllChatRooms();
-    state = rooms.entity;
+    if (rooms.entity != null && rooms.entity!.isNotEmpty) {
+      final filteredRooms = await chatService.getChatRoomByUserId();
+      state = filteredRooms.entity;
+    } else {
+      state = []; // 채팅방이 없을 경우 빈 리스트 설정
+    }
   }
 }
 
-// 채팅방 리스트 Provider 생성
 final chatRoomsProvider = StateNotifierProvider<ChatRoomListNotifier, List<ChatRoomEntity>?>(
       (ref) {
     final chatService = ref.read(chattingListServiceProvider);
@@ -38,7 +40,6 @@ class ChattingListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userInfo = ref.watch(userProvider);
     final chatRooms = ref.watch(chatRoomsProvider);
 
     return DetailPageLayout(
