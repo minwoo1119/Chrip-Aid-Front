@@ -1,3 +1,4 @@
+import 'package:chrip_aid/common/component/custom_chats_list.dart';
 import 'package:chrip_aid/user/model/service/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,10 +76,9 @@ class ChattingListScreen extends ConsumerWidget {
                     itemCount: chatRooms.length,
                     itemBuilder: (context, index) {
                       final room = chatRooms[index];
-                      return ListTile(
-                        title: Text(room.user.name),
-                        subtitle: Text("마지막 채팅 미리보기"),
-                        onTap: () => _navigateToChatRoom(context, room),
+                      return CustomChatsList(
+                          chat_room_id: room.chatRoomId,
+                          name: room.orphanageUser.name
                       );
                     },
                   );
