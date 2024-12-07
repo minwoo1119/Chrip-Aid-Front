@@ -37,28 +37,39 @@ class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
     chatRoomId = widget.chatRoomId;
     targetId = widget.targetId;
     _socketService = ref.read(socketServiceProvider);
+
+    print("Initializing ChattingMessageScreen");
+    print("ChatRoomId: $chatRoomId, TargetId: $targetId");
+
     _initializeUserDetails();
     _initializeSocketListeners(_socketService);
     _socketService.joinRoom(chatRoomId);
+    print("Joined room: $chatRoomId");
   }
 
-
   Future<void> _initializeUserDetails() async {
+    print("Fetching user details...");
     final viewModel = ref.read(chattingViewModelProvider);
-    final userInfo = await viewModel.fetchUserInfo();
-    final authority = await viewModel.getUserAuthority();
+    try {
+      final userInfo = await viewModel.fetchUserInfo();
+      final authority = await viewModel.getUserAuthority();
 
-    print("Fetched userName: ${userInfo.name}");
-    print("Fetched userState: $authority");
+      print("Fetched userName: ${userInfo.name}");
+      print("Fetched userState: $authority");
 
-    setState(() {
-      userName = userInfo.name;
-      userState = authority;
-    });
+      setState(() {
+        userName = userInfo.name;
+        userState = authority;
+      });
+    } catch (e) {
+      print("Error fetching user details: $e");
+    }
   }
 
   void _initializeSocketListeners(SocketService socketService) {
+    print("Initializing socket listeners...");
     socketService.getRoomMessages(chatRoomId, (data) {
+      print("Room messages received: $data");
       setState(() {
         _messages.clear();
         _messages.addAll(data as Iterable<Map<String, dynamic>>);
@@ -66,6 +77,7 @@ class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
     });
 
     socketService.onNewMessage((message) {
+      print("New message received: $message");
       setState(() {
         _messages.add(message);
       });
@@ -74,6 +86,7 @@ class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
 
   @override
   void dispose() {
+    print("Leaving room: $chatRoomId");
     _socketService.leaveRoom(chatRoomId);
     super.dispose();
   }
@@ -107,6 +120,7 @@ class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
               itemBuilder: (context, index) {
                 final message = _messages[index];
                 bool isSentByMe = message['sender'] == targetId;
+                print("Rendering message: ${message['content']}, Sent by me: $isSentByMe");
                 return _buildChatBubble(isSentByMe, message['content']);
               },
             ),
@@ -166,6 +180,7 @@ class _BottomInputFieldState extends State<_BottomInputField> {
   void _sendMessage() {
     if (_controller.text.trim().isNotEmpty) {
       final messageContent = _controller.text;
+      print("Sending message: $messageContent");
 
       widget.socketService.sendMessage(
         widget.userName,
@@ -174,12 +189,17 @@ class _BottomInputFieldState extends State<_BottomInputField> {
         messageContent,
       );
 
+      print("Message sent to socket. User: ${widget.userName}, Room: ${widget.chatRoomId}");
+
       setState(() {
         final newMessage = {'sender': widget.userName, 'content': messageContent};
         context.findAncestorStateOfType<_ChattingMessageScreenState>()?._messages.add(newMessage);
+        print("Message added locally: $newMessage");
       });
 
       _controller.clear();
+    } else {
+      print("Message content is empty, nothing to send.");
     }
   }
 
@@ -194,7 +214,7 @@ class _BottomInputFieldState extends State<_BottomInputField> {
               child: TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  hintText: '메시지를 입력하세요...',
+                  hintText: 'Enter your message...',
                   contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
