@@ -40,9 +40,7 @@ import 'package:chrip_aid/reservation/view/user_reservation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../admin/view/admin_screen.dart';
-import '../../admin/view/user_edit_page.dart';
 import '../component/custom_detail_info.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -296,7 +294,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       final user = state.extra as Map<String, dynamic>;
                       final userId = user['user_id'];
 
-                      return UserEditPage(userId: userId);
+                      return EditUserInfoScreen();
                     },
                   ),
                 ],
