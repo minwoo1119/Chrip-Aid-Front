@@ -125,11 +125,10 @@ class AdminAccountmanagementScreen extends ConsumerWidget {
   }
 
   void _navigateToDetailPage(
-      BuildContext context, Object userData, AdminAccountManagementNotifier notifier) async {
+      BuildContext context, UserDetailEntity userData, AdminAccountManagementNotifier notifier) async {
+    print("Navigating to detail page with userData: $userData");
     final bool? isDeleted = await context.push<bool>(
-      userData is UserDetailEntity
-          ? '/admin/accountmanagement/user/detail'
-          : '/admin/accountmanagement/orphanageuser/detail',
+      '/admin/accountmanagement/user/detail',
       extra: userData,
     );
 
