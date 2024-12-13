@@ -13,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../member/model/entity/orphanage_user_entity.dart';
 import '../../../user/model/repository/user_repository.dart';
 
 final authServiceProvider = Provider((ref) {
@@ -31,55 +32,40 @@ class AuthService {
 
   AuthService(this.authRepository, this.userRepository, this.fcmRepository, this.storage);
 
-  Future<ResponseEntity> login(
-      {required String id, required String password, required BuildContext context}) async {
+  Future<ResponseEntity> login({
+    required String id,
+    required String password,
+    required BuildContext context,
+  }) async {
     try {
       print("로그인 요청 시작");
+
       // 1. Login 요청 보내기
-      await authRepository.login(
-        LoginRequestDto(email: id, password: password),
-      );
+      await authRepository.login(LoginRequestDto(email: id, password: password));
       print("로그인 요청 성공");
 
-      // 2. 권한 저장하기
-      await saveAuthority();
-      print("권한 저장 성공");
+      // 2. 권한 확인 후 사용자 상세 정보 요청
+      final userDetail = await getUserDetailInfo();
 
-      // 3. FCM 토큰 저장
-      final response = await saveFcmToken();
-      print("FCM 토큰 저장 요청 성공");
+      // 3. 사용자 권한 설정 및 저장
+      await handleAuthority(userDetail);
 
-      // 4. 권한 확인 후 사용자 상세 정보 요청
-      final authority = await storage.read(key: 'authority');
-      if (authority != 'orphanages') {
-        final userDetail = await getUserDetailInfo();
-        print("사용자 상세 정보 요청 성공: ${userDetail.toString()}");
-
-        // 5. 사용자 역할에 따라 페이지 이동
-        if (userDetail.role == "admin") {
-          print("관리자 페이지로 이동");
-          navigateToAdminPage(context);
-        } else {
-          print("일반 사용자 페이지로 이동");
-        }
-        return ResponseEntity.success(entity: userDetail);
-      } else {
-        print("사용자가 orphanages 권한을 가짐 - 상세 정보 요청 없이 페이지 이동");
-        return ResponseEntity.success();
+      // 4. 권한에 따라 페이지 이동
+      final authority = AuthorityState().value;
+      if (authority == AuthorityType.admin) {
+        print("관리자 페이지로 이동");
+      } else if (authority == AuthorityType.user) {
+        print("일반 사용자 페이지로 이동");
+        // 사용자 페이지로 이동 로직 추가 가능
+      } else if (authority == AuthorityType.orphanage) {
+        print("보육원 페이지로 이동");
+        // 보육원 사용자 페이지로 이동 로직 추가 가능
       }
+
+      return ResponseEntity.success(entity: userDetail);
     } on DioException catch (e) {
       // HTTP 에러 처리
-      print("DioException 발생: ${e.response?.statusCode}, ${e.message}");
-      if (e.response?.statusCode == 404) {
-        return ResponseEntity.error(message: "존재하지 않는 사용자 입니다.");
-      }
-      if (e.response?.statusCode == 422) {
-        return ResponseEntity.error(message: "비밀번호가 틀렸습니다.");
-      }
-      if (e.response?.statusCode == 200) {
-        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
-      }
-      return ResponseEntity.error(message: e.message ?? "서버와 연결할 수 없습니다.");
+      return _handleDioException(e);
     } catch (e) {
       // 일반 예외 처리
       print("알 수 없는 에러 발생: $e");
@@ -87,28 +73,67 @@ class AuthService {
     }
   }
 
-  // 사용자 상세 정보 요청 메서드 추가
+  // 사용자 상세 정보 요청 메서드
   Future<UserDto> getUserDetailInfo() async {
     try {
       print("사용자 상세 정보 요청 시작");
 
-      // 1. 로컬 저장소에서 Access Token 가져오기
       final accessToken = await storage.read(key: dotenv.get("ACCESS_TOKEN_KEY"));
       if (accessToken == null) {
         throw Exception("액세스 토큰이 없습니다.");
       }
 
-      // 2. 사용자 정보를 요청하는 API 호출
       final userDetail = await userRepository.getUserInfo("Bearer $accessToken");
       print("사용자 상세 정보 요청 성공");
-      print("role : ${userDetail.role}");
       return userDetail;
     } catch (e) {
       print("사용자 상세 정보 요청 중 에러 발생: $e");
-      rethrow; // 에러를 상위로 전달하여 핸들링 가능하도록 설정
+      rethrow;
     }
   }
 
+  // 권한 설정 및 저장
+  Future<void> setAuthority(dynamic data) async {
+    if (data is UserDto) {
+      if (data.role == 'user') {
+        AuthorityState().success(value: AuthorityType.user);
+      } else if (data.role == 'admin') {
+        AuthorityState().success(value: AuthorityType.admin);
+      }
+    } else if (data is OrphanageUserEntity) {
+      AuthorityState().success(value: AuthorityType.orphanage);
+    } else {
+      throw Exception("알 수 없는 Authority 타입입니다.");
+    }
+
+    // Authority 저장
+    await saveAuthority();
+    print("Authority 설정 및 저장 완료: ${AuthorityState().value}");
+  }
+
+  // Authority 핸들링 메서드
+  Future<void> handleAuthority(dynamic data) async {
+    try {
+      await setAuthority(data);
+    } catch (e) {
+      print("Authority 설정 중 에러 발생: $e");
+    }
+  }
+
+  // 에러 핸들링 분리
+  ResponseEntity _handleDioException(DioException e) {
+    print("DioException 발생: ${e.response?.statusCode}, ${e.message}");
+    if (e.response?.statusCode == 404) {
+      return ResponseEntity.error(message: "존재하지 않는 사용자입니다.");
+    }
+    if (e.response?.statusCode == 422) {
+      return ResponseEntity.error(message: "비밀번호가 틀렸습니다.");
+    }
+    if (e.response?.statusCode == 200) {
+      return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+    }
+    return ResponseEntity.error(message: e.message ?? "서버와 연결할 수 없습니다.");
+  }
 
   Future<ResponseEntity> logout() async {
     try {
@@ -181,10 +206,5 @@ class AuthService {
       print("알 수 없는 에러 발생: $e");
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
-  }
-
-
-  void navigateToAdminPage(BuildContext context) {
-    context.pushNamed(AdminScreen.routeName);
   }
 }
