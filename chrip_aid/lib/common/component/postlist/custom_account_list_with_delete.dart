@@ -1,29 +1,27 @@
-import 'package:chrip_aid/admin/viewmodel/admin_accountmanagement_viewmodel.dart';
-import 'package:chrip_aid/admin/viewmodel/admin_postmanagement_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomAccountListWithDelete extends ConsumerWidget {
+class CustomAccountListWithDelete extends StatelessWidget {
   final String title;
   final String content;
   final String writtenAt;
   final String nickname;
   final String id;
   final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
   const CustomAccountListWithDelete({
-    super.key,
+    Key? key,
     required this.title,
     required this.content,
     required this.writtenAt,
     required this.nickname,
     required this.id,
     this.onTap,
-  });
+    this.onDelete,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(adminAccountManagementViewModelProvider);
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -77,37 +75,22 @@ class CustomAccountListWithDelete extends ConsumerWidget {
                 ),
               ],
             ),
-            Text(
-              nickname,
-              style: const TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-              ),
-            ),
             Column(
               children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      await viewModel.deleteOrphanageUser(id);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('사용자가 삭제되었습니다.')),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
-                      );
-                    }
-                  },
-                  child: Row(
-                    children: const [
-                      Icon(Icons.delete),
-                      Text("삭제"),
-                    ],
+                Text(
+                  nickname,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.grey,
                   ),
                 ),
+                const SizedBox(height: 8.0),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: onDelete,
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
