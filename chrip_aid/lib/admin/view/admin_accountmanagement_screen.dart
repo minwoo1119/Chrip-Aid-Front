@@ -13,6 +13,7 @@ import '../../member/model/entity/user_detail_entity.dart';
 import '../../orphanage/layout/detail_page_layout.dart';
 import '../model/state/admin_account_management_state.dart';
 import 'admin_postmanagement_screen.dart';
+import 'admin_reportmanagement_screen.dart';
 
 class AdminAccountmanagementScreen extends ConsumerWidget {
   static String get routeName => "accountmanagement";
