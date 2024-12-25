@@ -203,14 +203,7 @@ class CustomDetailInfo extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // 수정 페이지로 이동
-                        print("userId : ${userId}");
-                        context.go(
-                          '/admin/accountmanagement/user/detail/edit',
-                          extra: userId,
-                        );
-                      },
+                      onPressed: () => _navigateEditPage(context),
                       child: Row(
                         children: [
                           Icon(Icons.edit),
@@ -221,22 +214,22 @@ class CustomDetailInfo extends ConsumerWidget {
 
                     SizedBox(width: 20.0),
                     ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            await viewModel.deleteUser(userId);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('사용자가 삭제되었습니다.')),
-                            );
+                      onPressed: () async {
+                        try {
+                          await viewModel.deleteUser(userId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('사용자가 삭제되었습니다.')),
+                          );
 
-                            // 삭제 완료 후 이전 페이지로 true 반환
-                            Navigator.pop(context, true);
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
-                            );
-                          }
-                        },
-                        child: Row(
+                          // 삭제 완료 후 이전 페이지로 true 반환
+                          Navigator.pop(context, true);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('사용자 삭제 중 오류가 발생했습니다: $e')),
+                          );
+                        }
+                      },
+                      child: Row(
                         children: [
                           Icon(Icons.delete),
                           Text('삭제'),
@@ -250,6 +243,13 @@ class CustomDetailInfo extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateEditPage(BuildContext context) {
+    context.push(
+      '/admin/accountmanagement/user/detail/edit',
+      extra: userId,
     );
   }
 }

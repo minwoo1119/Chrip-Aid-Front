@@ -42,10 +42,10 @@ class ChattingListService {
   }
 
   // 사용자 ID 기반 채팅방 조회
-  Future<ResponseEntity<List<ChatRoomEntity>>> getChatRoomByUserId(String userId) async {
+  Future<ResponseEntity<List<ChatRoomEntity>>> getChatRoomByUserId() async {
     try {
       print('Requesting chat rooms by user ID from repository...');
-      List<ChatRoomDto> chatRoomDtos = await repository.getChatRoomByUserId(userId);
+      List<ChatRoomDto> chatRoomDtos = await repository.getChatRoomByUserId();
       return ResponseEntity.success(entity: chatRoomDtos.map((dto) => dto.toEntity()).toList());
     } catch (e) {
       print('Error while requesting chat rooms by user ID: $e');

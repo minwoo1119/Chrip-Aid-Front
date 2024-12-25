@@ -1,6 +1,7 @@
 import 'package:chrip_aid/admin/view/admin_accountmanagement_screen.dart';
 import 'package:chrip_aid/admin/view/admin_postmanagement_screen.dart';
 import 'package:chrip_aid/admin/view/admin_reportmanagement_screen.dart';
+import 'package:chrip_aid/admin/view/admin_user_edit_screen.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/auth/provider/auth_provider.dart';
 import 'package:chrip_aid/auth/view/login_screen.dart';
@@ -40,9 +41,7 @@ import 'package:chrip_aid/reservation/view/user_reservation_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../admin/view/admin_screen.dart';
-import '../../admin/view/user_edit_page.dart';
 import '../component/custom_detail_info.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -55,8 +54,11 @@ final routerProvider = Provider<GoRouter>((ref) {
     String path,
   ) {
     logging("redirectionByAuth", authorityState.value.toString());
-    if (authorityState.value == AuthorityType.user) return '$path/user';
-    else if(authorityState.value == AuthorityType.admin) return '$path/admin';
+    if (authorityState.value == AuthorityType.user) {
+      return '$path/user';
+    } else if(authorityState.value == AuthorityType.admin){
+      return '$path/admin';
+    }
     return '$path/orphanage';
   }
 
@@ -258,45 +260,27 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'user/detail',
                 builder: (context, state) {
+                  print("state.extra: ${state.extra}");
                   final userData = state.extra as UserDetailEntity;
-
-
-                  // userData가 null일 경우를 처리
-                  if (userData == null) {
-                    return Center(
-                      child: Text('사용자 데이터를 찾을 수 없습니다.'),
-                    );
-                  }
-
-                  // 필요한 데이터를 null 안전하게 사용하기
-                  String name = userData.name ?? 'N/A';
-                  String email = userData.email ?? 'N/A';
-                  String phoneNumber = userData.phoneNumber ?? 'N/A';
-                  String nickname = userData.nickname ?? 'N/A';
-                  String age = userData.age.toString() ?? 'N/A';
-                  String region = userData.region.name ?? 'N/A';
-                  String sex = userData.sex.value ?? 'N/A';
-                  String id = userData.userId ?? 'N/A';
-
                   return CustomDetailInfo(
-                    name: name,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    nickname: nickname,
-                    age: age,
-                    region: region,
-                    sex: sex,
-                    userId: id,
+                    name: userData.name,
+                    email: userData.email,
+                    phoneNumber: userData.phoneNumber,
+                    nickname: userData.nickname,
+                    age: userData.age.toString(),
+                    region: userData.region.name,
+                    sex: userData.sex.value,
+                    userId: userData.userId,
                   );
                 },
+
                 routes: [
                   GoRoute(
                     path: 'edit',
                     builder: (context, state) {
-                      final user = state.extra as Map<String, dynamic>;
-                      final userId = user['user_id'];
+                      final userId = state.extra as String;
 
-                      return UserEditPage(userId: userId);
+                      return AdminUserEditScreen(userId: userId);
                     },
                   ),
                 ],

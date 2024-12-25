@@ -14,7 +14,7 @@ class UserInfoScreen extends TabScreen {
   @override
   get mainColor => CustomColor.thirdColor;
 
-  const UserInfoScreen({super.key});
+  const UserInfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,6 +27,18 @@ class UserInfoScreen extends TabScreen {
         padding: const EdgeInsets.all(kPaddingSmallSize),
         child: ValueStateListener(
           state: viewmodel.memberState,
+          defaultBuilder: (_,state){
+            return Text("This is DefaultBuilder");
+          },
+          loadingBuilder: (_,state){
+            return Text("This is loadingBuilder");
+          },
+          errorBuilder: (_,state){
+            return Text("This is errorBuilder");
+          },
+          noneBuilder: (_,state){
+            return Text("This is noneBuilder");
+          },
           successBuilder: (_, state) {
             // TODO : memberInfoState <-> UserEntity
             final memberInfo = state.value as UserEntity;
