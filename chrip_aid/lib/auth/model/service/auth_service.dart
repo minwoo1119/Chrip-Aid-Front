@@ -121,9 +121,10 @@ class AuthService {
       } else if (data.role == 'admin') {
         AuthorityState().success(value: AuthorityType.admin);
       }
-    } else if (data is OrphanageUserEntity) {
+    } else if (data is ResponseEntity<MemberEntity>) {
       AuthorityState().success(value: AuthorityType.orphanage);
     } else {
+      print(data);
       throw Exception("알 수 없는 Authority 타입입니다.");
     }
 

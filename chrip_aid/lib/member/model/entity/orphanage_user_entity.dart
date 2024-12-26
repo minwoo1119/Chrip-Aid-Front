@@ -1,15 +1,18 @@
+import 'package:chrip_aid/member/model/entity/member_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'orphanage_user_entity.g.dart';
 
 @JsonSerializable()
-class OrphanageUserEntity {
+class OrphanageUserEntity implements MemberEntity {
   @JsonKey(name: 'orphanage_user_id')
   final String orphanageUserId;
 
+  @override
   @JsonKey(name: 'name')
   final String name;
 
+  @override
   @JsonKey(name: 'email')
   final String email;
 

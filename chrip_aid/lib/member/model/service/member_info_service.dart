@@ -39,6 +39,8 @@ class MemberInfoService {
       }
       return ResponseEntity.error(message: "사용자 정보를 가져올 수 없습니다.");
     } catch (e) {
+      print('tlqkf');
+      print(e);
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
