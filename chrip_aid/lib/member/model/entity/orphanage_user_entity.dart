@@ -16,6 +16,7 @@ class OrphanageUserEntity implements MemberEntity {
   @JsonKey(name: 'email')
   final String email;
 
+  @override
   @JsonKey(name: 'orphanage_id')
   final OrphanageId orphanageId;
 
