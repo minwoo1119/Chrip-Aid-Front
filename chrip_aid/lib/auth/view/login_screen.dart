@@ -82,6 +82,8 @@ class LoginScreen extends ConsumerWidget {
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) => validatePassword(value),
                 textController: viewModel.passwordTextController,
+                textInputAction: TextInputAction.done, // 엔터 키 스타일 설정
+                onFieldSubmitted: (_) => viewModel.login(context), // 엔터 시 로그인 호출
               ),
               const SizedBox(height: kPaddingMiddleSize),
               ValueStateListener(

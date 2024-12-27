@@ -9,6 +9,8 @@ class CustomTextFormField_2 extends StatelessWidget {
   final void Function(String?)? onChange;
   final String? Function(String?)? validator;
   final TextEditingController? textController;
+  final void Function(String)? onFieldSubmitted; // 엔터 키 동작 콜백 추가
+  final TextInputAction? textInputAction; // 엔터 키 스타일 추가
 
   final TextStyle? textStyle;
   final EdgeInsets contentPadding;
@@ -32,6 +34,8 @@ class CustomTextFormField_2 extends StatelessWidget {
     this.onChange,
     this.validator,
     this.textController,
+    this.onFieldSubmitted, // 엔터 키 동작 콜백
+    this.textInputAction, // 엔터 키 스타일
     this.textStyle,
     this.inputFormatters,
     this.enabled,
@@ -59,8 +63,8 @@ class CustomTextFormField_2 extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: borderRadius,
-        border: Border.all( // 테두리 추가
-          color: Color(0xFFD8D8D8), // 테두리 색상
+        border: Border.all(
+          color: const Color(0xFFD8D8D8), // 테두리 색상
           width: 1.0, // 테두리 두께
         ),
       ),
@@ -71,7 +75,7 @@ class CustomTextFormField_2 extends StatelessWidget {
             Icon(
               prefixIcon,
               size: kIconSmallSize,
-              color: Color(0xFF959595), // 아이콘 색상 설정
+              color: const Color(0xFF959595), // 아이콘 색상 설정
             ),
             const SizedBox(width: kPaddingSmallSize),
           ],
@@ -82,9 +86,11 @@ class CustomTextFormField_2 extends StatelessWidget {
               enabled: enabled,
               controller: textController,
               validator: validator,
-              cursorColor: Color(0xFF959595), // 커서 색상 설정
+              cursorColor: const Color(0xFF959595), // 커서 색상 설정
               keyboardType: keyboardType,
               obscureText: keyboardType == TextInputType.visiblePassword,
+              textInputAction: textInputAction, // 엔터 키 스타일
+              onFieldSubmitted: onFieldSubmitted, // 엔터 키 동작 콜백
               style: textStyle ??
                   kTextMainStyleMiddle.copyWith(
                     color: CustomColor.textSubColor,
@@ -97,10 +103,11 @@ class CustomTextFormField_2 extends StatelessWidget {
                 hintStyle: textStyle?.copyWith(
                   color: CustomColor.textSubColor.withOpacity(0.5),
                   fontSize: 14.0, // 힌트 텍스트 크기 줄이기
-                ) ?? kTextMainStyleMiddle.copyWith(
-                  color: CustomColor.textSubColor.withOpacity(0.5),
-                  fontSize: 14.0, // 기본 힌트 텍스트 크기 설정
-                ),
+                ) ??
+                    kTextMainStyleMiddle.copyWith(
+                      color: CustomColor.textSubColor.withOpacity(0.5),
+                      fontSize: 14.0, // 기본 힌트 텍스트 크기 설정
+                    ),
                 border: inputBorder,
                 hoverColor: Colors.transparent,
                 disabledBorder: inputBorder,
