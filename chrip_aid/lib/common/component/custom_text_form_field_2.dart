@@ -87,7 +87,7 @@ class CustomTextFormField_2 extends StatelessWidget {
               obscureText: keyboardType == TextInputType.visiblePassword,
               style: textStyle ??
                   kTextMainStyleMiddle.copyWith(
-                    color: Color(0xFF959595), // 텍스트 색상 설정
+                    color: CustomColor.textSubColor,
                   ),
               inputFormatters: inputFormatters,
               decoration: InputDecoration(
@@ -95,10 +95,10 @@ class CustomTextFormField_2 extends StatelessWidget {
                 contentPadding: contentPadding,
                 hintText: hintText,
                 hintStyle: textStyle?.copyWith(
-                  color: Color(0xFF959595),
+                  color: CustomColor.textSubColor.withOpacity(0.5),
                   fontSize: 14.0, // 힌트 텍스트 크기 줄이기
                 ) ?? kTextMainStyleMiddle.copyWith(
-                  color: Color(0xFF959595),
+                  color: CustomColor.textSubColor.withOpacity(0.5),
                   fontSize: 14.0, // 기본 힌트 텍스트 크기 설정
                 ),
                 border: inputBorder,
