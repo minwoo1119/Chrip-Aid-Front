@@ -22,16 +22,37 @@ class OrphanageMapScreen extends ConsumerStatefulWidget {
 }
 
 class _OrphanageMapScreenState extends ConsumerState<OrphanageMapScreen> {
+  CameraPosition? _initialCameraPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchInitialPosition();
+  }
+
+  Future<void> _fetchInitialPosition() async {
+    final initialLatLng = await getInitialLocation();
+    setState(() {
+      _initialCameraPosition = CameraPosition(
+        target: initialLatLng,
+        zoom: 15.0,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.read(orphanageSearchViewModelProvider)..getInfo();
+    if (_initialCameraPosition == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return DefaultLayout(
       child: Stack(
         children: [
           GestureDetector(
             child: GoogleMap(
               onTap: (_) => viewModel.panelController.collapse(),
-              initialCameraPosition: initialPosition,
+              initialCameraPosition: _initialCameraPosition!,
               mapType: MapType.normal,
               onMapCreated: (controller) =>
                   viewModel.mapController = controller,
