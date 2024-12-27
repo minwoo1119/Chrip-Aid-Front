@@ -6,12 +6,11 @@ import 'package:go_router/go_router.dart';
 import '../../common/component/custom_post_list.dart';
 import '../../common/component/custom_toggle_button.dart';
 import '../../common/styles/colors.dart';
-import '../../common/value_state/component/value_state_listener.dart';
-import '../../common/value_state/state/value_state.dart';
 import '../../orphanage/layout/detail_page_layout.dart';
 import '../../post/model/entity/post_request_entity.dart';
 import '../../post/model/entity/post_reservation_entity.dart';
 import '../../post/model/entity/post_thanks_entity.dart';
+import '../model/state/admin_post_management_state.dart';
 import '../viewmodel/admin_postmanagement_viewmodel.dart';
 
 class AdminPostmanagementScreen extends ConsumerStatefulWidget {
@@ -20,29 +19,27 @@ class AdminPostmanagementScreen extends ConsumerStatefulWidget {
   AdminPostmanagementScreen({Key? key}) : super(key: key);
 
   @override
-  _AdminPostmanagementScreenState createState() => _AdminPostmanagementScreenState();
+  _AdminPostmanagementScreenState createState() =>
+      _AdminPostmanagementScreenState();
 }
 
-class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementScreen> {
-  // StateProvider로 선택된 토글 값을 관리
+class _AdminPostmanagementScreenState
+    extends ConsumerState<AdminPostmanagementScreen> {
   final selectedToggleProvider = StateProvider<int>((ref) => 0);
 
   @override
   void initState() {
     super.initState();
-    // 처음에 모든 데이터를 로드
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = ref.read(adminPostManagementViewModelProvider);
-      viewModel.getReservationPosts();
-      viewModel.getRequestPosts();
-      viewModel.getThanksPosts();
+      ref.read(postManagementProvider.notifier).fetchPosts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.read(adminPostManagementViewModelProvider);
-    final selectedIndex = ref.watch(selectedToggleProvider); // 선택된 토글 인덱스
+    final state = ref.watch(postManagementProvider);
+    final notifier = ref.read(postManagementProvider.notifier);
+    final selectedIndex = ref.watch(selectedToggleProvider);
 
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
@@ -51,7 +48,6 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: Colors.white,
       leadingColor: CustomColor.textReverseColor,
-      actions: [],
       child: Column(
         children: [
           SizedBox(height: 10.0),
@@ -63,78 +59,82 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
           ),
           SizedBox(height: 6.0),
           Expanded(
-            child: ValueStateListener(
-              state: selectedIndex == 0
-                  ? viewModel.reservationPostsState
-                  : selectedIndex == 1
-                  ? viewModel.requestPostsState
-                  : viewModel.thanksPostsState,
-              defaultBuilder: (_, state) => const Center(
-                child: CircularProgressIndicator(), // 데이터 로드 중
-              ),
-              successBuilder: (_, state) {
-                final data = state.value;
+            child: Builder(
+              builder: (context) {
+                List<dynamic>? data;
 
-                if (data == null || data.isEmpty) {
-                  return Center(
-                    child: Text('데이터가 없습니다.'),
+                if (selectedIndex == 0) {
+                  data = state.reservationPosts;
+                } else if (selectedIndex == 1) {
+                  data = state.requestPosts;
+                } else {
+                  data = state.thanksPosts;
+                }
+
+                if (state.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
 
-                return SingleChildScrollView(
-                  child: Column(
-                    children: data.map((post) {
-                      if (post is PostReservationEntity) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: CustomPostList(
-                            id:post.reservationId,
-                            postType: "reservation",
-                            title: "방문 예약글 - ${post.reservationId}",
-                            content: post.reason,
-                            writtenAt: post.writeDate,
-                            nickname: post.state,
-                            onTap: () => _navigateToDetailPage(context, post.toJson()),
-                          ),
-                        );
-                      } else if (post is PostRequestEntity) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: CustomPostList(
-                            id: post.requestId,
-                            postType: "request",
-                            title: "물품 요청 - ${post.requestId}",
-                            content: post.message,
-                            writtenAt: "총 ${post.supportedCount}/${post.count}개", // 작성일 추가 필요 시 수정
-                            nickname: post.state,
-                            onTap: () => _navigateToDetailPage(context, post.toJson()),
-                          ),
-                        );
-                      } else if (post is PostThanksEntity) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: CustomPostList(
-                            id: post.reviewId,
-                            postType: "review",
-                            title: post.title,
-                            content: post.content,
-                            writtenAt: post.date,
-                            nickname: post.name,
-                            onTap: () => _navigateToDetailPage(context, post.toJson()),
-                          ),
-                        );
-                      } else {
-                        return SizedBox.shrink(); // 다른 타입일 경우 표시하지 않음
-                      }
-                    }).toList(),
-                  ),
-                );
-              },
-              errorBuilder: (_, error) {
-                final errorMessage =
-                error is ValueStateNotifier ? error.message : '알 수 없는 오류가 발생했습니다.';
-                return Center(
-                  child: Text('오류가 발생했습니다: $errorMessage'),
+                if (data == null || data.isEmpty) {
+                  return const Center(
+                    child: Text('게시글이 없습니다.'),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final post = data?[index];
+
+                    if (post is PostReservationEntity) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomPostList(
+                          id: post.reservationId,
+                          postType: 'reservation',
+                          title: "방문 예약 - ${post.reservationId}",
+                          content: post.reason,
+                          writtenAt: post.writeDate,
+                          nickname: post.state,
+                          onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          onDelete: () =>
+                              notifier.deleteReservationPost(post.reservationId),
+                        ),
+                      );
+                    } else if (post is PostRequestEntity) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomPostList(
+                          id: post.requestId,
+                          postType: 'request',
+                          title: "물품 요청 - ${post.requestId}",
+                          content: post.message,
+                          writtenAt: "총 ${post.supportedCount}/${post.count}개",
+                          nickname: post.state,
+                          onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          onDelete: () => notifier.deleteRequestPost(post.requestId),
+                        ),
+                      );
+                    } else if (post is PostThanksEntity) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: CustomPostList(
+                          id: post.reviewId,
+                          postType: 'review',
+                          title: "기부 감사 - ${post.reviewId}",
+                          content: post.content,
+                          writtenAt: post.date,
+                          nickname: post.name,
+                          onTap: () => _navigateToDetailPage(context, post.toJson()),
+                          onDelete: () => notifier.deleteThanksPost(post.reviewId),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink(); // 다른 타입은 무시
+                    }
+                  },
                 );
               },
             ),
@@ -151,6 +151,3 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
     );
   }
 }
-
-// isUser 필터 상태 관리
-final isUserFilterProvider = StateProvider<bool>((ref) => true);

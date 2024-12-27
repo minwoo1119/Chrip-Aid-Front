@@ -61,7 +61,38 @@ class AdminAccountManagementNotifier
       state = state.copyWith(isLoading: false);
     }
   }
+
+  Future<void> deleteUser(String userId) async {
+    try {
+      // 서버에서 사용자 삭제
+      await viewModel.deleteUser(userId);
+      // 현재 상태의 사용자 리스트 갱신
+      final updatedUserList = state.userList?.where((user) => user.userId != userId).toList();
+      state = state.copyWith(userList: updatedUserList);
+
+      print('사용자 삭제 성공');
+    } catch (e) {
+      print('사용자 삭제 중 오류: $e');
+    }
+  }
+
+  Future<void> deleteOrphanageUser(String orphanageUserId) async {
+    try {
+      // 서버에서 보육원 사용자 삭제
+      await viewModel.deleteOrphanageUser(orphanageUserId);
+      // 현재 상태의 보육원 사용자 리스트 갱신
+      final updatedOrphanageUserList = state.orphanageUserList
+          ?.where((user) => user.orphanageUserId != orphanageUserId)
+          .toList();
+      state = state.copyWith(orphanageUserList: updatedOrphanageUserList);
+
+      print('보육원 사용자 삭제 성공');
+    } catch (e) {
+      print('보육원 사용자 삭제 중 오류: $e');
+    }
+  }
 }
+
 
 final adminAccountManagementProvider =
 StateNotifierProvider<AdminAccountManagementNotifier, AdminAccountManagementState>(

@@ -56,7 +56,7 @@ class ChattingListViewModel {
   Future<List<ChatRoomEntity>> getChatRoomByUserId(String userId) async {
     try {
       chatRoomState.loading();
-      final ResponseEntity<List<ChatRoomEntity>> response = await _chattingService.getChatRoomByUserId(userId); // 수정됨
+      final ResponseEntity<List<ChatRoomEntity>> response = await _chattingService.getChatRoomByUserId(); // 수정됨
       if (response.isSuccess) {
         final chatRoomList = response.entity!;
         print('Received data from service for userId $userId: $chatRoomList');

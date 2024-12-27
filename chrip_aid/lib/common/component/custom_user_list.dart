@@ -6,6 +6,7 @@ class CustomUserList extends StatelessWidget {
   final String phoneNumber;
   final String nickname;
   final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
   const CustomUserList({
     Key? key,
@@ -14,6 +15,7 @@ class CustomUserList extends StatelessWidget {
     required this.phoneNumber,
     required this.nickname,
     this.onTap,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -71,12 +73,21 @@ class CustomUserList extends StatelessWidget {
                 ),
               ],
             ),
-            Text(
-              nickname,
-              style: const TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-              ),
+            Column(
+              children: [
+                Text(
+                  nickname,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: onDelete,
+                ),
+              ],
             ),
           ],
         ),
@@ -84,5 +95,3 @@ class CustomUserList extends StatelessWidget {
     );
   }
 }
-
-

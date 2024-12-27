@@ -28,9 +28,9 @@ abstract class ChattingRepository {
   Future<List<ChatMessageDto>> getAllChatMessages();
 
   // 일반 사용자 ID 기반 모든 채팅방 조회
-  @GET('/chats/rooms/user/{userId}')
+  @GET('/chats/rooms/user')
   @Headers({'accessToken': 'true'})
-  Future<List<ChatRoomDto>> getChatRoomByUserId(@Path('userId') String userId);
+  Future<List<ChatRoomDto>> getChatRoomByUserId();
 
   // 보육원 사용자 ID 기반 모든 채팅방 조회
   @GET('/chats/rooms/orphanage-user/{orphanageUserId}')
