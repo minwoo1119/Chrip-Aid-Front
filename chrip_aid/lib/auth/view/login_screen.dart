@@ -19,7 +19,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(loginViewModelProvider)..getInfo();
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColor.backGroundSubColor,
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(

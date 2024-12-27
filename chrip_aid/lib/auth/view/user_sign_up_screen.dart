@@ -19,7 +19,7 @@ class UserSignUpScreen  extends ConsumerWidget implements SignUpScreen {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(userSignUpViewModelProvider);
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColor.backGroundSubColor,
       title: "Sign Up",
       titleStyle: const TextStyle(
         color: CustomColor.mainColor, // mainColor로 설정

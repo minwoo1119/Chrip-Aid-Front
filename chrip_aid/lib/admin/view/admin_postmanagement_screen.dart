@@ -44,9 +44,9 @@ class _AdminPostmanagementScreenState
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: '게시글 관리',
-      titleColor: Colors.white,
+      titleColor: CustomColor.textReverseColor,
       appBarBackgroundColor: CustomColor.buttonMainColor,
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColor.backGroundSubColor,
       leadingColor: CustomColor.textReverseColor,
       child: Column(
         children: [

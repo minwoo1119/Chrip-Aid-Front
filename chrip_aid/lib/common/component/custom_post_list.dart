@@ -89,21 +89,16 @@ class CustomPostList extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                Column(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      color: Colors.red.withOpacity(0.7), // 연한 빨간색
-                      onPressed: () => _handleDeletePost(context, ref),
-                      tooltip: '삭제',
-                    ),
-                  ],
                 const SizedBox(height: 8.0),
                 ElevatedButton(
                   onPressed: onDelete,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.withOpacity(0.7),
+                  ),
                   child: Row(
                     children: const [
                       Icon(Icons.delete),
+                      SizedBox(width: 4.0),
                       Text("삭제"),
                     ],
                   ),
