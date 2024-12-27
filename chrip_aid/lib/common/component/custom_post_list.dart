@@ -123,14 +123,11 @@ class _CustomPostListState extends State<CustomPostList> {
                 ),
                 Column(
                   children: [
-                    ElevatedButton(
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red.withOpacity(0.7), // 연한 빨간색
                       onPressed: () => _handleDeletePost(context, ref),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.delete),
-                          Text("삭제"),
-                        ],
-                      ),
+                      tooltip: '삭제',
                     ),
                   ],
                 ),

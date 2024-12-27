@@ -49,14 +49,14 @@ class _AdminPostmanagementScreenState extends ConsumerState<AdminPostmanagementS
       title: '게시글 관리',
       titleColor: Colors.white,
       appBarBackgroundColor: CustomColor.buttonMainColor,
-      backgroundColor: CustomColor.backgroundMainColor,
+      backgroundColor: Colors.white,
       leadingColor: CustomColor.textReverseColor,
       actions: [],
       child: Column(
         children: [
           SizedBox(height: 10.0),
           CustomToggleButton(
-            options: ['방문 예약', '물품 요청', '기부 감사'],
+            options: ['Book', 'Request', 'Thanks'],
             onChanged: (index) {
               ref.read(selectedToggleProvider.notifier).state = index;
             },
