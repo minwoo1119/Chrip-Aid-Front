@@ -148,7 +148,7 @@ class LoginScreen extends ConsumerWidget {
                   Expanded(
                     child: CustomTextButton(
                       onPressed: () => viewModel.navigateToSignupPage(context),
-                      text: 'Create Account?',
+                      text: 'Need an account?',
                     ),
                   ),
                 ],
