@@ -80,6 +80,7 @@ class ChattingListScreen extends ConsumerWidget {
                           chat_room_id: room.chatRoomId,
                           name: room.orphanageUser.name,
                           userId:room.user.userId,
+                          userName: room.user.name,
                           targetId: room.orphanageUser.orphanageUserId,
                       );
                     },

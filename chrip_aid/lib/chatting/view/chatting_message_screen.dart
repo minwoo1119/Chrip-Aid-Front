@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/common/styles/colors.dart';
 import 'package:chrip_aid/orphanage/layout/detail_page_layout.dart';
 import '../model/service/socket_service.dart';
 
-class ChattingMessageScreen extends StatefulWidget {
+class ChattingMessageScreen extends ConsumerStatefulWidget {
   final String chatRoomId;
   final String targetId;
   final String userId;
+  final String userName;
 
   const ChattingMessageScreen({
     Key? key,
     required this.chatRoomId,
     required this.targetId,
     required this.userId,
+    required this.userName,
   }) : super(key: key);
 
   @override
   _ChattingMessageScreenState createState() => _ChattingMessageScreenState();
 }
 
-class _ChattingMessageScreenState extends State<ChattingMessageScreen> {
+class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
   final List<Map<String, dynamic>> _messages = [];
   late final SocketService _socketService;
-  String userName = '';
-  String userState = '';
+  String userName = ''; // 사용자 이름만 유지
 
   @override
   void initState() {
@@ -44,14 +46,14 @@ class _ChattingMessageScreenState extends State<ChattingMessageScreen> {
   }
 
   Future<void> _initializeUserDetails() async {
-    // 여기에 사용자 정보를 가져오는 로직을 추가하세요
     print("Fetching user details...");
     try {
-      // 예제 데이터
+
       setState(() {
-        userName = "User Name";
-        userState = "User State";
+        userName = widget.userName;
       });
+
+      print("Fetched userName: $userName");
     } catch (e) {
       print("Error fetching user details: $e");
     }
@@ -100,7 +102,7 @@ class _ChattingMessageScreenState extends State<ChattingMessageScreen> {
           _BottomInputField(
             chatRoomId: widget.chatRoomId,
             socketService: _socketService,
-            userName: userName,
+            userName: userName, // userName만 전달
           ),
         ],
       ),
@@ -153,7 +155,7 @@ class _BottomInputFieldState extends State<_BottomInputField> {
 
       widget.socketService.sendMessage(
         widget.userName,
-        "USER",
+        "USER", // 사용자 타입은 고정된 문자열로 설정
         widget.chatRoomId,
         messageContent,
       );

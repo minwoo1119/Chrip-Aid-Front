@@ -26,8 +26,17 @@ class SocketService{
       print('Connected to socket');
     });
 
-    socket.onDisconnect((_) {
-      print('Disconnected from socket');
+    socket.onDisconnect((reason) {
+      socket.off('newMessage');
+      print('Disconnected from socket: $reason');
+    });
+
+    socket.on('connect_error', (error) {
+      print('Connection error: $error');
+    });
+
+    socket.on('connect_timeout', (_) {
+      print('Connection timed out');
     });
 
     socket.on('newMessage', (data) {
@@ -40,9 +49,6 @@ class SocketService{
     socket.emit('createRoom', {
       'user_id': userId,
       'orphanage_user_id': orphanageUserId,
-    });
-    socket.on('roomCreated', (data) {
-      print('Room created with code: ${data['roomCode']}');
     });
   }
 
