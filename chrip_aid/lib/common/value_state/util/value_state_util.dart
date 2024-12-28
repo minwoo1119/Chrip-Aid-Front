@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 extension ValueStateWithResponse<T> on ValueStateNotifier<T> {
   void withResponse(Future<ResponseEntity<T>> response) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       loading();
-      response.then((value) {
+      await response.then((value) {
         if (value.entity == null && value.message == null) {
           none();
         } else if (value.isSuccess) {
