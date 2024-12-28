@@ -77,17 +77,17 @@ class UserInfoScreen extends TabScreen {
                               DesignedContainerTitleBar(
                                 title: "${memberInfo.nickName}님",
                                 actions: [
-                                  IconButton(
-                                    onPressed: () => viewmodel
-                                        .navigateToEditUserInfoPage(context),
-                                    icon: const Icon(Icons.edit),
-                                    iconSize: kIconSmallSize,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: kPaddingSmallSize,
-                                    ),
-                                    constraints: const BoxConstraints(),
-                                    splashRadius: kIconSmallSize,
-                                  ),
+                                  // IconButton(
+                                  //   onPressed: () => viewmodel
+                                  //       .navigateToEditUserInfoPage(context),
+                                  //   icon: const Icon(Icons.edit),
+                                  //   iconSize: kIconSmallSize,
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //     horizontal: kPaddingSmallSize,
+                                  //   ),
+                                  //   constraints: const BoxConstraints(),
+                                  //   splashRadius: kIconSmallSize,
+                                  // ),
                                 ],
                               ),
                               const SizedBox(height: kPaddingMiddleSize),
