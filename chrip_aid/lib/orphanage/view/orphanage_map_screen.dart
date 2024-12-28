@@ -83,6 +83,16 @@ class _OrphanageSearchUI extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: kLayoutGutter),
             child: Row(
               children: [
+                FloatingActionButton(
+                  mini: true,
+                  backgroundColor: Colors.white,
+                  onPressed: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(width: kLayoutMargin),
                 Expanded(
                   flex: 2,
                   child: InkWell(
