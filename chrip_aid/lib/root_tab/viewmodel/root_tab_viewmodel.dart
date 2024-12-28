@@ -21,21 +21,20 @@ class RootTabViewModel {
         return const [
           TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
           TabInfo(UserHomeScreen(), icon: Icons.home, label: '예약 설정'),
-          TabInfo(UserInfoScreen(), icon: Icons.person, label: "사용자 설정"),
+          TabInfo(UserInfoScreen(), icon: Icons.person, label: "마이페이지"),
         ];
       case AuthorityType.orphanage:
         return const [
           TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
           TabInfo(OrphanageHomeScreen(), icon: Icons.home, label: '예약 설정'),
-          TabInfo(OrphanageMemberInfoScreen(),
-              icon: Icons.person, label: "사용자 설정"),
+          TabInfo(OrphanageMemberInfoScreen(), icon: Icons.person, label: "마이페이지"),
         ];
       case AuthorityType.admin:
         return const [
           TabInfo(AlarmScreen(), icon: Icons.notifications, label: '예약 현황 조회'),
           TabInfo(AdminHomeScreen(), icon: Icons.home, label: '예약 설정'),
           // TODO : 사용자 설정 부분 변경해야함
-          TabInfo(UserInfoScreen(), icon: Icons.person, label: "사용자 설정"),
+          TabInfo(UserInfoScreen(), icon: Icons.person, label: "마이페이지"),
         ];
     }
   }
