@@ -77,6 +77,7 @@ class UserHomeScreen extends TabScreen {
             right: 0,
             child: CustomAppBar(), // 화면 전체 너비 사용
           ),
+
         ],
       ),
     );

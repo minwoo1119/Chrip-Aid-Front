@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
@@ -13,7 +14,7 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rootTabViewModel = ref.watch(rootTabViewModelProvider);
+    final rootTabViewModel = ref.read(rootTabViewModelProvider);
 
     return AppBar(
       backgroundColor: Colors.white,
@@ -46,8 +47,8 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
             size: 28.0,
           ),
           onPressed: () {
-            // 하단바 알람 탭으로 전환
-            rootTabViewModel.rootTabController.animateTo(0);
+            // AlarmScreen으로 직접 이동
+            context.push('/alarm'); // 실제 라우트에 맞게 수정 필요
           },
         ),
       ],
