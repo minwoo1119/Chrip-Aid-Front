@@ -5,17 +5,15 @@ import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:chrip_aid/home/viewmodel/user_home_viewmodel.dart';
+import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
 
 class UserHomeScreen extends TabScreen {
   @override
-
   const UserHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.watch(userHomeViewModelProvider);
+    final rootTabViewModel = ref.read(rootTabViewModelProvider);
 
     return DefaultLayout(
       floatingActionButton: FloatingActionButton(
@@ -44,7 +42,9 @@ class UserHomeScreen extends TabScreen {
                         imagePath: "assets/image/pin.png", // 아이콘 경로
                         backgroundColor: Colors.pink.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
-                        onPressed: () => viewmodel.navigateToSearchScreen(context),
+                        onPressed: () {
+                          rootTabViewModel.rootTabController.animateTo(1); // 보육원 검색 탭으로 이동
+                        },
                       ),
                       const SizedBox(height: kPaddingMiddleSize),
                       CustomImageCategoryCard(
@@ -53,7 +53,9 @@ class UserHomeScreen extends TabScreen {
                         imagePath: "assets/image/giving.png", // 아이콘 경로
                         backgroundColor: Colors.blue.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
-                        onPressed: () => viewmodel.navigateToPostScreen(context),
+                        onPressed: () {
+                          rootTabViewModel.rootTabController.animateTo(2); // 인증글 확인 탭으로 이동
+                        },
                       ),
                       const SizedBox(height: kPaddingMiddleSize),
                       CustomImageCategoryCard(
@@ -62,7 +64,9 @@ class UserHomeScreen extends TabScreen {
                         imagePath: "assets/image/calendar.png", // 아이콘 경로
                         backgroundColor: Colors.orange.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
-                        onPressed: () => viewmodel.navigateToReservationScreen(context),
+                        onPressed: () {
+                          rootTabViewModel.rootTabController.animateTo(3); // 신청 내역 탭으로 이동
+                        },
                       ),
                       const SizedBox(height: kPaddingLargeSize),
                     ],
@@ -77,15 +81,12 @@ class UserHomeScreen extends TabScreen {
             right: 0,
             child: CustomAppBar(), // 화면 전체 너비 사용
           ),
-
         ],
       ),
     );
   }
 
   void _navigateToChattingPage(BuildContext context) {
-    context.push(
-      '/chatting',
-    );
+    Navigator.pushNamed(context, '/chatting');
   }
 }
