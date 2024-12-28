@@ -6,12 +6,16 @@ class CustomChatsList extends ConsumerWidget {
   final String chat_room_id;
   final String name;
   final String last_chat;
+  final String targetId;
+  final String userId;
   final VoidCallback? onTap;
 
   const CustomChatsList({
     super.key,
     required this.chat_room_id,
     required this.name,
+    required this.targetId,
+    required this.userId,
     this.last_chat="마지막 채팅",
     this.onTap,
   });
@@ -20,7 +24,7 @@ class CustomChatsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        _navigateToDetailPage(context, chat_room_id, name);
+        _navigateToDetailPage(context, chat_room_id, name,userId);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -81,10 +85,10 @@ class CustomChatsList extends ConsumerWidget {
     );
   }
 
-  void _navigateToDetailPage(BuildContext context, String chat_room_id, String target_id) {
+  void _navigateToDetailPage(BuildContext context, String chat_room_id, String target_id, String userId) {
     context.push(
       '/chatting/$chat_room_id',
-      extra: {'targetId': target_id},
+      extra: {'targetId': target_id, 'userId':userId},
     );
   }
 }

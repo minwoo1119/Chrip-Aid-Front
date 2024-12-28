@@ -5,6 +5,7 @@ class SocketService{
   late IO.Socket socket;
 
   void initializeSocket(String userId) {
+    print('userId in initializeSocket : '+userId);
     Map<String, dynamic> headers = {
       'x-user-id': userId,
     };
