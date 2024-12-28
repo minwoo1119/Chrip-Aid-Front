@@ -6,6 +6,7 @@ import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
+import 'package:chrip_aid/common/component/custom_description_card.dart';
 
 class UserHomeScreen extends TabScreen {
   @override
@@ -33,6 +34,7 @@ class UserHomeScreen extends TabScreen {
                 child: SizedBox(
                   width: 600.0,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, // 앱 특징 왼쪽 정렬
                     children: [
                       const SizedBox(height: kPaddingLargeSize),
                       const SizedBox(height: kPaddingLargeSize),
@@ -67,6 +69,52 @@ class UserHomeScreen extends TabScreen {
                         onPressed: () {
                           rootTabViewModel.rootTabController.animateTo(3); // 신청 내역 탭으로 이동
                         },
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      // 앱 특징 텍스트와 박스
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "앱 특징",
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: kPaddingMiddleSize),
+                      Center(
+                        child: Container(
+                          width: 600, // 전체 가로 크기
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.0),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0, // 회색 테두리
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              CustomDescriptionCard(
+                                title: "크롤링 기반 기부금 책정",
+                                description: "자동화된 크롤링으로 투명한 기부금 계산 및 관리",
+                                onTap: () {
+                                  print("첫 번째 설명 클릭됨");
+                                },
+                              ),
+                              CustomDescriptionCard(
+                                title: "실시간 채팅 피드백",
+                                description: "사용자와 실시간으로 소통하며 문제를 해결하세요",
+                                onTap: () {
+                                  print("두 번째 설명 클릭됨");
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(height: kPaddingLargeSize),
                     ],

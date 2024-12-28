@@ -22,31 +22,44 @@ class _RootTabState extends ConsumerState<RootTab>
   void initState() {
     super.initState();
     viewModel = ref.read(rootTabViewModelProvider)..getInfo(this);
+
+    // TabController의 상태 변경 리스너 추가
+    viewModel.rootTabController.addListener(() {
+      if (mounted) {
+        setState(() {}); // TabController의 변경 사항을 반영
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    viewModel.rootTabController.dispose(); // TabController 리소스 정리
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
       bottomNavigationBar: BottomNavigationBar(
-        iconSize: 30, // 아이콘 크기를 35.0으로 설정
+        iconSize: 30,
         backgroundColor: CustomColor.backGroundSubColor,
-        //viewModel.tabs[viewModel.rootTabController.index].tab.mainColor,
         selectedItemColor: CustomColor.mainColor,
         unselectedItemColor: CustomColor.contentSubColor,
         type: BottomNavigationBarType.fixed,
-        onTap: (int index) =>
-            setState(() => viewModel.rootTabController.animateTo(index)),
-        currentIndex: viewModel.rootTabController.index,
+        onTap: (int index) {
+          viewModel.rootTabController.animateTo(index); // Tab 전환
+        },
+        currentIndex: viewModel.rootTabController.index, // TabController와 동기화
         items: viewModel.tabs
             .map(
               (e) => BottomNavigationBarItem(
             icon: Icon(e.icon),
-            label: e.label, // 라벨 텍스트 추가
+            label: e.label,
           ),
         )
             .toList(),
-        showUnselectedLabels: true, // 선택되지 않은 라벨도 표시
-        showSelectedLabels: true,   // 선택된 라벨도 표시
+        showUnselectedLabels: true,
+        showSelectedLabels: true,
       ),
       child: TabBarView(
         controller: viewModel.rootTabController,
@@ -56,3 +69,4 @@ class _RootTabState extends ConsumerState<RootTab>
     );
   }
 }
+

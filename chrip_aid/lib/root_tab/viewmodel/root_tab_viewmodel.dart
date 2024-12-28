@@ -22,7 +22,7 @@ class RootTabViewModel {
     switch (authorityState.value!) {
       case AuthorityType.user:
         return const [
-          TabInfo(UserHomeScreen(), icon: Icons.home, label: '예약 설정'),
+          TabInfo(UserHomeScreen(), icon: Icons.home, label: '메인페이지'),
           TabInfo(OrphanageMapScreen(), icon: Icons.map, label: '보육원 검색'),
           TabInfo(UserPostScreen(), icon: Icons.volunteer_activism, label: '인증글 확인'),
           TabInfo(UserReservationScreen(), icon: Icons.history, label: '신청 내역'),
