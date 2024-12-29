@@ -14,7 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 final orphanageMemberInfoViewmodelProvider =
-    Provider((ref) => OrphanageMemberInfoViewmodel(ref));
+Provider((ref) => OrphanageMemberInfoViewmodel(ref));
 
 class OrphanageMemberInfoViewmodel {
   Ref ref;
