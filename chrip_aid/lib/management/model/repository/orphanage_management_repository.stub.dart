@@ -101,7 +101,7 @@ class OrphanageManagementRepositoryStub
   }
 
   @override
-  Future<List<ProductEntity>> getProducts() async {
+  Future<List<ProductEntity>> getProducts(String? query) async {
     return [
       ProductEntity(
           id: 1,
