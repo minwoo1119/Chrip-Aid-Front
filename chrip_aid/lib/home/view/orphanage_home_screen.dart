@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 class OrphanageHomeScreen extends TabScreen {
   @override
@@ -134,6 +135,6 @@ class OrphanageHomeScreen extends TabScreen {
   }
 
   void _navigateToChattingPage(BuildContext context) {
-    Navigator.pushNamed(context, '/chatting');
+    context.go('/chatting'); // GoRouter 사용
   }
 }

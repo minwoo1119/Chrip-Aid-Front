@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 class UserHomeScreen extends TabScreen {
   @override
@@ -18,7 +19,7 @@ class UserHomeScreen extends TabScreen {
     return DefaultLayout(
       floatingActionButton: FloatingActionButton(
         backgroundColor: CustomColor.itemMainColor,
-        onPressed: () => _navigateToChattingPage(context),
+        onPressed: () => {context.go('/chatting')},
         child: const Icon(
           Icons.chat_bubble_outline_rounded,
           color: Colors.white,
@@ -131,9 +132,5 @@ class UserHomeScreen extends TabScreen {
         ],
       ),
     );
-  }
-
-  void _navigateToChattingPage(BuildContext context) {
-    Navigator.pushNamed(context, '/chatting');
   }
 }
