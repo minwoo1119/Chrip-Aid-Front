@@ -1,12 +1,12 @@
 import 'package:chrip_aid/common/component/custom_image_category_card.dart';
+import 'package:chrip_aid/common/component/custom_description_card.dart';
 import 'package:chrip_aid/common/component/custom_app_bar.dart';
 import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
-import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
-import 'package:chrip_aid/common/component/custom_description_card.dart';
 
 class UserHomeScreen extends TabScreen {
   @override
@@ -15,7 +15,6 @@ class UserHomeScreen extends TabScreen {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rootTabViewModel = ref.read(rootTabViewModelProvider);
-
     return DefaultLayout(
       floatingActionButton: FloatingActionButton(
         backgroundColor: CustomColor.itemMainColor,
