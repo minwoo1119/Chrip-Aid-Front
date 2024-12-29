@@ -50,6 +50,10 @@ class ChattingListScreen extends ConsumerWidget {
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => {context.go('/')},
+      ),
       actions: [
         IconButton(
           onPressed: () {},
