@@ -1,57 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
-import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:go_router/go_router.dart';
 
-class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  @override
-  final Size preferredSize;
-
-  const CustomAppBar({Key? key})
-      : preferredSize = const Size.fromHeight(80.0),
-        super(key: key);
+class CustomAppBar extends ConsumerWidget {
+  const CustomAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rootTabViewModel = ref.read(rootTabViewModelProvider);
-
-    return AppBar(
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Chirp Aid",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30.0,
-              fontWeight: FontWeight.w900,
-            ),
+    return Container(
+      height: 80.0, // AppBar 높이
+      padding: const EdgeInsets.symmetric(horizontal: 16.0), // 좌우 여백
+      decoration: BoxDecoration(
+        color: Colors.white, // 배경색을 BoxDecoration으로 이동
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey[300]!, // 하단 경계선 색상
+            width: 1.0, // 하단 경계선 두께
           ),
-          Text(
-            "보육원과 마음을 잇는 플랫폼",
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 14.0,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬
+        crossAxisAlignment: CrossAxisAlignment.center, // 세로 가운데 정렬
+        children: [
+          // 제목과 소제목
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Chirp Aid",
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              Text(
+                "보육원과 마음을 잇는 플랫폼",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14.0,
+                ),
+              ),
+            ],
+          ),
+          // 알림 아이콘
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_none,
+              color: Colors.black,
+              size: 28.0,
             ),
+            onPressed: () {
+              context.push('/alarm'); // 실제 라우트에 맞게 수정 필요
+            },
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          icon: Icon(
-            Icons.notifications_none,
-            color: Colors.black,
-            size: 28.0,
-          ),
-          onPressed: () {
-            // AlarmScreen으로 직접 이동
-            context.push('/alarm'); // 실제 라우트에 맞게 수정 필요
-          },
-        ),
-      ],
     );
   }
 }

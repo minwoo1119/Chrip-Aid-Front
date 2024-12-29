@@ -340,21 +340,22 @@ final routerProvider = Provider<GoRouter>((ref) {
         ]
       ),
       GoRoute(
-          path: '/chatting',
-          name: ChattingListScreen.routeName,
-          builder: (context, state) => const ChattingListScreen(),
-          routes: [
-            GoRoute(
-              path: ':chat_room_id',
-              builder: (context, state) {
-                final chatRoomId = state.pathParameters['chat_room_id']!;
-                final extra = state.extra as Map<String, dynamic>?;
-                final targetId = extra?['targetId'] as String? ?? 'Unknown';
-                final userId = extra?['userId'] as String? ?? 'Unknown';
-                return ChattingMessageScreen(chatRoomId: chatRoomId, targetId: targetId, userId: userId,);
-              },
-            ),
-          ]
+        path: '/chatting',
+        name: ChattingListScreen.routeName,
+        builder: (context, state) => const ChattingListScreen(),
+        routes: [
+          GoRoute(
+            path: ':chat_room_id',
+            builder: (context, state) {
+              final chatRoomId = state.pathParameters['chat_room_id']!;
+              final extra = state.extra as Map<String, dynamic>?;
+              final targetId = extra?['targetId'] as String? ?? 'Unknown';
+              final userId = extra?['userId'] as String? ?? 'Unknown';
+              final userName = extra?['userName'] as String? ?? 'Unknown';
+              return ChattingMessageScreen(chatRoomId: chatRoomId, targetId: targetId, userId: userId,userName: userName,);
+            },
+          ),
+        ]
       ),
       GoRoute(
         path: '/alarm',

@@ -48,16 +48,27 @@ class AuthService {
 
       // 1. Login 요청 보내기
       await authRepository.login(LoginRequestDto(email: id, password: password));
+      final authority = AuthorityState().value;
+
       print("로그인 요청 성공");
 
       // 2. 권한 확인 후 사용자 상세 정보 요청
-      final userDetail = await getMemberInfo();
+      dynamic userDetail;
+
+      if (authority == AuthorityType.user) {
+        print("Authority: 사용자(user)");
+        userDetail = await getUserDetailInfo(); // 보육원 사용자 상세 정보 요청
+      } else if (authority == AuthorityType.orphanage) {
+        print("Authority: 보육원(orphanage)");
+        userDetail = await getMemberInfo(); // 사용자 상세 정보 요청
+      } else {
+        throw Exception("알 수 없는 권한 유형: $authority");
+      }
 
       // 3. 사용자 권한 설정 및 저장
       await handleAuthority(userDetail);
 
       // 4. 권한에 따라 페이지 이동
-      final authority = AuthorityState().value;
       if (authority == AuthorityType.admin) {
         print("관리자 페이지로 이동");
       } else if (authority == AuthorityType.user) {
@@ -122,7 +133,10 @@ class AuthService {
       } else if (data.role == 'admin') {
         AuthorityState().success(value: AuthorityType.admin);
       }
-    } else if (data is ResponseEntity<MemberEntity>) {
+    }
+    else if (data is ResponseEntity<MemberEntity>) {
+      final memberEntity = data.entity; // 엔티티 추출
+      print("ResponseEntity<MemberEntity> 내용: $memberEntity");
       AuthorityState().success(value: AuthorityType.orphanage);
     } else {
       print(data);

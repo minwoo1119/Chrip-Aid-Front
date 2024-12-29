@@ -50,6 +50,10 @@ class ChattingListScreen extends ConsumerWidget {
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => {context.go('/')},
+      ),
       actions: [
         IconButton(
           onPressed: () {},
@@ -78,7 +82,10 @@ class ChattingListScreen extends ConsumerWidget {
                       final room = chatRooms[index];
                       return CustomChatsList(
                           chat_room_id: room.chatRoomId,
-                          name: room.orphanageUser.name
+                          name: room.orphanageUser.name,
+                          userId:room.user.userId,
+                          userName: room.user.name,
+                          targetId: room.orphanageUser.orphanageUserId,
                       );
                     },
                   );
@@ -94,7 +101,7 @@ class ChattingListScreen extends ConsumerWidget {
   void _navigateToChatRoom(BuildContext context, ChatRoomEntity room) {
     context.push(
       '/chatting/${room.chatRoomId}',
-      extra: {'targetId': room.user.userId},
+      extra: {'targetId': room.orphanageUser.orphanageUserId, 'userId':room.user.userId},
     );
   }
 }

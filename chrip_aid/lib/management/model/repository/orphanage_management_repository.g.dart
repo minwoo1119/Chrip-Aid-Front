@@ -117,7 +117,8 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
   @override
   Future<List<ProductEntity>> getProducts(String query) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'query': query};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;

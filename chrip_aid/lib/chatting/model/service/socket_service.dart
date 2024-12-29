@@ -4,24 +4,44 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class SocketService{
   late IO.Socket socket;
 
-  void connect() {
-    // 서버 URL 설정
-    socket = IO.io('ws://3.34.17.191:3000', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
+  void initializeSocket(String userId) async{
+    print('userId in initializeSocket : $userId');
+    Map<String, dynamic> headers = {
+      'x-user-id': userId,
+    };
 
-    // 서버에 연결
+    socket = IO.io(
+      'ws://3.34.17.191:3000',
+      IO.OptionBuilder()
+          .setTransports(['websocket'])  // 웹소켓 사용 설정
+          .disableAutoConnect()           // 자동 연결 비활성화 (필요 시)
+          .setAuth(headers)       // 헤더 설정
+          // .setExtraHeaders(headers)       // 헤더 설정
+          .build(),
+    );
+    // 소켓 연결
     socket.connect();
 
-    // 연결 상태 확인
+
     socket.onConnect((_) {
-      print('Connected to the chat server');
+      print('Connected to socket');
     });
 
-    // 연결 해제
-    socket.onDisconnect((_) {
-      print('Disconnected from the chat server');
+    socket.onDisconnect((reason) {
+      socket.off('newMessage');
+      print('Disconnected from socket: $reason');
+    });
+
+    socket.on('connect_error', (error) {
+      print('Connection error: $error');
+    });
+
+    socket.on('connect_timeout', (_) {
+      print('Connection timed out');
+    });
+
+    socket.on('newMessage', (data) {
+      print('Received message from server: $data');
     });
   }
 
@@ -30,9 +50,6 @@ class SocketService{
     socket.emit('createRoom', {
       'user_id': userId,
       'orphanage_user_id': orphanageUserId,
-    });
-    socket.on('roomCreated', (data) {
-      print('Room created with code: ${data['roomCode']}');
     });
   }
 
@@ -43,14 +60,6 @@ class SocketService{
       'type': type,
       'join_room': joinRoom,
       'content': content,
-    });
-  }
-
-  // 이전 대화 불러오기
-  void getRoomMessages(String roomId, Function(List<dynamic>) callback) {
-    socket.on('roomMessages', (data) {
-      print('Previous messages: $data');
-      callback(data);
     });
   }
 

@@ -32,14 +32,6 @@ class AdminAccountmanagementScreen extends ConsumerWidget {
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
       actions: [
-        IconButton(
-          onPressed: () => notifier.fetchInitialData(),
-          icon: const Icon(Icons.refresh, size: kIconSmallSize),
-          color: CustomColor.textReverseColor,
-          splashRadius: kIconSmallSize,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
       child: state.isLoading
