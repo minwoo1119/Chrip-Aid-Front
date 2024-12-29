@@ -63,8 +63,8 @@ class OrphanageMemberInfoViewmodel {
     ref.read(authProvider).logout();
   }
 
-  void navigateToDonatePage(BuildContext context) async {
-    ref.read(orphanageDonateServiceProvider).getOrphanageDonate();
+  void navigateToDonatePage(BuildContext context, {String account = 'user'}) async {
+    ref.read(orphanageDonateServiceProvider).getOrphanageDonate(account: account);
     if (context.mounted) context.pushNamed(OrphanageDonateScreen.routeName);
   }
 }
