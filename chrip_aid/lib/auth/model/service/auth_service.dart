@@ -6,7 +6,6 @@ import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
-import 'package:chrip_aid/member/model/repository/member_info_repository.dart';
 import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,33 +13,29 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../member/model/entity/member_entity.dart';
 import '../../../member/model/entity/orphanage_user_entity.dart';
 import '../../../user/model/repository/user_repository.dart';
 
 final authServiceProvider = Provider((ref) {
   final authRepository = ref.read(authRepositoryProvider);
   final userRepository = ref.read(userRepositoryProvider);
-  final memberInfoRepository = ref.read(memberInfoRepositoryProvider);
   final fcmRepository = ref.read(fcmRepositoryProvider);
   final storage = ref.read(localStorageProvider);
-  return AuthService(authRepository, userRepository, memberInfoRepository, fcmRepository, storage);
+  return AuthService(authRepository, userRepository, fcmRepository, storage);
 });
 
 class AuthService {
   final AuthRepository authRepository;
   final UserRepository userRepository;
-  final MemberInfoRepository memberInfoRepository;
   final FcmRepository fcmRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository, this.userRepository, this.memberInfoRepository, this.fcmRepository, this.storage);
+  AuthService(this.authRepository, this.userRepository, this.fcmRepository, this.storage);
 
   Future<ResponseEntity> login({
     required String id,
     required String password,
     required BuildContext context,
-    required bool isOrphanage
   }) async {
     try {
       print("로그인 요청 시작");
@@ -50,7 +45,7 @@ class AuthService {
       print("로그인 요청 성공");
 
       // 2. 권한 확인 후 사용자 상세 정보 요청
-      final userDetail = await getMemberInfo();
+      final userDetail = await getUserDetailInfo();
 
       // 3. 사용자 권한 설정 및 저장
       await handleAuthority(userDetail);
@@ -97,22 +92,6 @@ class AuthService {
     }
   }
 
-  // 사용자 혹은 보육원 유저 정보 요청 메서드
-  Future<ResponseEntity<MemberEntity>> getMemberInfo() async {
-    try {
-      final data = await memberInfoRepository.getUserInfo();
-      return ResponseEntity.success(entity: data);
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 200) {
-        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
-      }
-      return ResponseEntity.error(message: "사용자 정보를 가져올 수 없습니다.");
-    } catch (e) {
-      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
-    }
-  }
-
-
   // 권한 설정 및 저장
   Future<void> setAuthority(dynamic data) async {
     if (data is UserDto) {
@@ -121,10 +100,9 @@ class AuthService {
       } else if (data.role == 'admin') {
         AuthorityState().success(value: AuthorityType.admin);
       }
-    } else if (data is ResponseEntity<MemberEntity>) {
+    } else if (data is OrphanageUserEntity) {
       AuthorityState().success(value: AuthorityType.orphanage);
     } else {
-      print(data);
       throw Exception("알 수 없는 Authority 타입입니다.");
     }
 

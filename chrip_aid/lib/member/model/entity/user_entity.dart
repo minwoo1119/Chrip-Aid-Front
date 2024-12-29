@@ -1,7 +1,6 @@
 import 'package:chrip_aid/auth/model/type/region/sub_region.dart';
 import 'package:chrip_aid/auth/model/type/sex.dart';
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
-import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_entity.g.dart';
@@ -14,8 +13,6 @@ class UserEntity implements MemberEntity {
   @override
   @JsonKey(name: 'name')
   final String name;
-  @override
-  final OrphanageId? orphanageId;
   @JsonKey(name: 'nickname')
   final String nickName;
   @JsonKey(name: 'age')
@@ -51,7 +48,6 @@ class UserEntity implements MemberEntity {
     required this.region,
     required this.phone,
     required this.profileUrl,
-    this.orphanageId
   });
 
   @override

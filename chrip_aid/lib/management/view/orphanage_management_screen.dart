@@ -18,29 +18,23 @@ class OrphanageManagementScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(orphanageManagementViewModelProvider)..getInfo();
     return DetailPageLayout(
-      appBarBackgroundColor: Colors.transparent,
-      backgroundColor: CustomColor.backgroundMainColor,
-      leadingColor: CustomColor.textReverseColor,
-      actions: [
-        IconButton(
-          onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
-          icon: const Icon(Icons.edit, size: kIconSmallSize),
-          color: CustomColor.textReverseColor,
-          splashRadius: kIconSmallSize,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
-        const SizedBox(width: kPaddingMiddleSize),
-      ],
-      child: ValueStateListener(
-        state: viewModel.orphanageState,
-        loadingBuilder: (_, __) =>
-            const Center(child: CircularProgressIndicator()),
-        successBuilder: (_, state) {
-          if (state.value == null) {
-            return const Center(child: Text('No data available'));
-          }
-          return SingleChildScrollView(
+        appBarBackgroundColor: Colors.transparent,
+        backgroundColor: CustomColor.backgroundMainColor,
+        leadingColor: CustomColor.textReverseColor,
+        actions: [
+          IconButton(
+            onPressed: () => viewModel.navigateToEditOrphanageScreen(context),
+            icon: const Icon(Icons.edit, size: kIconSmallSize),
+            color: CustomColor.textReverseColor,
+            splashRadius: kIconSmallSize,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
+          const SizedBox(width: kPaddingMiddleSize),
+        ],
+        child: ValueStateListener(
+          state: viewModel.orphanageState,
+          successBuilder: (_, state) => SingleChildScrollView(
             child: Column(
               children: [
                 Column(
@@ -49,11 +43,8 @@ class OrphanageManagementScreen extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width,
                       height: 150,
                       child: Image.network(
-                        state.value?.photo ?? 'https://via.placeholder.com/150',
+                        state.value!.photo,
                         fit: BoxFit.fitWidth,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.error);
-                        },
                       ),
                     ),
                     Padding(
@@ -168,9 +159,7 @@ class OrphanageManagementScreen extends ConsumerWidget {
                   ),
               ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }
