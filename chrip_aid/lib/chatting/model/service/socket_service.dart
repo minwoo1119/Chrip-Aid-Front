@@ -4,8 +4,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class SocketService{
   late IO.Socket socket;
 
-  void initializeSocket(String userId) {
-    print('userId in initializeSocket : '+userId);
+  void initializeSocket(String userId) async{
+    print('userId in initializeSocket : $userId');
     Map<String, dynamic> headers = {
       'x-user-id': userId,
     };
@@ -15,12 +15,13 @@ class SocketService{
       IO.OptionBuilder()
           .setTransports(['websocket'])  // 웹소켓 사용 설정
           .disableAutoConnect()           // 자동 연결 비활성화 (필요 시)
-          .setExtraHeaders(headers)       // 헤더 설정
+          .setAuth(headers)       // 헤더 설정
+          // .setExtraHeaders(headers)       // 헤더 설정
           .build(),
     );
-
     // 소켓 연결
     socket.connect();
+
 
     socket.onConnect((_) {
       print('Connected to socket');
