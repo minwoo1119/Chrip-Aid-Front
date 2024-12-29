@@ -115,7 +115,7 @@ class AuthService {
 
   // 권한 설정 및 저장
   Future<void> setAuthority(dynamic data) async {
-    if (data is UserDto) {
+    if (data.containsKey('role')) {
       if (data.role == 'user') {
         AuthorityState().success(value: AuthorityType.user);
       } else if (data.role == 'admin') {
@@ -175,6 +175,8 @@ class AuthService {
       storage.delete(key: dotenv.get('ACCESS_TOKEN_KEY')),
       storage.delete(key: dotenv.get('REFRESH_TOKEN_KEY')),
       storage.delete(key: 'authority'), // authority 항목 삭제 추가
+      storage.delete(key: 'FlutterSecureStorage'),
+      storage.delete(key: 'FlutterSecureStorage.orphanageId'),
     ]);
     print("토큰 삭제 완료");
   }
