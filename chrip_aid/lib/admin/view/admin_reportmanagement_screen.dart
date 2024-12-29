@@ -37,14 +37,6 @@ class AdminReportManagementScreen extends ConsumerWidget {
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,
       actions: [
-        IconButton(
-          onPressed: () => {},
-          icon: const Icon(Icons.search, size: kIconSmallSize),
-          color: CustomColor.textReverseColor,
-          splashRadius: kIconSmallSize,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
         const SizedBox(width: kPaddingMiddleSize),
       ],
       child: ValueStateListener(
