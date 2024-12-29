@@ -6,6 +6,7 @@ import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/repository/member_info_repository.dart';
 import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:dio/dio.dart';
@@ -115,7 +116,7 @@ class AuthService {
 
   // 권한 설정 및 저장
   Future<void> setAuthority(dynamic data) async {
-    if (data.containsKey('role')) {
+    if (data is UserDto) {
       if (data.role == 'user') {
         AuthorityState().success(value: AuthorityType.user);
       } else if (data.role == 'admin') {

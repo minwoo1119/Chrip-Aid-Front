@@ -26,10 +26,10 @@ class OrphanageEditProductViewModel {
 
   OrphanageEditProductViewModel(this.ref) {
     _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
-    _orphanageManagementService.getProductList();
+    // _orphanageManagementService.getProductList();
   }
 
-  void getInfo() => productListState.withResponse(_orphanageManagementService.getProductList());
+  void getInfo(String search) => productListState.withResponse(_orphanageManagementService.getProductList(search));
 
   void onProductDelete() {
     productState.none();
@@ -49,7 +49,6 @@ class OrphanageEditProductViewModel {
     showDialog(
       context: context,
       builder: (context) => SearchProductScreen(
-        products: _products,
         onProductSelected: onProductSelected,
       ),
     );
@@ -59,7 +58,7 @@ class OrphanageEditProductViewModel {
     if (!productState.isSuccess) return;
     await _orphanageManagementService.editOrphanageProduct(
       AddOrphanageProductRequestDTO(
-        id: productState.value!.product.id,
+        title: productState.value!.product.title,
         count: productState.value!.count,
         message: messageController.text,
       ),

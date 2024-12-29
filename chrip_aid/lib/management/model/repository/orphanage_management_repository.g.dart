@@ -115,7 +115,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
   }
 
   @override
-  Future<List<ProductEntity>> getProducts(String? query) async {
+  Future<List<ProductEntity>> getProducts(String query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -128,7 +128,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
     )
         .compose(
           _dio.options,
-          '/requests/products',
+          '/requests/products?query=${query}',
           queryParameters: queryParameters,
           data: _data,
         )
