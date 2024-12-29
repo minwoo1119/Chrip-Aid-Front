@@ -1,12 +1,12 @@
+import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
 import 'package:chrip_aid/common/component/custom_image_category_card.dart';
 import 'package:chrip_aid/common/component/custom_description_card.dart';
 import 'package:chrip_aid/common/component/custom_app_bar.dart';
-import 'package:chrip_aid/common/layout/default_layout.dart';
 import 'package:chrip_aid/common/styles/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
 class UserHomeScreen extends TabScreen {
@@ -16,28 +16,22 @@ class UserHomeScreen extends TabScreen {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rootTabViewModel = ref.read(rootTabViewModelProvider);
-    return DefaultLayout(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: CustomColor.itemMainColor,
-        onPressed: () => {context.go('/chatting')},
-        child: const Icon(
-          Icons.chat_bubble_outline_rounded,
-          color: Colors.white,
-        ),
-      ),
-      child: Stack(
+
+    return Scaffold(
+      // 기존 appBar 대신 body에 CustomAppBar 포함
+      backgroundColor: Colors.white,
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(kPaddingSmallSize),
+          const CustomAppBar(), // 상단에 CustomAppBar 추가
+          Expanded(
             child: SingleChildScrollView(
+              padding: const EdgeInsets.all(kPaddingSmallSize),
               child: Center(
                 child: SizedBox(
                   width: 600.0,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start, // 앱 특징 왼쪽 정렬
                     children: [
-                      const SizedBox(height: kPaddingLargeSize),
-                      const SizedBox(height: kPaddingLargeSize),
                       CustomImageCategoryCard(
                         title: "우리동네 보육원 찾기",
                         subtitle: "지역 내 보육원을 쉽고 빠르게 검색하세요",
@@ -123,13 +117,15 @@ class UserHomeScreen extends TabScreen {
               ),
             ),
           ),
-          const Positioned(
-            top: 5,
-            left: 0,
-            right: 0,
-            child: CustomAppBar(), // 화면 전체 너비 사용
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: CustomColor.itemMainColor,
+        onPressed: () => context.go('/chatting'),
+        child: const Icon(
+          Icons.chat_bubble_outline_rounded,
+          color: Colors.white,
+        ),
       ),
     );
   }

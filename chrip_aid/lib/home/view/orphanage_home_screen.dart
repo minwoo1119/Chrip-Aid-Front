@@ -16,31 +16,24 @@ class OrphanageHomeScreen extends TabScreen {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //메인 페이지 호출 시 서버로부터 정보 받아옴
+    // 메인 페이지 호출 시 서버로부터 정보 받아옴
     final viewmodel = ref.read(orphanageMemberInfoViewmodelProvider)..getInfo();
-
     final rootTabViewModel = ref.read(rootTabViewModelProvider);
-    return DefaultLayout(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: CustomColor.itemMainColor,
-        onPressed: () => _navigateToChattingPage(context),
-        child: const Icon(
-          Icons.chat_bubble_outline_rounded,
-          color: Colors.white,
-        ),
-      ),
-      child: Stack(
+
+    return Scaffold(
+      backgroundColor: Colors.white, // 배경색 지정
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(kPaddingSmallSize),
+          const CustomAppBar(), // CustomAppBar를 상단에 추가
+          Expanded(
             child: SingleChildScrollView(
+              padding: const EdgeInsets.all(kPaddingSmallSize),
               child: Center(
                 child: SizedBox(
                   width: 600.0,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: kPaddingLargeSize),
                       const SizedBox(height: kPaddingLargeSize),
                       CustomImageCategoryCard(
                         title: "보육원 관리",
@@ -49,7 +42,7 @@ class OrphanageHomeScreen extends TabScreen {
                         backgroundColor: Colors.green.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
                         onPressed: () {
-                          rootTabViewModel.rootTabController.animateTo(1);
+                          rootTabViewModel.rootTabController.animateTo(1); // 보육원 관리 탭 이동
                         },
                       ),
                       const SizedBox(height: kPaddingMiddleSize),
@@ -60,7 +53,7 @@ class OrphanageHomeScreen extends TabScreen {
                         backgroundColor: Colors.blue.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
                         onPressed: () {
-                          rootTabViewModel.rootTabController.animateTo(2);
+                          rootTabViewModel.rootTabController.animateTo(2); // 인증글 관리 탭 이동
                         },
                       ),
                       const SizedBox(height: kPaddingMiddleSize),
@@ -71,11 +64,10 @@ class OrphanageHomeScreen extends TabScreen {
                         backgroundColor: Colors.orange.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
                         onPressed: () {
-                          rootTabViewModel.rootTabController.animateTo(3);
+                          rootTabViewModel.rootTabController.animateTo(3); // 방문 신청 관리 탭 이동
                         },
                       ),
                       const SizedBox(height: kPaddingLargeSize),
-                      // 앱 특징 텍스트와 박스
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
@@ -90,14 +82,14 @@ class OrphanageHomeScreen extends TabScreen {
                       const SizedBox(height: kPaddingMiddleSize),
                       Center(
                         child: Container(
-                          width: 600, // 전체 가로 크기
+                          width: 600,
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12.0),
                             border: Border.all(
                               color: Colors.grey,
-                              width: 1.0, // 회색 테두리
+                              width: 1.0,
                             ),
                           ),
                           child: Column(
@@ -127,18 +119,16 @@ class OrphanageHomeScreen extends TabScreen {
               ),
             ),
           ),
-          const Positioned(
-            top: 5,
-            left: 0,
-            right: 0,
-            child: CustomAppBar(), // 화면 전체 너비 사용
-          ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: CustomColor.itemMainColor,
+        onPressed: () => context.go('/chatting'), // GoRouter로 채팅 페이지 이동
+        child: const Icon(
+          Icons.chat_bubble_outline_rounded,
+          color: Colors.white,
+        ),
+      ),
     );
-  }
-
-  void _navigateToChattingPage(BuildContext context) {
-    context.go('/chatting'); // GoRouter 사용
   }
 }
