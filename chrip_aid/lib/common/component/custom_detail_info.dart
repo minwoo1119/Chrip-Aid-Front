@@ -36,7 +36,7 @@ class CustomDetailInfo extends ConsumerWidget {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: '계정 관리',
-      titleColor: Colors.white,
+      titleColor: CustomColor.textReverseColor,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,

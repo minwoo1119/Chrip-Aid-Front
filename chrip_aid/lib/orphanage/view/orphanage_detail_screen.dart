@@ -63,7 +63,7 @@ class _OrphanageDetailPageState extends ConsumerState<OrphanageDetailScreen>
           width: 70,
           child: FloatingActionButton(
             foregroundColor: CustomColor.mainColor,
-            backgroundColor: Colors.white,
+            backgroundColor: CustomColor.backGroundSubColor,
             shape: const CircleBorder(
               side: BorderSide(color: CustomColor.mainColor, width: 2.0),
             ),

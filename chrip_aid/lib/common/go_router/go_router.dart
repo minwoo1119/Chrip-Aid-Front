@@ -43,6 +43,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../admin/view/admin_screen.dart';
 import '../component/custom_detail_info.dart';
+import 'package:chrip_aid/alarm/view/alarm_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authProvider);
@@ -355,6 +356,10 @@ final routerProvider = Provider<GoRouter>((ref) {
               },
             ),
           ]
+      ),
+      GoRoute(
+        path: '/alarm',
+        builder: (_, __) => const AlarmScreen(), // 하나의 알람 화면으로 이동
       ),
     ],
     refreshListenable: auth.authState,

@@ -56,17 +56,7 @@ class DetailPageLayout extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: leadingColor,
-            size: kIconSmallSize,
-          ),
-          onPressed: context.pop,
-          splashRadius: kIconSmallSize,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
+        leading: null,
         actions: actions,
         foregroundColor: Colors.black,
         bottom: bottom,

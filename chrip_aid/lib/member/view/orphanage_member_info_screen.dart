@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrphanageMemberInfoScreen extends TabScreen {
   @override
-  Color get mainColor => CustomColor.thirdColor;
+  Color get mainColor => CustomColor.mainColor;
 
   const OrphanageMemberInfoScreen({Key? key}) : super(key: key);
 

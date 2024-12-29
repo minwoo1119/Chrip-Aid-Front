@@ -46,7 +46,7 @@ class ChattingListScreen extends ConsumerWidget {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: 'Chats',
-      titleColor: Colors.white,
+      titleColor: CustomColor.textReverseColor,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,

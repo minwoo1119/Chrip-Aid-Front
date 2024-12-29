@@ -20,14 +20,6 @@ class OrphanageSignUpScreen extends ConsumerWidget implements SignUpScreen {
     return DefaultLayout(
       backgroundColor: CustomColor.mainColor,
       title: "Chirp Aid",
-      leading: IconButton(
-        onPressed: context.pop,
-        icon: const Icon(
-          Icons.navigate_before,
-          color: CustomColor.backgroundMainColor,
-          size: kIconLargeSize,
-        ),
-      ),
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
