@@ -1,4 +1,5 @@
 import 'package:chrip_aid/member/model/entity/member_entity.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_member_entity.g.dart';
@@ -13,11 +14,13 @@ class UserMemberEntity implements MemberEntity {
   String name;
   @JsonKey(name: 'orphanage_id')
   int userId;
+  final OrphanageId? orphanageId;
 
   UserMemberEntity({
     required this.email,
     required this.name,
     required this.userId,
+    this.orphanageId,
   });
 
   @override

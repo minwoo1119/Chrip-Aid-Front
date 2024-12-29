@@ -1,13 +1,15 @@
-import 'package:chrip_aid/member/model/entity/orphanage_member_entity.dart';
+import 'package:chrip_aid/member/model/entity/orphanage_user_entity.dart';
 import 'package:chrip_aid/member/model/entity/user_entity.dart';
 
 abstract class MemberEntity {
   final String email;
   final String name;
+  final OrphanageId? orphanageId; // orphanage일 경우에만 존재
 
   MemberEntity({
     required this.email,
     required this.name,
+    this.orphanageId
   });
 
   Map<String, dynamic> toJson();
@@ -17,7 +19,7 @@ abstract class MemberEntity {
     if(json["orphanage_id"] == null) {
       return UserEntity.fromJson(json);
     } else {
-      return MemberEntity.fromJson(json);
+      return OrphanageUserEntity.fromJson(json);
     }
   }
 }
