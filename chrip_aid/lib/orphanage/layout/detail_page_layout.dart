@@ -14,6 +14,7 @@ class DetailPageLayout extends StatelessWidget {
   final Widget child;
   final List<Widget>? actions;
   final bool extendBodyBehindAppBar;
+  final Widget? leading; // leading 버튼 추가
 
   const DetailPageLayout({
     Key? key,
@@ -28,6 +29,7 @@ class DetailPageLayout extends StatelessWidget {
     this.bottom,
     this.appBarBackgroundColor = Colors.transparent,
     this.actions,
+    this.leading, // leading 인자 추가
   }) : super(key: key);
 
   @override
@@ -56,17 +58,7 @@ class DetailPageLayout extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: leadingColor,
-            size: kIconSmallSize,
-          ),
-          onPressed: context.pop,
-          splashRadius: kIconSmallSize,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
+        leading: leading, // 기본적으로 null
         actions: actions,
         foregroundColor: Colors.black,
         bottom: bottom,

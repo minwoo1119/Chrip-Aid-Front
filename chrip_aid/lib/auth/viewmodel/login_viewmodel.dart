@@ -31,10 +31,13 @@ class LoginViewModel {
   void toggleAuthorityType() => toggleAuthority();
 
   void login(BuildContext context) {
+    final isOrphanage = authorityState.value == AuthorityType.orphanage;
+
     authState.withResponse(_service.login(
       context: context,
       id: idTextController.text,
       password: passwordTextController.text,
+      isOrphanage: isOrphanage
     ));
   }
 

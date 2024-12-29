@@ -19,7 +19,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(loginViewModelProvider)..getInfo();
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColor.backGroundSubColor,
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
@@ -82,6 +82,8 @@ class LoginScreen extends ConsumerWidget {
                 keyboardType: TextInputType.visiblePassword,
                 validator: (value) => validatePassword(value),
                 textController: viewModel.passwordTextController,
+                textInputAction: TextInputAction.done, // 엔터 키 스타일 설정
+                onFieldSubmitted: (_) => viewModel.login(context), // 엔터 시 로그인 호출
               ),
               const SizedBox(height: kPaddingMiddleSize),
               ValueStateListener(
@@ -148,7 +150,7 @@ class LoginScreen extends ConsumerWidget {
                   Expanded(
                     child: CustomTextButton(
                       onPressed: () => viewModel.navigateToSignupPage(context),
-                      text: 'Need an account?',
+                      text: 'Create Account?',
                     ),
                   ),
                 ],
