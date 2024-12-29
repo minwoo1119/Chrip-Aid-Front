@@ -8,6 +8,7 @@ import 'package:chrip_aid/root_tab/view/tab_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chrip_aid/root_tab/viewmodel/root_tab_viewmodel.dart';
 import 'package:go_router/go_router.dart';
+import 'package:chrip_aid/member/viewmodel/orphanage_member_info_viewmodel.dart';
 
 class OrphanageHomeScreen extends TabScreen {
   @override
@@ -15,6 +16,9 @@ class OrphanageHomeScreen extends TabScreen {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //메인 페이지 호출 시 서버로부터 정보 받아옴
+    final viewmodel = ref.read(orphanageMemberInfoViewmodelProvider)..getInfo();
+
     final rootTabViewModel = ref.read(rootTabViewModelProvider);
     return DefaultLayout(
       floatingActionButton: FloatingActionButton(
