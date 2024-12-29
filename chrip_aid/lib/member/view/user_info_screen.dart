@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserInfoScreen extends TabScreen {
   @override
-  get mainColor => CustomColor.thirdColor;
+  get mainColor => CustomColor.mainColor;
 
   const UserInfoScreen({Key? key}) : super(key: key);
 

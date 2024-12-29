@@ -17,38 +17,41 @@ class OrphanageEditViewModel {
   Ref ref;
 
   late final OrphanageManagementService _orphanageManagementService;
-  late final OrphanageService _orphanaggeService;
+  late final OrphanageService _orphanageService;
+  final secureStorage = FlutterSecureStorage();
 
   OrphanageDetailState orphanageState = OrphanageDetailState();
 
   OrphanageEditViewModel(this.ref) {
     _orphanageManagementService = ref.read(orphanageManagementServiceProvider);
-    _orphanaggeService = ref.read(orphanageServiceProvider);
+    _orphanageService = ref.read(orphanageServiceProvider);
   }
 
-  void getInfso() => orphanageState
-      .withResponse(_orphanageManagementService.getOrphanageInfo());
-
   void getInfo() async {
-    final secureStorage = FlutterSecureStorage();
-    int orphanageId = int.parse(await secureStorage.read(key: 'orphanageId') as String);
-    orphanageState.withResponse(_orphanaggeService.getOrphanageDetail(orphanageId));
+    int orphanageId =
+        int.parse(await secureStorage.read(key: 'orphanageId') as String);
+    orphanageState
+        .withResponse(_orphanageService.getOrphanageDetail(orphanageId));
   }
 
   void navigateToAddProductScreen(
     BuildContext context, {
     AddOrphanageProductRequestDTO? entity,
-  }) {
+  }) async {
+    int orphanageId =
+        int.parse(await secureStorage.read(key: 'orphanageId') as String);
     context.pushNamed(OrphanageEditProductScreen.routeName, extra: entity).then(
           (value) => orphanageState
-              .withResponse(_orphanageManagementService.getOrphanageInfo()),
+              .withResponse(_orphanageService.getOrphanageDetail(orphanageId)),
         );
   }
 
-  void navigateToEditOrphanageScreen(BuildContext context) {
+  void navigateToEditOrphanageScreen(BuildContext context) async {
+    int orphanageId =
+        int.parse(await secureStorage.read(key: 'orphanageId') as String);
     context.pushNamed(OrphanageEditInfoScreen.routeName).then(
           (value) => orphanageState
-              .withResponse(_orphanageManagementService.getOrphanageInfo()),
+              .withResponse(_orphanageService.getOrphanageDetail(orphanageId)),
         );
   }
 }

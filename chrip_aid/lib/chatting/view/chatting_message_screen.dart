@@ -96,7 +96,7 @@ class _ChattingMessageScreenState extends ConsumerState<ChattingMessageScreen> {
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: targetId,
-      titleColor: Colors.white,
+      titleColor: CustomColor.textReverseColor,
       appBarBackgroundColor: CustomColor.buttonMainColor,
       backgroundColor: CustomColor.backgroundMainColor,
       leadingColor: CustomColor.textReverseColor,

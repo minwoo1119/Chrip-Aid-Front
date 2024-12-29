@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TabInfo {
   final IconData icon;
   final String label;
-  final TabScreen tab;
+  final Widget tab;
 
   const TabInfo(this.tab, {required this.icon, required this.label});
 }

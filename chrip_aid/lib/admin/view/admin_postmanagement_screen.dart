@@ -44,15 +44,15 @@ class _AdminPostmanagementScreenState
     return DetailPageLayout(
       extendBodyBehindAppBar: false,
       title: '게시글 관리',
-      titleColor: Colors.white,
+      titleColor: CustomColor.textReverseColor,
       appBarBackgroundColor: CustomColor.buttonMainColor,
-      backgroundColor: CustomColor.backgroundMainColor,
+      backgroundColor: CustomColor.backGroundSubColor,
       leadingColor: CustomColor.textReverseColor,
       child: Column(
         children: [
           SizedBox(height: 10.0),
           CustomToggleButton(
-            options: ['방문 예약', '물품 요청', '기부 감사'],
+            options: ['Book', 'Request', 'Thanks'],
             onChanged: (index) {
               ref.read(selectedToggleProvider.notifier).state = index;
             },

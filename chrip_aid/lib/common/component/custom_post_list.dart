@@ -92,9 +92,13 @@ class CustomPostList extends StatelessWidget {
                 const SizedBox(height: 8.0),
                 ElevatedButton(
                   onPressed: onDelete,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.withOpacity(0.7),
+                  ),
                   child: Row(
                     children: const [
                       Icon(Icons.delete),
+                      SizedBox(width: 4.0),
                       Text("삭제"),
                     ],
                   ),
