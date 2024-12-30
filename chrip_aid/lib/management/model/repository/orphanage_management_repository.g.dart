@@ -129,7 +129,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
     )
         .compose(
           _dio.options,
-          '/requests/products?query=${query}',
+          '/requests/products',
           queryParameters: queryParameters,
           data: _data,
         )
