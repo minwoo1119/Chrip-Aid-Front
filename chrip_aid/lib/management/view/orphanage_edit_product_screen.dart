@@ -20,7 +20,7 @@ class OrphanageEditProductScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(orphanageEditProductViewModelProvider)
-      ..getInfo();
+      ..getInfo('a');
     return DefaultLayout(
       title: "물품 요청글 작성",
       titleStyle: kTextContentStyleMedium,
@@ -66,7 +66,7 @@ class OrphanageEditProductScreen extends ConsumerWidget {
                               ),
                             ),
                             successBuilder: (_ ,state) => CustomBasketProductBox2(
-                              productName: state.value!.product.productName,
+                              productName: state.value!.product.title,
                               count: state.value!.count,
                               price: state.value!.product.price,
                               photo: state.value!.product.image,

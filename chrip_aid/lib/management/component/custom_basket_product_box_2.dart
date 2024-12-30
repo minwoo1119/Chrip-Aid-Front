@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class CustomBasketProductBox2 extends StatefulWidget {
   final String productName;
   final int count;
-  final int price;
+  final String price;
   final String photo;
   final Function(int) onCountUpdate;
   final Function() onDelete;
@@ -136,7 +136,7 @@ class CustomBasketProductBox2State extends State<CustomBasketProductBox2> {
                   Expanded(child: Container()),
                   /** 가격 **/
                   Text(
-                    "${NumberFormat.decimalPattern().format(count * widget.price)}원",
+                    "${NumberFormat.decimalPattern().format(count * int.parse(widget.price))}원",
                     style: kTextContentStyleMedium,
                   ),
                 ],

@@ -4,20 +4,20 @@ part 'product_entity.g.dart';
 
 @JsonSerializable()
 class ProductEntity {
-  @JsonKey(name: "product_id")
-  int id;
-  @JsonKey(name: "product_name")
-  String productName;
+  @JsonKey(name: "title")
+  String title;
   @JsonKey(name: "price")
-  int price;
-  @JsonKey(name: "product_photo")
+  String price;
+  @JsonKey(name: "image")
   String image;
+  @JsonKey(name: "link")
+  String link;
 
   ProductEntity({
-    required this.id,
-    required this.productName,
+    required this.title,
     required this.price,
     required this.image,
+    required this.link,
   });
 
 

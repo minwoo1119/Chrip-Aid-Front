@@ -113,7 +113,7 @@ class OrphanageMemberInfoScreen extends TabScreen {
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: () => viewmodel.navigateToDonatePage(context),
+                          onTap: () => viewmodel.navigateToDonatePage(context, account: 'orphanage'),
                           child: const Padding(
                             padding: EdgeInsets.all(kPaddingSmallSize),
                             child: DesignedContainerTitleBar(

@@ -19,7 +19,7 @@ class CustomBasketProductBox3 extends StatelessWidget {
         ),
         const SizedBox(height: kPaddingSmallSize),
         CustomFieldPadding(
-          text: entity.productName,
+          text: entity.title,
           textSize: kTextSmallSize,
         ),
         const SizedBox(height: kPaddingSmallSize),
@@ -29,11 +29,12 @@ class CustomBasketProductBox3 extends StatelessWidget {
               text: "₩",
               textSize: kTextSmallSize,
             ),
-            Expanded(child: Container()),
             CustomFieldPadding(
-              text: "${entity.price} (개)",
+              text: "${entity.price}",
               textSize: kTextMediumSize,
             ),
+            Expanded(child: Container()),
+
           ],
         ),
       ],

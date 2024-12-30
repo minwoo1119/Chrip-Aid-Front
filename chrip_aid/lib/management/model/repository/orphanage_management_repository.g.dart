@@ -115,7 +115,7 @@ class _OrphanageManagementRepository implements OrphanageManagementRepository {
   }
 
   @override
-  Future<List<ProductEntity>> getProducts(String? query) async {
+  Future<List<ProductEntity>> getProducts(String query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'query': query};
     queryParameters.removeWhere((k, v) => v == null);

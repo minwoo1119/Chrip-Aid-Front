@@ -6,6 +6,7 @@ import 'package:chrip_aid/auth/model/repository/fcm_repository.dart';
 import 'package:chrip_aid/auth/model/state/authority_state.dart';
 import 'package:chrip_aid/common/entity/response_entity.dart';
 import 'package:chrip_aid/common/local_storage/local_storage.dart';
+import 'package:chrip_aid/member/model/entity/user_entity.dart';
 import 'package:chrip_aid/member/model/repository/member_info_repository.dart';
 import 'package:chrip_aid/user/model/dto/user_dto.dart';
 import 'package:dio/dio.dart';

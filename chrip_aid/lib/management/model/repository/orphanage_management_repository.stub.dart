@@ -101,33 +101,28 @@ class OrphanageManagementRepositoryStub
   }
 
   @override
-  Future<List<ProductEntity>> getProducts(String? query) async {
+  Future<List<ProductEntity>> getProducts(String query) async {
     return [
       ProductEntity(
-          id: 1,
-          productName: "초코파이",
-          price: 5000,
-          image: "https://picsum.photos/300/300"),
+          title: "초코파이",
+          price: '5000',
+          image: "https://picsum.photos/300/300",
+          link: 'https://search.shopping.naver.com/catalog/9992361572'),
       ProductEntity(
-          id: 1,
-          productName: "초코파이",
-          price: 5000,
-          image: "https://picsum.photos/300/300"),
+          title: "초코파이",
+          price: '5000',
+          image: "https://picsum.photos/300/300",
+          link: 'https://search.shopping.naver.com/catalog/9992361572'),
       ProductEntity(
-          id: 1,
-          productName: "초코파이",
-          price: 5000,
-          image: "https://picsum.photos/300/300"),
+          title: "초코파이",
+          price: '5000',
+          image: "https://picsum.photos/300/300",
+          link: 'https://search.shopping.naver.com/catalog/9992361572'),
       ProductEntity(
-          id: 1,
-          productName: "초코파이",
-          price: 5000,
-          image: "https://picsum.photos/300/300"),
-      ProductEntity(
-          id: 1,
-          productName: "초코파이",
-          price: 5000,
-          image: "https://picsum.photos/300/300"),
+          title: "초코파이",
+          price: '5000',
+          image: "https://picsum.photos/300/300",
+          link: 'https://search.shopping.naver.com/catalog/9992361572'),
     ];
   }
 }

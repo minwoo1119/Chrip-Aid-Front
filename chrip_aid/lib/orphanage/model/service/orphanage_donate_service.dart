@@ -13,9 +13,9 @@ class OrphanageDonateService {
 
   OrphanageDonateService(this.repository);
 
-  Future<ResponseEntity<List<DonateEntity>>> getOrphanageDonate() async {
+  Future<ResponseEntity<List<DonateEntity>>> getOrphanageDonate({String account = 'user'}) async {
     try {
-      final data = await repository.getOrphanageDonate('user');
+      final data = await repository.getOrphanageDonate(account);
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());

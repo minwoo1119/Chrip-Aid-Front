@@ -35,10 +35,9 @@ class OrphanageManagementService {
     }
   }
 
-  Future<ResponseEntity<List<ProductEntity>>> getProductList() async {
+  Future<ResponseEntity<List<ProductEntity>>> getProductList(String search) async {
     try {
-      List<ProductEntity> data = await repository.getProducts('초코파이');
-      print('초코파이 크롤링 성공');
+      List<ProductEntity> data = await repository.getProducts(search);
       return ResponseEntity.success(entity: data);
     } catch (e) {
       return ResponseEntity.error(message: e.toString());
