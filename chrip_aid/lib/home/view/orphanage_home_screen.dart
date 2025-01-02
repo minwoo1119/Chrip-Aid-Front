@@ -38,7 +38,7 @@ class OrphanageHomeScreen extends TabScreen {
                       CustomImageCategoryCard(
                         title: "보육원 관리",
                         subtitle: "보육원의 예약 및 후원 정보를 관리하세요",
-                        imagePath: "assets/image/management.png", // 아이콘 경로
+                        imagePath: "assets/image/pin.png", // 아이콘 경로
                         backgroundColor: Colors.green.withOpacity(0.65), // 배경색
                         textColor: Colors.white,
                         onPressed: () {
